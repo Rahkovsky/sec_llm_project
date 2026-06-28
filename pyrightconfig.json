@@ -1,0 +1,21 @@
+{
+  "pythonVersion": "3.13",
+  "typeCheckingMode": "strict",
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+    "__pypackages__",
+    ".mypy_cache",
+    ".ruff_cache",
+    "data",
+    "out",
+    "logs",
+    "tests"
+  ],
+  "reportMissingTypeStubs": "none"
+}

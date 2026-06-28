@@ -1,0 +1,22 @@
+# Zero-dependency profile used by tests, CI, and `sec-intel demo`.
+# Deterministic mock generator + hashing embeddings: no network, no API keys,
+# no model downloads. Not for production answer quality — for reproducible
+# plumbing and evaluation of retrieval/grounding logic.
+
+llm:
+  provider: mock
+  model: mock-1
+  temperature: 0.0
+
+embedding:
+  provider: hashing
+  model: hashing-256
+  dim: 256
+  normalize: true
+
+index:
+  store: memory
+  path: data/sec_index
+
+audit:
+  enabled: false

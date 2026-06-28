@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sec-llm-project"
+version = "0.2.0"
+requires-python = ">=3.13"
+description = "SEC Disclosure Intelligence Prototype: rate-limited EDGAR ingestion, hybrid retrieval, disclosure-change monitoring, and citation-grounded answers over SEC filings"
+readme = "README.md"
+authors = [{ name = "Ilya" }]
+license = { text = "MIT" }
+# The core platform runs on the standard library alone. Heavy backends are
+# opt-in extras so CI and the offline demo need no ML/vector dependencies.
+dependencies = []
+
+[project.optional-dependencies]
+# sentence-transformers pulls in compatible torch/transformers itself.
+# einops is required by the default Nomic model's trust_remote_code modeling code.
+embeddings = ["sentence-transformers>=2.7", "einops>=0.7"]
+vectorstore = ["chromadb>=0.5"]
+openai = ["openai>=1.30"]
+anthropic = ["anthropic>=0.30"]
+yaml = ["pyyaml>=6.0"]
+# edgartools drives EDGAR; python-dotenv enables the documented .env workflow.
+sec = ["edgartools>=4.9", "python-dotenv>=1.0"]
+dev = ["pytest>=8.0", "ruff>=0.6", "pyright>=1.1.400", "pre-commit>=4.0"]
+# Convenience meta-extra for a full local stack (self-references the extras above).
+all = ["sec-llm-project[openai,anthropic,embeddings,vectorstore,sec,yaml]"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+sec-intel = "sec_llm_project.sec_intel.app.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+exclude = ["data", "out", "logs", "__pycache__", ".venv", "build", "dist"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint]
+# E,F: pycodestyle/pyflakes; I: import sort; UP: pyupgrade; B: bugbear;
+# N: naming; C4: comprehensions; SIM: simplify; PERF: perflint; PL/RUF: extras.
+select = ["E", "F", "I", "UP", "B", "N", "C4", "SIM", "PERF", "PL", "RUF"]
+ignore = [
+  "E501",     # line length handled by the formatter
+  "PLC0415",  # lazy/deferred imports are an intentional offline-first pattern
+  "PLR0911",  # "too many return statements" — refactor opinion
+  "PLR0913",  # "too many arguments" — config/dataclass constructors legitimately wide
+  "PLR0915",  # "too many statements" — refactor opinion
+  "PLR2004",  # "magic value" — noisy for thresholds/scores
+]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F401"]                       # namespace re-exports
+"tests/**/*.py" = ["PLR2004", "PLR0913"]

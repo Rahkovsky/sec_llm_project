@@ -1,0 +1,15 @@
+{
+  "k": 8,
+  "metrics": {
+    "abstention_recall": 1.0,
+    "citation_correctness": 0.3611111111111111,
+    "contradiction_rate": 0.0,
+    "fully_grounded_rate": 1.0,
+    "hallucination_rate": 0.14285714285714285,
+    "map@k": 0.5285714285714286,
+    "mean_groundedness": 1.0,
+    "mrr": 0.5285714285714286,
+    "recall@k": 0.8571428571428571
+  },
+  "n_cases": 7
+}

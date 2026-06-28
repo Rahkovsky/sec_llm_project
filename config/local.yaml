@@ -1,0 +1,72 @@
+# Local/offline prototype profile: no data leaves the machine.
+# Generation via Ollama (Gemma 3 12B), embeddings via Nomic (US-origin open model).
+# 12B (~7 GB Q4) runs comfortably on 16-32 GB RAM; the 27B needs ~48 GB+ to avoid
+# swapping. Requires a running Ollama server and `uv pip install -e ".[embeddings,vectorstore,yaml]"`.
+
+llm:
+  provider: ollama
+  model: gemma3:12b
+  base_url: http://localhost:11434
+  temperature: 0.0
+  max_tokens: 768
+  seed: 7
+
+embedding:
+  provider: nomic
+  model: nomic-ai/nomic-embed-text-v1.5
+  # Pin the model to a known commit: Nomic runs trust_remote_code custom code, so
+  # this ensures a reviewed version executes and is not re-fetched each load.
+  revision: e9b6763023c676ca8431644204f50c2b100d9aab
+  dim: 768
+  normalize: true
+  version: v1
+
+chunking:
+  max_chars: 1800
+  overlap_chars: 200
+  min_chars: 200
+  sec_aware: true
+
+retrieval:
+  top_k: 8
+  candidate_k: 60
+  use_bm25: true
+  use_dense: true
+  fusion: rrf
+  # Tuned on the full index over 260 FinDER questions (tools/tune_weights.py):
+  # Recall@8 peaks at 0.60/0.40 (0.385), a clear interior max — BM25-leaning
+  # because FinDER queries are keyword/acronym-heavy. Re-tune at --step 0.05
+  # around 0.55-0.65 to refine. RRF uses these as relative weights.
+  bm25_weight: 0.6
+  dense_weight: 0.4
+
+index:
+  store: chroma
+  path: data/sec_index
+  collection: sec_filings
+
+audit:
+  enabled: true
+  path: logs/audit.jsonl
+
+# Independent LLM-as-judge citation verification for the LOCAL stack.
+#
+# Independence is the whole point: a model cannot credibly grade its own output,
+# so the judge must be a DIFFERENT model from the generator. The generator here is
+# gemma3:12b, so the judge is mistral:7b (a different family, EU-origin). Using
+# gemma3 as its own judge is rejected at startup by a self-grading guard.
+#
+# Disabled by default because it (a) requires a second model and (b) adds a second
+# LLM call per answer. To enable independent local verification:
+#     ollama pull mistral:7b
+# then set `enabled: true` below.
+verification:
+  enabled: false
+  judge:
+    provider: ollama
+    model: mistral:7b
+    base_url: http://localhost:11434
+    temperature: 0.0
+  groundedness_floor: 0.6
+  repair: true
+  abstain_on_contradiction: true

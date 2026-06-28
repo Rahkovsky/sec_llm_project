@@ -1,0 +1,184 @@
+[
+  {
+    "id": "fb_001",
+    "question": "Does 3M have a reasonably healthy liquidity profile based on its quick ratio for Q2 of FY2023? If the quick ratio is not relevant to measure liquidity, please state that and explain why.",
+    "ticker": "MMM",
+    "category": "Logical reasoning (based on numerical reasoning) OR Logical reasoning",
+    "relevant_passages": [
+      "3M Company and Subsidiaries\nConsolidated Balance Sheet\n(Unaudited)\n(Dollars in millions, except per share amount)\nJune 30, 2023\nDecember 31, 2022\nAssets\nCurrent assets\nCash and cash equivalents\n$\n4,258 \n$\n3,655 \nMarketable securities current\n56 \n238 \nAccounts receivable net of allowances of $160 and $174\n4,947 \n4,532 \nInventories\nFinished goods\n2,526 \n2,497 \nWork in process\n1,527 \n1,606 \nRaw materials and supplies\n1,227 \n1,269 \nTotal inventories\n5,280 \n5,372 \nPrepaids\n674 \n435 \nOther current assets\n539 \n456 \nTotal current assets\n15,754 \n14,688 \nProperty, plant and equipment\n26,459 \n25,998 \nLess: Accumulated depreciation\n(17,248)\n(16,820)\nProperty, plant and equipment net\n9,211 \n9,178 \nOperating lease right of use assets\n812 \n829 \nGoodwill\n12,869 \n12,790 \nIntangible assets net\n4,470 \n4,699 \nOther assets\n5,764 \n4,271 \nTotal assets\n$\n48,880 \n$\n46,455 \nLiabilities\nCurrent liabilities\nShort-term borrowings and current portion of long-term debt\n$\n3,033 \n$\n1,938 \nAccounts payable\n3,231 \n3,183 \nAccrued payroll\n785 \n692 \nAccrued income taxes\n172 \n259 \nOperating lease liabilities current\n244 \n261 \nOther current liabilities\n3,471 \n3,190 \nTotal current liabilities\n10,936 \n9,523"
+    ],
+    "relevant_items": [],
+    "gold_answer": "No. The quick ratio for 3M was 0.96 by Jun'23 close, which needs a bit of an improvement to touch the 1x mark",
+    "answerable": true,
+    "source": "FinanceBench",
+    "doc": "3M_2023Q2_10Q"
+  },
+  {
+    "id": "fb_002",
+    "question": "Which debt securities are registered to trade on a national securities exchange under 3M's name as of Q2 of 2023?",
+    "ticker": "MMM",
+    "category": "Information extraction",
+    "relevant_passages": [
+      "Title of each class\nTrading Symbol(s)\nName of each exchange on which registered\nCommon Stock, Par Value $.01 Per Share\nMMM\nNew York Stock Exchange\nMMM\nChicago Stock Exchange, Inc.\n1.500% Notes due 2026\nMMM26\nNew York Stock Exchange\n1.750% Notes due 2030\nMMM30\nNew York Stock Exchange\n1.500% Notes due 2031\nMMM31\nNew York Stock Exchange"
+    ],
+    "relevant_items": [],
+    "gold_answer": "Following debt securities registered under 3M's name are listed to trade on the New York Stock Exchange:\n-1.500% Notes due 2026 (Trading Symbol: MMM26)\n-1.750% Notes due 2030 (Trading Symbol: MMM30)\n-1.500% Notes due 2031 (Trading Symbol: MMM31)",
+    "answerable": true,
+    "source": "FinanceBench",
+    "doc": "3M_2023Q2_10Q"
+  },
+  {
+    "id": "fb_003",
+    "question": "Has AMCOR's quick ratio improved or declined between FY2023 and FY2022? If the quick ratio is not something that a financial analyst would ask about a company like this, then state that and explain why.",
+    "ticker": "AMCR",
+    "category": "Numerical reasoning OR Logical reasoning",
+    "relevant_passages": [
+      "Amcor plc and Subsidiaries\nConsolidated Balance Sheets\n($ in millions, except share and per share data)\nAs of June 30,\n2023\n2022\nAssets\nCurrent assets:\nCash and cash equivalents\n$\n689 \n$\n775 \nTrade receivables, net of allowance for credit losses of $21 and $25, respectively\n1,875 \n1,935 \nInventories, net\nRaw materials and supplies\n992 \n1,114 \nWork in process and finished goods\n1,221 \n1,325 \nPrepaid expenses and other current assets\n531 \n512 \nAssets held for sale, net\n \n192 \nTotal current assets\n5,308 \n5,853 \nNon-current assets:\nProperty, plant, and equipment, net\n3,762 \n3,646 \nOperating lease assets\n533 \n560 \nDeferred tax assets\n134 \n130 \nOther intangible assets, net\n1,524 \n1,657 \nGoodwill\n5,366 \n5,285 \nEmployee benefit assets\n67 \n89 \nOther non-current assets\n309 \n206 \nTotal non-current assets\n11,695 \n11,573 \nTotal assets\n$\n17,003 \n$\n17,426 \nLiabilities\nCurrent liabilities:\nCurrent portion of long-term debt\n$\n13 \n$\n14 \nShort-term debt\n80 \n136 \nTrade payables\n2,690 \n3,073 \nAccrued employee costs\n396 \n471 \nOther current liabilities\n1,297 \n1,344 \nLiabilities held for sale\n \n65 \nTotal current liabilities\n4,476 \n5,103 \nNon-current liabilities:\nLong-term debt, less current portion\n6,653 \n6,340 \nOperating lease liabilities\n463 \n493 \nDeferred tax liabilities\n616 \n677 \nEmployee benefit obligations\n224 \n201 \nOther non-current liabilities\n481 \n471 \nTotal non-current liabilities\n8,437 \n8,182 \nTotal liabilities\n$\n12,913 \n$\n13,285 \nCommitments and contingencies (See Note 20)\nShareholders' Equity\nAmcor plc shareholders equity:\nOrdinary shares ($0.01 par value):\nAuthorized (9,000 million shares)\nIssued (1,448 and 1,489 million shares, respectively)\n$\n14 \n$\n15 \nAdditional paid-in capital\n4,021 \n4,431 \nRetained earnings\n865 \n534 \nAccumulated other comprehensive loss\n(862)\n(880)\nTreasury shares (1 and 2 million shares, respectively)\n(12)\n(18)\nTotal Amcor plc shareholders' equity\n4,026 \n4,082 \nNon-controlling interests\n64 \n59 \nTotal shareholders' equity\n4,090 \n4,141 \nTotal liabilities and shareholders' equity\n$\n17,003 \n$\n17,426 \nSee accompanying notes to consolidated financial statements.\n5"
+    ],
+    "relevant_items": [],
+    "gold_answer": "The quick ratio has slightly improved from 0.67 times to 0.69 times between FY 2023 and FY 2022.(3.4% jump)",
+    "answerable": true,
+    "source": "FinanceBench",
+    "doc": "AMCOR_2023_10K"
+  },
+  {
+    "id": "fb_004",
+    "question": "What are major acquisitions that AMCOR has done in FY2023, FY2022 and FY2021?",
+    "ticker": "AMCR",
+    "category": "Information extraction",
+    "relevant_passages": [
+      "On August 1, 2022, the Company completed the acquisition of 100% equity interest in a Czech Republic company that operates a world-class\nflexible packaging manufacturing plant. The purchase consideration of $59 million included a deferred portion of $5 million that was paid in the\nfirst quarter of fiscal year 2024. The acquisition is part of the Company's Flexibles reportable segment and resulted in the recognition of acquired\nidentifiable net assets of $36 million and goodwill of $23 million. Goodwill is not deductible for tax purposes. The fair values of the identifiable\nnet assets acquired and goodwill are based on the Company's best estimate as of June 30, 2023.\n On March 17, 2023, the Company completed the acquisition of 100% equity interest in a medical device packaging manufacturing site in\nShanghai, China. The purchase consideration of $60 million is subject to customary post-closing adjustments. The consideration includes\ncontingent consideration of $20 million, to be earned and paid in cash over the three years following the acquisition date, subject to meeting\ncertain performance targets. The acquisition is part of the Company's Flexibles reportable segment and resulted in the recognition of acquired\nidentifiable net assets of $21 million and goodwill of $39 million. Goodwill is not deductible for tax purposes. The fair values of the contingent\nconsideration, identifiable net assets acquired, and goodwill are based on the Company's best estimate as of June 30, 2023, and are considered\npreliminary. The Company aims to complete the purchase price allocation as soon as practicable but no later than one year from the date of the\nacquisition.\n On May 31, 2023, the Company completed the acquisition of a New Zealand based leading manufacturer of state-of-the-art, automated protein\npackaging machines. The purchase consideration of $45 million is subject to customary post-closing adjustments. The consideration includes\ncontingent consideration of $13 million, to be earned and paid in cash over the two years following the acquisition date, subject to meeting\ncertain performance targets. The acquisition is part of the Company's Flexibles reportable segment and resulted in the recognition of acquired\nidentifiable net assets of $9 million and goodwill of $36 million. Goodwill is deductible for tax purposes. The fair values of the contingent\nconsideration, identifiable net assets acquired, and goodwill are based on the Company's best estimate as of June 30, 2023, and are considered\npreliminary. The Company aims to complete the purchase price allocation as soon as practicable but no later than one year from the date of the\nacquisition."
+    ],
+    "relevant_items": [],
+    "gold_answer": "Amcor completed these acquisitions during FY2023:\n-100% equity interest of a flexibles manufacturing company in the Czech Republic\n- 100% equity interest in a medical device packaging manufacturing site in\nShanghai, China.\n-acquisition of a New Zealand-based leading manufacturer of state-of-the-art, automated protein\npackaging machines.",
+    "answerable": true,
+    "source": "FinanceBench",
+    "doc": "AMCOR_2023_10K"
+  },
+  {
+    "id": "fb_005",
+    "question": "What industry does AMCOR primarily operate in?",
+    "ticker": "AMCR",
+    "category": "Information extraction OR Logical reasoning OR",
+    "relevant_passages": [
+      "Today, we are a global leader in developing and producing responsible\npackaging for food, beverage, pharmaceutical, medical, home and personal-care, and other products"
+    ],
+    "relevant_items": [],
+    "gold_answer": "Amcor is a global leader in packaging production for various use cases.",
+    "answerable": true,
+    "source": "FinanceBench",
+    "doc": "AMCOR_2023_10K"
+  },
+  {
+    "id": "fb_006",
+    "question": "Does AMCOR have an improving gross margin profile as of FY2023? If gross margin is not a useful metric for a company like this, then state that and explain why.",
+    "ticker": "AMCR",
+    "category": "Numerical reasoning OR information extraction",
+    "relevant_passages": [
+      "Amcor plc and Subsidiaries\nConsolidated Statements of Income\n($ in millions, except per share data)\nFor the years ended June 30,\n2023\n2022\n2021\nNet sales\n$\n14,694 \n$\n14,544 \n$\n12,861 \nCost of sales\n(11,969)\n(11,724)\n(10,129)\nGross profit\n2,725 \n2,820 \n2,732"
+    ],
+    "relevant_items": [],
+    "gold_answer": "No. For AMCOR there has been a slight decline in gross margins by 0.8%.",
+    "answerable": true,
+    "source": "FinanceBench",
+    "doc": "AMCOR_2023_10K"
+  },
+  {
+    "id": "fb_007",
+    "question": "Are Best Buy's gross margins historically consistent (not fluctuating more than roughly 2% each year)? If gross margins are not a relevant metric for a company like this, then please state that and explain why.",
+    "ticker": "BBY",
+    "category": "Logical reasoning (based on numerical reasoning) OR Logical reasoning",
+    "relevant_passages": [
+      "Consolidated Statements of Earnings\n$ and shares in millions, except per share amounts\n \n \n \n \n \n \n \n \n \n \n \n \n \nFiscal Years Ended\nJanuary 28, 2023\n \nJanuary 29, 2022\n \nJanuary 30, 2021\nRevenue\n$\n 46,298 \n \n$\n 51,761 \n \n$\n 47,262 \nCost of sales\n \n 36,386 \n \n \n 40,121 \n \n \n 36,689 \nGross profit\n \n 9,912 \n \n \n 11,640 \n \n \n 10,573 \nSelling, general and administrative expenses\n \n 7,970 \n \n \n 8,635 \n \n \n 7,928 \nRestructuring charges\n \n 147 \n \n \n (34) \n \n \n 254 \nOperating income\n \n 1,795 \n \n \n 3,039 \n \n \n 2,391 \nOther income (expense):\n \n \n \n \n \n \n \n \n \n \n \nInvestment income and other\n \n 28 \n \n \n 10 \n \n \n 38 \nInterest expense\n \n (35) \n \n \n (25) \n \n \n (52) \nEarnings before income tax expense and equity in income of affiliates\n \n 1,788 \n \n \n 3,024 \n \n \n 2,377 \nIncome tax expense\n \n 370 \n \n \n 574 \n \n \n 579 \nEquity in income of affiliates\n \n 1 \n \n \n 4 \n \n \n - \nNet earnings\n$\n 1,419 \n \n$\n 2,454 \n \n$\n 1,798"
+    ],
+    "relevant_items": [],
+    "gold_answer": "Yes, the margins have been consistent, there has been a minor decline of 1.1% in gross margins between FY2022 and FY2023.",
+    "answerable": true,
+    "source": "FinanceBench",
+    "doc": "BESTBUY_2023_10K"
+  },
+  {
+    "id": "fb_008",
+    "question": "What are major acquisitions that Best Buy has done in FY2023, FY2022 and FY2021?",
+    "ticker": "BBY",
+    "category": "Information extraction",
+    "relevant_passages": [
+      "Acquisitions\n \nCurrent Health Ltd.\n \nIn fiscal 2022, we acquired all of the outstanding shares of Current Health Ltd. (Current Health), a care-at-home technology platform, on November 2, 2021, for \nnet cash consideration of $389 million. The acquired assets included $351 million of goodwill that was assigned to our Best Buy Health reporting unit and was \ndeductible for income tax purposes. The acquisition is aligned with our focus in virtual care to enable people in their homes to connect seamlessly with their \nhealth care providers and is included in our Domestic reportable segment and Services revenue category. The acquisition was accounted for using the \nacquisition method of accounting for business combinations and was not material to the results of operations.\n \nTwo Peaks, LLC d/b/a Yardbird Furniture\n \nIn fiscal 2022, we acquired all of the outstanding shares of Two Peaks, LLC d/b/a Yardbird Furniture (Yardbird), a direct-to-consumer outdoor furniture company, \non November 4, 2021, for net cash consideration of $79 million. The acquired assets included $47 million of goodwill that was assigned to our Best Buy Domestic \nreporting unit and was deductible for income tax purposes. The acquisition expands our assortment in categories like outdoor living, as more and more \nconsumers look to make over or upgrade their outdoor living spaces. The acquisition was accounted for using the acquisition method of accounting for business \ncombinations and was not material to the results of our operations."
+    ],
+    "relevant_items": [],
+    "gold_answer": "Best Buy closed two acquisitions, both these companies were already partially owned by Best Buy, but Best Buy acquired all outstanding shares of these two companies during FY 2022: (1) Current Health Ltd and (2) Two Peaks, LLC d/b/a Yardbird Furniture",
+    "answerable": true,
+    "source": "FinanceBench",
+    "doc": "BESTBUY_2023_10K"
+  },
+  {
+    "id": "fb_009",
+    "question": "Among operations, investing, and financing activities, which brought in the most (or lost the least) cash flow for Best Buy in FY2023?",
+    "ticker": "BBY",
+    "category": "Numerical reasoning",
+    "relevant_passages": [
+      "Consolidated Statements of Cash Flows\n$ in millions\n \n \n \n \n \n \n \n \n \n \n \n \n \n \nFiscal Years Ended\nJanuary 28, 2023\n \nJanuary 29, 2022\n \nJanuary 30, 2021\nOperating activities\n \n \n \n \n \n \n \n \n \n \n \nNet earnings\n$\n 1,419 \n \n$\n 2,454 \n \n$\n 1,798 \n \nAdjustments to reconcile net earnings to total cash provided by operating activities:\n \n \n \n \n \n \n \n \nDepreciation and amortization\n \n 918 \n \n \n 869 \n \n \n 839 \nRestructuring charges\n \n 147 \n \n \n (34) \n \n \n 254 \nStock-based compensation\n \n 138 \n \n \n 141 \n \n \n 135 \nDeferred income taxes\n \n 51 \n \n \n 14 \n \n \n (36) \nOther, net\n \n 12 \n \n \n 11 \n \n \n 3 \nChanges in operating assets and liabilities, net of acquired assets and liabilities:\n \n \n \n \n \n \n \n \n \nReceivables\n \n (103) \n \n \n 17 \n \n \n 73 \nMerchandise inventories\n \n 809 \n \n \n (328) \n \n \n (435) \nOther assets\n \n (21) \n \n \n (14) \n \n \n (51) \nAccounts payable\n \n (1,099) \n \n \n (201) \n \n \n 1,676 \nIncome taxes\n \n 36 \n \n \n (156) \n \n \n 173 \nOther liabilities\n \n (483) \n \n \n 479 \n \n \n 498 \nTotal cash provided by operating activities\n \n 1,824 \n \n \n 3,252 \n \n \n 4,927 \nInvesting activities\n \n \n \n \n \n \n \n \n \n \n \nAdditions to property and equipment, net of $35, $46 and $32, respectively, of non-cash \ncapital expenditures\n \n (930) \n \n \n (737) \n \n \n (713) \nPurchases of investments\n \n (46) \n \n \n (233) \n \n \n (620) \nSales of investments\n \n 7 \n \n \n 66 \n \n \n 546 \nAcquisitions, net of cash acquired\n \n - \n \n \n (468) \n \n \n - \nOther, net\n \n 7 \n \n \n - \n \n \n (1) \nTotal cash used in investing activities\n \n (962) \n \n \n (1,372) \n \n \n (788) \nFinancing activities\n \n \n \n \n \n \n \n \n \n \n \nRepurchase of common stock\n \n (1,014) \n \n \n (3,502) \n \n \n (312) \nIssuance of common stock\n \n 16 \n \n \n 29 \n \n \n 28 \nDividends paid\n \n (789) \n \n \n (688) \n \n \n (568) \nBorrowings of debt\n \n - \n \n \n - \n \n \n 1,892 \nRepayments of debt\n \n (19) \n \n \n (133) \n \n \n (1,916) \nOther, net\n \n - \n \n \n (3) \n \n \n - \nTotal cash used in financing activities\n \n (1,806) \n \n \n (4,297) \n \n \n (876) \n \n \n \n \n \n \n \n \n \n \n \n \nEffect of exchange rate changes on cash\n \n (8) \n \n \n (3) \n \n \n 7 \nIncrease (decrease) in cash, cash equivalents and restricted cash\n \n (952) \n \n \n (2,420) \n \n \n 3,270 \nCash, cash equivalents and restricted cash at beginning of period\n \n 3,205 \n \n \n 5,625 \n \n \n 2,355 \nCash, cash equivalents and restricted cash at end of period\n$\n 2,253 \n \n$\n 3,205 \n \n$\n 5,625"
+    ],
+    "relevant_items": [],
+    "gold_answer": "Best Buy generated the most cash flow from operating activities in FY 2023 ($1.8 bn)",
+    "answerable": true,
+    "source": "FinanceBench",
+    "doc": "BESTBUY_2023_10K"
+  },
+  {
+    "id": "fb_010",
+    "question": "Has Microsoft increased its debt on balance sheet between FY2023 and the FY2022 period?",
+    "ticker": "MSFT",
+    "category": "Numerical reasoning",
+    "relevant_passages": [
+      "BALANCE SHEETS \n \n(In millions)\n \n \n \n \n \n \n \n \n \nJune 30,\n \n2023 \n2022 \n \n \n \nAssets\n \n \n \nCurrent assets:\n \n \n \nCash and cash equivalents\n $\n34,704 $\n13,931 \nShort-term investments\n \n76,558 \n90,826 \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nTotal cash, cash equivalents, and short-term investments\n \n111,262 \n104,757 \nAccounts receivable, net of allowance for doubtful accounts of $650 and $633\n \n48,688 \n44,261 \nInventories\n \n2,500 \n3,742 \nOther current assets\n \n21,807 \n16,924 \n \n \n \n \n \n \n \n \n \n \n \n \nTotal current assets\n \n184,257 \n169,684 \nProperty and equipment, net of accumulated depreciation of $68,251 and $59,660\n \n95,641 \n74,398 \nOperating lease right-of-use assets\n \n14,346 \n13,148 \nEquity investments\n \n9,879 \n6,891 \nGoodwill\n \n67,886 \n67,524 \nIntangible assets, net\n \n9,366 \n11,298 \nOther long-term assets\n \n30,601 \n21,897 \n \n \n \n \n \n \n \n \n \n \n \n \nTotal assets\n $\n411,976 $\n364,840 \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nLiabilities and stockholders equity\n \n \n \nCurrent liabilities:\n \n \n \nAccounts payable\n $\n18,095 $\n19,000 \nCurrent portion of long-term debt\n \n5,247 \n2,749 \nAccrued compensation\n \n11,009 \n10,661 \nShort-term income taxes\n \n4,152 \n4,067 \nShort-term unearned revenue\n \n50,901 \n45,538 \nOther current liabilities\n \n14,745 \n13,067 \n \n \n \n \n \n \n \n \n \n \n \n \nTotal current liabilities\n \n104,149 \n95,082 \nLong-term debt\n \n41,990 \n47,032 \nLong-term income taxes\n \n25,560 \n26,069 \nLong-term unearned revenue\n \n2,912 \n2,870 \nDeferred income taxes\n \n433 \n230 \nOperating lease liabilities\n \n12,728 \n11,489 \nOther long-term liabilities\n \n17,981 \n15,526 \n \n \n \n \n \n \n \n \n \n \n \n \nTotal liabilities\n \n205,753 \n198,298 \n \n \n \n \n \n \n \n \n \n \n \n \nCommitments and contingencies\n \n \n \nStockholders equity:\n \n \n \nCommon stock and paid-in capital shares authorized 24,000; outstanding 7,432 and 7,464\n \n93,718 \n86,939 \nRetained earnings\n \n118,848 \n84,281 \nAccumulated other comprehensive loss\n \n(6,343) \n(4,678)\n \n \n \n \n \n \n \n \n \n \n \n \nTotal stockholders equity\n \n206,223 \n166,542 \n \n \n \n \n \n \n \n \n \n \n \n \nTotal liabilities and stockholders equity\n $\n411,976 $\n364,8"
+    ],
+    "relevant_items": [],
+    "gold_answer": "No. Microsoft decreased its debt by $2.5bn in FY 2023 vs FY 2022.",
+    "answerable": true,
+    "source": "FinanceBench",
+    "doc": "MICROSOFT_2023_10K"
+  },
+  {
+    "id": "fb_011",
+    "question": "Among operations, investing, and financing activities, which brought in the most (or lost the least) cash flow for Nike in FY2023?",
+    "ticker": "NKE",
+    "category": "Numerical reasoning",
+    "relevant_passages": [
+      "NIKE, INC.\nCONSOLIDATED STATEMENTS OF CASH FLOWS\nYEAR ENDED MAY 31,\n(Dollars in millions)\n2023\n2022\n2021\nCash provided (used) by operations:\nNet income\n$ \n5,070 $ \n6,046 $ \n5,727 \nAdjustments to reconcile net income to net cash provided (used) by operations:\nDepreciation\n \n703 \n717 \n744 \nDeferred income taxes\n \n(117) \n(650) \n(385) \nStock-based compensation\n \n755 \n638 \n611 \nAmortization, impairment and other\n \n156 \n123 \n53 \nNet foreign currency adjustments\n \n(213) \n(26) \n(138) \nChanges in certain working capital components and other assets and liabilities:\n(Increase) decrease in accounts receivable\n \n489 \n(504) \n(1,606) \n(Increase) decrease in inventories\n \n(133) \n(1,676) \n507 \n(Increase) decrease in prepaid expenses, operating lease right-of-use assets and \nother current and non-current assets\n \n(644) \n(845) \n(182) \nIncrease (decrease) in accounts payable, accrued liabilities, operating lease liabilities \nand other current and non-current liabilities\n \n(225) \n1,365 \n1,326 \nCash provided (used) by operations\n \n5,841 \n5,188 \n6,657 \nCash provided (used) by investing activities:\nPurchases of short-term investments\n \n(6,059) \n(12,913) \n(9,961) \nMaturities of short-term investments\n \n3,356 \n8,199 \n4,236 \nSales of short-term investments\n \n4,184 \n3,967 \n2,449 \nAdditions to property, plant and equipment\n \n(969) \n(758) \n(695) \nOther investing activities\n \n52 \n(19) \n171 \nCash provided (used) by investing activities\n \n564 \n(1,524) \n(3,800) \nCash provided (used) by financing activities:\nIncrease (decrease) in notes payable, net\n \n(4) \n15 \n(52) \nRepayment of borrowings\n \n(500) \n \n(197) \nProceeds from exercise of stock options and other stock issuances\n \n651 \n1,151 \n1,172 \nRepurchase of common stock\n \n(5,480) \n(4,014) \n(608) \nDividends common and preferred\n \n(2,012) \n(1,837) \n(1,638) \nOther financing activities\n \n(102) \n(151) \n(136) \nCash provided (used) by financing activities\n \n(7,447) \n(4,836) \n(1,459) \nEffect of exchange rate changes on cash and equivalents\n \n(91) \n(143) \n143 \nNet increase (decrease) in cash and equivalents\n \n(1,133) \n(1,315) \n1,541 \nCash and equivalents, beginning of year\n \n8,574 \n9,889 \n8,348 \nCASH AND EQUIVALENTS, END OF YEAR\n$ \n7,441 $ \n8,574 $ \n9,889"
+    ],
+    "relevant_items": [],
+    "gold_answer": "Among the three, cash flow from operations was the highest for Nike in FY2023.",
+    "answerable": true,
+    "source": "FinanceBench",
+    "doc": "NIKE_2023_10K"
+  },
+  {
+    "id": "fb_012",
+    "question": "Which debt securities are registered to trade on a national securities exchange under Ulta Beauty's name as of FY2023?",
+    "ticker": "ULTA",
+    "category": "Information extraction",
+    "relevant_passages": [
+      "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\nWashington, DC 20549\nFORM 10-K\n Annual Report Pursuant to Section 13 or 15(d) of the Securities Exchange Act of 1934\nFor the fiscal year ended January 28, 2023\nor\n Transition Report Pursuant to Section 13 or 15(d) of the Securities Exchange Act of 1934\nFor the transition period from _____________ to _____________\nCommission File Number: 001-33764\nULTA BEAUTY, INC.\n(Exact name of registrant as specified in its charter)\nDelaware\n(State or other jurisdiction of\nincorporation or organization)\n38-4022268\n(I.R.S. Employer\nIdentification No.)\n1000 Remington Blvd., Suite 120\nBolingbrook, Illinois\n(Address of principal executive offices)\n60440\n(Zip code)\nRegistrants telephone number, including area code: (630) 410-4800\nSecurities registered pursuant to Section 12(b) of the Act:\nTitle of each class\nTrading symbol\nName of each exchange on which registered\nCommon stock, par value $0.01 per share\nULTA\nThe NASDAQ Global Select Market\nSecurities registered pursuant to Section 12(g) of the Act: None"
+    ],
+    "relevant_items": [],
+    "gold_answer": "There are none",
+    "answerable": true,
+    "source": "FinanceBench",
+    "doc": "ULTABEAUTY_2023_10K"
+  },
+  {
+    "id": "fb_013",
+    "question": "What are major acquisitions that Ulta Beauty has done in FY2023 and FY2022?",
+    "ticker": "ULTA",
+    "category": "Information extraction",
+    "relevant_passages": [
+      "Ulta Beauty, Inc.\nConsolidated Statements of Cash Flows\nFiscal year ended\nJanuary 28,\nJanuary 29,\nJanuary 30,\n(In thousands)\n2023\n \n2022\n \n2021\nOperating activities\nNet income\n$\n1,242,408\n$\n985,837\n$\n175,835\nAdjustments to reconcile net income to net cash provided by operating activities:\nDepreciation and amortization\n241,372\n268,460\n297,772\nNon-cash lease expense\n301,912\n276,229\n268,071\nLong-lived asset impairment charge\n\n\n72,533\nDeferred income taxes\n15,653\n(25,666)\n(24,008)\nStock-based compensation expense\n43,044\n47,259\n27,583\nLoss on disposal of property and equipment\n6,688\n5,358\n6,827\nChange in operating assets and liabilities:\nReceivables\n34,260\n(40,573)\n(53,772)\nMerchandise inventories\n(104,233)\n(331,003)\n125,486\nPrepaid expenses and other current assets\n(19,432)\n(3,412)\n(4,363)\nIncome taxes\n(45,182)\n(35,652)\n58,916\nAccounts payable\n8,309\n66,156\n62,324\nAccrued liabilities\n48,249\n58,598\n58,599\nDeferred revenue\n41,098\n79,196\n36,848\nOperating lease liabilities\n(324,500)\n(303,914)\n(297,513)\nOther assets and liabilities\n(7,731)\n12,392\n(783)\nNet cash provided by operating activities\n1,481,915\n1,059,265\n810,355\nInvesting activities\nProceeds from short-term investments\n\n\n110,000\nCapital expenditures\n(312,126)\n(172,187)\n(151,866)\nAcquisitions, net of cash acquired\n\n\n(1,220)"
+    ],
+    "relevant_items": [],
+    "gold_answer": "Ulta Beauty did not make any acquisitions in FY2023 and FY2022.",
+    "answerable": true,
+    "source": "FinanceBench",
+    "doc": "ULTABEAUTY_2023_10K"
+  }
+]

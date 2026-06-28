@@ -1,0 +1,26 @@
+repos:
+  # 1) Format with Ruff (auto-fix)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.9
+    hooks:
+      - id: ruff-format
+        name: ruff-format (auto-format)
+        args: []
+        additional_dependencies: []
+        exclude: '^.*\\.egg-info/'
+      - id: ruff
+        name: ruff (lint+fix)
+        args: ["--fix", "--exit-non-zero-on-fix"]
+        additional_dependencies: []
+        exclude: '^.*\\.egg-info/'
+
+  # 2) Type check with Pyright (project-wide)
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.404
+    hooks:
+      - id: pyright
+        name: pyright (type-check)
+        additional_dependencies: ["edgartools==4.9.0", "python-dotenv==1.1.1"]
+        # Run pyright against the whole project once (not per-file)
+        pass_filenames: false
+        exclude: '^.*\\.egg-info/'
