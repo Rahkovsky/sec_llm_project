@@ -1,8 +1,8 @@
 """Embedder dependency injection (plan item 2).
 
-Default production embeddings use OpenAI ``text-embedding-3-large``. Local/private
-deployments use Nomic (``nomic-embed-text``, US-origin) via sentence-transformers.
-The offline ``hashing`` backend needs no dependencies and powers tests/CI/demo.
+Local/private deployments use Nomic (``nomic-embed-text``, US-origin) via
+sentence-transformers. The offline ``hashing`` backend needs no dependencies and
+powers tests/CI/demo.
 """
 
 from __future__ import annotations
@@ -17,14 +17,6 @@ def build_embedder(config: EmbeddingConfig) -> Embedder:
         from .hashing import HashingEmbedder
 
         return HashingEmbedder(dim=config.dim, normalize=config.normalize, version=config.version)
-    if provider == "openai":
-        from .openai_embed import OpenAIEmbedder
-
-        return OpenAIEmbedder(
-            model=config.model or "text-embedding-3-large",
-            api_key_env=config.api_key_env or "OPENAI_API_KEY",
-            base_url=config.base_url, normalize=config.normalize, version=config.version,
-        )
     if provider in {"nomic", "huggingface", "hf", "sentence-transformers"}:
         from .huggingface import HuggingFaceEmbedder
 
@@ -33,4 +25,5 @@ def build_embedder(config: EmbeddingConfig) -> Embedder:
             model=model, normalize=config.normalize, version=config.version,
             revision=config.revision or None,
         )
-    raise ValueError(f"Unknown embedding provider '{config.provider}'")
+    raise ValueError(
+        f"Unknown embedding provider '{config.provider}' (expected 'hashing' or 'nomic')")

@@ -13,7 +13,7 @@ evidence is weak, and all retrieval/generation events are auditable.
 
 ## Highlights
 
-- **Configurable model backend** — OpenAI / Anthropic / local Ollama, selected by
+- **Configurable model backend** — local Ollama (or the offline mock), selected by
   config, never by code edits.
 - **Hybrid retrieval** — BM25 lexical + dense vectors + metadata filtering +
   reciprocal-rank fusion + optional cross-encoder reranking.
@@ -24,10 +24,11 @@ evidence is weak, and all retrieval/generation events are auditable.
 - **Citation-grounded structured JSON** — risk factors, litigation, MD&A,
   internal controls, related-party, liquidity.
 - **Verified citations with an independent judge** — each claim in an answer is
-  independently evaluated for groundedness by a separately-configured LLM
-  (cross-vendor: generate with OpenAI, judge with Anthropic). Fabricated quotes
-  are caught by a deterministic substring check. A gate+repair pass drops or
-  rewrites unsupported claims before the answer is returned.
+  independently evaluated for groundedness by a separately-configured LLM (a
+  *different* local model from the generator, e.g. generate with gemma3, judge
+  with mistral). Fabricated quotes are caught by a deterministic substring check,
+  and asserted figures by a numeric check. A gate+repair pass drops or rewrites
+  unsupported claims before the answer is returned.
 - **Faithfulness harness** — evaluation measures `mean_groundedness`,
   `fully_grounded_rate`, and `contradiction_rate` alongside retrieval metrics.
   Results are compared to a versioned baseline and regressions are flagged
@@ -53,41 +54,39 @@ This prototype is built around constraints relevant to regulated/government use:
 | **Independent citation verification** | Claims are judged by a separately-configured LLM (cross-vendor); fabricated quotes caught by deterministic substring check; one gate+repair pass before the answer is returned. Off by default; enabled via `SECI_VERIFICATION__ENABLED=true`. |
 | **Official SEC sources only** | Ingestion uses SEC EDGAR with fair-access rate limiting (≤ 10 req/s) and a descriptive User-Agent. |
 
-## Default model stack (U.S.-aligned)
+## Model stack (local, U.S.-aligned)
 
-The recommended configuration (`config/default.yaml`) uses a strong commercial
-generator and U.S.-origin embeddings, with a private local fallback:
+The system runs **fully locally** — no API keys, no data leaving the host: Ollama
+**gemma3:12b** for generation and U.S.-origin **Nomic** embeddings.
 
 ```yaml
 llm:
-  provider: openai
-  model: gpt-4.1-mini
+  provider: ollama
+  model: gemma3:12b
 embedding:
-  provider: openai
-  model: text-embedding-3-large
-local_fallback:
-  llm:        { provider: ollama, model: gemma3:12b }
-  embedding:  { provider: nomic,  model: nomic-ai/nomic-embed-text-v1.5 }
+  provider: nomic
+  model: nomic-ai/nomic-embed-text-v1.5
 ```
 
 Config profiles shipped in `config/`:
 
 | Profile | LLM | Embeddings | Use |
 | --- | --- | --- | --- |
-| `default.yaml` / `default.json` | OpenAI `gpt-4.1-mini` | OpenAI `text-embedding-3-large` | Recommended / demo quality |
-| `local.yaml` | Ollama `gemma3:12b` | Nomic `nomic-embed-text` | Air-gapped / private |
-| `anthropic.json` | Anthropic `claude-opus-4-8` | OpenAI `text-embedding-3-large` | Alt. commercial |
+| `local.yaml` | Ollama `gemma3:12b` | Nomic `nomic-embed-text` | Local / air-gapped (primary) |
 | `offline.yaml` / `offline.json` | mock | hashing | Tests / CI / zero-dependency demo |
 
-## Government deployment options
+Generation and embeddings both run on-device; the retrieval layer (BM25, Chroma,
+fusion) is pure Python. A GPU is an accelerator, never a requirement — the stack
+falls back to CPU automatically.
+
+## Deployment
 
 ```
 Deployment modes:
-  1. Local/offline prototype using Ollama (Gemma 3) + Nomic (config/local.yaml).
-  2. Commercial API prototype using OpenAI/Anthropic (config/default.yaml).
-  3. Federal cloud deployment path using Azure OpenAI Government or
-     AWS Bedrock / GovCloud (set llm.base_url / embedding.base_url to the
-     authorized endpoint and keep keys in the environment).
+  1. Local / air-gapped (primary): Ollama (Gemma 3) + Nomic, no data leaves the
+     host (config/local.yaml).
+  2. Offline / zero-dependency: mock + hashing for tests, CI, and demos
+     (config/offline.yaml).
 ```
 
 **Compliance note:** this repository does **not** claim FedRAMP authorization. It
@@ -116,20 +115,21 @@ source .venv/bin/activate
 uv pip install -e .
 
 # Optional backends as needed:
-uv pip install -e ".[openai]"        # OpenAI generation + embeddings
-uv pip install -e ".[anthropic]"     # Anthropic generation
 uv pip install -e ".[embeddings]"    # local Nomic embeddings (sentence-transformers)
 uv pip install -e ".[vectorstore]"   # Chroma persistent vector store
 uv pip install -e ".[sec]"           # EDGAR ingestion (edgartools)
+uv pip install -e ".[observability]" # span tracing -> Arize Phoenix (optional)
 uv pip install -e ".[dev,yaml]"      # tests + YAML config
 ```
 
-Configure secrets and SEC identity in the environment (never in code):
+Configure SEC identity (and any secrets) in `.env` at the repo root — it's
+git-ignored and loaded automatically, so nothing lands in your shell history:
 
 ```bash
-export OPENAI_API_KEY=...            # for the default config
-export SEC_USER_NAME="Your Name"     # used to build a compliant EDGAR User-Agent
-export SEC_USER_EMAIL="you@org.gov"
+# .env
+SEC_USER_NAME="Your Name"          # used to build a compliant EDGAR User-Agent
+SEC_USER_EMAIL="you@org.gov"
+# HF_TOKEN="hf_..."                # optional, only for tools/download_gguf.py
 ```
 
 ## Quickstart
@@ -158,25 +158,33 @@ sec-intel evaluate --demo --snapshot
 sec-intel evaluate --demo --enforcement
 ```
 
-With real filings and the default (OpenAI) config:
+With real filings, using the local stack (`config/local.yaml` — Ollama + Nomic).
+**First activate the venv** so `sec-intel` is on your PATH (`source .venv/bin/activate`
+— do this in every new terminal), and make sure **Ollama is running**.
+
+> **Index and query with the same config.** The embedder that *built* the index
+> and the one used to *query* must match, or you'll get an `Embedding mismatch`
+> error. Use `config/local.yaml` for both `index` and `ask`/`monitor`/`extract`/`compare`.
 
 ```bash
+source .venv/bin/activate
+
 # 1) Download official filings — multi-form, multi-year (rate-limited, compliant UA).
 #    Two+ consecutive years are needed for the year-over-year monitor/compare.
 sec-intel fetch MSFT TSLA --forms 10-K 10-Q 8-K --years 2023-2025
 
 # 2) Build an index from a downloaded form directory
-sec-intel --config config/default.yaml index data/input/10-K
+sec-intel --config config/local.yaml index data/input/10-K
 
 # 3) Ask a grounded question (cited, with confidence + abstention)
-sec-intel --config config/default.yaml ask \
+sec-intel --config config/local.yaml ask \
   "Summarize liquidity risks for Tesla with citations." --ticker TSLA
 
 # 4) Monitor disclosure changes between two years (the flagship)
-sec-intel --config config/default.yaml monitor MSFT 2024 2025
+sec-intel --config config/local.yaml monitor MSFT 2024 2025
 
 # 5) Structured, citation-grounded extraction
-sec-intel --config config/default.yaml extract risk_factors --ticker MSFT
+sec-intel --config config/local.yaml extract risk_factors --ticker MSFT
 ```
 
 ## Flagship: Disclosure Change & Risk Signal Monitor
@@ -230,8 +238,8 @@ sec-intel evaluate --demo --enforcement --json    # enforcement benchmark
 ```
 src/sec_llm_project/sec_intel/
 ├── core/         # config (DI), shared types, audit/provenance
-├── llm/          # provider abstraction: mock | ollama | openai | anthropic
-├── embeddings/   # openai (default) | nomic (local) | hashing (offline), versioned
+├── llm/          # provider abstraction: mock (offline) | ollama (local)
+├── embeddings/   # nomic (local) | hashing (offline), versioned
 ├── chunking/     # SEC-aware section splitting + provenance
 ├── index/        # chunk catalog + vector store (memory | chroma) + reproducible builder
 ├── retrieval/    # bm25 + dense + fusion (rrf/weighted) + rerank → HybridRetriever

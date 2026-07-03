@@ -13,6 +13,7 @@ from typing import Any
 from .comparison.differ import ComparisonReport, FilingComparer
 from .core.audit import AuditLogger
 from .core.config import AppConfig
+from .core.tracing import Tracer, build_tracer
 from .core.types import Answer, Chunk, FilingMetadata
 from .embeddings.base import Embedder
 from .embeddings.factory import build_embedder
@@ -32,6 +33,7 @@ class SECIntelPipeline:
         self.embedder: Embedder = build_embedder(self.config.embedding)
         self.llm: LLMProvider = build_llm(self.config.llm)
         self.audit = AuditLogger.from_config(self.config.audit)
+        self.tracer: Tracer = build_tracer(self.config.observability)
         self.builder = IndexBuilder(self.config, embedder=self.embedder)
         self.verifier = build_verifier(self.config.verification, generator=self.config.llm)
         self._index: SECIndex | None = None
@@ -86,7 +88,7 @@ class SECIntelPipeline:
             top_k: int | None = None) -> Answer:
         answerer = GroundedAnswerer(
             self.retriever, self.llm, self.config.generation, audit=self.audit,
-            verifier=self.verifier,
+            verifier=self.verifier, tracer=self.tracer,
         )
         return answerer.answer(question, filters=filters, top_k=top_k)
 

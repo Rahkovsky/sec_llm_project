@@ -12,8 +12,8 @@ Subcommands:
 * ``demo``     — index the built-in synthetic corpus and answer a sample question
 
 Backends are chosen via ``--config`` (JSON/YAML) and/or ``SECI_*`` env vars, so
-no code changes are needed to switch from the offline mock to Ollama/OpenAI/
-Anthropic and from hashing to neural embeddings.
+no code changes are needed to switch from the offline mock to local Ollama and
+from hashing to Nomic embeddings.
 """
 
 from __future__ import annotations
@@ -299,6 +299,12 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Load a repo-root .env first so secrets (HF_TOKEN, SEC_USER_*) and SECI_
+    # overrides come from .env rather than the shell — keeping them out of shell
+    # history. Explicit exports still win.
+    from ...utils.env_config import load_environment
+
+    load_environment()
     parser = build_parser()
     args = parser.parse_args(argv)
     return int(args.func(args))

@@ -43,15 +43,18 @@ ollama pull gemma3:12b
 ```
 
 **If `ollama pull` is slow or stalls** (high-latency / hotspot connections),
-download the GGUF with the parallel-range tool and register it manually:
+download the GGUF with the parallel-range tool and register it manually. Put your
+HF token in a `.env` file at the repo root (it's git-ignored, and keeps the secret
+out of your shell history) — `download_gguf.py` loads `.env` automatically:
 ```
-export HF_TOKEN=hf_your_read_token
+echo 'HF_TOKEN=hf_your_read_token' >> .env
 python tools/download_gguf.py --repo MaziyarPanahi/gemma-3-12b-it-GGUF --file gemma-3-12b-it.Q4_K_M.gguf --out ~/.ollama/imports/gemma-3-12b-it.Q4_K_M.gguf --concurrency 48
 printf 'FROM %s/.ollama/imports/gemma-3-12b-it.Q4_K_M.gguf\nPARAMETER num_ctx 8192\n' "$HOME" > Modelfile
 ollama create gemma3:12b -f Modelfile
 ```
 A free HF **read** token (https://huggingface.co/settings/tokens) lifts the
-anonymous rate limit when running many parallel streams. Do **not** set
+anonymous rate limit when running many parallel streams. (See `.env.example` for
+the full list of secrets read from `.env`.) Do **not** set
 `HF_XET_HIGH_PERFORMANCE=1` — it needs 64 GB RAM.
 
 > **RAM note:** `gemma3:12b` (~7 GB) fits 16–32 GB comfortably. `gemma3:27b`
@@ -196,5 +199,6 @@ large chunks into context).
 - **Switching models:** change `llm.model` in `config/local.yaml`, or override
   with `export SECI_LLM__MODEL=...`.
 
-See also: [COMMANDS.md](COMMANDS.md) (full CLI reference) and
+See also: [COMMANDS.md](COMMANDS.md) (full CLI reference),
+[OBSERVABILITY.md](OBSERVABILITY.md) (tracing / Phoenix for QC), and
 [FUTURE_WORK.md](FUTURE_WORK.md).

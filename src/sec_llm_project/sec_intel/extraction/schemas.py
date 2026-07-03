@@ -3,8 +3,8 @@
 Each schema describes a list of findings with a short label, a verbatim/near-
 verbatim ``evidence`` quote, and the source ``item`` it came from. Keeping the
 schemas as plain dicts means no pydantic dependency is required and the same
-schema can be handed to any backend that supports JSON-schema-constrained
-decoding (OpenAI) or used as an instruction (Anthropic/Ollama).
+schema can be handed to Ollama's JSON-schema-constrained ``format`` option (or
+used as a plain instruction to the mock backend).
 """
 
 from __future__ import annotations

@@ -23,7 +23,10 @@ Usage
     # Authenticate first (lifts the anonymous per-IP rate limit that throttles
     # many parallel streams). A free *read* token is enough:
     #   https://huggingface.co/settings/tokens
-    export HF_TOKEN=hf_...
+    # Preferred: put it in a .env file at the repo root so it stays out of your
+    # shell history (this tool loads .env automatically):
+    #   echo 'HF_TOKEN=hf_...' >> .env
+    # Alternatively pass --token, or export HF_TOKEN in the shell.
 
     python tools/download_gguf.py \
         --repo MaziyarPanahi/gemma-3-27b-it-GGUF \
@@ -44,6 +47,42 @@ import time
 import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
+
+
+def _load_dotenv() -> None:
+    """Populate os.environ from a repo-root ``.env`` (secrets stay out of shell
+    history). Self-contained — no dependency on python-dotenv — and existing
+    environment variables win, so an explicit ``export``/``--token`` still overrides.
+    """
+    env_path = Path(__file__).resolve().parent.parent / ".env"
+    if not env_path.exists():
+        return
+    for raw in env_path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("export "):
+            line = line[len("export "):]
+        key, sep, value = line.partition("=")
+        if sep:
+            os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+def _hf_cli_token() -> str:
+    """The token saved by ``huggingface-cli login`` (respects HF_HOME/HF_TOKEN_PATH).
+
+    Lets an existing HF login work without duplicating the token into .env.
+    """
+    path = os.environ.get("HF_TOKEN_PATH")
+    if not path:
+        home = os.environ.get("HF_HOME") or os.path.expanduser("~/.cache/huggingface")
+        path = os.path.join(home, "token")
+    try:
+        return Path(path).expanduser().read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+
 
 _url_lock = threading.Lock()
 _done_lock = threading.Lock()
@@ -145,6 +184,7 @@ def download_chunk(resolve_endpoint: str, token: str, dest: str, progress_path: 
 
 
 def main() -> int:
+    _load_dotenv()  # so --token's default ($HF_TOKEN) can come from .env
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--repo", required=True, help="HF repo id, e.g. MaziyarPanahi/gemma-3-27b-it-GGUF")
@@ -153,14 +193,17 @@ def main() -> int:
     ap.add_argument("--concurrency", type=int, default=16, help="parallel streams (default 16)")
     ap.add_argument("--chunk-mb", type=int, default=16, help="chunk size in MB (default 16)")
     ap.add_argument("--token", default=os.environ.get("HF_TOKEN", ""),
-                    help="HF token (default: $HF_TOKEN). A read token lifts the anon rate limit.")
+                    help="HF token. Default resolution: --token, then HF_TOKEN (.env or "
+                         "environment), then your 'huggingface-cli login'. A read token "
+                         "lifts the anon rate limit.")
     args = ap.parse_args()
 
     resolve_endpoint = f"https://huggingface.co/{args.repo}/resolve/main/{args.file}"
     dest = os.path.expanduser(args.out)
     os.makedirs(os.path.dirname(dest) or ".", exist_ok=True)
     progress_path = dest + ".progress"
-    token = args.token.strip()
+    # Token precedence: --token > HF_TOKEN (env or .env) > huggingface-cli login.
+    token = args.token.strip() or _hf_cli_token()
     chunk = args.chunk_mb * 1024 * 1024
 
     total = total_size(resolve_endpoint, token)

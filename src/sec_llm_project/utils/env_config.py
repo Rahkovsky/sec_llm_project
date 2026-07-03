@@ -14,16 +14,31 @@ except ImportError:
 
 
 def load_environment() -> None:
-    """Load environment variables from .env file if available."""
-    if not dotenv_available:
-        return
+    """Load environment variables from a repo-root ``.env`` if present.
 
-    # Look for .env file in project root
+    Uses python-dotenv when installed; otherwise falls back to a tiny stdlib
+    parser so ``.env`` works even without the optional dependency (e.g. the
+    local Ollama stack). Existing environment variables are never overridden, so
+    an explicit ``export`` still wins.
+    """
     project_root = Path(__file__).parent.parent.parent
     env_file = project_root / ".env"
+    if not env_file.exists():
+        return
 
-    if env_file.exists() and dotenv_available and _load_dotenv is not None:
+    if dotenv_available and _load_dotenv is not None:
         _load_dotenv(env_file)
+        return
+
+    for raw in env_file.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("export "):
+            line = line[len("export ") :]
+        key, sep, value = line.partition("=")
+        if sep:
+            os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
 
 
 def get_sec_user_info() -> tuple[str, str]:

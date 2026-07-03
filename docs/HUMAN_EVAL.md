@@ -85,8 +85,8 @@ at startup (`build_verifier` raises on a self-grading judge). For the local stac
 ollama pull mistral:7b
 ```
 then set `verification.enabled: true` in `config/local.yaml` (judge is already
-wired to `mistral:7b`, a different family from the `gemma3` generator). For cloud,
-configure a cross-vendor judge (e.g. generator = OpenAI, judge = Anthropic).
+wired to `mistral:7b`, a different family from the `gemma3` generator, so the
+self-grading guard is satisfied).
 
 Re-run step 1 with verification on; the per-answer `verification` report is then
 produced by the LLM judge, and step 4 measures its agreement with the humans.

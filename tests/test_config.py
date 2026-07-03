@@ -28,12 +28,12 @@ def test_round_trip():
 
 
 def test_env_override(monkeypatch=None):
-    os.environ["SECI_LLM__PROVIDER"] = "anthropic"
+    os.environ["SECI_LLM__PROVIDER"] = "ollama"
     os.environ["SECI_RETRIEVAL__TOP_K"] = "11"
     os.environ["SECI_RETRIEVAL__RERANK"] = "true"
     try:
         cfg = AppConfig.from_env()
-        assert cfg.llm.provider == "anthropic"
+        assert cfg.llm.provider == "ollama"
         assert cfg.retrieval.top_k == 11
         assert cfg.retrieval.rerank is True
     finally:

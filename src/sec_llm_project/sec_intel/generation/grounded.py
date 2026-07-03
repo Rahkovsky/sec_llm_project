@@ -14,6 +14,7 @@ from typing import Any
 
 from ..core.audit import AuditLogger, null_logger
 from ..core.config import GenerationConfig, VerificationConfig
+from ..core.tracing import CHAIN, EVALUATOR, LLM, RETRIEVER, NullTracer, Tracer
 from ..core.types import (
     CONTRADICTED,
     PARTIAL,
@@ -42,58 +43,87 @@ class GroundedAnswerer:
     def __init__(self, retriever: HybridRetriever, llm: LLMProvider,
                  config: GenerationConfig | None = None,
                  audit: AuditLogger | None = None,
-                 verifier: CitationVerifier | None = None) -> None:
+                 verifier: CitationVerifier | None = None,
+                 tracer: Tracer | None = None) -> None:
         self.retriever = retriever
         self.llm = llm
         self.config = config or GenerationConfig()
         self.audit = audit or null_logger()
         self.verifier = verifier
+        self.tracer = tracer or NullTracer()
 
     def answer(self, question: str, *, filters: dict[str, Any] | None = None,
                top_k: int | None = None) -> Answer:
         cfg = self.config
-        results = self.retriever.retrieve(question, top_k=top_k, filters=filters)
-        context = results[: cfg.max_context_chunks]
+        # Root span wraps the whole request; child spans (retrieve/generate/verify)
+        # capture the per-stage data the pipeline already computes. With the default
+        # NullTracer this is all no-ops.
+        with self.tracer.span("answer", kind=CHAIN, input=question) as root:
+            with self.tracer.span("retrieve", kind=RETRIEVER) as rspan:
+                results = self.retriever.retrieve(question, top_k=top_k, filters=filters)
+                context = results[: cfg.max_context_chunks]
+                rspan.set(
+                    n_retrieved=len(results),
+                    latency_ms=round(self.retriever.last_latency_ms, 2),
+                    documents=[{"id": r.chunk.chunk_id,
+                                "score": r.components.get("fused"),
+                                "content": r.chunk.text[:400]} for r in context])
 
-        evidence_score = self._evidence_score(context)
-        if not context or evidence_score < cfg.min_evidence_score:
-            return self._abstain(
-                question, context,
-                f"insufficient retrieval evidence (score={evidence_score:.3f} < "
-                f"{cfg.min_evidence_score})",
-            )
+            evidence_score = self._evidence_score(context)
+            root.set(evidence_score=round(evidence_score, 4), n_retrieved=len(results))
+            if not context or evidence_score < cfg.min_evidence_score:
+                root.set(abstained=True, abstain_reason="insufficient_evidence")
+                return self._abstain(
+                    question, context,
+                    f"insufficient retrieval evidence (score={evidence_score:.3f} < "
+                    f"{cfg.min_evidence_score})",
+                )
 
-        messages = [
-            Message("system", prompts.SYSTEM_PROMPT),
-            Message("user", prompts.build_user_prompt(question, context)),
-        ]
-        gen = self.llm.generate(messages, temperature=0.0)
+            messages = [
+                Message("system", prompts.SYSTEM_PROMPT),
+                Message("user", prompts.build_user_prompt(question, context)),
+            ]
+            with self.tracer.span("generate", kind=LLM) as gspan:
+                gen = self.llm.generate(messages, temperature=0.0)
+                gspan.set(model=gen.model, output=gen.text)
 
-        if _INSUFFICIENT in gen.text:
-            return self._abstain(question, context,
-                                 "model reported insufficient evidence", model=gen.model)
+            if _INSUFFICIENT in gen.text:
+                root.set(abstained=True, abstain_reason="model_insufficient")
+                return self._abstain(question, context,
+                                     "model reported insufficient evidence", model=gen.model)
 
-        answer = self._assemble(question, gen, context, results, evidence_score)
+            answer = self._assemble(question, gen, context, results, evidence_score)
 
-        if self.verifier is not None:
-            answer = self._verify_and_gate(answer, context, results, evidence_score, messages)
-            if answer.abstained:
-                return answer
+            if self.verifier is not None:
+                with self.tracer.span("verify", kind=EVALUATOR) as vspan:
+                    answer = self._verify_and_gate(answer, context, results,
+                                                   evidence_score, messages)
+                    vr = answer.extra.get("verification") or {}
+                    vspan.set(groundedness=vr.get("groundedness"),
+                              contradicted=vr.get("contradicted"),
+                              supported=vr.get("supported"), total=vr.get("total"))
+                if answer.abstained:
+                    root.set(abstained=True, abstain_reason=answer.abstain_reason)
+                    return answer
 
-        if len(answer.citations) < cfg.min_citations:
-            return self._finalize_abstain(answer, "too few grounded citations")
-        if answer.confidence < cfg.abstain_below_confidence:
-            return self._finalize_abstain(answer, f"low confidence ({answer.confidence:.3f})")
+            if len(answer.citations) < cfg.min_citations:
+                root.set(abstained=True, abstain_reason="too_few_citations")
+                return self._finalize_abstain(answer, "too few grounded citations")
+            if answer.confidence < cfg.abstain_below_confidence:
+                root.set(abstained=True, abstain_reason="low_confidence")
+                return self._finalize_abstain(answer, f"low confidence ({answer.confidence:.3f})")
 
-        audit_payload: dict[str, Any] = {
-            "question": question, "model": answer.model, "confidence": answer.confidence,
-            "n_citations": len(answer.citations), "abstained": False,
-            "chunk_ids": [c.chunk_id for c in answer.citations],
-        }
-        if "verification" in answer.extra:
-            audit_payload["verification"] = answer.extra["verification"]
-        self.audit.log("answer", audit_payload)
-        return answer
+            audit_payload: dict[str, Any] = {
+                "question": question, "model": answer.model, "confidence": answer.confidence,
+                "n_citations": len(answer.citations), "abstained": False,
+                "chunk_ids": [c.chunk_id for c in answer.citations],
+            }
+            if "verification" in answer.extra:
+                audit_payload["verification"] = answer.extra["verification"]
+            self.audit.log("answer", audit_payload)
+            root.set(output=answer.text, confidence=round(answer.confidence, 4),
+                     abstained=False, n_citations=len(answer.citations))
+            return answer
 
     def _assemble(self, question: str, gen: GenerationResult,
                   context: list[RetrievalResult], results: list[RetrievalResult],

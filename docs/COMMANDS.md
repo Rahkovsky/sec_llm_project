@@ -38,11 +38,10 @@ source .venv/bin/activate                             # macOS / Linux
 uv pip install -e .
 
 # Optional backends (install only what you need)
-uv pip install -e ".[openai]"        # OpenAI generation + embeddings (default config)
-uv pip install -e ".[anthropic]"     # Anthropic generation
 uv pip install -e ".[embeddings]"    # local Nomic embeddings via sentence-transformers
 uv pip install -e ".[vectorstore]"   # Chroma persistent vector store
 uv pip install -e ".[sec]"           # EDGAR ingestion (edgartools)
+uv pip install -e ".[observability]" # span tracing -> Arize Phoenix (optional)
 uv pip install -e ".[dev,yaml]"      # pytest/ruff/pyright + YAML config support
 uv pip install -e ".[all,dev]"       # everything
 ```
@@ -98,7 +97,8 @@ ollama serve                # keep running in a separate terminal
 > ```bash
 > # A free Hugging Face *read* token lifts the anonymous rate limit that
 > # throttles many parallel streams: https://huggingface.co/settings/tokens
-> export HF_TOKEN=hf_...
+> # Put it in .env (git-ignored, stays out of shell history); the tool loads .env.
+> echo 'HF_TOKEN=hf_...' >> .env
 >
 > # Parallel-range download (resumable; tune --concurrency to taste, 16-48):
 > python tools/download_gguf.py \
@@ -189,49 +189,54 @@ You can also force the offline profile explicitly with any subcommand:
 sec-intel --config config/offline.json <subcommand> ...
 ```
 
-## 4. Run with real filings + a real model backend
+## 4. Run with real filings (local stack)
 
-Pick a config profile (or set `SECI_*` env vars). The default uses OpenAI and
-requires `OPENAI_API_KEY`.
+First **activate the venv** so `sec-intel` is on your PATH — otherwise you get
+`zsh: command not found: sec-intel`:
 
 ```bash
-export OPENAI_API_KEY=...                 # for config/default.yaml
+source .venv/bin/activate
+```
 
+Everything runs locally with `config/local.yaml` (Ollama `gemma3:12b` + Nomic
+embeddings — **start Ollama first**, see section 1b). No API keys.
+
+> **Match the embedder to the index.** `ask`/`monitor`/`extract`/`compare` must use
+> the **same config you built the index with**. Querying a Nomic-built index with a
+> different embedder fails with `Embedding mismatch: index was built with '...' but
+> query uses '...'`. Use `config/local.yaml` everywhere below.
+
+```bash
 # 1) Build an index (one or more form directories — all combined into one index)
-sec-intel --config config/default.yaml index data/input/10-K data/input/10-Q data/input/8-K
-sec-intel --config config/default.yaml index data/input/10-K
-sec-intel --config config/default.yaml index data/input/10-K --pattern "*.txt" --max-files 50
+sec-intel --config config/local.yaml index data/input/10-K data/input/10-Q data/input/8-K
+sec-intel --config config/local.yaml index data/input/10-K
+sec-intel --config config/local.yaml index data/input/10-K --pattern "*.txt" --max-files 50
 
 # 2) Ask a grounded question (cited, with confidence + abstention)
-sec-intel --config config/default.yaml ask \
+sec-intel --config config/local.yaml ask \
   "Summarize liquidity risks for Tesla with citations." --ticker TSLA
-sec-intel --config config/default.yaml ask "How did risk factors change?" --ticker MSFT --top-k 10 --json
+sec-intel --config config/local.yaml ask "How did risk factors change?" --ticker MSFT --top-k 10 --json
 
 # 3) Compare two filing years
-sec-intel --config config/default.yaml compare MSFT 2024 2025
-sec-intel --config config/default.yaml compare MSFT 2024 2025 --items 1A 3 7
+sec-intel --config config/local.yaml compare MSFT 2024 2025
+sec-intel --config config/local.yaml compare MSFT 2024 2025 --items 1A 3 7
 
 # 4) Run the disclosure monitor across forms
-sec-intel --config config/default.yaml monitor MSFT 2024 2025 --forms 10-K 10-Q 8-K
-sec-intel --config config/default.yaml monitor MSFT 2024 2025 --xbrl   # +XBRL context (needs network)
+sec-intel --config config/local.yaml monitor MSFT 2024 2025 --forms 10-K 10-Q 8-K
+sec-intel --config config/local.yaml monitor MSFT 2024 2025 --xbrl   # +XBRL context (needs network)
 
 # 5) Structured, citation-grounded extraction
-sec-intel --config config/default.yaml extract risk_factors --ticker MSFT
+sec-intel --config config/local.yaml extract risk_factors --ticker MSFT
 # targets: risk_factors | litigation | mdna | internal_controls | related_party | liquidity
 
 # 6) Evaluate over your own corpus + cases
-sec-intel --config config/default.yaml evaluate --input-dir data/input/10-K --cases my_cases.json
+sec-intel --config config/local.yaml evaluate --input-dir data/input/10-K --cases my_cases.json
 ```
 
-Other profiles:
+For a fully offline run (no Ollama, mock model — tests/demos):
 
 ```bash
-# Local / free — Ollama gemma3:12b + Nomic embeddings (needs Ollama running, see section 1b)
-sec-intel --config config/local.yaml demo
-sec-intel --config config/local.yaml ask "What are Tesla's liquidity risks?" --ticker TSLA
-
-# Anthropic generation (needs ANTHROPIC_API_KEY)
-sec-intel --config config/anthropic.json ask "Summarize risk factors for MSFT." --ticker MSFT
+sec-intel --config config/offline.yaml demo
 ```
 
 ## 5. Ingest official SEC filings (download + process locally)
@@ -265,13 +270,13 @@ sec-intel fetch --sp500-live --forms 10-K --years 2024-2025
 
 # (b) Process — build a unified index from one or more form directories.
 # Single form:
-sec-intel --config config/default.yaml index data/input/10-K
+sec-intel --config config/local.yaml index data/input/10-K
 # All three forms in one index (recommended for monitor/compare):
-sec-intel --config config/default.yaml index data/input/10-K data/input/10-Q data/input/8-K
+sec-intel --config config/local.yaml index data/input/10-K data/input/10-Q data/input/8-K
 
 # (c) Use — the year-over-year flagship now has the data it needs.
-sec-intel --config config/default.yaml monitor MSFT 2024 2025 --forms 10-K 10-Q 8-K
-sec-intel --config config/default.yaml compare MSFT 2024 2025 --items 1A 3 7
+sec-intel --config config/local.yaml monitor MSFT 2024 2025 --forms 10-K 10-Q 8-K
+sec-intel --config config/local.yaml compare MSFT 2024 2025 --items 1A 3 7
 ```
 
 Equivalent Python API (same rate limiting and output layout):
@@ -294,11 +299,12 @@ docker build -t sec-intel .
 docker run --rm sec-intel                         # runs `sec-intel demo`
 docker run --rm sec-intel monitor NOVA 2023 2024 --demo
 
-# Build with extra backends
-docker build --build-arg EXTRAS="openai,vectorstore" -t sec-intel:openai .
-docker run --rm -e OPENAI_API_KEY=$OPENAI_API_KEY \
-  -v "$PWD/data:/app/data" sec-intel:openai \
-  --config config/default.yaml ask "..." --ticker MSFT
+# Build with the local backends (Nomic embeddings + Chroma). Ollama runs on the
+# host; point the container at it with OLLAMA_BASE_URL.
+docker build --build-arg EXTRAS="embeddings,vectorstore,yaml" -t sec-intel:local .
+docker run --rm -e OLLAMA_BASE_URL=http://host.docker.internal:11434 \
+  -v "$PWD/data:/app/data" sec-intel:local \
+  --config config/local.yaml ask "..." --ticker MSFT
 ```
 
 ## 7. Python API
@@ -307,7 +313,7 @@ docker run --rm -e OPENAI_API_KEY=$OPENAI_API_KEY \
 from sec_llm_project.sec_intel.core.config import AppConfig
 from sec_llm_project.sec_intel.pipeline import SECIntelPipeline
 
-pipeline = SECIntelPipeline(AppConfig.load("config/default.yaml"))
+pipeline = SECIntelPipeline(AppConfig.load("config/local.yaml"))
 pipeline.build_index("data/input/10-K")            # or pipeline.load_index()
 
 answer = pipeline.ask("Summarize liquidity risks for Tesla.", filters={"ticker": "TSLA"})
@@ -327,7 +333,7 @@ print(extraction.valid, extraction.data)
 ```bash
 # Inspect/validate a config profile
 python -c "from sec_llm_project.sec_intel.core.config import AppConfig; \
-import json; print(json.dumps(AppConfig.load('config/default.json').to_dict(), indent=2))"
+import json; print(json.dumps(AppConfig.load('config/local.yaml').to_dict(), indent=2))"
 ```
 
 Override any setting via environment variables (dotted, double-underscore nested):
@@ -344,9 +350,7 @@ Profiles in `config/`:
 
 | File | LLM | Embeddings | Notes |
 | --- | --- | --- | --- |
-| `default.yaml` / `default.json` | OpenAI `gpt-4.1-mini` | OpenAI `text-embedding-3-large` | needs `OPENAI_API_KEY` |
-| `local.yaml` | Ollama `gemma3:12b` | Nomic `nomic-embed-text` | **free/local** — needs Ollama + `.[embeddings,vectorstore,yaml]` (see §1b) |
-| `anthropic.json` | Anthropic `claude-opus-4-8` | OpenAI `text-embedding-3-large` | needs `ANTHROPIC_API_KEY` + `OPENAI_API_KEY` |
+| `local.yaml` | Ollama `gemma3:12b` | Nomic `nomic-embed-text` | **primary** — local/free; needs Ollama + `.[embeddings,vectorstore,yaml]` (see §1b) |
 | `offline.yaml` / `offline.json` | mock | hashing | zero-dependency; tests/CI/demo |
 
 ---
@@ -356,19 +360,19 @@ Profiles in `config/`:
 Citation verification is **off by default** so the offline demo and CI require no keys.
 Enable it for production use via environment variable or config.
 
-### Enable in production
+### Enable it (local, independent judge)
+
+The judge must be a **different local model** from the generator — a model can't
+independently grade its own output (enforced by a self-grading guard). Generator
+is `gemma3:12b`, so the judge is `mistral:7b`:
 
 ```bash
-# Enable the citation judge with OpenAI as generator and Anthropic as judge.
-# Generator is the main SECI_LLM__* config (or default.yaml); judge is set separately
-# to enforce cross-vendor independence.
-export OPENAI_API_KEY=...
-export ANTHROPIC_API_KEY=...
+ollama pull mistral:7b
 export SECI_VERIFICATION__ENABLED=true
-export SECI_VERIFICATION__JUDGE__PROVIDER=anthropic
-export SECI_VERIFICATION__JUDGE__MODEL=claude-haiku-4-5-20251001  # fast, cheap
+export SECI_VERIFICATION__JUDGE__PROVIDER=ollama
+export SECI_VERIFICATION__JUDGE__MODEL=mistral:7b
 
-sec-intel --config config/default.yaml ask \
+sec-intel --config config/local.yaml ask \
   "What liquidity risks did Tesla disclose?" --ticker TSLA
 # answer.extra["verification"] contains: groundedness, supported/partial/unsupported/contradicted counts
 ```
@@ -413,9 +417,9 @@ sec-intel evaluate --demo --snapshot tests/eval/my_baseline.json  # custom path
 ```python
 from sec_llm_project.sec_intel.core.config import AppConfig, VerificationConfig, LLMConfig
 
-cfg = AppConfig.load("config/default.yaml")
+cfg = AppConfig.load("config/local.yaml")
 cfg.verification.enabled = True
-cfg.verification.judge = LLMConfig(provider="anthropic", model="claude-haiku-4-5-20251001")
+cfg.verification.judge = LLMConfig(provider="ollama", model="mistral:7b")
 cfg.verification.groundedness_floor = 0.7
 
 from sec_llm_project.sec_intel.pipeline import SECIntelPipeline

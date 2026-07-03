@@ -5,9 +5,8 @@ disclosure-change monitoring, grounded answer generation, and evaluation over
 official SEC filings.
 
 The public surface is intentionally small; import submodules directly for the
-full API. Heavy optional backends (Chroma, sentence-transformers, Ollama,
-OpenAI, Anthropic) are lazy-imported so the core runs with only the standard
-library installed.
+full API. Heavy optional backends (Chroma, sentence-transformers, Ollama) are
+lazy-imported so the core runs with only the standard library installed.
 """
 
 from __future__ import annotations

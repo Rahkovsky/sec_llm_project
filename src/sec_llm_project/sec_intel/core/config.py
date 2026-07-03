@@ -17,11 +17,10 @@ from typing import Any, get_type_hints
 
 @dataclass
 class LLMConfig:
-    # provider: mock | ollama | openai | anthropic
+    # provider: mock (offline, deterministic — tests/CI/demo) | ollama (local)
     provider: str = "mock"
     model: str = "mock-1"
-    base_url: str = ""  # used by ollama / openai-compatible gateways
-    api_key_env: str = ""  # name of env var holding the key (never the key itself)
+    base_url: str = ""  # ollama server URL (default http://localhost:11434)
     temperature: float = 0.0  # deterministic prompts by default (plan item 10)
     max_tokens: int = 768
     seed: int = 7
@@ -30,13 +29,12 @@ class LLMConfig:
 
 @dataclass
 class EmbeddingConfig:
-    # provider: openai (text-embedding-3-large) | nomic/huggingface (US-origin
-    # local models, e.g. nomic-embed-text) | hashing (offline, no deps).
+    # provider: nomic/huggingface (US-origin local models, e.g. nomic-embed-text)
+    # | hashing (offline, no deps — tests/CI/demo).
     provider: str = "hashing"
     model: str = "hashing-256"
     dim: int = 256  # used by hashing; informational for neural backends
     normalize: bool = True
-    api_key_env: str = ""  # e.g. OPENAI_API_KEY for the openai provider
     base_url: str = ""
     # Pin a Hugging Face model to a specific commit. Important for
     # ``trust_remote_code`` models (e.g. Nomic): runs a reviewed version of the
@@ -95,6 +93,22 @@ class AuditConfig:
 
 
 @dataclass
+class ObservabilityConfig:
+    """Per-request span tracing (QC + observability).
+
+    Off by default. ``jsonl`` writes nested stage spans to a file (no deps);
+    ``phoenix`` exports OpenTelemetry/OpenInference spans to a self-hosted Arize
+    Phoenix collector (needs the ``observability`` extra). See docs/OBSERVABILITY.md.
+    """
+
+    enabled: bool = False
+    backend: str = "jsonl"  # jsonl | phoenix
+    path: str = "logs/traces.jsonl"
+    endpoint: str = "http://localhost:6006/v1/traces"  # Phoenix OTLP HTTP
+    service: str = "sec-intel"
+
+
+@dataclass
 class FallbackConfig:
     """Local/private fallback stack (plan: compliance-aware, local mode).
 
@@ -119,14 +133,15 @@ class VerificationConfig:
     """Independent LLM-as-judge citation verification (claim-level entailment).
 
     The judge is configured separately from the generator so it can be a
-    different model — ideally a different vendor — and never grades its own work.
-    When ``judge.provider`` is an offline backend (mock/hashing), a deterministic
-    lexical-overlap judge is used so the whole path runs in CI without keys.
+    different model and never grades its own work. When ``judge.provider`` is an
+    offline backend (mock/hashing), a deterministic lexical-overlap judge is used
+    so the whole path runs in CI without any model.
     """
 
     enabled: bool = False
-    # Cross-vendor by default in real configs (e.g. generator=openai, judge=anthropic);
-    # the mock default keeps offline/tests deterministic and key-free.
+    # A real judge should be a *different* local model from the generator (e.g.
+    # generator=gemma3, judge=mistral:7b) — enforced by build_verifier's
+    # self-grading guard. The mock default keeps offline/tests deterministic.
     judge: LLMConfig = field(
         default_factory=lambda: LLMConfig(provider="mock", model="lexical-judge")
     )
@@ -145,6 +160,7 @@ class AppConfig:
     verification: VerificationConfig = field(default_factory=VerificationConfig)
     index: IndexConfig = field(default_factory=IndexConfig)
     audit: AuditConfig = field(default_factory=AuditConfig)
+    observability: ObservabilityConfig = field(default_factory=ObservabilityConfig)
     local_fallback: FallbackConfig = field(default_factory=FallbackConfig)
 
     def use_fallback(self) -> AppConfig:
