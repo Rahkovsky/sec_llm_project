@@ -17,23 +17,30 @@ from typing import Any, get_type_hints
 
 @dataclass
 class LLMConfig:
-    # provider: mock (offline, deterministic — tests/CI/demo) | ollama (local)
-    provider: str = "mock"
-    model: str = "mock-1"
+    # provider: ollama (real, local — the default) | mock (deterministic offline
+    # placeholder). The default is a REAL backend on purpose: a mock answer is not
+    # a real answer, so mock is never a silent fallback — select it explicitly via
+    # AppConfig.offline(), config/offline.yaml, provider=mock, or `sec-intel-mock`.
+    provider: str = "ollama"
+    model: str = "gemma3:12b"
     base_url: str = ""  # ollama server URL (default http://localhost:11434)
     temperature: float = 0.0  # deterministic prompts by default (plan item 10)
     max_tokens: int = 768
     seed: int = 7
     timeout: float = 120.0
+    # Ollama's server default is 4096, which silently truncates an 8-chunk SEC
+    # prompt (~7k tokens). Must cover retrieval.top_k * chunk size + answer.
+    num_ctx: int = 8192
 
 
 @dataclass
 class EmbeddingConfig:
-    # provider: nomic/huggingface (US-origin local models, e.g. nomic-embed-text)
-    # | hashing (offline, no deps — tests/CI/demo).
-    provider: str = "hashing"
-    model: str = "hashing-256"
-    dim: int = 256  # used by hashing; informational for neural backends
+    # provider: nomic/huggingface (US-origin local models, e.g. nomic-embed-text —
+    # the default) | hashing (deterministic offline placeholder, no deps). Like the
+    # LLM, the default is a REAL backend; hashing is opt-in via AppConfig.offline().
+    provider: str = "nomic"
+    model: str = "nomic-ai/nomic-embed-text-v1.5"
+    dim: int = 768  # nomic-embed-text-v1.5 dimensionality; hashing overrides to 256
     normalize: bool = True
     base_url: str = ""
     # Pin a Hugging Face model to a specific commit. Important for
@@ -162,6 +169,22 @@ class AppConfig:
     audit: AuditConfig = field(default_factory=AuditConfig)
     observability: ObservabilityConfig = field(default_factory=ObservabilityConfig)
     local_fallback: FallbackConfig = field(default_factory=FallbackConfig)
+
+    @classmethod
+    def offline(cls) -> AppConfig:
+        """Explicit, dependency-free offline stack: deterministic **mock** LLM +
+        hashing embeddings + in-memory index. No network, no model weights, no
+        ML/vector deps.
+
+        This must be chosen **deliberately** (tests, CI, `sec-intel-mock`). It is
+        never a silent default — the real backends are the defaults — because a
+        mock answer is not a real answer and must never be mistaken for one.
+        """
+        return cls(
+            llm=LLMConfig(provider="mock", model="mock-1"),
+            embedding=EmbeddingConfig(provider="hashing", model="hashing-256", dim=256),
+            index=IndexConfig(store="memory"),
+        )
 
     def use_fallback(self) -> AppConfig:
         """Return a copy that promotes the local fallback stack to primary."""

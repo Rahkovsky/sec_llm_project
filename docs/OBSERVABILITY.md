@@ -121,4 +121,4 @@ fit here:
 - The `phoenix` backend needs the `observability` extra; the `jsonl` backend does
   not. Running Phoenix itself is independent of this package.
 
-See also: [LOCAL_SETUP.md](LOCAL_SETUP.md), [HUMAN_EVAL.md](HUMAN_EVAL.md).
+See also: [INSTALLATION.md](INSTALLATION.md), [REAL_RUN.md](REAL_RUN.md), [HUMAN_EVAL.md](HUMAN_EVAL.md).

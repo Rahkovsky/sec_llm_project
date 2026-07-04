@@ -17,6 +17,8 @@ COPY config ./config
 RUN pip install --upgrade pip \
     && if [ -n "$EXTRAS" ]; then pip install ".[$EXTRAS]"; else pip install .; fi
 
-# Default: run the fully offline end-to-end demo.
-ENTRYPOINT ["sec-intel"]
+# Default: run the fully offline end-to-end demo (mock LLM + synthetic corpus).
+# The minimal image ships no model backends, so it uses the `sec-intel-mock`
+# entry point; run the real `sec-intel` with a mounted model stack + config.
+ENTRYPOINT ["sec-intel-mock"]
 CMD ["demo"]

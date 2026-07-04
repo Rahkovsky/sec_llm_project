@@ -10,6 +10,7 @@ llm:
   temperature: 0.0
   max_tokens: 768
   seed: 7
+  timeout: 600   # 16 GB M2 needs >120s for a full answer over large chunks
 
 embedding:
   provider: nomic
@@ -78,6 +79,8 @@ verification:
     model: mistral:7b
     base_url: http://localhost:11434
     temperature: 0.0
+    timeout: 600     # judge swaps in beside gemma3 on 16 GB; loads are slow
+    max_tokens: 2048 # one claim+verbatim quote per answer sentence; 768 truncates the JSON
   groundedness_floor: 0.6
   repair: true
   abstain_on_contradiction: true

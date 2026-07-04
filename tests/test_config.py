@@ -5,11 +5,21 @@ import os
 from sec_llm_project.sec_intel.core.config import AppConfig
 
 
-def test_defaults_offline():
+def test_defaults_are_real_backends_not_mock():
+    # The default stack must be REAL — mock is never a silent default.
     cfg = AppConfig()
+    assert cfg.llm.provider == "ollama"
+    assert cfg.embedding.provider == "nomic"
+    assert cfg.retrieval.use_bm25 and cfg.retrieval.use_dense
+
+
+def test_offline_is_explicit_mock_stack():
+    # Mock is only ever reached by explicitly asking for it.
+    cfg = AppConfig.offline()
     assert cfg.llm.provider == "mock"
     assert cfg.embedding.provider == "hashing"
-    assert cfg.retrieval.use_bm25 and cfg.retrieval.use_dense
+    assert cfg.embedding.dim == 256
+    assert cfg.index.store == "memory"
 
 
 def test_from_dict_builds_nested_dataclasses():
@@ -18,8 +28,8 @@ def test_from_dict_builds_nested_dataclasses():
     assert cfg.llm.provider == "ollama"
     assert cfg.llm.model == "mistral:7b"
     assert cfg.retrieval.rerank is True
-    # untouched fields keep defaults
-    assert cfg.embedding.provider == "hashing"
+    # untouched fields keep defaults (embedding default is the real backend)
+    assert cfg.embedding.provider == "nomic"
 
 
 def test_round_trip():

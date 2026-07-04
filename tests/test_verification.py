@@ -146,7 +146,7 @@ def test_build_verifier_rejects_self_grading_judge():
 
 
 def test_pipeline_attaches_verification_report():
-    cfg = AppConfig()
+    cfg = AppConfig.offline()
     cfg.audit.enabled = False
     cfg.verification.enabled = True
     cfg.verification.groundedness_floor = 0.0  # attach the report without gating
@@ -163,7 +163,7 @@ def test_pipeline_attaches_verification_report():
 
 
 def test_pipeline_gates_when_groundedness_floor_is_high():
-    cfg = AppConfig()
+    cfg = AppConfig.offline()
     cfg.audit.enabled = False
     cfg.verification.enabled = True
     cfg.verification.groundedness_floor = 1.01  # impossible to satisfy -> must abstain

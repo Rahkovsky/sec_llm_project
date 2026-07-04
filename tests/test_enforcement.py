@@ -10,7 +10,7 @@ from sec_llm_project.sec_intel.pipeline import SECIntelPipeline
 
 
 def test_enforcement_benchmark_runs_offline():
-    cfg = AppConfig()
+    cfg = AppConfig.offline()
     cfg.audit.enabled = False
     p = SECIntelPipeline(cfg)
     index_sample_corpus(p)

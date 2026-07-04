@@ -158,6 +158,10 @@ class GroundedAnswerer:
 
         self._apply_verdicts(answer, report, context)
         answer.extra["verification"] = report.to_dict()
+        # Claim verdicts index into `context`, which is otherwise discarded —
+        # persist it so provenance (claim -> evidence) survives the Answer.
+        answer.extra["verification"]["evidence"] = [
+            Citation.from_result(r).to_dict() for r in context]
         if report.total:
             answer.confidence = _clamp(answer.confidence * (0.4 + 0.6 * report.groundedness))
 

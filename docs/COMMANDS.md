@@ -52,9 +52,9 @@ The `config/local.yaml` profile runs entirely on your machine using
 **Nomic embeddings** (sentence-transformers) and **Ollama** for generation.
 No data leaves the host.
 
-> For the full end-to-end local runbook with a live status log (model install,
-> deps, data, full-corpus indexing, querying), see
-> **[LOCAL_SETUP.md](LOCAL_SETUP.md)**.
+> For the staged local runbook, see **[INSTALLATION.md](INSTALLATION.md)** (model
+> install, deps, data, full-corpus indexing) and **[REAL_RUN.md](REAL_RUN.md)**
+> (querying).
 
 **Step 1 — Python packages** (uv handles these):
 
@@ -86,37 +86,6 @@ ollama serve                # keep running in a separate terminal
 > 16-32 GB. `gemma3:27b` (~17 GB) is higher quality but needs **~48 GB+** — on a
 > 32 GB machine it swaps to disk and slows to ~0.1 tok/s (minutes per answer).
 > Pick 12b unless you have the RAM headroom.
-
-> **If `ollama pull` is slow or keeps stalling** — common on high-latency links
-> (cellular hotspots, hotel/airport Wi-Fi) — the bottleneck is *single-stream*
-> TCP, not your raw bandwidth: one connection is throttled by the round-trip
-> latency (the bandwidth-delay product). We measured **40 KB/s single-stream vs
-> 4.5 MB/s with 48 parallel streams** on the same hotspot. Download the GGUF with
-> parallel range requests, then register it with Ollama:
->
-> ```bash
-> # A free Hugging Face *read* token lifts the anonymous rate limit that
-> # throttles many parallel streams: https://huggingface.co/settings/tokens
-> # Put it in .env (git-ignored, stays out of shell history); the tool loads .env.
-> echo 'HF_TOKEN=hf_...' >> .env
->
-> # Parallel-range download (resumable; tune --concurrency to taste, 16-48):
-> python tools/download_gguf.py \
->   --repo MaziyarPanahi/gemma-3-12b-it-GGUF \
->   --file gemma-3-12b-it.Q4_K_M.gguf \
->   --out ~/.ollama/imports/gemma-3-12b-it.Q4_K_M.gguf \
->   --concurrency 48
->
-> # Register the downloaded GGUF as `gemma3:12b`. Ollama auto-detects the gemma3
-> # architecture and applies its built-in chat template; num_ctx widens the
-> # context for long SEC filings.
-> printf 'FROM %s/.ollama/imports/gemma-3-12b-it.Q4_K_M.gguf\nPARAMETER num_ctx 8192\n' "$HOME" > Modelfile
-> ollama create gemma3:12b -f Modelfile
-> ```
->
-> Do **not** set `HF_XET_HIGH_PERFORMANCE=1` — it allocates
-> 64 GB of buffers and degrades on machines with less RAM. Raise/lower
-> `--concurrency` until throughput stops improving (it plateaus at the ceiling).
 
 **Step 4 — Index and query:**
 
@@ -153,8 +122,8 @@ Run exactly what CI runs (`.github/workflows/ci.yml`):
 uv pip install -e ".[dev,yaml]"
 ruff check src tests
 pytest -q
-sec-intel demo
-sec-intel evaluate --demo
+sec-intel-mock demo
+sec-intel-mock evaluate --demo
 ```
 
 ## 3. Run offline (no keys)
@@ -163,24 +132,24 @@ These use the built-in synthetic corpus and the offline mock backend.
 
 ```bash
 # End-to-end demo: grounded answer with citations (the demo scopes to NOVA)
-sec-intel demo
-sec-intel demo --question "What cybersecurity risks does Nova Devices face?"
+sec-intel-mock demo
+sec-intel-mock demo --question "What cybersecurity risks does Nova Devices face?"
 
 # Flagship: Disclosure Change & Risk Signal Monitor
-sec-intel monitor NOVA 2023 2024 --demo
-sec-intel monitor NOVA 2023 2024 --demo | jq '.summary'
+sec-intel-mock monitor NOVA 2023 2024 --demo
+sec-intel-mock monitor NOVA 2023 2024 --demo | jq '.summary'
 
 # Evaluation: retrieval + faithfulness metrics
-sec-intel evaluate --demo
-sec-intel evaluate --demo --json
+sec-intel-mock evaluate --demo
+sec-intel-mock evaluate --demo --json
 
 # Snapshot: diff current metrics against the committed baseline
-sec-intel evaluate --demo --snapshot                        # print per-metric deltas
-sec-intel evaluate --demo --update-baseline                 # rewrite baseline.json
+sec-intel-mock evaluate --demo --snapshot                        # print per-metric deltas
+sec-intel-mock evaluate --demo --update-baseline                 # rewrite baseline.json
 
 # Enforcement-case benchmark (evaluation, not training)
-sec-intel evaluate --demo --enforcement
-sec-intel evaluate --demo --enforcement --json
+sec-intel-mock evaluate --demo --enforcement
+sec-intel-mock evaluate --demo --enforcement --json
 ```
 
 You can also force the offline profile explicitly with any subcommand:
@@ -296,8 +265,8 @@ print(download_filings(['MSFT','TSLA'], ['10-K','10-Q','8-K'], years=[2023, 2024
 ```bash
 # Build the minimal offline image and run the demo
 docker build -t sec-intel .
-docker run --rm sec-intel                         # runs `sec-intel demo`
-docker run --rm sec-intel monitor NOVA 2023 2024 --demo
+docker run --rm sec-intel                         # runs `sec-intel-mock demo`
+docker run --rm sec-intel-mock monitor NOVA 2023 2024 --demo
 
 # Build with the local backends (Nomic embeddings + Chroma). Ollama runs on the
 # host; point the container at it with OLLAMA_BASE_URL.
@@ -343,7 +312,7 @@ export SECI_LLM__PROVIDER=ollama
 export SECI_LLM__MODEL=gemma3:12b
 export SECI_RETRIEVAL__RERANK=true
 export SECI_RETRIEVAL__TOP_K=10
-sec-intel demo                  # picks up SECI_* overlays on top of any --config
+sec-intel-mock demo                  # picks up SECI_* overlays on top of any --config
 ```
 
 Profiles in `config/`:
@@ -396,7 +365,7 @@ regardless of the production judge config.
 
 ```bash
 # The evaluation always measures faithfulness (LexicalJudge fallback):
-sec-intel evaluate --demo
+sec-intel-mock evaluate --demo
 # Output includes: mean_groundedness, fully_grounded_rate, contradiction_rate
 ```
 
@@ -407,9 +376,9 @@ Aggregate metrics (excluding latency, which is environment-dependent) are compar
 — the snapshot is for human review, not a CI gate.
 
 ```bash
-sec-intel evaluate --demo --snapshot              # diff vs baseline, print deltas
-sec-intel evaluate --demo --update-baseline       # rewrite baseline after intentional change
-sec-intel evaluate --demo --snapshot tests/eval/my_baseline.json  # custom path
+sec-intel-mock evaluate --demo --snapshot              # diff vs baseline, print deltas
+sec-intel-mock evaluate --demo --update-baseline       # rewrite baseline after intentional change
+sec-intel-mock evaluate --demo --snapshot tests/eval/my_baseline.json  # custom path
 ```
 
 ### Python API

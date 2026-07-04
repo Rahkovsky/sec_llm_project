@@ -45,10 +45,14 @@ JUDGE_SYSTEM_PROMPT = (
     "judge it ONLY against the numbered EVIDENCE. Respond with JSON: an object with "
     "key 'claims' whose value is a list of objects {claim, verdict, citation, quote}. "
     "'verdict' is exactly one of SUPPORTED, PARTIAL, UNSUPPORTED, CONTRADICTED. "
-    "'citation' is the evidence number that best supports the claim, or null. "
-    "'quote' is a span copied VERBATIM from that evidence (or an empty string). "
+    "For a SUPPORTED or PARTIAL claim, 'citation' MUST be the number of the "
+    "evidence passage that supports it and 'quote' a span copied VERBATIM from "
+    "that passage — a claim you cannot tie to a specific numbered passage is "
+    "UNSUPPORTED (citation null, quote empty). "
     "Never infer beyond the evidence: mark a claim absent from the evidence as "
-    "UNSUPPORTED, and a claim the evidence directly refutes as CONTRADICTED."
+    "UNSUPPORTED. Use CONTRADICTED only when a specific evidence passage directly "
+    "refutes the claim — then 'citation' MUST be that evidence number and 'quote' "
+    "the refuting span. Absence of evidence is UNSUPPORTED, never CONTRADICTED."
 )
 
 # Minimal JSON Schema for schema-constrained providers (and the offline mock).
@@ -60,11 +64,13 @@ JUDGE_SCHEMA: dict = {
             "items": {
                 "type": "object",
                 "properties": {
-                    "claim": {"type": "string"},
-                    "verdict": {"type": "string"},
-                    "citation": {"type": "integer"},
+                    "claim": {"type": "string", "minLength": 1},
+                    "verdict": {"type": "string", "enum": [
+                        "SUPPORTED", "PARTIAL", "UNSUPPORTED", "CONTRADICTED"]},
+                    "citation": {"type": ["integer", "null"]},
                     "quote": {"type": "string"},
                 },
+                "required": ["claim", "verdict", "citation"],
             },
         }
     },

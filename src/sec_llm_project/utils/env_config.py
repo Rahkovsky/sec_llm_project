@@ -21,7 +21,7 @@ def load_environment() -> None:
     local Ollama stack). Existing environment variables are never overridden, so
     an explicit ``export`` still wins.
     """
-    project_root = Path(__file__).parent.parent.parent
+    project_root = Path(__file__).parents[3]  # src/sec_llm_project/utils/ -> repo root
     env_file = project_root / ".env"
     if not env_file.exists():
         return

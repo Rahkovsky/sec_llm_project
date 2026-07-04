@@ -21,7 +21,8 @@ class OllamaLLM:
     """Local inference via an Ollama server (default http://localhost:11434)."""
 
     def __init__(self, model: str, base_url: str = "", temperature: float = 0.0,
-                 max_tokens: int = 768, seed: int = 7, timeout: float = 120.0) -> None:
+                 max_tokens: int = 768, seed: int = 7, timeout: float = 120.0,
+                 num_ctx: int = 8192) -> None:
         self.name = f"ollama:{model}"
         self.model = model
         self.base_url = (base_url or "http://localhost:11434").rstrip("/")
@@ -29,6 +30,7 @@ class OllamaLLM:
         self.max_tokens = max_tokens
         self.seed = seed
         self.timeout = timeout
+        self.num_ctx = num_ctx
 
     def generate(self, messages: list[Message], *, temperature: float | None = None,
                  max_tokens: int | None = None, json_schema: dict[str, Any] | None = None
@@ -40,6 +42,7 @@ class OllamaLLM:
             "options": {
                 "temperature": self.temperature if temperature is None else temperature,
                 "num_predict": self.max_tokens if max_tokens is None else max_tokens,
+                "num_ctx": self.num_ctx,
                 "seed": self.seed,
             },
         }

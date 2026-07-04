@@ -56,7 +56,7 @@ def _write_filing(dir_path, *, with_sidecar: bool):
 
 def test_sidecar_metadata_flows_into_chunks(tmp_path):
     _write_filing(tmp_path / "10-K" / "NOVA", with_sidecar=True)
-    index = IndexBuilder(AppConfig()).build_from_dir(tmp_path / "10-K", persist=False)
+    index = IndexBuilder(AppConfig.offline()).build_from_dir(tmp_path / "10-K", persist=False)
     chunks = index.all_chunks()
 
     assert chunks
@@ -70,7 +70,7 @@ def test_sidecar_metadata_flows_into_chunks(tmp_path):
 
 def test_missing_sidecar_falls_back_to_filename(tmp_path):
     _write_filing(tmp_path / "10-K" / "NOVA", with_sidecar=False)
-    index = IndexBuilder(AppConfig()).build_from_dir(tmp_path / "10-K", persist=False)
+    index = IndexBuilder(AppConfig.offline()).build_from_dir(tmp_path / "10-K", persist=False)
     chunks = index.all_chunks()
 
     assert chunks  # still indexes via metadata_from_filename + live splitting

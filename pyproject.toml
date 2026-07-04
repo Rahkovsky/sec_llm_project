@@ -34,6 +34,9 @@ where = ["src"]
 
 [project.scripts]
 sec-intel = "sec_llm_project.sec_intel.app.cli:main"
+# Dedicated offline entry point: forces the mock LLM + hashing embeddings +
+# synthetic corpus, regardless of --config. No Ollama, no ML/vector deps.
+sec-intel-mock = "sec_llm_project.sec_intel.app.cli:main_mock"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

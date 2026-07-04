@@ -1,4 +1,8 @@
-"""Deterministic, offline mock LLM (default backend).
+"""Deterministic, offline mock LLM (explicit opt-in — never a silent default).
+
+Selected only via ``AppConfig.offline()``, ``config/offline.yaml``,
+``provider: mock``, or the ``sec-intel-mock`` binary. The real backend is the
+default, so a mock answer can never be silently mistaken for a real one.
 
 This backend requires no network or model weights, which keeps the platform
 runnable and unit-testable in CI (plan item 11). It is intentionally simple but

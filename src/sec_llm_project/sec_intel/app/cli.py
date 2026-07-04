@@ -25,8 +25,14 @@ import sys
 from ..core.config import AppConfig
 from ..pipeline import SECIntelPipeline
 
+# Sentinel written by `main(mock=True)` (the `sec-intel-mock` binary) so config
+# resolution returns the explicit offline stack rather than loading a file.
+_OFFLINE_SENTINEL = "<offline>"
+
 
 def _load_config(path: str | None) -> AppConfig:
+    if path == _OFFLINE_SENTINEL:
+        return AppConfig.offline()
     return AppConfig.load(path)
 
 
@@ -41,7 +47,8 @@ def _print_answer(answer) -> None:
         print("Sources:")
         for i, c in enumerate(answer.citations, 1):
             src = c.source_url or c.chunk_id
-            print(f"  [{i}] {c.company} {c.filing_type} {c.filing_date} — "
+            who = c.company if c.company != "UNKNOWN" else c.ticker
+            print(f"  [{i}] {who} {c.filing_type} {c.filing_date} — "
                   f"{c.section_title} (Item {c.item_number}), score={c.score}")
             print(f"      \"{c.quote[:160]}\"  <{src}>")
 
@@ -298,16 +305,42 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: list[str] | None = None) -> int:
-    # Load a repo-root .env first so secrets (HF_TOKEN, SEC_USER_*) and SECI_
-    # overrides come from .env rather than the shell — keeping them out of shell
-    # history. Explicit exports still win.
+# Subcommands that load a real model/embedding backend. For these, running the
+# `sec-intel` binary with no --config used to silently fall back to the mock
+# stack, which looked like a real answer. We now refuse instead and point at the
+# explicit paths: `--config config/local.yaml` (real) or `sec-intel-mock` (mock).
+_MODEL_COMMANDS = frozenset({"ask", "index", "extract", "compare", "monitor", "evaluate", "demo"})
+
+
+def main(argv: list[str] | None = None, *, mock: bool = False) -> int:
+    # Load a repo-root .env first so secrets (SEC_USER_*) and SECI_ overrides come
+    # from .env rather than the shell — keeping them out of shell history. Explicit
+    # exports still win.
     from ...utils.env_config import load_environment
 
     load_environment()
     parser = build_parser()
     args = parser.parse_args(argv)
+
+    if mock:
+        # `sec-intel-mock`: force the explicit offline stack (mock LLM + hashing
+        # embeddings + memory store, zero ML/vector deps). Any user-supplied
+        # --config is ignored so this binary is *always* the mock.
+        args.config = _OFFLINE_SENTINEL
+    elif args.config is None and args.command in _MODEL_COMMANDS:
+        parser.error(
+            f"the '{args.command}' command needs a model backend, so it requires "
+            "an explicit --config.\n"
+            f"  Real (local) stack:  sec-intel --config config/local.yaml {args.command} ...\n"
+            "    Install it first — Ollama + gemma3:12b + embeddings; see docs/INSTALLATION.md.\n"
+            f"  Offline mock (no install, synthetic data):  sec-intel-mock {args.command} ..."
+        )
     return int(args.func(args))
+
+
+def main_mock(argv: list[str] | None = None) -> int:
+    """Entry point for the ``sec-intel-mock`` binary — always the offline mock."""
+    return main(argv, mock=True)
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ from sec_llm_project.sec_intel.pipeline import SECIntelPipeline
 
 
 def _pipeline():
-    cfg = AppConfig()
+    cfg = AppConfig.offline()
     cfg.audit.enabled = False
     p = SECIntelPipeline(cfg)
     index_sample_corpus(p)

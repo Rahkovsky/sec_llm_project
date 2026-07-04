@@ -21,7 +21,7 @@ def test_mrr_and_map():
 
 
 def test_filing_comparison_detects_changes():
-    cfg = AppConfig()
+    cfg = AppConfig.offline()
     cfg.audit.enabled = False
     p = SECIntelPipeline(cfg)
     index_sample_corpus(p)
@@ -34,7 +34,7 @@ def test_filing_comparison_detects_changes():
 
 
 def test_evaluation_runner_produces_metrics():
-    cfg = AppConfig()
+    cfg = AppConfig.offline()
     cfg.audit.enabled = False
     p = SECIntelPipeline(cfg)
     index_sample_corpus(p)

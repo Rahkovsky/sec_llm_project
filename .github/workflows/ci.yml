@@ -32,5 +32,5 @@ jobs:
 
       - name: Smoke-test the offline demo
         run: |
-          sec-intel demo
-          sec-intel evaluate --demo
+          sec-intel-mock demo
+          sec-intel-mock evaluate --demo

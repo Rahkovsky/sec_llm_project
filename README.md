@@ -94,98 +94,26 @@ is *designed to be compatible with a FedRAMP-authorized deployment environment*:
 backends are endpoint-configurable, secrets are read from the environment, no
 data is used for training, and all activity is audit-logged.
 
-## Install
+## Documentation
 
-```bash
-# Install uv (fast Python package manager — https://docs.astral.sh/uv/)
-curl -LsSf https://astral.sh/uv/install.sh | sh   # macOS / Linux
-source $HOME/.local/bin/env                        # add uv to PATH (current shell)
-# brew install uv                                   # macOS Homebrew alternative (no PATH step needed)
-# pip install uv                                    # any platform
+The setup-and-run guides are split into three clear stages — follow them in order
+for the real system:
 
-# Install Python 3.13
-uv python install 3.13                             # uv manages Python versions
-# brew install python@3.13                          # macOS Homebrew alternative
-# or download from https://python.org/downloads/
+| Stage | Doc | What it covers |
+| --- | --- | --- |
+| **1. Installation** | **[docs/INSTALLATION.md](docs/INSTALLATION.md)** | Install all packages **and** the LLM stack (Ollama + gemma3:12b + Nomic/Chroma), download the filings, and build the index. |
+| **2. Mock Run** | **[docs/MOCK_RUN.md](docs/MOCK_RUN.md)** | The `sec-intel-mock` binary — deterministic mock model over a synthetic corpus. Zero dependencies; for tests/CI/plumbing only. **Not a real answer.** |
+| **3. Real Run** | **[docs/REAL_RUN.md](docs/REAL_RUN.md)** | The real `sec-intel` binary — `ask` / `monitor` / `extract` / `compare` over your indexed filings with a real model. |
 
-uv venv --python 3.13     # run AFTER uv python install 3.13 to avoid download prompts
-source .venv/bin/activate
+Reference: **[docs/COMMANDS.md](docs/COMMANDS.md)** (every CLI subcommand, Docker,
+Python API, env overrides).
 
-# Core platform only (stdlib — runs the offline demo, tests, evaluation):
-uv pip install -e .
-
-# Optional backends as needed:
-uv pip install -e ".[embeddings]"    # local Nomic embeddings (sentence-transformers)
-uv pip install -e ".[vectorstore]"   # Chroma persistent vector store
-uv pip install -e ".[sec]"           # EDGAR ingestion (edgartools)
-uv pip install -e ".[observability]" # span tracing -> Arize Phoenix (optional)
-uv pip install -e ".[dev,yaml]"      # tests + YAML config
-```
-
-Configure SEC identity (and any secrets) in `.env` at the repo root — it's
-git-ignored and loaded automatically, so nothing lands in your shell history:
-
-```bash
-# .env
-SEC_USER_NAME="Your Name"          # used to build a compliant EDGAR User-Agent
-SEC_USER_EMAIL="you@org.gov"
-# HF_TOKEN="hf_..."                # optional, only for tools/download_gguf.py
-```
-
-## Quickstart
-
-See **[docs/COMMANDS.md](docs/COMMANDS.md)** for the full, copy-pasteable test &
-run reference (setup, every CLI subcommand, ingestion, Docker, Python API, env
-overrides). For the **fully-local stack** (Ollama gemma3:12b + Nomic, no keys) —
-model install, full-corpus indexing, and a live status log — see
-**[docs/LOCAL_SETUP.md](docs/LOCAL_SETUP.md)**.
-
-```bash
-# Fully offline, no keys: indexes a built-in synthetic corpus and answers a
-# grounded question with citations.
-sec-intel demo
-
-# The flagship monitor over the synthetic corpus:
-sec-intel monitor NOVA 2023 2024 --demo
-
-# Retrieval + faithfulness metrics (LexicalJudge; no keys required):
-sec-intel evaluate --demo
-
-# Snapshot: compare metrics against the committed baseline in tests/eval/baseline.json
-sec-intel evaluate --demo --snapshot
-
-# Enforcement-case benchmark (evaluation, not training):
-sec-intel evaluate --demo --enforcement
-```
-
-With real filings, using the local stack (`config/local.yaml` — Ollama + Nomic).
-**First activate the venv** so `sec-intel` is on your PATH (`source .venv/bin/activate`
-— do this in every new terminal), and make sure **Ollama is running**.
-
-> **Index and query with the same config.** The embedder that *built* the index
-> and the one used to *query* must match, or you'll get an `Embedding mismatch`
-> error. Use `config/local.yaml` for both `index` and `ask`/`monitor`/`extract`/`compare`.
-
-```bash
-source .venv/bin/activate
-
-# 1) Download official filings — multi-form, multi-year (rate-limited, compliant UA).
-#    Two+ consecutive years are needed for the year-over-year monitor/compare.
-sec-intel fetch MSFT TSLA --forms 10-K 10-Q 8-K --years 2023-2025
-
-# 2) Build an index from a downloaded form directory
-sec-intel --config config/local.yaml index data/input/10-K
-
-# 3) Ask a grounded question (cited, with confidence + abstention)
-sec-intel --config config/local.yaml ask \
-  "Summarize liquidity risks for Tesla with citations." --ticker TSLA
-
-# 4) Monitor disclosure changes between two years (the flagship)
-sec-intel --config config/local.yaml monitor MSFT 2024 2025
-
-# 5) Structured, citation-grounded extraction
-sec-intel --config config/local.yaml extract risk_factors --ticker MSFT
-```
+> ⚠️ **Two separate binaries — the real one never silently mocks.** `sec-intel`
+> runs the real local stack and **requires** `--config config/local.yaml`;
+> model-using commands refuse to run without it rather than degrade to a fake
+> model. The deterministic mock (`model: mock-1`, synthetic "Nova Devices" corpus)
+> is a *different* binary, **`sec-intel-mock`**. You only get mock output if you
+> explicitly ask for it.
 
 ## Flagship: Disclosure Change & Risk Signal Monitor
 
@@ -199,11 +127,10 @@ citation-grounded):
 - **optional XBRL financial context** (SEC company-facts hook),
 - a **summary** with counts and a going-concern flag.
 
-```bash
-sec-intel monitor NOVA 2023 2024 --demo | jq '.summary'
-# { "new_risk_factors": 2, "new_litigation_disclosures": 1,
-#   "risk_signals": 3, "going_concern": false }
-```
+Run it on real filings via **[docs/REAL_RUN.md](docs/REAL_RUN.md)**
+(`sec-intel --config config/local.yaml monitor MSFT 2024 2025`), or try it against
+the synthetic corpus with the mock via **[docs/MOCK_RUN.md](docs/MOCK_RUN.md)**
+(`sec-intel-mock monitor NOVA 2023 2024 --demo`).
 
 ## Evaluation (not training)
 
@@ -226,12 +153,10 @@ The evaluation suite measures the system, it does not learn from labels:
   evaluate real entities, index their filings and provide cases via
   `--cases cases.json`.
 
-```bash
-sec-intel evaluate --demo                         # retrieval + faithfulness metrics
-sec-intel evaluate --demo --snapshot              # diff vs committed baseline
-sec-intel evaluate --demo --update-baseline       # rewrite baseline after intentional changes
-sec-intel evaluate --demo --enforcement --json    # enforcement benchmark
-```
+Run the harness over the synthetic corpus (mock) via
+**[docs/MOCK_RUN.md](docs/MOCK_RUN.md)** (`sec-intel-mock evaluate --demo`), or over
+your real index via **[docs/REAL_RUN.md](docs/REAL_RUN.md)**
+(`sec-intel --config config/local.yaml evaluate --load-index`).
 
 ## Architecture
 
@@ -249,7 +174,7 @@ src/sec_llm_project/sec_intel/
 ├── monitor/      # Disclosure Change & Risk Signal Monitor (flagship)
 ├── evaluation/   # metrics + curated set + enforcement benchmark
 ├── ingest/       # rate-limited EDGAR download (fair-access, UA)
-├── app/cli.py    # sec-intel command-line demo
+├── app/cli.py    # sec-intel command-line interface
 └── pipeline.py   # SECIntelPipeline facade wiring everything from one config
 ```
 

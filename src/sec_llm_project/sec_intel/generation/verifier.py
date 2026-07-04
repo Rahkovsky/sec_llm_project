@@ -144,8 +144,8 @@ def _parse_claims(text: str, *, n_evidence: int) -> list[ClaimVerdict]:
         return []
     out: list[ClaimVerdict] = []
     for raw in data.get("claims", []):
-        if not isinstance(raw, dict):
-            continue
+        if not isinstance(raw, dict) or not str(raw.get("claim", "")).strip():
+            continue  # an entry with no claim text is judge noise, not a claim
         verdict = str(raw.get("verdict", "")).upper()
         if verdict not in _VERDICTS:
             verdict = UNSUPPORTED
@@ -177,9 +177,15 @@ class CitationVerifier:
             # the supporting quote isn't actually in the cited source, or the claim
             # asserts a figure that does not appear in the cited source (a numeric
             # hallucination that surface-overlap/entailment judges tend to miss).
-            if cv.verdict in (SUPPORTED, PARTIAL) and cv.citation is not None and (
-                not cv.valid_quote or not cv.numeric_ok
+            # Support must name its source: SUPPORTED/PARTIAL requires a citation
+            # whose quote/figures actually check out, else it is unverifiable.
+            if cv.verdict in (SUPPORTED, PARTIAL) and (
+                cv.citation is None or not cv.valid_quote or not cv.numeric_ok
             ):
+                cv.verdict = UNSUPPORTED
+            # A contradiction must point at the refuting evidence; "contradicted
+            # by nothing" is judge shorthand for absent-from-evidence.
+            if cv.verdict == CONTRADICTED and cv.citation is None:
                 cv.verdict = UNSUPPORTED
         return VerificationReport(claims=claims, judge_model=self.judge.name)
 
