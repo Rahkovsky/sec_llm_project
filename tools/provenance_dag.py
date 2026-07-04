@@ -72,9 +72,12 @@ def main() -> int:
             (d / "answer.json").write_text(answer.to_json())
             (d / "dag.json").write_text(dag.to_json())
             (d / "dag.dot").write_text(dag.to_dot())
+            (d / "dag.html").write_text(dag.to_html(qid))
             if dot:
-                subprocess.run([dot, "-Tpng", str(d / "dag.dot"), "-o", str(d / "dag.png")],
-                               check=False)
+                subprocess.run([dot, "-Tpng", "-Gdpi=170", str(d / "dag.dot"),
+                                "-o", str(d / "dag.png")], check=False)
+                subprocess.run([dot, "-Tpdf", str(d / "dag.dot"),
+                                "-o", str(d / "dag.pdf")], check=False)  # vector, for slides
             rows = dag.mistake_table()
             if rows:
                 with open(d / "mistakes.csv", "w", newline="") as fh:

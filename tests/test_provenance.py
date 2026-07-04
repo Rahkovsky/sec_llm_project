@@ -5,7 +5,7 @@ import pytest
 from sec_llm_project.sec_intel.core.config import AppConfig
 from sec_llm_project.sec_intel.evaluation.dataset import index_sample_corpus
 from sec_llm_project.sec_intel.pipeline import SECIntelPipeline
-from sec_llm_project.sec_intel.provenance import build_dag
+from sec_llm_project.sec_intel.provenance import ProvenanceDAG, build_dag
 
 
 def _answer():
@@ -40,6 +40,15 @@ def test_abstained_answer_builds_rejected_conclusion_without_report():
     dag = build_dag(a)
     assert dag.node("a").type == "rejected_conclusion"
     assert dag.summary()["rejected_conclusion"] == "weak evidence"
+
+
+def test_from_dict_roundtrip_and_html():
+    dag = build_dag(_answer().to_dict())
+    back = ProvenanceDAG.from_dict(dag.to_dict())
+    assert len(back.nodes) == len(dag.nodes) and len(back.edges) == len(dag.edges)
+    html = dag.to_html("t")
+    assert "vis-network" in html and '"id": "a"' in html
+    assert "supply chain" in html.lower()  # question surfaces in the header
 
 
 def test_dag_requires_verification():
