@@ -49,6 +49,28 @@ def _wrap(text: str, width: int = 34, max_lines: int = 3) -> str:
     return "\n".join(lines)
 
 
+def _dot_html(text: str) -> str:
+    """Escape text for a Graphviz HTML-like label; \\n -> <BR/>."""
+    text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    return text.replace("\n", "<BR/>")
+
+
+def _node_html(head: str, body: str, quote: str = "", max_lines: int = 4) -> str:
+    """Graphviz HTML-like node label: bold header, plain body, and — for a
+    supported claim — the verified filing quote in smaller italic gray. The quote
+    is the visible proof that the claim is grounded. ``max_lines`` caps the body
+    (pass a large value for conclusions, which must not be cut)."""
+    parts = [f"<B>{_dot_html(head)}</B>"]
+    if body:
+        parts.append(_dot_html(_wrap(body, 40, max_lines)))
+    label = "<BR/>".join(parts)
+    if quote:
+        q = _dot_html(_wrap(quote, 46, 6))
+        label += (f'<BR/> <BR/><FONT POINT-SIZE="9" COLOR="#475569">'
+                  f'<I>“{q}”</I></FONT>')
+    return label
+
+
 @dataclass
 class Node:
     id: str
@@ -95,42 +117,58 @@ class ProvenanceDAG:
             g.add_edge(e.source, e.target, type=e.type)
         return g
 
-    def to_dot(self) -> str:
+    def to_dot(self, show_uncited: bool = False) -> str:
         """Slide-quality Graphviz DOT (render: `dot -Tpdf` / `-Tpng -Gdpi=170`).
 
-        Same visual language as ``to_html``: evidence → claims → conclusion,
-        verdict badges, dashed muted style for retrieved-but-uncited evidence.
-        The question goes in the figure caption, not the graph.
+        Reading left→right: cited evidence → claims → conclusion. Each claim
+        carries the *verified quote* the judge matched into the cited filing —
+        that quote is the proof of support, so it belongs on the claim, not a
+        truncated chunk snippet. Retrieved-but-uncited evidence is collapsed to a
+        single note by default (``show_uncited=True`` restores them, dashed) so
+        the slide shows what the answer *used*, not everything the retriever saw.
         """
         cited = {e.source for e in self.edges if e.type in _EDGE_FOR_VERDICT.values()}
         q = self.node("q")
-        cap = (q.text.replace('"', "'") if q else "")
+        cap = _dot_html(_wrap(q.text if q else "", 90, 2))
         out = ["digraph provenance {",
-               '  rankdir=LR; splines=true; nodesep=0.35; ranksep=1.1; bgcolor=white;',
-               f'  label="{cap}"; labelloc=t; fontname="Helvetica"; fontsize=15;',
+               '  rankdir=LR; splines=true; nodesep=0.30; ranksep=1.4; bgcolor=white;',
+               f'  label=<<B>{cap}</B>>; labelloc=t; fontname="Helvetica"; fontsize=15;',
                '  node [shape=box, style="rounded,filled", fontname="Helvetica",'
-               ' fontsize=11, penwidth=1.4, margin="0.16,0.1"];',
+               ' fontsize=11, penwidth=1.4, margin="0.18,0.12"];',
                '  edge [fontname="Helvetica", fontsize=9, arrowsize=0.7, color="#94a3b8"];']
+        n_uncited = 0
         for n in self.nodes:
             if n.type == "question":
                 continue
+            if n.type == "evidence_span" and n.id not in cited and not show_uncited:
+                n_uncited += 1
+                continue
             fill, border = _PALETTE.get(n.meta.get("verdict", ""),
                                         _PALETTE.get(n.type, ("#ffffff", "#666666")))
-            head = {"evidence_span": n.meta.get("source", "evidence"),
-                    "atomic_claim": _BADGE.get(n.meta.get("verdict", ""), "claim"),
-                    "final_conclusion": "Conclusion",
-                    "rejected_conclusion":
-                        f"Rejected — {n.meta.get('reason', '')}"}[n.type]
-            style = ', style="rounded,filled,dashed"' if (
+            quote, max_lines = "", 4
+            if n.type == "evidence_span":  # provenance anchor: source, no misleading snippet
+                head, body = n.meta.get("source", "evidence"), ""
+                if n.id not in cited:
+                    fill, border = "#f8fafc", "#94a3b8"
+            elif n.type == "atomic_claim":  # claim + the verified quote (the proof)
+                head, body = _BADGE.get(n.meta.get("verdict", ""), "claim"), n.text
+                quote = (n.meta.get("quote") or "").strip()
+            else:  # conclusion: the answer itself — never truncate it
+                head = {"final_conclusion": "Conclusion",
+                        "rejected_conclusion":
+                            f"Rejected — {n.meta.get('reason', '')}"}[n.type]
+                body, max_lines = n.text, 999
+            dash = ', style="rounded,filled,dashed"' if (
                 n.type == "evidence_span" and n.id not in cited) else ""
-            if style:  # retrieved but uncited: muted
-                fill, border = "#f8fafc", "#94a3b8"
-            label = (head.replace('"', "'") + r"\n"
-                     + _wrap(n.text, 38, 3).replace('"', "'").replace("\n", r"\n"))
-            out.append(f'  "{n.id}" [label="{label}", fillcolor="{fill}", '
-                       f'color="{border}"{style}];')
+            out.append(f'  "{n.id}" [label=<{_node_html(head, body, quote, max_lines)}>, '
+                       f'fillcolor="{fill}", color="{border}"{dash}];')
+        if n_uncited:  # one honest note instead of N noise boxes
+            out.append(f'  "uncited" [label="+{n_uncited} more chunks retrieved,\\n'
+                       f'not cited by any claim", shape=note, fontsize=9, '
+                       f'fillcolor="#f8fafc", color="#cbd5e1", fontcolor="#94a3b8"];')
         for e in self.edges:
-            if e.type == "answers":
+            if e.type == "answers" or (e.source not in cited and e.source.startswith("e")
+                                       and not show_uncited and e.type != "part_of_answer"):
                 continue
             if e.type in _EDGE_FOR_VERDICT.values():
                 border = _PALETTE[
@@ -164,9 +202,16 @@ class ProvenanceDAG:
                     "atomic_claim": _BADGE.get(n.meta.get("verdict", ""), "claim"),
                     "final_conclusion": "Conclusion",
                     "rejected_conclusion": f"Rejected — {n.meta.get('reason', '')}"}[n.type]
+            # Claim label carries its verified quote — the visible proof of support.
+            # Conclusion nodes show the full answer (never truncated).
+            body = _wrap(n.text, 40, 999) if "conclusion" in n.type else _wrap(n.text)
+            quote = (n.meta.get("quote") or "").strip()
+            if n.type == "atomic_claim" and quote:
+                body += '\n— filing: “' + _wrap(quote, 34, 4) + '”'
+            tip = (n.text + (f"\n\nverified quote:\n{quote}" if quote else ""))[:800]
             node = {"id": n.id, "level": level[n.type],
-                    "label": f"*{head}*\n{_wrap(n.text)}",
-                    "title": n.text[:600], "shape": "box",
+                    "label": f"*{head}*\n{body}",
+                    "title": tip, "shape": "box",
                     "color": {"background": fill, "border": border}}
             if n.type == "evidence_span" and n.id not in cited:  # retrieved, unused
                 node["color"] = {"background": "#f8fafc", "border": "#cbd5e1"}

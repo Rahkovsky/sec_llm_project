@@ -25,7 +25,7 @@ def main() -> int:
 
     dot = shutil.which("dot")
     written = 0
-    for jf in sorted(Path(args.out).glob("finder_*/dag.json")):
+    for jf in sorted(Path(args.out).glob("*/dag.json")):
         dag = ProvenanceDAG.from_dict(json.loads(jf.read_text()))
         d = jf.parent
         (d / "dag.html").write_text(dag.to_html(d.name))

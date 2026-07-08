@@ -66,11 +66,16 @@ def chunk_texts(out_dir: Path, needed: set[str]) -> dict[str, str]:
 
 def classify(row: dict) -> str:
     """Attribute the dominant error source for one question."""
+    if not row.get("answerable", True):  # placebo / negative control
+        return ("unanswerable: correctly abstained" if row["abstained"]
+                else "unanswerable: CONFABULATED")
     if row["abstained"]:
         return ("retrieval miss -> abstained" if row["ev_recall"] is not None
                 and row["ev_recall"] < 0.5 else "abstained (gate/judge)")
     if row["ev_recall"] is not None and row["ev_recall"] < 0.5 and row["unsupported"]:
         return "retrieval miss -> ungrounded claims"
+    if row["wrong_period"]:
+        return "wrong-period evidence"
     if row["contradicted"]:
         return "generation: contradicted claim"
     if row["unsupported"]:
@@ -92,7 +97,7 @@ def main() -> int:
 
     cases = {c["id"]: c for c in json.loads(Path(args.cases).read_text())}
     answers = {p.parent.name: json.loads(p.read_text())
-               for p in sorted(Path(args.out).glob("finder_*/answer.json"))}
+               for p in sorted(Path(args.out).glob("*/answer.json"))}
     if not answers:
         print("no answers found")
         return 1
@@ -121,8 +126,19 @@ def main() -> int:
         ev_recall = (sum(any(token_recall(t, p) >= 0.5 for t in ev_texts) for p in gold)
                      / len(gold)) if gold else None
 
+        # Wrong-period proxy: a year named in the question vs cited filing dates
+        # (±1y: the 10-K for fiscal t is filed early t+1). 19xx matters: asking
+        # about a pre-coverage year is exactly how period-blindness shows up.
+        year_m = re.search(r"\b((?:19|20)\d{2})\b", a["question"])
+        wrong_period = sum(
+            abs(int(c["filing_date"][:4]) - int(year_m.group(1))) > 1
+            for c in a["citations"] if c.get("filing_date", "")[:4].isdigit()
+        ) if year_m else 0
+
         row = {"id": qid, "ticker": cases.get(qid, {}).get("ticker", ""),
                "question": a["question"], "abstained": a["abstained"],
+               "answerable": cases.get(qid, {}).get("answerable", True),
+               "wrong_period": wrong_period, "year_named": bool(year_m),
                "claims": len(claims),
                "supported": sum(c["verdict"] == "SUPPORTED" for c in claims),
                "partial": sum(c["verdict"] == "PARTIAL" for c in claims),
@@ -161,6 +177,14 @@ def main() -> int:
     print("DAG-level:")
     print(f"  weighted claim error rate:           {fmt(wcer)}")
     print(f"  hardened-qualifier claims:           {sum(r['hardened'] for r in rows)}")
+    unans = [r for r in rows if not r["answerable"]]
+    if unans:
+        ok = sum(r["abstained"] for r in unans)
+        print(f"  correct abstention (placebos):       {ok}/{len(unans)}")
+    yearq = [r for r in rows if r["year_named"] and not r["abstained"]]
+    if yearq:
+        bad = sum(bool(r["wrong_period"]) for r in yearq)
+        print(f"  wrong-period answers (year-named):   {bad}/{len(yearq)}")
     print("error sources:")
     for src in sorted({r["error_source"] for r in rows}):
         print(f"  {src:38s} {sum(r['error_source'] == src for r in rows)}")
