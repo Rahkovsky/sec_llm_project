@@ -231,3 +231,97 @@ because each sub-fact must independently survive evidence-only re-answering. It 
 also a natural fit for the numeric checker (the re-answers are often figures).
 Cost is the main caveat (several LLM calls per answer), so scope it to the eval
 harness / spot checks first, not the live answer path.
+
+---
+
+## 8. Undersized-context truncation is invisible on the generator side
+
+**Status:** open · **Area:** `llm/providers.py` (`OllamaLLM.generate`), `llm/base.py`
+(`GenerationResult`), `core/config.py` (`LLMConfig.num_ctx`)
+
+### Symptom
+
+`num_ctx: 8192` and the judge's `num_predict: 2048` (`config/local.yaml`) are
+constants a person derived once by hand — 8 chunks × 3,600 characters plus prompt
+for the generator, answer + evidence for the judge (`docs/READING.md` §3.4) — and
+hard-coded. Nothing at runtime checks that an actual rendered prompt still fits
+inside `num_ctx`, and nothing checks whether a response was cut short. On the
+judge side this is partly self-defense: a verdict truncated mid-JSON parses as
+zero claims, which the pipeline already surfaces explicitly rather than silently
+treating as "nothing to verify." The generator side has no equivalent — a prompt
+that silently exceeds `num_ctx` does not error, so a generator that never saw half
+its evidence just drifts off-topic, indistinguishable from ordinary model
+weakness.
+
+### Root cause
+
+Two gaps, one in each direction:
+
+1. **The budget is a hand-set constant, not a derived one.** `num_ctx` does not
+   depend on `retrieval.top_k` or the configured chunk size at runtime — it is a
+   number someone computed and typed into `core/config.py` / `config/local.yaml`.
+   Change `top_k` or chunk size later and `num_ctx` goes stale silently; nothing
+   asserts the arithmetic still holds.
+2. **The signal to detect truncation already exists and is discarded.**
+   `GenerationResult` (`llm/base.py`) has `finish_reason` and `usage` fields
+   specifically for this, but `OllamaLLM.generate` never populates them — it
+   returns `GenerationResult(text=text, model=self.model, raw=body)` and drops
+   `raw` on the floor everywhere else. Ollama's `/api/chat` response already
+   carries `done_reason` (`"length"` means the output budget cut it off) and
+   `prompt_eval_count` (tokens the server actually consumed from the prompt,
+   comparable against the prompt's own expected token count to catch input-side
+   truncation) — both currently unread.
+
+### Proposed fix
+
+- In `OllamaLLM.generate`, populate `finish_reason` from `body["done_reason"]` and
+  `usage` from `body["prompt_eval_count"]` / `body["eval_count"]` instead of
+  discarding them into `raw`.
+- Downstream, log (and for the judge, treat like the existing zero-claims case)
+  whenever `finish_reason != "stop"`, and warn when `prompt_eval_count` is
+  materially below the prompt's own estimated token count — the generator-side
+  detector this project currently lacks.
+- Derive `num_ctx` from `retrieval.top_k` and the configured chunk size at
+  `AppConfig` load time instead of hand-copying the arithmetic into a constant,
+  so a config change can't silently invalidate the budget it was sized for.
+
+---
+
+## 9. The verbatim-quote check verifies existence, not relevance
+
+**Status:** open · **Area:** `generation/verifier.py` (`CitationVerifier._quote_in_source`,
+`prompts.JUDGE_SCHEMA`)
+
+### The gap
+
+`_quote_in_source` checks only that `quote` is a literal substring of the cited
+chunk — nothing checks that the quote actually has anything to do with the
+claim it's supposed to support. `JUDGE_SCHEMA`'s `quote` field has no
+`minLength`. Verified directly against the real `CitationVerifier` code: pairing
+a nonsense claim ("Adobe plans to relocate its headquarters to the moon by
+2030.") with the one-word quote `"risk"` against a real Adobe cybersecurity
+chunk produces a final verdict of **SUPPORTED** — `valid_quote=True` because
+"risk" is trivially a substring of the chunk, and nothing downstream asks
+whether "risk" supports the claim. Same result for `"a"` and `"and"`.
+
+In the actual 260-question run this has not been observed: the shortest
+verified quote across 1,043 real claims is 11 characters / 3 words
+(`"SLR 7.3 8.0"`, `"and our company culture"`), and the judge (Mistral) simply
+doesn't choose to write single-word quotes in practice. So the gap is real but
+currently latent — closed by the judge's own behavior, not by anything the
+system enforces. A more adversarial or more degraded judge model would not be
+caught here.
+
+### Proposed direction
+
+- A minimum specificity floor on `quote`: require some non-stopword count
+  (e.g. ≥4) or a minimum character length, rejecting quotes too short to be
+  evidentially meaningful regardless of substring validity.
+- Better: require keyword overlap between `quote` and `claim` — the
+  `_keywords()` / `_STOPWORDS` machinery already exists in this file (used by
+  `LexicalJudge._best_quote`) and could be reused to assert the quote actually
+  shares vocabulary with the claim it's supposed to prove, not just that it
+  exists somewhere in the chunk.
+- Worth pairing with human-eval (`docs/HUMAN_EVAL.md`): spot-check whether any
+  currently-SUPPORTED claims in the real run have quotes that are technically
+  verbatim but weakly relevant, short of the one-word extreme.
