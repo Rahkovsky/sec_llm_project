@@ -122,6 +122,23 @@ def main() -> int:
         todo = [(a, fp) for a, fp in todo if fp.parent.name in keep]
         print(f"--tickers-from: {len(todo)} new filings for {len(keep)} tickers; "
               f"{len(skipped)} left for a later run", flush=True)
+    # Resume: chunks.jsonl is only rewritten by finalize_index at the end, so filings
+    # embedded by an interrupted run are in Chroma but not in `have`. Re-chunk each
+    # pending filing (cheap, no embedding) and skip it when Chroma already holds all
+    # of its chunks; a partial filing (killed mid-insert) is deleted and redone.
+    resumed, pending = 0, []
+    for a, fp in todo:
+        n_in = len(col.get(where={"accession": a}, include=[])["ids"])
+        if n_in:
+            _md, chunks = file_chunks(fp, builder.chunker)
+            if n_in == len(chunks):
+                resumed += 1
+                continue
+            col.delete(where={"accession": a})
+        pending.append((a, fp))
+    if resumed:
+        print(f"resume: {resumed} filings already embedded by an earlier run", flush=True)
+    todo = pending
     print(f"new filings to embed: {len(todo)} "
           f"{dict(Counter(_infer_filing_type(fp, '10-K') for _, fp in todo))}", flush=True)
     buf, done, t0 = [], 0, time.time()

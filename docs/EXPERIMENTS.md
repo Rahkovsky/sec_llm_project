@@ -1016,7 +1016,51 @@ both runs repaired answers against this check.
 confirm it on the full 266 questions after the index update (unsupported share and
 placebos are the numbers to watch).
 
-## 16. Not yet done / open
+## 16. Run time: resumable index update, timing log, model-grouped evals (Nov 13)
+
+The full eval runs take ~2.3 min per question (~10 h for 266), while the
+generator call itself is ~22 s. On the 16 GB machine only one of the generator
+(gemma4:12b, 7.7 GB) and the judge (qwen3:14b, 9.3 GB) fits in memory, and a
+question alternates between them several times: HyDE rewrite and answer
+(generator), claim verification and qualifier check (judge), and for some
+questions a repair (generator) and its re-check (judge). The likely cost is the
+model reloads. No run has been made with the changes below yet (the machine was
+needed for other work); they are ready for the next run.
+
+**Index update resumes.** `tools/update_index.py` decided what was already
+indexed from `chunks.jsonl`, which is only rewritten at the end, so the Nov 13
+update stopped at 15:10 would have restarted from zero. It now re-chunks each
+pending filing (no embedding) and skips it when Chroma already holds all of its
+chunks; a partly inserted filing is deleted and redone. On `data/sec_index_v4`:
+156 of the 281 new 10-Ks were complete, 0 partial, 127 left (~2.5 h instead of ~6 h).
+
+**Timing log.** The Ollama provider records every call: model, calling stage
+(e.g. `verify`, `check`, `_repair_qualifiers`), time queued, wall time, and
+Ollama's own load / prompt / generation durations and token counts.
+`tools/provenance_dag.py` writes them to `<qid>/timings.json`, so the next run
+shows how much of a question's time is model loading.
+
+**Model-grouped evals (`--workers N`).** Several questions run in parallel
+threads, and `providers.ModelScheduler` orders their LLM calls: it serves every
+waiting request for the loaded model first and switches only when every worker
+is waiting on the other model, choosing the model most of them wait for. Each
+answer makes exactly the same calls in the same order (only the order across
+questions changes), so the outputs are those of a serial run up to the
+run-to-run noise of §10. Shared state was made safe for threads: the
+retriever's per-call outputs (`last_period`, `last_expansions`,
+`last_latency_ms`) are thread-local, BM25 loads once before the threads start,
+and embedder calls are serialized. In a simulation with the eval's call pattern
+(`tests/test_scheduler.py`), 48 questions need 128 model switches serially, 32
+with 4 workers, 18 with 8 and 10 with 16.
+
+**Placebo labels.** `eval/placebo_labels.json`: hand labels for the 6 placebos
+in v3, v3_gold and v4. None of the 18 answers asserts the false premise; 13 are
+formally abstained, the other 5 refuse in prose (two of them in v4 add a true,
+cited fact that does not depend on the premise). By substance every run is 6/6;
+the counters (v3 6/6 and v3_gold 6/6 with the widened meta rule, v4 4/6)
+measure the form of the refusal, not its correctness.
+
+## 17. Not yet done / open
 
 | Item | Status |
 |---|---|
@@ -1033,5 +1077,6 @@ placebos are the numbers to watch).
 | End-to-end run with all fixes, v3 and v3_gold | Done (§9, §10) |
 | End-to-end v4 (v3 + qualifier rule/check v2/repair + soft period filter) | Done (§14): real dropped qualifiers 14 → 4; answers 17% longer |
 | Answer length after the qualifier rule | Done on 56 questions (§15): brevity rule cuts words 224 → 149 and doubles clean answers; full 266-question run pending |
-| Placebo metric | Open: label refusals by whether the false premise is asserted, not by abstained/meta-only (§14) |
-| Remaining 281 v3 10-Ks (non-eval tickers) | Embedding into `data/sec_index_v4` (COW clone of v3), started Nov 13 11:00, ~3.7 chunks/s |
+| Placebo metric | Hand labels done (§16): 18/18 correct in substance. Open: an automatic premise-asserted check for new runs |
+| Remaining 281 v3 10-Ks (non-eval tickers) | Stopped Nov 13 15:10 with 156 done; update now resumes (§16), 127 left (~2.5 h) |
+| Model-grouped eval runs | Implemented (§16), not yet run: time a run with `--workers 8` against the serial timing log |

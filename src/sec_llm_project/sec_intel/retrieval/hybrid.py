@@ -8,6 +8,7 @@ returned result exposes its per-retriever score components for transparency
 
 from __future__ import annotations
 
+import threading
 import time
 from typing import Any
 
@@ -47,13 +48,39 @@ def _mean_unit(vecs: list[list[float]]) -> list[float]:
 
 
 class HybridRetriever:
+    # Per-call outputs read back by the caller after retrieve(). Thread-local, so
+    # concurrent questions (tools/provenance_dag.py --workers) do not see each other's.
+    @property
+    def last_period(self) -> list[str] | None:
+        return getattr(self._tls, "period", None)
+
+    @last_period.setter
+    def last_period(self, v: list[str] | None) -> None:
+        self._tls.period = v
+
+    @property
+    def last_expansions(self) -> list[str]:
+        return getattr(self._tls, "expansions", [])
+
+    @last_expansions.setter
+    def last_expansions(self, v: list[str]) -> None:
+        self._tls.expansions = v
+
+    @property
+    def last_latency_ms(self) -> float:
+        return getattr(self._tls, "latency_ms", 0.0)
+
+    @last_latency_ms.setter
+    def last_latency_ms(self, v: float) -> None:
+        self._tls.latency_ms = v
+
     def __init__(self, index: SECIndex, embedder: Embedder,
                  config: RetrievalConfig | None = None, reranker: Any = None,
                  expander: Any = None) -> None:
         self.index = index
         # Optional query expander (retrieval/rewrite.py): expand(query, filters) -> [texts]
         self.expander = expander
-        self.last_expansions: list[str] = []
+        self._tls = threading.local()
         self.embedder = embedder
         self.config = config or RetrievalConfig()
         self._reranker = reranker
@@ -62,8 +89,6 @@ class HybridRetriever:
         # full index, seconds per query); repeated tickers reuse the set.
         self._allowed_cache: dict[str, frozenset[str]] = {}
         self._years_by_ticker: dict[str, set[str]] | None = None
-        self.last_period: list[str] | None = None
-        self.last_latency_ms: float = 0.0
 
     def _period_years(self, query: str, filters: dict[str, Any] | None) -> list[str] | None:
         """Fiscal years of the period named in a question about one ticker, or None."""
