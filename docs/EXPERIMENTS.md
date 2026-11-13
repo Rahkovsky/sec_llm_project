@@ -1024,8 +1024,8 @@ generator call itself is ~22 s. On the 16 GB machine only one of the generator
 question alternates between them several times: HyDE rewrite and answer
 (generator), claim verification and qualifier check (judge), and for some
 questions a repair (generator) and its re-check (judge). The likely cost is the
-model reloads. No run has been made with the changes below yet (the machine was
-needed for other work); they are ready for the next run.
+model reloads. The timing run at the end of this section shows that guess was
+wrong: loads are 7% of the time.
 
 **Index update resumes.** `tools/update_index.py` decided what was already
 indexed from `chunks.jsonl`, which is only rewritten at the end, so the Nov 13
@@ -1060,6 +1060,48 @@ cited fact that does not depend on the premise). By substance every run is 6/6;
 the counters (v3 6/6 and v3_gold 6/6 with the widened meta rule, v4 4/6)
 measure the form of the refusal, not its correctness.
 
+**Timing run (16 questions, v5, from cold models).** FinDER `finder_0001`–`0016`
+(`out/timing/`), once serially and once with `--workers 8`:
+
+| | Serial | 8 workers |
+|---|---|---|
+| Elapsed | 1954 s (122 s/question) | 1663 s (104 s/question) |
+| Model switches | 32 | 4 |
+| Model load time (Ollama `load_duration`, all calls) | 143 s | 27 s |
+| Prompt processing | 687 s | 643 s |
+| Token generation | 905 s | 892 s |
+| Outside the LLM (retrieval, embedding, quote check) | 216 s | hidden behind LLM calls |
+
+Each v5 question makes three LLM calls: the HyDE rewrite (generator, ~160
+prompt tokens, ~90 out), the answer (generator, ~2,400 prompt tokens, ~175 out)
+and the claim judge (judge, ~2,500 prompt tokens, ~520 out). A model load takes
+only ~4.5 s because both models stay in the file cache. The time goes to
+prompt processing at ~120 tokens/s for both models, and to the judge's
+generation at ~12 tokens/s (the generator's is ~20 tokens/s): the judge alone
+is 63% of LLM time. `--workers 8` saves 15%, by removing most loads and running
+retrieval while another question is on the LLM; it cannot do more, because
+Ollama serves one request at a time here. The levers that remain are faster
+prompt processing (Ollama flash attention / KV-cache settings), a shorter judge
+output, and fewer judge tokens per claim.
+
+Answers: 2 of 16 are word-for-word the same in the two runs, against about half
+between two serial runs (§10); claims 86 vs 87, judge support 0.744 vs 0.770.
+Whether concurrent requests add to the run-to-run noise is not settled by 16
+questions; the quality numbers are within noise.
+
+**Automatic placebo check (`tools/placebo_check.py`, issue #2).** Each placebo
+case in `eval/gold_plus_placebo.json` now has a `confabulation` field, a short
+description of what a wrong answer would claim (e.g. "gives an AWS revenue figure
+for the single day March 3, 2024"). The judge model is asked whether the answer
+makes that claim; an abstained answer needs no call. Against the 18 hand labels
+above it agrees 18/18, but all of those are negatives. As positive controls,
+eight answers that assert the premise were written by hand (six plain, two that
+refuse in part and then assert it, e.g. "The excerpts do not give the exact
+figure. However, after the 2024 bankruptcy filing Tesla impaired some of its
+solar assets"): the judge marks all 8 YES. `tools/provenance_report.py` prints
+"placebos, premise not asserted" next to the old counter when
+`placebo_check.json` exists.
+
 ## 17. Not yet done / open
 
 | Item | Status |
@@ -1077,6 +1119,6 @@ measure the form of the refusal, not its correctness.
 | End-to-end run with all fixes, v3 and v3_gold | Done (§9, §10) |
 | End-to-end v4 (v3 + qualifier rule/check v2/repair + soft period filter) | Done (§14): real dropped qualifiers 14 → 4; answers 17% longer |
 | Answer length after the qualifier rule | Done on 56 questions (§15): brevity rule cuts words 224 → 149 and doubles clean answers; full 266-question run pending |
-| Placebo metric | Hand labels done (§16): 18/18 correct in substance. Open: an automatic premise-asserted check for new runs |
+| Placebo metric | Done (§16): hand labels 18/18 correct in substance; automatic premise-asserted check agrees 18/18 and catches 8/8 written positive controls |
 | Remaining 281 v3 10-Ks (non-eval tickers) | Stopped Nov 13 15:10 with 156 done; update now resumes (§16), 127 left (~2.5 h) |
-| Model-grouped eval runs | Implemented (§16), not yet run: time a run with `--workers 8` against the serial timing log |
+| Model-grouped eval runs | Timed (§16): `--workers 8` saves 15%; loads are only 7% of time. Next: Ollama flash attention / KV cache, shorter judge output |

@@ -143,20 +143,23 @@ shortening removes supported detail while the unsupported claims stay. It needs 
 - **The judge is a model.** Claim support is measured by `qwen3:14b` plus a deterministic quote
   check. Dropped qualifiers were hand-labelled (`eval/qualifier_labels*.json`) because the
   lexical proxy has precision 0.19 and the judge check has recall 0.43 (§11, issue #3).
-- **Placebos.** All six were refused in substance in every run; the automatic counter
-  undercounts refusals written in prose (§16, issue #2).
+- **Placebos.** All six were refused in substance in every run. The built-in counter
+  undercounts refusals written in prose; `tools/placebo_check.py` asks the judge whether the
+  false premise is asserted instead (18/18 agreement with hand labels, 8/8 written positive
+  controls caught, §16, issue #2).
 - **One dataset.** FinDER questions are terse analyst phrases; the natural-question set guards
   against tuning to that style, but it was written by an LLM.
 
 ## 6. Run time
 
-A full 266-question evaluation takes about 10 hours (~2.3 min per question). Generating one
-answer takes ~22 s. The rest is likely model swapping: the generator and the judge do not fit in
-16 GB together, and each question alternates between them several times. The evaluation driver
-now logs the load, prompt and generation time of every model call, and `--workers N` runs
-several questions at once with a scheduler that groups calls by model. In simulation this cuts
-model switches from 128 to 18 for 48 questions, with each answer making exactly the same calls
-(§16). It has not yet been timed on a real run.
+A full 266-question evaluation took about 10 hours. On a 16-question timing run (§16), a
+question takes ~122 s serially: three LLM calls (HyDE rewrite, answer, claim judge) and ~13 s
+of retrieval and checks. Model swapping, the first suspect, is only 7% of the time (a load takes
+~4.5 s). Most of the time goes to prompt processing (~120 tokens/s on this laptop) and to the
+judge's own output (~520 tokens per question at ~12 tokens/s; the judge is 63% of LLM time).
+`--workers N` runs several questions at once and groups calls by model; with 8 workers the
+16 questions took 15% less time (1954 s → 1663 s), with judge support unchanged within noise.
+The remaining levers are faster prompt processing and a shorter judge output.
 
 ## Open work
 
@@ -177,7 +180,7 @@ model switches from 128 to 18 for 48 questions, with each answer making exactly 
 # end-to-end run (resumable) and its report
 python tools/provenance_dag.py --config config/local_16gb_v4.yaml \
     --cases eval/gold_plus_placebo.json -n 266 --out out/provenance_16gb_v4
-#   add --workers 8 to group model calls (implemented, not yet timed on a real run)
+#   add --workers 8 to group model calls by model (~15% faster, §16)
 python tools/provenance_report.py --out out/provenance_16gb_v4 \
     --cases eval/gold_plus_placebo.json --config config/local_16gb_v4.yaml
 
