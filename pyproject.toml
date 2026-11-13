@@ -60,6 +60,7 @@ ignore = [
   "PLC0415",  # lazy/deferred imports are an intentional offline-first pattern
   "PLR0911",  # "too many return statements" — refactor opinion
   "PLR0913",  # "too many arguments" — config/dataclass constructors legitimately wide
+  "PLR0917",  # "too many positional arguments" — same reason as PLR0913
   "PLR0915",  # "too many statements" — refactor opinion
   "PLR2004",  # "magic value" — noisy for thresholds/scores
 ]

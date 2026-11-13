@@ -41,10 +41,10 @@ _AMBIGUOUS = {
 _COMMON_WORDS = {
     "american", "general", "united", "first", "national", "public", "international",
     "global", "digital", "southern", "northern", "eastern", "western", "texas", "pacific",
-    "best", "applied", "advanced", "american", "consolidated", "federal", "home", "health",
+    "best", "applied", "advanced", "consolidated", "federal", "home", "health",
     "energy", "capital", "financial", "bank", "realty", "medical", "air", "royal", "regions",
     "ball", "target", "progressive", "corning", "visa", "oracle", "intuitive", "edison",
-    "public", "republic", "universal", "waste", "gap", "lowe", "dollar", "match", "fox",
+    "republic", "universal", "waste", "gap", "lowe", "dollar", "match", "fox",
     "news", "booking", "airbnb", "lennar", "salesforce", "workday", "align", "insulet",
     "steel", "state", "street", "the", "old", "dominion", "duke", "brown", "baker", "cboe",
     "constellation", "simon", "church", "masco", "carrier", "ross", "tractor", "arch",
@@ -52,7 +52,7 @@ _COMMON_WORDS = {
 
 
 def _norm(text: str) -> str:
-    text = text.lower().replace("&", " and ").replace("’", "'")
+    text = text.lower().replace("&", " and ").replace("\u2019", "'")
     text = re.sub(r"'s\b", "", text)
     text = re.sub(r"/[a-z]{2,3}/", " ", text)  # EDGAR state tags: "/DE/"
     return re.sub(r"[^a-z0-9]+", " ", text).strip()
@@ -71,7 +71,7 @@ def _phrase_rx(phrase: str) -> re.Pattern[str]:
     """Normalized name -> case-insensitive regex over the raw question text."""
     parts = [r"(?:and|&)" if w == "and" else re.escape(w) for w in phrase.split()]
     body = r"[\s\-/.,&']*".join(parts)
-    return re.compile(r"(?<![A-Za-z0-9])" + body + r"(?P<poss>['’]s)?(?![A-Za-z0-9])",
+    return re.compile(r"(?<![A-Za-z0-9])" + body + r"(?P<poss>['\u2019]s)?(?![A-Za-z0-9])",
                       re.IGNORECASE)
 
 
@@ -133,7 +133,7 @@ class EntityResolver:
         """
         hits: dict[str, dict] = {}  # ticker -> {pos, how, text, poss}
         taken: list[tuple[int, int]] = []
-        for phrase, t, rx in self._name_rx:
+        for _phrase, t, rx in self._name_rx:
             for m in rx.finditer(question):
                 if not (m.group(0)[0].isupper() or m.group(0)[0].isdigit()):
                     continue  # "union coverage", "threat intel": not a proper noun
@@ -154,7 +154,7 @@ class EntityResolver:
             h = hits.setdefault(tok, {"pos": m.start(), "how": set(), "text": tok, "poss": False})
             h["how"].add("ticker")
             h["pos"] = min(h["pos"], m.start())
-            h["poss"] |= bool(re.match(r"['’]s\b", question[m.end():]))
+            h["poss"] |= bool(re.match(r"['\u2019]s\b", question[m.end():]))
         # one company with share classes (GOOG/GOOGL) found only by name: keep one
         for t in list(hits):
             sib = (self._share_class.get(t, set()) - {t}) & set(hits)
@@ -169,13 +169,13 @@ class EntityResolver:
     @staticmethod
     def _ticker_cue(q: str, start: int, end: int) -> bool:
         before, after = q[:start].rstrip(), q[end:].lstrip()
-        if before.endswith(("(", "$")) and after.startswith((")", ",", "'", "’")):
+        if before.endswith(("(", "$")) and after.startswith((")", ",", "'", "\u2019")):
             return True
         if q[start] == "$" or re.search(r"(?i)ticker\s*[:\-]?\s*$", before):
             return True
         if not before or not after.strip(" .?!"):  # first or last token
             return True
-        return bool(re.search(r"(?i)^('s|’s)\b", after))  # possessive: "IT's"
+        return bool(re.search(r"(?i)^('s|\u2019s)\b", after))  # possessive: "IT's"
 
     def mask(self, question: str, tickers: Iterable[str] = ()) -> str:
         """Company-blind question: every mention of these companies (and of any the

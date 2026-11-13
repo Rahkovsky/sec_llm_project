@@ -185,15 +185,14 @@ class HybridRetriever:
             chunk = self.index.get(cid)
             if chunk is None:
                 continue
-            if boost and str(chunk.metadata.fiscal_year) in period:
-                score += boost
+            boosted = score + boost if boost and str(chunk.metadata.fiscal_year) in period else score
             results.append(
                 RetrievalResult(
-                    chunk=chunk, score=score, rank=rank,
+                    chunk=chunk, score=boosted, rank=rank,
                     components={
                         "dense": round(dense_scores.get(cid, 0.0), 6),
                         "bm25": round(bm25_scores.get(cid, 0.0), 6),
-                        "fused": round(score, 6),
+                        "fused": round(boosted, 6),
                     },
                 )
             )

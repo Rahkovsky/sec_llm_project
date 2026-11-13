@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 344" width="820" height="344" role="img" aria-labelledby="t d">
+<title id="t">Answer-stage changes on the same 56 questions</title><desc id="d">v3*: 180 words per answer, 14 real dropped qualifiers, 11 clean; v4 (qualifier rule): 224 words per answer, 3 real dropped qualifiers, 13 clean; v5 (+ brevity): 149 words per answer, 1 real dropped qualifiers, 28 clean</desc>
+<style>
+svg { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+.bg { fill: #ffffff; } .t1 { fill: #0b0b0b; } .t2 { fill: #52514e; } .t3 { fill: #7a7974; }
+.grid { stroke: #e4e3df; stroke-width: 1; } .axis { stroke: #b9b8b2; stroke-width: 1; }
+.gap { stroke: #ffffff; stroke-width: 2; }
+.s0 { fill: #2a78d6; } .s1 { fill: #eb6834; } .s2 { fill: #1baf7a; } .s3 { fill: #eda100; } .s4 { fill: #e87ba4; } .mut { fill: #b9b8b2; }
+@media (prefers-color-scheme: dark) {
+  .bg { fill: #0d1117; } .t1 { fill: #f0efec; } .t2 { fill: #c3c2b7; } .t3 { fill: #9a998f; }
+  .grid { stroke: #2a2a28; } .axis { stroke: #5c5b57; } .gap { stroke: #0d1117; }
+  .s0 { fill: #3987e5; } .s1 { fill: #d95926; } .s2 { fill: #199e70; } .s3 { fill: #c98500; } .s4 { fill: #d55181; } .mut { fill: #5c5b57; }
+}
+</style>
+<rect class="bg" width="820" height="344"/>
+<text x="24.0" y="32.0" class="t1" font-size="16" text-anchor="start" font-weight="600">Answer stage: same 56 questions, three prompt versions</text>
+<text x="24.0" y="54.0" class="t3" font-size="12" text-anchor="start" font-weight="normal">Questions where v3 dropped hedges; dropped qualifiers hand-labelled (eval/qualifier_labels*.json)</text>
+<text x="24.0" y="316.0" class="t3" font-size="11" text-anchor="start" font-weight="normal">* v3: words and clean answers from the v3 + gold-passages run; the 56 were picked from v3&#x27;s flags,</text>
+<text x="24.0" y="330.0" class="t3" font-size="11" text-anchor="start" font-weight="normal">  so v3 itself has 0 clean answers on them by selection.</text>
+<text x="24.0" y="88.0" class="t1" font-size="13" text-anchor="start" font-weight="600">Words per answer</text>
+<line x1="24.0" y1="270.0" x2="254.0" y2="270.0" class="axis"/>
+<path d="M38.0,270.0 V162.5 Q38.0,158.5 42.0,158.5 H86.0 Q90.0,158.5 90.0,162.5 V270.0 Z" class="mut"><title>v3*: words per answer 180</title></path>
+<text x="64.0" y="150.5" class="t1" font-size="13" text-anchor="middle" font-weight="600">180</text>
+<text x="64.0" y="288.0" class="t2" font-size="11" text-anchor="middle" font-weight="normal">v3*</text>
+<path d="M116.0,270.0 V134.9 Q116.0,130.9 120.0,130.9 H164.0 Q168.0,130.9 168.0,134.9 V270.0 Z" class="mut"><title>v4 (qualifier rule): words per answer 224</title></path>
+<text x="142.0" y="122.9" class="t1" font-size="13" text-anchor="middle" font-weight="600">224</text>
+<text x="142.0" y="288.0" class="t2" font-size="11" text-anchor="middle" font-weight="normal">v4</text>
+<text x="142.0" y="302.0" class="t3" font-size="10" text-anchor="middle" font-weight="normal">(qualifier rule)</text>
+<path d="M194.0,270.0 V181.9 Q194.0,177.9 198.0,177.9 H242.0 Q246.0,177.9 246.0,181.9 V270.0 Z" class="s0"><title>v5 (+ brevity): words per answer 149</title></path>
+<text x="220.0" y="169.9" class="t1" font-size="13" text-anchor="middle" font-weight="600">149</text>
+<text x="220.0" y="288.0" class="t2" font-size="11" text-anchor="middle" font-weight="normal">v5</text>
+<text x="220.0" y="302.0" class="t3" font-size="10" text-anchor="middle" font-weight="normal">(+ brevity)</text>
+<text x="294.0" y="88.0" class="t1" font-size="13" text-anchor="start" font-weight="600">Real dropped qualifiers</text>
+<line x1="294.0" y1="270.0" x2="524.0" y2="270.0" class="axis"/>
+<path d="M308.0,270.0 V134.9 Q308.0,130.9 312.0,130.9 H356.0 Q360.0,130.9 360.0,134.9 V270.0 Z" class="mut"><title>v3*: real dropped qualifiers 14</title></path>
+<text x="334.0" y="122.9" class="t1" font-size="13" text-anchor="middle" font-weight="600">14</text>
+<text x="334.0" y="288.0" class="t2" font-size="11" text-anchor="middle" font-weight="normal">v3*</text>
+<path d="M386.0,270.0 V244.2 Q386.0,240.2 390.0,240.2 H434.0 Q438.0,240.2 438.0,244.2 V270.0 Z" class="mut"><title>v4 (qualifier rule): real dropped qualifiers 3</title></path>
+<text x="412.0" y="232.2" class="t1" font-size="13" text-anchor="middle" font-weight="600">3</text>
+<text x="412.0" y="288.0" class="t2" font-size="11" text-anchor="middle" font-weight="normal">v4</text>
+<text x="412.0" y="302.0" class="t3" font-size="10" text-anchor="middle" font-weight="normal">(qualifier rule)</text>
+<path d="M464.0,270.0 V264.1 Q464.0,260.1 468.0,260.1 H512.0 Q516.0,260.1 516.0,264.1 V270.0 Z" class="s0"><title>v5 (+ brevity): real dropped qualifiers 1</title></path>
+<text x="490.0" y="252.1" class="t1" font-size="13" text-anchor="middle" font-weight="600">1</text>
+<text x="490.0" y="288.0" class="t2" font-size="11" text-anchor="middle" font-weight="normal">v5</text>
+<text x="490.0" y="302.0" class="t3" font-size="10" text-anchor="middle" font-weight="normal">(+ brevity)</text>
+<text x="564.0" y="88.0" class="t1" font-size="13" text-anchor="start" font-weight="600">Clean answers (of 56)</text>
+<line x1="564.0" y1="270.0" x2="794.0" y2="270.0" class="axis"/>
+<path d="M578.0,270.0 V219.3 Q578.0,215.3 582.0,215.3 H626.0 Q630.0,215.3 630.0,219.3 V270.0 Z" class="mut"><title>v3*: clean answers (of 56) 11</title></path>
+<text x="604.0" y="207.3" class="t1" font-size="13" text-anchor="middle" font-weight="600">11</text>
+<text x="604.0" y="288.0" class="t2" font-size="11" text-anchor="middle" font-weight="normal">v3*</text>
+<path d="M656.0,270.0 V209.4 Q656.0,205.4 660.0,205.4 H704.0 Q708.0,205.4 708.0,209.4 V270.0 Z" class="mut"><title>v4 (qualifier rule): clean answers (of 56) 13</title></path>
+<text x="682.0" y="197.4" class="t1" font-size="13" text-anchor="middle" font-weight="600">13</text>
+<text x="682.0" y="288.0" class="t2" font-size="11" text-anchor="middle" font-weight="normal">v4</text>
+<text x="682.0" y="302.0" class="t3" font-size="10" text-anchor="middle" font-weight="normal">(qualifier rule)</text>
+<path d="M734.0,270.0 V134.9 Q734.0,130.9 738.0,130.9 H782.0 Q786.0,130.9 786.0,134.9 V270.0 Z" class="s0"><title>v5 (+ brevity): clean answers (of 56) 28</title></path>
+<text x="760.0" y="122.9" class="t1" font-size="13" text-anchor="middle" font-weight="600">28</text>
+<text x="760.0" y="288.0" class="t2" font-size="11" text-anchor="middle" font-weight="normal">v5</text>
+<text x="760.0" y="302.0" class="t3" font-size="10" text-anchor="middle" font-weight="normal">(+ brevity)</text>
+</svg>

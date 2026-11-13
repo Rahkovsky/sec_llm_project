@@ -186,4 +186,4 @@ def test_period_filter_restricts_fiscal_year():
         assert [g.chunk.chunk_id for g in got] == ["new", "old"], lam
         got = r.retrieve("revenue increased due to cloud demand in 2021", top_k=5,
                          filters={"ticker": "ABC"})
-        assert [g.chunk.chunk_id for g in got][0] == "old", lam
+        assert next(g.chunk.chunk_id for g in got) == "old", lam

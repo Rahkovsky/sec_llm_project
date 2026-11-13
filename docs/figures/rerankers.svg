@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 422" width="760" height="422" role="img" aria-labelledby="t d">
+<title id="t">Cross-encoder rerankers vs production retrieval</title><desc id="d">Hit@8 on 249 scorable FinDER questions: Production: dense + HyDE + MMR 0.775; RRF with Qwen3-Reranker 0.675; RRF with MiniLM 0.671; Qwen3-Reranker, then MMR 0.655; Qwen3-Reranker 0.635; RRF with bge-reranker-v2-m3 0.635; MiniLM, then MMR 0.562; MiniLM 0.542; bge-reranker-v2-m3, then MMR 0.534; bge-reranker-v2-m3 0.518</desc>
+<style>
+svg { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+.bg { fill: #ffffff; } .t1 { fill: #0b0b0b; } .t2 { fill: #52514e; } .t3 { fill: #7a7974; }
+.grid { stroke: #e4e3df; stroke-width: 1; } .axis { stroke: #b9b8b2; stroke-width: 1; }
+.gap { stroke: #ffffff; stroke-width: 2; }
+.s0 { fill: #2a78d6; } .s1 { fill: #eb6834; } .s2 { fill: #1baf7a; } .s3 { fill: #eda100; } .s4 { fill: #e87ba4; } .mut { fill: #b9b8b2; }
+@media (prefers-color-scheme: dark) {
+  .bg { fill: #0d1117; } .t1 { fill: #f0efec; } .t2 { fill: #c3c2b7; } .t3 { fill: #9a998f; }
+  .grid { stroke: #2a2a28; } .axis { stroke: #5c5b57; } .gap { stroke: #0d1117; }
+  .s0 { fill: #3987e5; } .s1 { fill: #d95926; } .s2 { fill: #199e70; } .s3 { fill: #c98500; } .s4 { fill: #d55181; } .mut { fill: #5c5b57; }
+}
+</style>
+<rect class="bg" width="760" height="422"/>
+<text x="24.0" y="32.0" class="t1" font-size="16" text-anchor="start" font-weight="600">Every reranker lowered Hit@8 (so none is used)</text>
+<text x="24.0" y="54.0" class="t3" font-size="12" text-anchor="start" font-weight="normal">FinDER, 249 scorable questions, v3 index; all differences have 95% CIs below zero</text>
+<line x1="250.0" y1="70.0" x2="250.0" y2="372.0" class="grid"/>
+<text x="250.0" y="386.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">0</text>
+<line x1="360.0" y1="70.0" x2="360.0" y2="372.0" class="grid"/>
+<text x="360.0" y="386.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">25%</text>
+<line x1="470.0" y1="70.0" x2="470.0" y2="372.0" class="grid"/>
+<text x="470.0" y="386.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">50%</text>
+<line x1="580.0" y1="70.0" x2="580.0" y2="372.0" class="grid"/>
+<text x="580.0" y="386.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">75%</text>
+<line x1="690.0" y1="70.0" x2="690.0" y2="372.0" class="grid"/>
+<text x="690.0" y="386.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">100%</text>
+<text x="238.0" y="90.0" class="t1" font-size="12" text-anchor="end" font-weight="600">Production: dense + HyDE + MMR</text>
+<path d="M250.0,76.0 H587.0 Q591.0,76.0 591.0,80.0 V92.0 Q591.0,96.0 587.0,96.0 H250.0 Z" class="s0"><title>Production: dense + HyDE + MMR: Hit@8 0.775</title></path>
+<text x="599.0" y="90.0" class="t1" font-size="12" text-anchor="start" font-weight="normal">0.78</text>
+<text x="238.0" y="120.0" class="t2" font-size="12" text-anchor="end" font-weight="normal">RRF with Qwen3-Reranker</text>
+<path d="M250.0,106.0 H543.0 Q547.0,106.0 547.0,110.0 V122.0 Q547.0,126.0 543.0,126.0 H250.0 Z" class="mut"><title>RRF with Qwen3-Reranker: Hit@8 0.675</title></path>
+<text x="555.0" y="120.0" class="t1" font-size="12" text-anchor="start" font-weight="normal">0.68</text>
+<text x="238.0" y="150.0" class="t2" font-size="12" text-anchor="end" font-weight="normal">RRF with MiniLM</text>
+<path d="M250.0,136.0 H541.2 Q545.2,136.0 545.2,140.0 V152.0 Q545.2,156.0 541.2,156.0 H250.0 Z" class="mut"><title>RRF with MiniLM: Hit@8 0.671</title></path>
+<text x="553.2" y="150.0" class="t1" font-size="12" text-anchor="start" font-weight="normal">0.67</text>
+<text x="238.0" y="180.0" class="t2" font-size="12" text-anchor="end" font-weight="normal">Qwen3-Reranker, then MMR</text>
+<path d="M250.0,166.0 H534.2 Q538.2,166.0 538.2,170.0 V182.0 Q538.2,186.0 534.2,186.0 H250.0 Z" class="mut"><title>Qwen3-Reranker, then MMR: Hit@8 0.655</title></path>
+<text x="546.2" y="180.0" class="t1" font-size="12" text-anchor="start" font-weight="normal">0.66</text>
+<text x="238.0" y="210.0" class="t2" font-size="12" text-anchor="end" font-weight="normal">Qwen3-Reranker</text>
+<path d="M250.0,196.0 H525.4 Q529.4,196.0 529.4,200.0 V212.0 Q529.4,216.0 525.4,216.0 H250.0 Z" class="mut"><title>Qwen3-Reranker: Hit@8 0.635</title></path>
+<text x="537.4" y="210.0" class="t1" font-size="12" text-anchor="start" font-weight="normal">0.64</text>
+<text x="238.0" y="240.0" class="t2" font-size="12" text-anchor="end" font-weight="normal">RRF with bge-reranker-v2-m3</text>
+<path d="M250.0,226.0 H525.4 Q529.4,226.0 529.4,230.0 V242.0 Q529.4,246.0 525.4,246.0 H250.0 Z" class="mut"><title>RRF with bge-reranker-v2-m3: Hit@8 0.635</title></path>
+<text x="537.4" y="240.0" class="t1" font-size="12" text-anchor="start" font-weight="normal">0.64</text>
+<text x="238.0" y="270.0" class="t2" font-size="12" text-anchor="end" font-weight="normal">MiniLM, then MMR</text>
+<path d="M250.0,256.0 H493.3 Q497.3,256.0 497.3,260.0 V272.0 Q497.3,276.0 493.3,276.0 H250.0 Z" class="mut"><title>MiniLM, then MMR: Hit@8 0.562</title></path>
+<text x="505.3" y="270.0" class="t1" font-size="12" text-anchor="start" font-weight="normal">0.56</text>
+<text x="238.0" y="300.0" class="t2" font-size="12" text-anchor="end" font-weight="normal">MiniLM</text>
+<path d="M250.0,286.0 H484.5 Q488.5,286.0 488.5,290.0 V302.0 Q488.5,306.0 484.5,306.0 H250.0 Z" class="mut"><title>MiniLM: Hit@8 0.542</title></path>
+<text x="496.5" y="300.0" class="t1" font-size="12" text-anchor="start" font-weight="normal">0.54</text>
+<text x="238.0" y="330.0" class="t2" font-size="12" text-anchor="end" font-weight="normal">bge-reranker-v2-m3, then MMR</text>
+<path d="M250.0,316.0 H481.0 Q485.0,316.0 485.0,320.0 V332.0 Q485.0,336.0 481.0,336.0 H250.0 Z" class="mut"><title>bge-reranker-v2-m3, then MMR: Hit@8 0.534</title></path>
+<text x="493.0" y="330.0" class="t1" font-size="12" text-anchor="start" font-weight="normal">0.53</text>
+<text x="238.0" y="360.0" class="t2" font-size="12" text-anchor="end" font-weight="normal">bge-reranker-v2-m3</text>
+<path d="M250.0,346.0 H473.9 Q477.9,346.0 477.9,350.0 V362.0 Q477.9,366.0 473.9,366.0 H250.0 Z" class="mut"><title>bge-reranker-v2-m3: Hit@8 0.518</title></path>
+<text x="485.9" y="360.0" class="t1" font-size="12" text-anchor="start" font-weight="normal">0.52</text>
+</svg>

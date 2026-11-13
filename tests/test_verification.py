@@ -190,7 +190,7 @@ class _ListJudge:
 def test_quote_match_ignores_punctuation_case_and_typography():
     from sec_llm_project.sec_intel.generation.verifier import quote_matches
 
-    src = "The Company’s board — through its Audit Committee — oversees risk, quarterly."
+    src = "The Company\u2019s board — through its Audit Committee — oversees risk, quarterly."
     assert quote_matches("The Company's board - through its Audit Committee - oversees risk", src)
     assert quote_matches("the company's board, through its audit committee, oversees", src)
     # short quotes need an exact match; reordered or absent words never match
@@ -201,8 +201,8 @@ def test_quote_match_ignores_punctuation_case_and_typography():
 def test_citation_repointed_to_chunk_holding_quote():
     ctx = _ctx(["Unrelated revenue table for the fiscal year.",
                 "The Audit Committee reviews cybersecurity risk with the CISO quarterly."])
-    judge = _ListJudge([dict(claim="The Audit Committee reviews cyber risk.", verdict="SUPPORTED",
-                             citation=1, quote="Audit Committee reviews cybersecurity risk with the CISO")])
+    judge = _ListJudge([{"claim": "The Audit Committee reviews cyber risk.", "verdict": "SUPPORTED",
+                             "citation": 1, "quote": "Audit Committee reviews cybersecurity risk with the CISO"}])
     report = CitationVerifier(judge).verify(Answer(question="q", text="x [1]"), ctx)
     c = report.claims[0]
     assert (c.verdict, c.citation, c.citation_corrected, c.valid_quote) == ("SUPPORTED", 2, True, True)
@@ -232,10 +232,10 @@ def test_meta_claims_excluded_from_groundedness():
     assert not is_meta_claim("The excerpts cover the following risks: supply chain and cyber.")
     ctx = _ctx(["The Audit Committee reviews cybersecurity risk with the CISO quarterly."])
     judge = _ListJudge([
-        dict(claim="The Audit Committee reviews cyber risk.", verdict="SUPPORTED", citation=1,
-             quote="The Audit Committee reviews cybersecurity risk"),
-        dict(claim="The provided excerpts do not contain information regarding investor sentiment.",
-             verdict="UNSUPPORTED")])
+        {"claim": "The Audit Committee reviews cyber risk.", "verdict": "SUPPORTED", "citation": 1,
+             "quote": "The Audit Committee reviews cybersecurity risk"},
+        {"claim": "The provided excerpts do not contain information regarding investor sentiment.",
+             "verdict": "UNSUPPORTED"}])
     report = CitationVerifier(judge).verify(Answer(question="q", text="x [1]"), ctx)
     assert (report.total, report.groundedness, report.to_dict()["meta"]) == (1, 1.0, 1)
 

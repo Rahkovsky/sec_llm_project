@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 372" width="820" height="372" role="img" aria-labelledby="t d">
+<title id="t">Where the 260 FinDER questions end up, by version</title><desc id="d">Main outcome per FinDER question for each end-to-end run: v1: Clean 31, Dropped qualifier 7, Unsupported claims 12, Abstained with evidence 12, Retrieval miss / wrong period 198; v2: Clean 57, Dropped qualifier 12, Unsupported claims 27, Abstained with evidence 48, Retrieval miss / wrong period 116; v3: Clean 112, Dropped qualifier 36, Unsupported claims 41, Abstained with evidence 30, Retrieval miss / wrong period 41; v3 + gold: Clean 126, Dropped qualifier 33, Unsupported claims 38, Abstained with evidence 30, Retrieval miss / wrong period 33; v4: Clean 118, Dropped qualifier 24, Unsupported claims 52, Abstained with evidence 26, Retrieval miss / wrong period 40</desc>
+<style>
+svg { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+.bg { fill: #ffffff; } .t1 { fill: #0b0b0b; } .t2 { fill: #52514e; } .t3 { fill: #7a7974; }
+.grid { stroke: #e4e3df; stroke-width: 1; } .axis { stroke: #b9b8b2; stroke-width: 1; }
+.gap { stroke: #ffffff; stroke-width: 2; }
+.s0 { fill: #2a78d6; } .s1 { fill: #eb6834; } .s2 { fill: #1baf7a; } .s3 { fill: #eda100; } .s4 { fill: #e87ba4; } .mut { fill: #b9b8b2; }
+@media (prefers-color-scheme: dark) {
+  .bg { fill: #0d1117; } .t1 { fill: #f0efec; } .t2 { fill: #c3c2b7; } .t3 { fill: #9a998f; }
+  .grid { stroke: #2a2a28; } .axis { stroke: #5c5b57; } .gap { stroke: #0d1117; }
+  .s0 { fill: #3987e5; } .s1 { fill: #d95926; } .s2 { fill: #199e70; } .s3 { fill: #c98500; } .s4 { fill: #d55181; } .mut { fill: #5c5b57; }
+}
+</style>
+<rect class="bg" width="820" height="372"/>
+<text x="24.0" y="32.0" class="t1" font-size="16" text-anchor="start" font-weight="600">End to end: main outcome of each of the 260 FinDER questions</text>
+<text x="24.0" y="54.0" class="t3" font-size="12" text-anchor="start" font-weight="normal">One label per question (its dominant failure); gemma4:12b answers, qwen3:14b judges</text>
+<rect x="24.0" y="70.0" width="12.0" height="12.0" rx="2" class="s0"></rect>
+<text x="42.0" y="81.0" class="t2" font-size="12" text-anchor="start" font-weight="normal">Clean</text>
+<rect x="94.0" y="70.0" width="12.0" height="12.0" rx="2" class="s1"></rect>
+<text x="112.0" y="81.0" class="t2" font-size="12" text-anchor="start" font-weight="normal">Dropped qualifier</text>
+<rect x="240.8" y="70.0" width="12.0" height="12.0" rx="2" class="s2"></rect>
+<text x="258.8" y="81.0" class="t2" font-size="12" text-anchor="start" font-weight="normal">Unsupported claims</text>
+<rect x="394.0" y="70.0" width="12.0" height="12.0" rx="2" class="s3"></rect>
+<text x="412.0" y="81.0" class="t2" font-size="12" text-anchor="start" font-weight="normal">Abstained with evidence</text>
+<rect x="579.2" y="70.0" width="12.0" height="12.0" rx="2" class="s4"></rect>
+<text x="597.2" y="81.0" class="t2" font-size="12" text-anchor="start" font-weight="normal">Retrieval miss / wrong period</text>
+<line x1="110.0" y1="98.0" x2="110.0" y2="336.0" class="grid"/>
+<text x="110.0" y="354.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">0</text>
+<line x1="272.5" y1="98.0" x2="272.5" y2="336.0" class="grid"/>
+<text x="272.5" y="354.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">65</text>
+<line x1="435.0" y1="98.0" x2="435.0" y2="336.0" class="grid"/>
+<text x="435.0" y="354.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">130</text>
+<line x1="597.5" y1="98.0" x2="597.5" y2="336.0" class="grid"/>
+<text x="597.5" y="354.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">195</text>
+<line x1="760.0" y1="98.0" x2="760.0" y2="336.0" class="grid"/>
+<text x="760.0" y="354.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">260</text>
+<text x="98.0" y="126.0" class="t2" font-size="13" text-anchor="end" font-weight="normal">v1</text>
+<rect x="110.0" y="104.0" width="77.5" height="34.0" rx="0" class="s0"><title>v1 - Clean: 31 of 260</title></rect>
+<text x="179.5" y="126.0" class="bg" font-size="13" text-anchor="end" font-weight="600">31</text>
+<rect x="187.5" y="104.0" width="17.5" height="34.0" rx="0" class="s1"><title>v1 - Dropped qualifier: 7 of 260</title></rect>
+<line x1="187.5" y1="104.0" x2="187.5" y2="138.0" class="gap"/>
+<rect x="205.0" y="104.0" width="30.0" height="34.0" rx="0" class="s2"><title>v1 - Unsupported claims: 12 of 260</title></rect>
+<line x1="205.0" y1="104.0" x2="205.0" y2="138.0" class="gap"/>
+<rect x="235.0" y="104.0" width="30.0" height="34.0" rx="0" class="s3"><title>v1 - Abstained with evidence: 12 of 260</title></rect>
+<line x1="235.0" y1="104.0" x2="235.0" y2="138.0" class="gap"/>
+<rect x="265.0" y="104.0" width="495.0" height="34.0" rx="0" class="s4"><title>v1 - Retrieval miss / wrong period: 198 of 260</title></rect>
+<line x1="265.0" y1="104.0" x2="265.0" y2="138.0" class="gap"/>
+<text x="98.0" y="174.0" class="t2" font-size="13" text-anchor="end" font-weight="normal">v2</text>
+<rect x="110.0" y="152.0" width="142.5" height="34.0" rx="0" class="s0"><title>v2 - Clean: 57 of 260</title></rect>
+<text x="244.5" y="174.0" class="bg" font-size="13" text-anchor="end" font-weight="600">57</text>
+<rect x="252.5" y="152.0" width="30.0" height="34.0" rx="0" class="s1"><title>v2 - Dropped qualifier: 12 of 260</title></rect>
+<line x1="252.5" y1="152.0" x2="252.5" y2="186.0" class="gap"/>
+<rect x="282.5" y="152.0" width="67.5" height="34.0" rx="0" class="s2"><title>v2 - Unsupported claims: 27 of 260</title></rect>
+<line x1="282.5" y1="152.0" x2="282.5" y2="186.0" class="gap"/>
+<rect x="350.0" y="152.0" width="120.0" height="34.0" rx="0" class="s3"><title>v2 - Abstained with evidence: 48 of 260</title></rect>
+<line x1="350.0" y1="152.0" x2="350.0" y2="186.0" class="gap"/>
+<rect x="470.0" y="152.0" width="290.0" height="34.0" rx="0" class="s4"><title>v2 - Retrieval miss / wrong period: 116 of 260</title></rect>
+<line x1="470.0" y1="152.0" x2="470.0" y2="186.0" class="gap"/>
+<text x="98.0" y="222.0" class="t2" font-size="13" text-anchor="end" font-weight="normal">v3</text>
+<rect x="110.0" y="200.0" width="280.0" height="34.0" rx="0" class="s0"><title>v3 - Clean: 112 of 260</title></rect>
+<text x="382.0" y="222.0" class="bg" font-size="13" text-anchor="end" font-weight="600">112</text>
+<rect x="390.0" y="200.0" width="90.0" height="34.0" rx="0" class="s1"><title>v3 - Dropped qualifier: 36 of 260</title></rect>
+<line x1="390.0" y1="200.0" x2="390.0" y2="234.0" class="gap"/>
+<rect x="480.0" y="200.0" width="102.5" height="34.0" rx="0" class="s2"><title>v3 - Unsupported claims: 41 of 260</title></rect>
+<line x1="480.0" y1="200.0" x2="480.0" y2="234.0" class="gap"/>
+<rect x="582.5" y="200.0" width="75.0" height="34.0" rx="0" class="s3"><title>v3 - Abstained with evidence: 30 of 260</title></rect>
+<line x1="582.5" y1="200.0" x2="582.5" y2="234.0" class="gap"/>
+<rect x="657.5" y="200.0" width="102.5" height="34.0" rx="0" class="s4"><title>v3 - Retrieval miss / wrong period: 41 of 260</title></rect>
+<line x1="657.5" y1="200.0" x2="657.5" y2="234.0" class="gap"/>
+<text x="98.0" y="270.0" class="t2" font-size="13" text-anchor="end" font-weight="normal">v3 + gold</text>
+<rect x="110.0" y="248.0" width="315.0" height="34.0" rx="0" class="s0"><title>v3 + gold - Clean: 126 of 260</title></rect>
+<text x="417.0" y="270.0" class="bg" font-size="13" text-anchor="end" font-weight="600">126</text>
+<rect x="425.0" y="248.0" width="82.5" height="34.0" rx="0" class="s1"><title>v3 + gold - Dropped qualifier: 33 of 260</title></rect>
+<line x1="425.0" y1="248.0" x2="425.0" y2="282.0" class="gap"/>
+<rect x="507.5" y="248.0" width="95.0" height="34.0" rx="0" class="s2"><title>v3 + gold - Unsupported claims: 38 of 260</title></rect>
+<line x1="507.5" y1="248.0" x2="507.5" y2="282.0" class="gap"/>
+<rect x="602.5" y="248.0" width="75.0" height="34.0" rx="0" class="s3"><title>v3 + gold - Abstained with evidence: 30 of 260</title></rect>
+<line x1="602.5" y1="248.0" x2="602.5" y2="282.0" class="gap"/>
+<rect x="677.5" y="248.0" width="82.5" height="34.0" rx="0" class="s4"><title>v3 + gold - Retrieval miss / wrong period: 33 of 260</title></rect>
+<line x1="677.5" y1="248.0" x2="677.5" y2="282.0" class="gap"/>
+<text x="98.0" y="318.0" class="t2" font-size="13" text-anchor="end" font-weight="normal">v4</text>
+<rect x="110.0" y="296.0" width="295.0" height="34.0" rx="0" class="s0"><title>v4 - Clean: 118 of 260</title></rect>
+<text x="397.0" y="318.0" class="bg" font-size="13" text-anchor="end" font-weight="600">118</text>
+<rect x="405.0" y="296.0" width="60.0" height="34.0" rx="0" class="s1"><title>v4 - Dropped qualifier: 24 of 260</title></rect>
+<line x1="405.0" y1="296.0" x2="405.0" y2="330.0" class="gap"/>
+<rect x="465.0" y="296.0" width="130.0" height="34.0" rx="0" class="s2"><title>v4 - Unsupported claims: 52 of 260</title></rect>
+<line x1="465.0" y1="296.0" x2="465.0" y2="330.0" class="gap"/>
+<rect x="595.0" y="296.0" width="65.0" height="34.0" rx="0" class="s3"><title>v4 - Abstained with evidence: 26 of 260</title></rect>
+<line x1="595.0" y1="296.0" x2="595.0" y2="330.0" class="gap"/>
+<rect x="660.0" y="296.0" width="100.0" height="34.0" rx="0" class="s4"><title>v4 - Retrieval miss / wrong period: 40 of 260</title></rect>
+<line x1="660.0" y1="296.0" x2="660.0" y2="330.0" class="gap"/>
+</svg>

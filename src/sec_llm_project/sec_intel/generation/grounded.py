@@ -370,7 +370,7 @@ def strip_insufficient(text: str) -> tuple[str | None, bool]:
     """
     if _INSUFFICIENT not in text:
         return text, False
-    rest = re.sub(r"[ \t]*\**%s\**[.:]?[ \t]*" % _INSUFFICIENT, " ", text)
+    rest = re.sub(rf"[ \t]*\**{_INSUFFICIENT}\**[.:]?[ \t]*", " ", text)
     rest = re.sub(r"\n[ \t]+\n", "\n\n", rest).strip()
     if not cited_numbers(rest) or len(rest.split()) < 8:
         return None, False
