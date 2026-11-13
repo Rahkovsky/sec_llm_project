@@ -1,4 +1,4 @@
-# v5 (Nov 13 2026): v4 + brevity rule (generation.concise_rule; docs/EXPERIMENTS.md §16).
+# v5 (Nov 13 2026): v4 + brevity rule (generation.concise_rule; docs/EXPERIMENTS.md §15).
 # v4 (Nov 12 2026): v3 + dropped-qualifier prevention and repair (checker prompt v2)
 # + soft period filter
 # (generation.qualifier_rule, verification.qualifier_check/qualifier_repair;

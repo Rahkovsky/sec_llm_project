@@ -964,7 +964,59 @@ is soft). With so few questions this is anecdotal.
 - Clean answers 112 → 118 and the other end-to-end deltas are within the ±10%
   label noise (§10).
 
-## 15. Not yet done / open
+## 15. Brevity rule: v5 on the 56-question subset (Nov 13)
+
+v4 answers were 17% longer than v3 (§14), and longer answers carry more claims
+for the judge to reject. `config/local_16gb_v5.yaml` = v4 + `generation.concise_rule`
+(`prompts.CONCISE_RULE`: one sentence per point, each point once, no background
+the question does not ask for). It was run on the 56 questions of `eval/qualifier_subset.json` (the
+questions with v3 lexical qualifier flags) and compared with v3_gold and v4 on the
+same 56. Report: `out/provenance_16gb_v5_qualsub/report_cover.txt`.
+
+| Same 56 questions | v3_gold | v4 | v5 (v4 + brevity) |
+|---|---|---|---|
+| Answered | 49 | 44 | 49 |
+| Words per answer, mean / median | 180 / 185 | 224 / 214 | **149 / 137** |
+| Claims per answer | 7.14 | 8.91 | **6.04** |
+| Unsupported claims (share of all claims) | 70 (20.0%) | 65 (16.6%) | 69 (23.3%) |
+| Context recall, cover (mean over the 56) | 0.741 | 0.723 | 0.741 |
+| Lexical qualifier flags | 73 (v3) | 31 | **10** |
+| **Real dropped qualifiers (hand-labelled)** | **14** (v3) | **3** | **1** |
+| Judge-checked drops, check v2 | 11 (v3) / 5 | 2 (circular) | 0 (circular; 3 answers repaired) |
+| Main error "dropped qualifiers" | 22 | 16 | **6** |
+| Main error "unsupported claims" | 13 | 13 | 11 |
+| Abstained (gate/judge + retrieval miss) | 7 | 12 | 7 |
+| **Clean** | 11 | 13 | **28** |
+
+Hand labels: `eval/qualifier_labels_v5.json`, same rule as for v3 and v4. Of the
+10 lexical flags, 1 is real, the same drop that v4 had ("estimates that may take
+into account … the anticipated scope" → "based on estimates of scope"). The other
+9 drop a hedge that governs something the claim does not state (e.g. "potential
+acquisition activity" when the claim only mentions cash flows) or attribute the
+belief ("the company considers the likelihood … remote").
+
+**What it shows.** The brevity rule removes the length cost of the qualifier rule
+and more: answers are 34% shorter than v4 and 17% shorter than v3_gold. Fewer
+sentences also leave fewer places to drop a hedge, so dropped-qualifier main errors
+fall 16 → 6 and clean answers more than double (13 → 28). The unsupported share
+per claim rises (16.6% → 23.3%): shortening removes supported detail while the
+unsupported claims stay, so the count barely moves (65 → 69) while the denominator
+shrinks. Retrieval did not change (same index and retrieval config; cover recall
+0.741 equals v3_gold), so the gains come from the answer stage.
+
+**Caveats.** One run per config, and §10 measured ~11% of per-question labels
+changing between identical runs (~6 of 56), so the clean jump (+15) is well above
+noise but the unsupported-share change is not established. The 56 questions were
+selected for v3 qualifier flags, so the drop in qualifier errors is partly
+regression to the mean for v3 itself; the comparison with v4 on the same 56 does
+not have that problem. The judge-checked counts for v4 and v5 are circular because
+both runs repaired answers against this check.
+
+**Decision:** keep the brevity rule (v5) as the candidate production config, and
+confirm it on the full 266 questions after the index update (unsupported share and
+placebos are the numbers to watch).
+
+## 16. Not yet done / open
 
 | Item | Status |
 |---|---|
@@ -980,6 +1032,6 @@ is soft). With so few questions this is anecdotal.
 | 10-Q section segmentation | Lower priority now that diversification is label-free |
 | End-to-end run with all fixes, v3 and v3_gold | Done (§9, §10) |
 | End-to-end v4 (v3 + qualifier rule/check v2/repair + soft period filter) | Done (§14): real dropped qualifiers 14 → 4; answers 17% longer |
-| Answer length after the qualifier rule | Open: try a length cap / one sentence per point (§14) |
+| Answer length after the qualifier rule | Done on 56 questions (§15): brevity rule cuts words 224 → 149 and doubles clean answers; full 266-question run pending |
 | Placebo metric | Open: label refusals by whether the false premise is asserted, not by abstained/meta-only (§14) |
-| Remaining 281 v3 10-Ks (non-eval tickers) | After the end-to-end runs (~6 h of embedding) |
+| Remaining 281 v3 10-Ks (non-eval tickers) | Embedding into `data/sec_index_v4` (COW clone of v3), started Nov 13 11:00, ~3.7 chunks/s |

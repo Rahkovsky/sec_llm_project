@@ -1,0 +1,66 @@
+{
+ "source": "out/provenance_16gb_v5_qualsub lexical qualifier flags, hand-labelled in session (Claude), Nov 13 2026; same rule as eval/qualifier_labels.json",
+ "items": [
+  {
+   "id": "finder_0023",
+   "claim": "The company considers cash balances and cash flows as factors in determining when to execute share repurchases",
+   "evidence": "The Company considers several factors in determining when to execute share repurchases, including, among other things, actual and potential acquisition activity, cash balances and cash flows, issuances due to employee benefit plan activity, and market conditions.",
+   "real": false
+  },
+  {
+   "id": "finder_0049",
+   "claim": "Dividends from Principal Life, PFG's primary subsidiary, are limited by Iowa law to the earned surplus arising from its business",
+   "evidence": "Under Iowa law, Principal Life may pay dividends or make other distributions only from the earned surplus arising from its business",
+   "real": false
+  },
+  {
+   "id": "finder_0049",
+   "claim": "Principal Life must receive prior approval from the Commissioner of Insurance of the State of Iowa to pay stockholder dividends or distributions that exceed certain statutory limitations, and the Commissioner has the discretion to disapprove such requests",
+   "evidence": "Principal Life may pay dividends or make other distributions only from the earned surplus arising from its business and must receive the prior approval of the Commissioner of Insurance of the State of Iowa (the “Commissioner”) to pay stockholder dividends or make any other distribution if such distribution would exceed certain statutory limitations. Iowa law gives the Commissioner discretion to disapprove requests for distributions in excess of these limitations.",
+   "real": false
+  },
+  {
+   "id": "finder_0088",
+   "claim": "The company regularly assesses risks, monitors information systems for vulnerabilities, and tests systems pursuant to established cybersecurity policies, processes, and practices",
+   "evidence": "We regularly assess risks from cybersecurity threats; monitor our information systems for potential vulnerabilities; and test those systems pursuant to our cybersecurity policies, processes, and practices",
+   "real": false
+  },
+  {
+   "id": "finder_0101",
+   "claim": "The company uses a risk-based approach to identify and assess threats, incorporates industry standards like the NIST Cyber Security Framework (NIST CSF), and conducts third-party assessments to ensure information security control requirements are met.",
+   "evidence": "We have implemented a risk-based approach to identify and assess the cybersecurity threats that could affect our business and information systems, and we evaluate changes and enhancements to our technology environment as well as conduct third party assessments to confirm that they meet our information security control requirements. Our cybersecurity program and control environment incorporate appropriate industry standards and best practices, such as the National Institutes of Standards and Technology Cyber Security Framework (NIST CSF).",
+   "real": false
+  },
+  {
+   "id": "finder_0143",
+   "claim": "The excerpts describe the company's business strategy to differentiate itself from competitors through 'premier, holistic solutions,' 'exceptional experiences,' and a 'strong, conservative balance sheet'.",
+   "evidence": "Northern Trust’s business strategy is to provide exceptional quality financial services to targeted market segments in which it believes it has a competitive advantage to offer clients a unique value proposition. As part of this strategy, Northern Trust seeks to differentiate itself from its competitors with premier, holistic solutions and exceptional experiences tailored to meet clients’ needs. In addition, Northern Trust emphasizes the development and growth of recurring and scalable sources of fee-based income and continual productivity improvements. Northern Trust also seeks to maintain its foundational strength with a strong, conservative balance sheet and a globally respected brand.",
+   "real": false
+  },
+  {
+   "id": "finder_0176",
+   "claim": "During the three months ended December 31, 2023, Guy Chiarello, Chief Operating Officer, adopted a Rule 10b5-1 Trading Plan for the sale of common stock",
+   "evidence": "On December 15, 2023, Guy Chiarello, Chief Operating Officer of the Company, adopted a trading arrangement for the sale of securities of the Company’s common stock (a “Rule 10b5-1 Trading Plan”) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c).",
+   "real": false
+  },
+  {
+   "id": "finder_0176",
+   "claim": "In the three months ended September 30, 2023, Robert W. Hau, Chief Financial Officer, and Suzan Kereere, Head of Global Business Solutions, each adopted Rule 10b5-1 Trading Plans",
+   "evidence": "On September 22, 2023, Robert W. Hau, Chief Financial Officer of the Company, adopted a trading arrangement for the sale of securities of the Company’s common stock (a “Rule 10b5-1 Trading Plan”) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c). Mr. Hau’s Rule 10b5-1 Trading Plan provides for the exercise of up to 188,088 employee stock options and sale of the underlying shares of common stock pursuant to one or more limit orders until January 31, 2024.\n\nOn September 18, 2023, Suzan Kereere, Head of Global Business Solutions of the Company, adopted a Rule 10b5-1 Trading Plan that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c). Ms. Kereere’s Rule 10b5-1 Trading Plan provides for the sale of up to 6,534 shares of common stock pursuant to one or more limit orders until October 4, 2024.",
+   "real": false
+  },
+  {
+   "id": "finder_0179",
+   "claim": "CMS Energy and Consumers participate in environmental remediation projects and record liabilities based on estimates of scope, cost, and timing.",
+   "evidence": "CMS Energy and Consumers are participating in various environmental remediation projects for which they have recorded liabilities. The recorded amounts represent estimates that may take into account such considerations as the number of sites, the anticipated scope, cost, and timing of remediation work...",
+   "real": true,
+   "note": "same drop labelled real in v4: 'estimates that may take into account ... anticipated scope' -> 'based on estimates of scope'"
+  },
+  {
+   "id": "finder_0179",
+   "claim": "CMS Energy and Consumers have indemnity obligations from the sale of membership interests and stock/asset sale agreements, but the company considers the likelihood of substantial losses related to these indemnities to be remote.",
+   "evidence": "CMS Energy believes the likelihood of material loss to be remote for the indemnity obligations not recorded as liabilities.",
+   "real": false
+  }
+ ]
+}
