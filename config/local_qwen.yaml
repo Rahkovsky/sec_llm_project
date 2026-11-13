@@ -1,0 +1,82 @@
+# EXPERIMENTAL (Nov 2026): Qwen3.6-35B-A3B (MoE, ~3B active -> fast on Apple Silicon) generator,
+# Gemma 4 12B independent judge, Qwen3-Embedding-4B. Separate index dir so it can be A/B'd against local.yaml.
+# Run Ollama with OLLAMA_MAX_LOADED_MODELS=1 on 32 GB. Needs Ollama >= 0.31.
+
+llm:
+  provider: ollama
+  model: qwen3.6:35b-a3b
+  base_url: http://localhost:11434
+  temperature: 0.0
+  max_tokens: 768
+  seed: 7
+  timeout: 600   # 16 GB M2 needs >120s for a full answer over large chunks
+
+embedding:
+  provider: huggingface
+  model: Qwen/Qwen3-Embedding-4B
+  dim: 2560
+  dtype: bfloat16   # 4B model: ~8 GB instead of ~16 GB in fp32
+  normalize: true
+  version: qwen3-4b-v1
+
+chunking:
+  max_chars: 1800
+  overlap_chars: 200
+  min_chars: 200
+  sec_aware: true
+
+retrieval:
+  top_k: 8
+  candidate_k: 60
+  use_bm25: true
+  use_dense: true
+  fusion: rrf
+  # Tuned on the full index over 260 FinDER questions (tools/tune_weights.py):
+  # Recall@8 peaks at 0.60/0.40 (0.385), a clear interior max — BM25-leaning
+  # because FinDER queries are keyword/acronym-heavy. Re-tune at --step 0.05
+  # around 0.55-0.65 to refine. RRF uses these as relative weights.
+  bm25_weight: 0.6
+  dense_weight: 0.4
+
+index:
+  store: chroma
+  path: data/sec_index_qwen
+  collection: sec_filings
+
+audit:
+  enabled: true
+  path: logs/audit.jsonl
+
+# Per-request span tracing for QC / observability (see docs/OBSERVABILITY.md).
+# backend: jsonl -> nested spans to a file (no extra deps). Set backend: phoenix
+# (and `uv pip install -e ".[observability]"`) to stream traces to a locally-run
+# Arize Phoenix at the endpoint below. Off by default.
+observability:
+  enabled: false
+  backend: jsonl
+  path: logs/traces.jsonl
+  endpoint: http://localhost:6006/v1/traces
+  service: sec-intel
+
+# Independent LLM-as-judge citation verification for the LOCAL stack.
+#
+# Independence is the whole point: a model cannot credibly grade its own output,
+# so the judge must be a DIFFERENT model from the generator (qwen3.6:35b-a3b generates, gemma4:12b judges).
+# A same-model judge is rejected at startup by a self-grading guard.
+#
+# Disabled by default because it (a) requires a second model and (b) adds a second
+# LLM call per answer. To enable independent local verification:
+#     ollama pull gemma4:12b
+# then set `enabled: true` below.
+verification:
+  enabled: true
+  judge:
+    provider: ollama
+    model: gemma4:12b
+    base_url: http://localhost:11434
+    temperature: 0.0
+    timeout: 600     # judge swaps in beside the generator on 32 GB; loads are slow
+    max_tokens: 2048 # one claim+verbatim quote per answer sentence; 768 truncates the JSON
+  groundedness_floor: 0.6
+  repair: true
+  abstain_on_contradiction: true

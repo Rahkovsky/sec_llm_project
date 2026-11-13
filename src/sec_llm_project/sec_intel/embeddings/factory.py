@@ -23,7 +23,7 @@ def build_embedder(config: EmbeddingConfig) -> Embedder:
         model = config.model or "nomic-ai/nomic-embed-text-v1.5"
         return HuggingFaceEmbedder(
             model=model, normalize=config.normalize, version=config.version,
-            revision=config.revision or None,
+            revision=config.revision or None, dtype=config.dtype or None,
         )
     raise ValueError(
         f"Unknown embedding provider '{config.provider}' (expected 'hashing' or 'nomic')")

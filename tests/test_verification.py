@@ -175,3 +175,154 @@ def test_pipeline_gates_when_groundedness_floor_is_high():
                           filters={"ticker": "NOVA"})
     assert answer.abstained
     assert "verification" in answer.extra
+
+
+class _ListJudge:
+    name = "list"
+
+    def __init__(self, claims):
+        self._claims = claims
+
+    def judge(self, answer_text, context):
+        return [ClaimVerdict(**c) for c in self._claims]
+
+
+def test_quote_match_ignores_punctuation_case_and_typography():
+    from sec_llm_project.sec_intel.generation.verifier import quote_matches
+
+    src = "The Company\u2019s board — through its Audit Committee — oversees risk, quarterly."
+    assert quote_matches("The Company's board - through its Audit Committee - oversees risk", src)
+    assert quote_matches("the company's board, through its audit committee, oversees", src)
+    # short quotes need an exact match; reordered or absent words never match
+    assert not quote_matches("oversees risk quarterly", src)
+    assert not quote_matches("The Audit Committee oversees the board through risk", src)
+
+
+def test_citation_repointed_to_chunk_holding_quote():
+    ctx = _ctx(["Unrelated revenue table for the fiscal year.",
+                "The Audit Committee reviews cybersecurity risk with the CISO quarterly."])
+    judge = _ListJudge([{"claim": "The Audit Committee reviews cyber risk.", "verdict": "SUPPORTED",
+                             "citation": 1, "quote": "Audit Committee reviews cybersecurity risk with the CISO"}])
+    report = CitationVerifier(judge).verify(Answer(question="q", text="x [1]"), ctx)
+    c = report.claims[0]
+    assert (c.verdict, c.citation, c.citation_corrected, c.valid_quote) == ("SUPPORTED", 2, True, True)
+    assert report.to_dict()["citations_corrected"] == 1
+
+
+def test_meta_claims_excluded_from_groundedness():
+    from sec_llm_project.sec_intel.generation.verifier import is_meta_claim
+
+    assert is_meta_claim("The provided excerpts do not contain information regarding investor sentiment.")
+    assert is_meta_claim("The documents do not provide a specific growth or valuation outlook.")
+    assert not is_meta_claim("The excerpts state that the CISO reports to the Technology Committee.")
+    assert not is_meta_claim("The excerpts do not state that NIST measures cause losses; rather, "
+                             "they describe the framework.")
+    # Any verb after "do not", with an optional adverb (v3 run phrasings).
+    assert is_meta_claim("The excerpts do not cover the impact of executive diversity on growth.")
+    assert is_meta_claim("The excerpts do not explicitly state the impact on investor confidence.")
+    # Second half of a split "do not contain X, nor do they describe Y" (placebo_0004).
+    assert is_meta_claim("nor do they describe any impairment charges related to such an event")
+    assert not is_meta_claim("Nor does the company expect material impairment charges.")
+    # Describing which filings are in the evidence (placebo_0001).
+    assert is_meta_claim("The documents include reports for fiscal years 2021, 2022, and 2024, but "
+                         "they do not include a fiscal 2028 10-K.")
+    # Positive statements about the filing's content stay scored.
+    assert not is_meta_claim("The excerpts do, however, state that new laws may affect pricing.")
+    assert not is_meta_claim("The documents also list the names and prior experience of officers.")
+    assert not is_meta_claim("The excerpts cover the following risks: supply chain and cyber.")
+    ctx = _ctx(["The Audit Committee reviews cybersecurity risk with the CISO quarterly."])
+    judge = _ListJudge([
+        {"claim": "The Audit Committee reviews cyber risk.", "verdict": "SUPPORTED", "citation": 1,
+             "quote": "The Audit Committee reviews cybersecurity risk"},
+        {"claim": "The provided excerpts do not contain information regarding investor sentiment.",
+             "verdict": "UNSUPPORTED"}])
+    report = CitationVerifier(judge).verify(Answer(question="q", text="x [1]"), ctx)
+    assert (report.total, report.groundedness, report.to_dict()["meta"]) == (1, 1.0, 1)
+
+
+def test_grouped_citation_markers_parsed():
+    from sec_llm_project.sec_intel.generation.verifier import cited_numbers
+
+    assert cited_numbers("A [1, 2]. B [3]. C [2;4]. D [5-6].") == [1, 2, 3, 4, 5, 6]
+
+
+def test_insufficient_flag_only_abstains_when_bare():
+    from sec_llm_project.sec_intel.generation.grounded import strip_insufficient
+
+    assert strip_insufficient("INSUFFICIENT_EVIDENCE") == (None, False)
+    assert strip_insufficient("The excerpts do not cover this.\n\nINSUFFICIENT_EVIDENCE") == (None, False)
+    text, partial = strip_insufficient(
+        "The Board oversees enterprise risk through the Risk and Safety Committee [1, 2].\n"
+        "INSUFFICIENT_EVIDENCE for the effect on investor confidence.")
+    assert partial and "INSUFFICIENT_EVIDENCE" not in text and "[1, 2]" in text
+    assert strip_insufficient("Revenue was $5 billion [1].") == ("Revenue was $5 billion [1].", False)
+
+
+def test_qualifier_candidates_and_check_parsing():
+    from sec_llm_project.sec_intel.generation.qualifiers import is_candidate, parse_check
+
+    quote = "The emergence of LLMs may further intensify these pressures."
+    assert is_candidate("Competition is intensified by LLMs.", quote) == ["may"]
+    assert is_candidate("LLMs may intensify competition.", quote) == []
+    assert is_candidate("Revenue rose 5%.", "Revenue rose 5%.") == []
+    assert parse_check("1: DROPPED\n2: OK\n**3: dropped**\n- 4. OK", 4) == [True, False, True, False]
+    assert parse_check("garbage", 2) == [None, None]
+
+
+def test_qualifier_repair_restores_hedge_and_records_it():
+    from sec_llm_project.sec_intel.core.config import GenerationConfig
+    from sec_llm_project.sec_intel.generation.grounded import GroundedAnswerer
+    from sec_llm_project.sec_intel.llm.base import GenerationResult
+
+    quote = "competitive pressures could harm our business and financial performance"
+    ctx = _ctx([f"We operate in an intensely competitive industry and {quote}."])
+
+    class Retriever:
+        last_latency_ms = 0.0
+
+        def retrieve(self, question, top_k=None, filters=None):
+            return ctx
+
+    class Gen:  # first answer hardens "could harm"; the repair restores it
+        model = "gen"
+
+        def __init__(self):
+            self.calls = []
+
+        def generate(self, messages, **kw):
+            self.calls.append(messages)
+            text = ("Competitive pressures can harm the business [1]." if len(self.calls) == 1
+                    else "Competitive pressures could harm the business [1].")
+            return GenerationResult(text=text, model="gen")
+
+    class Judge:  # every answer sentence is supported by the quote
+        name = "judge"
+
+        def judge(self, answer_text, context):
+            claim = answer_text.replace(" [1]", "")
+            return [ClaimVerdict(claim=claim, verdict="SUPPORTED", citation=1, quote=quote)]
+
+    class Checker:  # DROPPED when the claim lacks the filing's "could"
+        def check(self, items):
+            return ["could" not in it.claim for it in items]
+
+    cfg = VerificationConfig(qualifier_check=True, qualifier_repair=True)
+    verifier = CitationVerifier(Judge(), cfg, qualifier_checker=Checker())
+    gen = Gen()
+    ans = GroundedAnswerer(Retriever(), gen, GenerationConfig(min_evidence_score=0.0),
+                           verifier=verifier).answer("How does competition affect HP?")
+    assert not ans.abstained
+    assert "could harm" in ans.text
+    q = ans.extra["qualifiers"]
+    assert q["repaired"] and q["dropped"] == [] and len(q["dropped_before"]) == 1
+    # The repair prompt quotes the claim and the filing text.
+    assert "can harm" in gen.calls[1][-1].content and quote in gen.calls[1][-1].content
+
+
+def test_qualifier_rule_is_opt_in():
+    from sec_llm_project.sec_intel.generation import prompts
+
+    assert prompts.system_prompt() == prompts.SYSTEM_PROMPT
+    assert "qualifiers" in prompts.system_prompt(True)
+    assert "one sentence per point" in prompts.system_prompt(True, True)
+    assert "one sentence per point" not in prompts.system_prompt(True)

@@ -1,0 +1,154 @@
+{
+ "note": "Hand labels (Claude, in session, Nov 13 2026) for the 6 placebo questions in each finished full run. premise_asserted = the answer states or presupposes the false/unanswerable premise (a 2028 forecast, a 1999 risk summary, SpaceX 10-K risks, a Tesla bankruptcy, a DEF 14A pay figure, a daily AWS revenue). refuses_in_substance = it says the evidence does not contain the answer, whether or not the pipeline marked it abstained.",
+ "items": [
+  {
+   "run": "provenance_16gb_v3",
+   "id": "placebo_0001",
+   "abstained": false,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false,
+   "note": "answered in prose: says no fiscal 2028 10-K or forecast in the excerpts"
+  },
+  {
+   "run": "provenance_16gb_v3",
+   "id": "placebo_0002",
+   "abstained": true,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false
+  },
+  {
+   "run": "provenance_16gb_v3",
+   "id": "placebo_0003",
+   "abstained": true,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false
+  },
+  {
+   "run": "provenance_16gb_v3",
+   "id": "placebo_0004",
+   "abstained": true,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false
+  },
+  {
+   "run": "provenance_16gb_v3",
+   "id": "placebo_0005",
+   "abstained": true,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false
+  },
+  {
+   "run": "provenance_16gb_v3",
+   "id": "placebo_0006",
+   "abstained": true,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false
+  },
+  {
+   "run": "provenance_16gb_v3_gold",
+   "id": "placebo_0001",
+   "abstained": false,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false,
+   "note": "answered in prose: says no fiscal 2028 10-K or forecast in the excerpts"
+  },
+  {
+   "run": "provenance_16gb_v3_gold",
+   "id": "placebo_0002",
+   "abstained": true,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false
+  },
+  {
+   "run": "provenance_16gb_v3_gold",
+   "id": "placebo_0003",
+   "abstained": true,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false
+  },
+  {
+   "run": "provenance_16gb_v3_gold",
+   "id": "placebo_0004",
+   "abstained": false,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false,
+   "note": "answered in prose: no bankruptcy filing or related impairment in the excerpts"
+  },
+  {
+   "run": "provenance_16gb_v3_gold",
+   "id": "placebo_0005",
+   "abstained": true,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false
+  },
+  {
+   "run": "provenance_16gb_v3_gold",
+   "id": "placebo_0006",
+   "abstained": true,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false
+  },
+  {
+   "run": "provenance_16gb_v4",
+   "id": "placebo_0001",
+   "abstained": true,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false
+  },
+  {
+   "run": "provenance_16gb_v4",
+   "id": "placebo_0002",
+   "abstained": true,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false
+  },
+  {
+   "run": "provenance_16gb_v4",
+   "id": "placebo_0003",
+   "abstained": true,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false
+  },
+  {
+   "run": "provenance_16gb_v4",
+   "id": "placebo_0004",
+   "abstained": false,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": true,
+   "note": "rejects the premise, then adds a true, supported fact (2022 $204M digital-asset impairment), not tied to bankruptcy"
+  },
+  {
+   "run": "provenance_16gb_v4",
+   "id": "placebo_0005",
+   "abstained": false,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": true,
+   "note": "says the compensation figures are not in the excerpts; mentions the say-on-pay vote (true, cited)"
+  },
+  {
+   "run": "provenance_16gb_v4",
+   "id": "placebo_0006",
+   "abstained": true,
+   "premise_asserted": false,
+   "refuses_in_substance": true,
+   "extra_true_facts": false
+  }
+ ]
+}

@@ -38,3 +38,23 @@ def test_extraction_returns_valid_schema():
     assert "risk_factors" in res.data
     assert isinstance(res.data["risk_factors"], list)
     assert res.citations
+
+
+def test_answer_records_retrieval_and_raw_generation():
+    # Post-run failure analysis needs the ranked retrieval list on every answer,
+    # and the raw generation whenever the model was called.
+    p = _pipeline()
+    ans = p.ask("What supply chain risks does Nova Devices face?", filters={"ticker": "NOVA"})
+    rows = ans.extra["retrieval"]
+    assert rows and [r["rank"] for r in rows] == sorted(r["rank"] for r in rows)
+    assert {"chunk_id", "ticker", "filing_type", "item_number", "dense", "fused"} <= rows[0].keys()
+    assert isinstance(ans.extra["raw_generation"], str) and ans.extra["raw_generation"]
+
+
+def test_abstained_answer_still_records_retrieval():
+    p = _pipeline()
+    ans = p.ask("What is the airspeed velocity of an unladen swallow?",
+                filters={"ticker": "NOVA"})
+    assert ans.abstained
+    assert "retrieval" in ans.extra
+    assert ans.extra["abstain_reason"] == ans.abstain_reason

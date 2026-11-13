@@ -77,3 +77,25 @@ def test_missing_sidecar_falls_back_to_filename(tmp_path):
     assert all(c.metadata.ticker == "NOVA" for c in chunks)
     # No sidecar => no source URL available.
     assert all(c.metadata.source_url == "" for c in chunks)
+
+
+def test_loaded_index_reads_text_lazily_and_round_trips(tmp_path):
+    from sec_llm_project.sec_intel.index.store import SECIndex
+
+    _write_filing(tmp_path / "10-K" / "NOVA", with_sidecar=True)
+    cfg = AppConfig.offline()
+    cfg.index.path = str(tmp_path / "idx")
+    built = IndexBuilder(cfg).build_from_dir(tmp_path / "10-K", persist=True)
+    want = {c.chunk_id: c.to_dict() for c in built.all_chunks()}
+
+    loaded = SECIndex.load(cfg.index.path)
+    # Metadata-only catalog: no text held in memory, one metadata object per filing.
+    assert all(c.text == "" for c in loaded.catalog())
+    assert len({id(c.metadata) for c in loaded.catalog()}) == 1
+    # get() and all_chunks() return the full chunk, identical to what was built.
+    assert {cid: loaded.get(cid).to_dict() for cid in want} == want
+    assert {c.chunk_id: c.to_dict() for c in loaded.all_chunks()} == want
+    # Persisting a lazily loaded index rewrites the same file it reads from.
+    loaded.persist()
+    again = SECIndex.load(cfg.index.path)
+    assert {c.chunk_id: c.to_dict() for c in again.all_chunks()} == want

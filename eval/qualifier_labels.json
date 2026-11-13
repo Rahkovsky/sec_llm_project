@@ -1,0 +1,518 @@
+{
+ "note": "Hand labels (Claude, in session, Nov 12 2026) for the 73 claims the lexical hardened-qualifier proxy flagged in out/provenance_16gb_v3. real = the hedge governs exactly what the claim states as fact. Claims that attribute the statement ('the company states that ...') count as not hardened.",
+ "items": [
+  {
+   "id": "finder_0001",
+   "claim": "For specific contingent liabilities, such as those related to offshore wind investments, the estimation involves assumptions and key judgments.",
+   "evidence": "Assumptions and key judgments in determining the estimated liability include the expected cost overrun sharing obligation, expected obligation to maintain GIP\u2019s internal rate of return, and obligation for other future costs.",
+   "dropped_lexical": "expected",
+   "real": false
+  },
+  {
+   "id": "finder_0004",
+   "claim": "The excerpts state that the 'diversity is a strength of our portfolio,' providing 'multiple avenues for organic and inorganic growth, lower cyclicality, and the ability to extract synergies of common ownership.'",
+   "evidence": "We believe this diversity is a strength of our portfolio, providing Dover with multiple avenues for organic and inorganic growth, lower cyclicality, and the ability to extract synergies of common ownership.",
+   "dropped_lexical": "believe",
+   "real": false,
+   "label_note": "attribution kept ('the excerpts/company state(s) that ...'): not presented as fact"
+  },
+  {
+   "id": "finder_0005",
+   "claim": "The company operates in a complex regulatory and reimbursement environment that requires a highly engaged workforce.",
+   "evidence": "Our industry is subject to a complex regulatory and reimbursement environment. The unique demands of our industry, together with the challenges of running an enterprise focused on the discovery, development, manufacture and commercialization of innovative medicines, requires a highly engaged and committed workforce.",
+   "dropped_lexical": "subject to",
+   "real": false
+  },
+  {
+   "id": "finder_0006",
+   "claim": "The company utilizes the NIST Cybersecurity Framework and industry best practices to prioritize risks and drive program enhancements",
+   "evidence": "We leverage the National Institute of Standards and Technology (\u201cNIST\u201d) Cybersecurity Framework and industry best practices to identify and prioritize cybersecurity risks based on their potential impacts. We also use the NIST framework and industry best practices to drive enhancements to our program",
+   "dropped_lexical": "potential",
+   "real": false
+  },
+  {
+   "id": "finder_0010",
+   "claim": "Third-Party and Personnel Security: A dedicated Third Party Security team manages risks from service providers through assessments and contractual terms. Employees undergo annual mandatory security awareness training.",
+   "evidence": "Exelon applies stringent employee and contractor screening, and advances security awareness through training and monitoring programs that address both cyber and physical threats. Exelon employees are subject to annual mandatory training addressing security awareness, including cybersecurity and phishing.",
+   "dropped_lexical": "subject to",
+   "real": false
+  },
+  {
+   "id": "finder_0023",
+   "claim": "The company considers cash balances and cash flows as factors in determining when to execute share repurchases.",
+   "evidence": "The Company considers several factors in determining when to execute share repurchases, including, among other things, actual and potential acquisition activity, cash balances and cash flows, issuances due to employee benefit plan activity, and market conditions.",
+   "dropped_lexical": "potential",
+   "real": false
+  },
+  {
+   "id": "finder_0024",
+   "claim": "The CSO communicates the nature and state of security risks to senior business leaders and meets regularly with the Information Security Committee to discuss the cyber threat landscape",
+   "evidence": "The CSO and Akamai\u2019s information security team regularly communicate the nature and state of security risks to senior business leaders across the organization. In addition, the CSO meets on a regular basis with the Information Security Committee to provide cybersecurity program updates and to discuss potential risks and changes in the cyber threat landscape in which we operate.",
+   "dropped_lexical": "potential",
+   "real": false
+  },
+  {
+   "id": "finder_0027",
+   "claim": "Responding to investigations can be 'time-consuming and expensive'",
+   "evidence": "responding to information-gathering requests, reviews, investigations and proceedings, regardless of the ultimate outcome of the matter, could be time-consuming and expensive.",
+   "dropped_lexical": "could",
+   "real": true
+  },
+  {
+   "id": "finder_0039",
+   "claim": "The company states that its businesses are among the top suppliers in most markets and niches it serves, which positions the company to capture future growth.",
+   "evidence": "We believe our businesses are among the top suppliers in most markets and niches we serve (as defined by customer applications, geographies or products), which positions us well to capture future growth.",
+   "dropped_lexical": "believe",
+   "real": false,
+   "label_note": "attribution kept ('the excerpts/company state(s) that ...'): not presented as fact"
+  },
+  {
+   "id": "finder_0047",
+   "claim": "The Company's fare structure includes four categories\u2014\"Wanna Get Away,\" \"Wanna Get Away Plus,\" \"Anytime,\" and \"Business Select\"\u2014with \"Wanna Get Away\" typically being the lowest fares",
+   "evidence": "Southwest fare products include four major categories: \u201cWanna Get Away\u00ae,\u201d \u201cWanna Get Away Plus\u00ae,\u201d \u201cAnytime,\u201d and \u201cBusiness Select\u00ae,\u201d to provide Customers options when choosing a fare. All fare products include the privilege of two free checked bags (weight and size limits apply). Southwest does not charge fees for cancellations or changes to flight reservations, although fare differences may apply.\n\n\u2022 \u201cWanna Get Away\u201d fares are generally the lowest fares and are often subject to advance purchase requirements.",
+   "dropped_lexical": "may subject to",
+   "real": false
+  },
+  {
+   "id": "finder_0049",
+   "claim": "The Commissioner of Insurance of the State of Iowa must provide prior approval for any distribution that exceeds certain statutory limitations, and the Commissioner has the discretion to disapprove such requests.",
+   "evidence": "must receive the prior approval of the Commissioner of Insurance of the State of Iowa (the \u201cCommissioner\u201d) to pay stockholder dividends or make any other distribution if such distribution would exceed certain statutory limitations. Iowa law gives the Commissioner discretion to disapprove requests for distributions in excess of these limitations.",
+   "dropped_lexical": "would",
+   "real": false
+  },
+  {
+   "id": "finder_0055",
+   "claim": "Xylem is involved in various legal and regulatory proceedings incidental to its business operations, including matters related to environmental, tax, intellectual property, product liability, and employment",
+   "evidence": "From time to time, we are involved in legal and regulatory proceedings that are incidental to the operation of our businesses (or the business operations of previously-owned entities). These proceedings may seek remedies relating to matters including environmental, tax, intellectual property, acquisitions or divestitures, product liability, property damage, personal injury, privacy, employment, labor and pension, government contract issues and commercial or contractual disputes.",
+   "dropped_lexical": "may",
+   "real": false
+  },
+  {
+   "id": "finder_0055",
+   "claim": "Xylem maintains that ITT has an obligation to indemnify Xylem for asbestos product liability matters",
+   "evidence": "Pursuant to the Distribution Agreement among ITT, Exelis and Xylem, ITT has an obligation to indemnify, defend and hold Xylem harmless for asbestos product liability matters, including settlements, judgments, and legal defense costs associated with all pending and future claims that may arise from past sales of ITT\u2019s legacy products.",
+   "dropped_lexical": "may",
+   "real": false
+  },
+  {
+   "id": "finder_0057",
+   "claim": "The excerpts mention the retirement of a director.",
+   "evidence": "On December 15, 2023, Ronald Kuehn notified Kinder Morgan, Inc. (\u201cKMI\u201d) that he will retire from the Company\u2019s Board of Directors (the \u201cBoard\u201d) at the end of his current term and consequently will not stand for re-election to the Board at the Company\u2019s 2024 annual meeting of stockholders in May. Mr. Kuehn\u2019s current term will expire at KMI\u2019s 2024 annual meeting. Mr. Kuehn\u2019s decision to retire is not due to any disagreement with KMI.",
+   "dropped_lexical": "may",
+   "real": false
+  },
+  {
+   "id": "finder_0060",
+   "claim": "The company invests in leadership development programs and provides resources like the BlackRock Academies to help employees build skills and enhance their professional capabilities",
+   "evidence": "One example is the BlackRock Academies, the firm\u2019s online suite of interactive resources and courses, which enable employees to build skills in specific facets of BlackRock\u2019s business and purpose. The Company believes these opportunities play an important role in engaging BlackRock\u2019s employees.",
+   "dropped_lexical": "believes",
+   "real": false
+  },
+  {
+   "id": "finder_0060",
+   "claim": "Maintaining a strong corporate culture is viewed as a critical component of human capital management and the firm's long-term success",
+   "evidence": "BlackRock believes that maintaining a strong corporate culture is an important component of its human capital management practices and critical to the firm\u2019s long-term success.",
+   "dropped_lexical": "believes",
+   "real": false
+  },
+  {
+   "id": "finder_0068",
+   "claim": "The company targets high-quality, strategically located properties that provide physical and connectivity infrastructure for data center and technology industry customers",
+   "evidence": "We target high-quality, strategically located properties containing the physical and connectivity infrastructure that supports the applications and operations of data center and technology industry customers and properties that may be developed for such use.",
+   "dropped_lexical": "may",
+   "real": false
+  },
+  {
+   "id": "finder_0068",
+   "claim": "Its strategy includes: Execution: Achieving superior risk-adjusted returns, prudently allocating capital, diversifying product offerings, accelerating global reach and scale, and driving revenue growth and operating efficiencies",
+   "evidence": "We expect to accomplish our objectives by achieving superior risk-adjusted returns, prudently allocating capital, diversifying our product offerings, accelerating our global reach and scale, and driving revenue growth and operating efficiencies.",
+   "dropped_lexical": "expect",
+   "real": true
+  },
+  {
+   "id": "finder_0068",
+   "claim": "Its strategy includes: Internal Growth: Developing existing space held for development, acquiring land for future development, and acquiring new properties",
+   "evidence": "A significant component of our current and future internal growth is anticipated through the development of our existing space held for development, acquisition of land for future development, and acquisition of new properties.",
+   "dropped_lexical": "anticipated",
+   "real": true
+  },
+  {
+   "id": "finder_0083",
+   "claim": "These estimates are informed by historical data and trends regarding claim frequency and resolution costs relative to specific products and markets.",
+   "evidence": "Historical data and trends regarding the frequency of claims incurred and the costs to resolve claims relative to the types of products and markets where the Company operates are used to estimate the construction defect liabilities for both existing and anticipated future claims.",
+   "dropped_lexical": "anticipated",
+   "real": false
+  },
+  {
+   "id": "finder_0088",
+   "claim": "REGN manages cybersecurity risks through a risk-based approach integrated into its overall risk management program",
+   "evidence": "We regularly assess risks from cybersecurity threats; monitor our information systems for potential vulnerabilities; and test those systems pursuant to our cybersecurity policies, processes, and practices, which are integrated into our overall risk management program.",
+   "dropped_lexical": "potential",
+   "real": false
+  },
+  {
+   "id": "finder_0088",
+   "claim": "The company regularly assesses risks from cybersecurity threats, monitors information systems for vulnerabilities, and tests systems against established policies and practices",
+   "evidence": "We regularly assess risks from cybersecurity threats; monitor our information systems for potential vulnerabilities; and test those systems pursuant to our cybersecurity policies, processes, and practices, which are integrated into our overall risk management program.",
+   "dropped_lexical": "potential",
+   "real": false
+  },
+  {
+   "id": "finder_0092",
+   "claim": "The Growth strategy focuses on investing in jobs, training, benefits, and infrastructure, while creating efficiencies of scale and improving customer affordability",
+   "evidence": "The Company believes that through growth, it can invest in creating more jobs, better training and benefits, and improved infrastructure in its communities. The Company\u2019s growth also creates greater efficiencies of scale and drives improved customer affordability, which benefits all of its stakeholders, including shareholders.",
+   "dropped_lexical": "believes",
+   "real": true
+  },
+  {
+   "id": "finder_0096",
+   "claim": "The documents describe the company's investment in software to improve efficiency and develop scalable solutions.",
+   "evidence": "Capital expenditures consisted primarily of investments in software, which are intended to develop and deliver scalable solutions by transforming our processes, accelerate the pace of development and prioritizing data integrity, improve our customer and carrier experience, and increase efficiency to help expand our adjusted operating margins and grow the business.",
+   "dropped_lexical": "intended",
+   "real": true
+  },
+  {
+   "id": "finder_0101",
+   "claim": "The company uses a risk-based approach to identify and assess threats, evaluates technology environment changes, and conducts third-party assessments to ensure compliance with information security control requirements.",
+   "evidence": "We have implemented a risk-based approach to identify and assess the cybersecurity threats that could affect our business and information systems, and we evaluate changes and enhancements to our technology environment as well as conduct third party assessments to confirm that they meet our information security control requirements.",
+   "dropped_lexical": "could",
+   "real": false
+  },
+  {
+   "id": "finder_0103",
+   "claim": "The overall impact of the cybersecurity incident did not have a material impact on net income, net of insurance recoveries, or cash flows from operations in fiscal 2024.",
+   "evidence": "The overall impact of the cybersecurity incident did not have a material impact on net income, net of insurance recoveries, or cash flows from operations in the third quarter of fiscal 2024, nor is the impact expected to be material for the full year fiscal 2024.",
+   "dropped_lexical": "expected",
+   "real": true
+  },
+  {
+   "id": "finder_0106",
+   "claim": "To address these competitive dynamics and growth in digital services and IoT, the Company's strategy includes Risk Management: The Company acknowledges risks regarding its ability to be agile and responsive to disruption in the development of new products and technologies, such as artificial intelligence and machine learning, which are integrated into its digital services and solutions business.",
+   "evidence": "If we are unable to be agile and responsive to disruption in the development of new products, services and technologies, including technologies such as artificial intelligence and machine learning, our business, financial condition, results of operations and cash flows could be adversely affected.",
+   "dropped_lexical": "could",
+   "real": false
+  },
+  {
+   "id": "finder_0112",
+   "claim": "Revenue Trends: Video and voice revenues decreased due to a decline in the number of residential customers",
+   "evidence": "Video revenue decreased in 2022 primarily due to a decline in the number of residential video customers, partially offset by an increase in average rates. We expect that the number of residential video customers will continue to decline, negatively impacting video revenue as a result of the competitive environment and shifting video consumption patterns. Voice revenue decreased in 2022 primarily due to a decline in the number of residential voice customers.",
+   "dropped_lexical": "expect",
+   "real": false
+  },
+  {
+   "id": "finder_0115",
+   "claim": "The excerpts provide the following related information: Competitive Environment: The Company's segments (Engine Products, Fastening Systems, Engineered Structures, and Forged Wheels) face 'substantial and intense competition,' and many products can be produced by competitors using similar or alternative manufacturing processes.",
+   "evidence": "The Company\u2019s segments - Engine Products, Fastening Systems, Engineered Structures, and Forged Wheels - are subject to substantial and intense competition in the markets they serve. Although Howmet believes its advanced technology, manufacturing processes and experience provide advantages to Howmet\u2019s customers, such as high quality and superior mechanical properties that meet the Company\u2019s customers\u2019 most stringent requirements, many of the products Howmet makes can be produced by competitors using similar types of manufacturing processes as well as alternative forms of manufacturing.",
+   "dropped_lexical": "believes subject to",
+   "real": false
+  },
+  {
+   "id": "finder_0115",
+   "claim": "The excerpts provide the following related information: Valuation/Impairment Policy: Howmet performs qualitative and quantitative assessments to determine if the estimated fair value of a reporting unit is less than its carrying amount, comparing the weighted average cost of capital (WACC) between current and prior years.",
+   "evidence": "Management also considers the most recent forecasted cash flows and discount rates in determining if the prior fair value measurement estimate may be reduced to a level that would indicate impairment is more likely than not and compares the weighted average cost of capital (\u201cWACC\u201d) between the current and prior years for each reporting unit.",
+   "dropped_lexical": "likely may would",
+   "real": false
+  },
+  {
+   "id": "finder_0123",
+   "claim": "The Company's '80/20 strategic approach' involves guiding investments and aligning resources to 'win with customers, while reducing complexity and cost across the Company'",
+   "evidence": "As part of the Company\u2019s 80/20 strategic approach, the Company intends to guide investments and align resources to win with customers, while reducing complexity and cost across the Company.",
+   "dropped_lexical": "intends",
+   "real": true
+  },
+  {
+   "id": "finder_0125",
+   "claim": "Success depends on technological innovation, brand strength, portfolio diversity, and customer service.",
+   "evidence": "We believe that competitive performance in the marketplace for integrated circuits depends upon multiple factors, including technological innovation, strength of brand, diversity of product portfolio, product performance, technical support, delivery capabilities, customer service quality, reliability and price",
+   "dropped_lexical": "believe",
+   "real": true
+  },
+  {
+   "id": "finder_0127",
+   "claim": "The excerpts detail the company's professional growth model and diversity, equity, and inclusion (DE&I) strategy.",
+   "evidence": "We also believe in the 70-20-10 approach to professional growth. This model acknowledges that at least 70 percent of development occurs on the job through direct experience and skill building. Another 20 percent comes from focused relationship building and exposure to projects, processes and perspectives outside one\u2019s normal expertise. The final 10 percent is focused on targeted training courses and development programs that help our employees achieve their own specific career goals. We offer three classroom-based leadership development programs that focus on helping current and future leaders build their skills. In 2023, more than 300 of our leaders participated in these programs. In addition, we expanded our online training offerings, which are accessible to all employees to take in support of their career development, and we offered a variety of virtually facilitated trainings on a range of topics. In 2023, our employees logged over 50,000 hours of training in our online learning management system, which tracks both virtual and classroom courses delivered.\n\nDIVERSITY, EQUITY AND INCLUSION (DE&I)\n\nInclusion is a core value at Weyerhaeuser because we know our success depends on leveraging diverse experiences and points of view to foster innovation, facilitate better decision-making and ultimately create a stronger company. Our senior management team and board of directors regularly review our DE&I strategy and goals, which are focused on creating an inclusive environment, ensuring our policies and practices are equitable, and improving representation at all levels of the company. To achieve this, we are focused on three key areas: leadership, people and culture.",
+   "dropped_lexical": "believe",
+   "real": false
+  },
+  {
+   "id": "finder_0127",
+   "claim": "The documents provide data on capital expenditures, financing activities, and debt covenants.",
+   "evidence": "We anticipate our capital expenditures for 2024 to be approximately $420 million. The amount we spend on capital expenditures could change.\n\nCASH FROM FINANCING ACTIVITIES\n\nConsolidated net cash from financing activities was:\n\n\u25cf $(674) million for year-to-date 2024 and\n\n\u25cf $(571) million for year-to-date 2023.\n\nNet cash from financing activities decreased $103 million primarily due to a $743 million decrease in net proceeds from issuance of long-term debt, partially offset by a $537 million decrease in cash used for payments of dividends, as well as a $118 million decrease in cash used for payments of long-term debt.\n\nLine of Credit\n\nWe had no outstanding borrowings on our $1.5 billion five-year senior unsecured revolving credit facility as of September 30, 2024 or December 31, 2023. This credit facility expires in March 2028.\n\nRefer to Note 8: Long-Term Debt and Line of Credit for further information.\n\nLong-Term Debt\n\nWe have $210 million of long-term debt, with a weighted average interest rate of 8.314 percent, scheduled to mature during first quarter 2025.\n\nIn July 2023, we repaid $118 million of our 7.125 percent notes at maturity.\n\nIn May 2023, we completed an offering of debt securities by issuing $750 million of 4.750 percent notes due in May 2026. The net proceeds after deducting the discount, underwriting fees and issuance costs were $743 million.\n\nRefer to Note 8: Long-Term Debt and Line of Credit for further information.\n\nDebt Covenants\n\nAs of September 30, 2024, Weyerhaeuser Company was in compliance with its debt covenants.",
+   "dropped_lexical": "anticipate could may",
+   "real": false
+  },
+  {
+   "id": "finder_0141",
+   "claim": "The excerpts describe the company's general cybersecurity incident response plan, which includes processes to triage, assess, escalate, contain, investigate, and remediate incidents, as well as annual tabletop exercises.",
+   "evidence": "The IRT uses a detailed incident response plan that outlines and coordinates the actions we take to prepare for, detect, respond to and recover from cybersecurity incidents, which include processes to triage, assess the severity of, escalate, contain, investigate, and remediate an incident, as well as to comply with potentially applicable legal obligations and mitigate brand and reputational damage. In addition, our IRT engages in tabletop exercises at least annually to simulate a response to a cybersecurity incident and uses the findings to improve our processes, plans and technologies.",
+   "dropped_lexical": "potentially",
+   "real": false
+  },
+  {
+   "id": "finder_0143",
+   "claim": "The excerpts describe the company's business strategy to differentiate itself from competitors through 'premier, holistic solutions,' 'exceptional experiences,' and a 'strong, conservative balance sheet'.",
+   "evidence": "Northern Trust\u2019s business strategy is to provide exceptional quality financial services to targeted market segments in which it believes it has a competitive advantage to offer clients a unique value proposition. As part of this strategy, Northern Trust seeks to differentiate itself from its competitors with premier, holistic solutions and exceptional experiences tailored to meet clients\u2019 needs. In addition, Northern Trust emphasizes the development and growth of recurring and scalable sources of fee-based income and continual productivity improvements. Northern Trust also seeks to maintain its foundational strength with a strong, conservative balance sheet and a globally respected brand.",
+   "dropped_lexical": "believes",
+   "real": false
+  },
+  {
+   "id": "finder_0150",
+   "claim": "The documents list the names, titles, and dates of service for various executive officers.",
+   "evidence": "pliance Officer, MidAmerican Energy Company, a regulated electric and gas utility March 2015 \u2014 December 2020 Patricia Correa 51 Senior Vice President, Chief Human Resources Officer, Xcel Energy Inc. February 2022 \u2014 Present Senior Vice President, Human Resources, Eaton Corporation, a power management company July 2019 \u2014 January 2022 Timothy O\u2019Connor 65 Executive Vice President, Chief Operations Officer, Xcel Energy Inc. August 2021 \u2014 Present Executive Vice President, Chief Generation Officer, Xcel Energy Inc. March 2020 \u2014 August 2021 Senior Vice President, Chief Nuclear Officer, Xcel Energy Services Inc February 2013 \u2014 March 2020 Amanda Rome 44 Executive Vice President, Group President, Utilities, and Chief Customer Officer, Xcel Energy Inc. October 2023 \u2014 Present Interim General Counsel, Xcel Energy Inc. January 2024 \u2014 May 2024 Executive Vice President, Chief Legal and Compliance Officer, Xcel Energy Inc. June 2022 \u2014 October 2023 Executive Vice President, General Counsel, Xcel Energy Inc. June 2020 \u2014 June 2022 Vice President and Deputy General Counsel, Xcel Energy Services Inc. October 2019 \u2014 June 2020 Brian J. Van Abel 43 Executive Vice President, Chief Financial Officer, Xcel Energy Inc. March 2020 \u2014 Present Senior Vice President, Finance and Corporate Development, Xcel Energy Services Inc. September 2018 \u2014 March 2020",
+   "dropped_lexical": "may",
+   "real": false
+  },
+  {
+   "id": "finder_0152",
+   "claim": "The company is unable to estimate a reasonably possible financial loss or range of financial loss regarding the remaining matters due to the complexity and uncertain nature of the proceedings",
+   "evidence": "In view of the complexity and ongoing and uncertain nature of the outstanding proceedings and inquiries, at this time, we are unable to estimate a reasonably possible financial loss or range of financial loss that we may incur to resolve or settle the remaining matters.",
+   "dropped_lexical": "may",
+   "real": false
+  },
+  {
+   "id": "finder_0153",
+   "claim": "The company's growth strategy includes growing the proportion of its portfolio in high-value categories that serve markets growing faster than gross domestic product.",
+   "evidence": "Growing the proportion of our portfolio in high-value categories that serve markets that are growing faster than gross domestic product, represent large pools of potential profit and leverage our core capabilities is an important part of our long-term growth strategy.",
+   "dropped_lexical": "potential",
+   "real": false
+  },
+  {
+   "id": "finder_0155",
+   "claim": "The Risk & Finance Committee is responsible for oversight of risk generally and identifying significant risks, including cybersecurity, privacy, business continuity, and cyber underwriting risk",
+   "evidence": "The Risk & Finance Committee is responsible for oversight of risk generally and identifying significant risks, which may include risks relating to cybersecurity and privacy, business continuity risk (including the resilience of IT operations and physical infrastructure) and cyber underwriting risk.",
+   "dropped_lexical": "may",
+   "real": true
+  },
+  {
+   "id": "finder_0161",
+   "claim": "Competition is intensified by the emergence of LLMs, Gen AI, and other technologies",
+   "evidence": "the emergence of LLMs, Gen AI and other technologies may further intensify these pressures",
+   "dropped_lexical": "may",
+   "real": true
+  },
+  {
+   "id": "finder_0161",
+   "claim": "Weak economic growth has intensified competitive pricing pressures, leading some customers to use free or lower-cost information or develop proprietary systems for assessing credit risk",
+   "evidence": "Recent weak economic growth has intensified competitive pricing pressures, which may result in customers\u2019 use of free or lower-cost information that is increasingly becoming available from alternative sources or their development of alternative, proprietary systems for assessing credit risk that replace the products currently purchased from Moody\u2019s.",
+   "dropped_lexical": "may",
+   "real": true
+  },
+  {
+   "id": "finder_0169",
+   "claim": "Non-compliance can result in legal liabilities, suspension of services, and reputational damage.",
+   "evidence": "Non-compliance could result in legal liabilities, suspension of services and reputational damage.",
+   "dropped_lexical": "could",
+   "real": true
+  },
+  {
+   "id": "finder_0170",
+   "claim": "HP operates in an intensely competitive industry where competitive pressures can harm business and financial performance.",
+   "evidence": "We operate in an intensely competitive industry and competitive pressures could harm our business and financial performance.",
+   "dropped_lexical": "could",
+   "real": true
+  },
+  {
+   "id": "finder_0170",
+   "claim": "Competitors target key market segments and compete on factors such as technology, innovation, price, quality, and brand.",
+   "evidence": "We encounter aggressive competition from competitors in all areas of our business, and our competitors have targeted and are expected to continue targeting our key market segments. We compete on the basis of our technology, innovation, performance, price, quality, reliability, brand, reputation, distribution, range of products and services, ease of use, account relationships, customer training, service and support, security, availability of application software and internet infrastructure offerings, and our sustainability performance.",
+   "dropped_lexical": "expected",
+   "real": false
+  },
+  {
+   "id": "finder_0170",
+   "claim": "Delays in developing, producing, or marketing new products can harm HP's competitive position.",
+   "evidence": "Any delay in the development, production or marketing of a new product, service or solution could result in us not being among the first to market, which could further harm our competitive position.",
+   "dropped_lexical": "could",
+   "real": true
+  },
+  {
+   "id": "finder_0174",
+   "claim": "ODFL is involved in various legal proceedings, claims, and governmental inquiries/investigations arising in the ordinary course of business, including collective and/or class-action allegations.",
+   "evidence": "We are involved in or addressing various legal proceedings and claims, governmental inquiries, notices and investigations that have arisen in the ordinary course of our business and have not been fully adjudicated, some of which may be covered in whole or in part by insurance. Certain of these matters include collective and/or class-action allegations.",
+   "dropped_lexical": "may",
+   "real": false
+  },
+  {
+   "id": "finder_0176",
+   "claim": "During the three months ended December 31, 2023, Guy Chiarello, Chief Operating Officer, adopted a Rule 10b5-1 Trading Plan on December 15, 2023, for the exercise of up to 143,929 employee stock options and sale of underlying shares until August 30, 2024",
+   "evidence": "On December 15, 2023, Guy Chiarello, Chief Operating Officer of the Company, adopted a trading arrangement for the sale of securities of the Company\u2019s common stock (a \u201cRule 10b5-1 Trading Plan\u201d) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c). Mr. Chiarello\u2019s Rule 10b5-1 Trading Plan provides for the exercise of up to 143,929 employee stock options and sale of the underlying shares of common stock pursuant to one or more limit orders until August 30, 2024.",
+   "dropped_lexical": "intended",
+   "real": false
+  },
+  {
+   "id": "finder_0176",
+   "claim": "In the prior year period (three months ended September 30, 2023), two other officers adopted plans: Robert W. Hau, Chief Financial Officer, adopted a plan on September 22, 2023, for the exercise of up to 188,088 employee stock options and sale of underlying shares until January 31, 2024",
+   "evidence": "On September 22, 2023, Robert W. Hau, Chief Financial Officer of the Company, adopted a trading arrangement for the sale of securities of the Company\u2019s common stock (a \u201cRule 10b5-1 Trading Plan\u201d) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c). Mr. Hau\u2019s Rule 10b5-1 Trading Plan provides for the exercise of up to 188,088 employee stock options and sale of the underlying shares of common stock pursuant to one or more limit orders until January 31, 2024.",
+   "dropped_lexical": "intended",
+   "real": false
+  },
+  {
+   "id": "finder_0176",
+   "claim": "In the prior year period (three months ended September 30, 2023), two other officers adopted plans: Suzan Kereere, Head of Global Business Solutions, adopted a plan on September 18, 2023, for the sale of up to 6,534 shares until October 4, 2024",
+   "evidence": "On September 18, 2023, Suzan Kereere, Head of Global Business Solutions of the Company, adopted a Rule 10b5-1 Trading Plan that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c). Ms. Kereere\u2019s Rule 10b5-1 Trading Plan provides for the sale of up to 6,534 shares of common stock pursuant to one or more limit orders until October 4, 2024.",
+   "dropped_lexical": "intended",
+   "real": false
+  },
+  {
+   "id": "finder_0179",
+   "claim": "CMS Energy and Consumers participate in environmental remediation projects and record liabilities based on estimates of scope, cost, and timing.",
+   "evidence": "CMS Energy and Consumers are participating in various environmental remediation projects for which they have recorded liabilities. The recorded amounts represent estimates that may take into account such considerations as the number of sites, the anticipated scope, cost, and timing of remediation work...",
+   "dropped_lexical": "anticipated may",
+   "real": false
+  },
+  {
+   "id": "finder_0179",
+   "claim": "CMS Energy and Consumers consider the likelihood of substantial losses related to certain indemnity obligations to be remote.",
+   "evidence": "CMS Energy and Consumers consider the likelihood that they would be required to perform or incur substantial losses related to these indemnities to be remote.",
+   "dropped_lexical": "would",
+   "real": false
+  },
+  {
+   "id": "finder_0180",
+   "claim": "These assessments include the supply chain, where a 'Cybersecurity Risk Score' is used in a Supply Chain Scorecard",
+   "evidence": "The results are used to calculate a Cybersecurity Risk Score, a key component of our Supply Chain Scorecard used to proactively identify and manage potential risks.",
+   "dropped_lexical": "potential",
+   "real": false
+  },
+  {
+   "id": "finder_0183",
+   "claim": "Other Related Costs: For the year ended December 31, 2023, the Company recorded a $15.1 million loss to settle an arbitration matter with a regulatory agency in Chile and $9.5 million in separation and other severance costs",
+   "evidence": "\u2022 Cost of goods sold - $15.1 million loss recorded to settle an arbitration matter with a regulatory agency in Chile, partially offset by a $4.1 million gain from an updated cost estimate of an environmental reserve at a site not part of our operations.\n\n\u2022 SG&A - $9.5 million of separation and other severance costs to employees in Corporate and the Ketjen business which are primarily expected to be paid out during 2023",
+   "dropped_lexical": "expected",
+   "real": false
+  },
+  {
+   "id": "finder_0184",
+   "claim": "Risks include malicious intrusions, data privacy breaches, and the exposure of intellectual property or personal information.",
+   "evidence": "Data privacy or security breaches also pose a risk that sensitive data, including intellectual property, trade secrets or personal information belonging to us, patients, customers or other business partners, may be exposed to unauthorized persons or to the public.",
+   "dropped_lexical": "may",
+   "real": false
+  },
+  {
+   "id": "finder_0184",
+   "claim": "Threats are increasing in frequency and sophistication, involving actors such as nation-states and organized crime groups.",
+   "evidence": "Cybersecurity threats and incidents are increasing in their frequency, sophistication and intensity, and are becoming increasingly difficult to detect, particularly when they impact vendors, customers or suppliers, and other companies in our supply chain. Cybersecurity threats and incidents are often carried out by motivated, well-resourced, skilled and persistent actors, including nation states, organized crime groups, \u201chacktivists\u201d and may include or target employees or contractors acting with careless or malicious intent.",
+   "dropped_lexical": "may",
+   "real": false
+  },
+  {
+   "id": "finder_0197",
+   "claim": "Adobe is involved in a Securities Action regarding allegations of misleading statements about competition from Figma.",
+   "evidence": "On October 20, 2023, a securities class action captioned Pembroke Pines Firefighters & Police Officers Pension Fund et al v. Adobe, Inc. et al, renamed as In Re Adobe Inc. Securities Litigation, Case No. 1:23-cv-09260, was filed in the U.S. District Court for the Southern District of New York (the \u201cSecurities Action\u201d) naming Adobe and certain of our current and former officers as defendants. The Securities Action purports to be brought on behalf of purchasers of the Company\u2019s stock between July 23, 2021 and September 22, 2022 (the \u201cClass Period\u201d). The complaint, which was amended on February 23, 2024, alleges that certain public statements made by Adobe during the Class Period related to competition from Figma and the adequacy of Adobe\u2019s existing offerings to counter harms Adobe may have faced due to Figma\u2019s growing market position were materially false and misleading.",
+   "dropped_lexical": "may",
+   "real": false
+  },
+  {
+   "id": "finder_0197",
+   "claim": "Adobe is involved in a DOJ civil complaint regarding disclosure and subscription cancellation practices.",
+   "evidence": "The DOJ is seeking injunctive relief, civil penalties, equitable monetary relief and other relief. On October 7, 2024, we filed a motion to dismiss the DOJ\u2019s civil complaint, and that motion was fully briefed as of December 23, 2024. On May 2, 2025, the Court denied our motion to dismiss the complaint.",
+   "dropped_lexical": "may",
+   "real": false
+  },
+  {
+   "id": "finder_0198",
+   "claim": "The excerpts do, however, describe the competitive landscape and business strategy:",
+   "evidence": "Our industry is highly competitive, and we expect competition to continue to intensify.",
+   "dropped_lexical": "expect",
+   "real": false
+  },
+  {
+   "id": "finder_0199",
+   "claim": "The documents describe the company's strategic framework, which includes Client Relationship Value, Innovation, Operational Effectiveness, Portfolio Management, and Capital Discipline.",
+   "evidence": "Consistent with this focus, we continue to operate our business in accordance with the following strategic framework:\n\n\u2022 Client Relationship Value. We plan to increase the number and breadth of our client relationships by, among other actions: continuing to integrate our products and services; introducing new products and services that are aligned with market needs; combining products and services to deliver enhanced, integrated value propositions; and delivering quality service and support for our clients.\n\n\u2022 Innovation. We seek to be an innovation leader, utilizing our assets and capabilities to be at the forefront of our industry and enable our clients to deliver best-in-class results.\n\n\u2022 Operational Effectiveness. We believe we can further improve the quality of our client delivery while reducing our costs by using the opportunities created by our size and scale.\n\n\u2022 Portfolio Management. We expect to acquire businesses when we identify: a compelling strategic need, such as a product, service or technology that helps meet client demand; an opportunity to change industry dynamics; a way to achieve business scale; or similar considerations. We expect to divest businesses that are not in line with our market, product or financial strategies.\n\n\u2022 Capital Discipline. We intend to make capital allocation decisions that offer the best prospects for our long-term growth and profitability, which may include, among other matters, internal investment, repayment of debt, repurchases of our own shares or acquisitions.",
+   "dropped_lexical": "believe expect intend may",
+   "real": false
+  },
+  {
+   "id": "finder_0200",
+   "claim": "Supply chain attacks or business disruptions from third-party products and services (such as cloud-based infrastructure or encryption technology) expose the company to risks, as Qorvo cannot guarantee that third-party infrastructure has not been compromised or contains exploitable defects.",
+   "evidence": "Furthermore, we rely on products and services provided by third-party suppliers, which may include open-source code, to operate certain critical business systems, including without limitation, cloud-based infrastructure, encryption and authentication technology, employee email, and other functions, which exposes us to supply chain attacks or other business disruptions. We cannot guarantee that third parties and infrastructure in our supply chain or our partners\u2019 supply chains have not been compromised or that they do not contain exploitable defects or bugs that could result in a breach of or disruption to our IT systems, including our products and services, or the third-party IT systems that support our services.",
+   "dropped_lexical": "could may",
+   "real": false
+  },
+  {
+   "id": "finder_0201",
+   "claim": "This process, known as the Estimate at Completion (\u201cEAC\u201d) process, involves reviewing progress and performance at least quarterly to adjust estimated costs as risks are retired or added",
+   "evidence": "we follow a standard Estimate at Completion (\u201cEAC\u201d) process in which we review the progress and performance on our ongoing contracts at least quarterly and, in many cases, more frequently. As the contracts progress, we may successfully retire risks or complexities and may add additional risks, and we adjust our estimated total cost at completion.",
+   "dropped_lexical": "may",
+   "real": false
+  },
+  {
+   "id": "finder_0205",
+   "claim": "As of September 30, 2024, the company maintained this same estimation of immateriality.",
+   "evidence": "As of September 30, 2024, we estimate that the range of possible outcomes for such matters is immaterial and we do not believe that resolving them will have a material adverse impact on our financial condition, results of operations or cash flows.",
+   "dropped_lexical": "believe",
+   "real": false
+  },
+  {
+   "id": "finder_0205",
+   "claim": "PTC enters into standard indemnification agreements with customers and partners, typically covering intellectual property infringement or data breaches. Historically, costs to defend or settle claims under these agreements have been minimal, and the estimated fair value of liabilities is considered immaterial.",
+   "evidence": "Historically, our costs to defend lawsuits or settle claims relating to such indemnity agreements have been minimal and, accordingly, we believe the estimated fair value of liabilities under these agreements is immaterial.",
+   "dropped_lexical": "believe",
+   "real": false
+  },
+  {
+   "id": "finder_0208",
+   "claim": "The documents describe the assessment of material risks.",
+   "evidence": "As of December 31, 2023, the Company has not identified any risks from cybersecurity threats that have materially affected or are reasonably likely to materially affect the Company.",
+   "dropped_lexical": "likely",
+   "real": false
+  },
+  {
+   "id": "finder_0211",
+   "claim": "YUM faces ongoing competition from the convergence of grocery, convenience, deli, and restaurant services, as well as increasing competition from delivery aggregators and other food delivery services",
+   "evidence": "We also face ongoing competition due to convergence in grocery, convenience, deli and restaurant services, including the offering by the grocery industry of convenient meals, including pizzas and entrees with side dishes. Competition from delivery aggregators and other food delivery services has also increased and is expected to continue to increase",
+   "dropped_lexical": "expected",
+   "real": false
+  },
+  {
+   "id": "finder_0221",
+   "claim": "The excerpts identify specific leadership changes, such as the termination of Michelle H. Hairston's employment as Senior Vice President, Human Resources, effective February 10, 2023.",
+   "evidence": "On February 2, 2023, it was agreed that the employment of Michelle H. Hairston, Senior Vice President, Human Resources of the Company would end effective February 10, 2023.",
+   "dropped_lexical": "would",
+   "real": false
+  },
+  {
+   "id": "finder_0221",
+   "claim": "The excerpts identify the appointment of Mr. Ossowski to succeed Mr. O'Shaughnessy as Executive Vice President and Chief Financial Officer in July 2024.",
+   "evidence": "In July 2024, the Company announced that Mr. Ossowski would succeed Mr. O'Shaughnessy and be promoted to the roles of Executive Vice President and Chief Financial Officer, effective as of the Transition Date.",
+   "dropped_lexical": "would",
+   "real": false
+  },
+  {
+   "id": "finder_0226",
+   "claim": "This program includes controls to reduce the risk and impact of incidents and to align processes and technologies with industry standard frameworks and regulations",
+   "evidence": "The cybersecurity program includes controls to reduce the risk and potential impact of a cybersecurity incident and to align its processes, controls and implemented technologies with industry standard frameworks and regulations.",
+   "dropped_lexical": "potential",
+   "real": false
+  },
+  {
+   "id": "finder_0236",
+   "claim": "DuPont has indemnified and been indemnified by third parties regarding liabilities arising from business activities prior to the completion of divestitures and related transactions.",
+   "evidence": "In addition, in connection with divestitures and the related transactions, the Company from time to time has indemnified and has been indemnified by third parties against certain liabilities that may arise in connection with, among other things, business activities prior to the completion of the respective transactions.",
+   "dropped_lexical": "may",
+   "real": false
+  },
+  {
+   "id": "finder_0238",
+   "claim": "These investments are considered a competitive advantage in recruiting and retaining the future workforce.",
+   "evidence": "We believe that these investments are a competitive advantage in recruiting, developing and retaining our future workforce.",
+   "dropped_lexical": "believe",
+   "real": false
+  },
+  {
+   "id": "finder_0244",
+   "claim": "The company's supply chain strategy involves focusing on core brands in two divisions within North America",
+   "evidence": "Our strategy is to unlock our full growth potential by focusing on our core brands in two divisions within North America while delivering on the promise of our purpose - Connecting people through food they love.",
+   "dropped_lexical": "potential",
+   "real": false
+  },
+  {
+   "id": "finder_0259",
+   "claim": "They also note that while cybersecurity risks and threats have not materially impacted operations to date, the company cannot provide assurance that a material incident will not occur in the future.",
+   "evidence": "Cybersecurity risks and threats, including any previous cybersecurity incidents, have not materially impacted us or our operations to date. However, we cannot provide any assurance that we will not be subject to a material cybersecurity incident in the future.",
+   "dropped_lexical": "subject to",
+   "real": false
+  }
+ ]
+}

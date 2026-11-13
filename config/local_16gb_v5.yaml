@@ -1,0 +1,124 @@
+# v5 (Nov 13 2026): v4 + brevity rule (generation.concise_rule; docs/EXPERIMENTS.md §15).
+# v4 (Nov 12 2026): v3 + dropped-qualifier prevention and repair (checker prompt v2)
+# + soft period filter
+# (generation.qualifier_rule, verification.qualifier_check/qualifier_repair;
+# generation/qualifiers.py, docs/EXPERIMENTS.md §11).
+# v3: corpus with real 10-Ks (no 10-K/A), EX-13 for wrapper filers, + filings from 2022 (FY2021).
+# 16 GB profile (Nov 2026): Gemma 4 12B generator, Qwen3 14B independent judge,
+# Qwen3-Embedding-0.6B (index data/sec_index_qwen06). Sized so one model + the
+# pipeline fit in 16 GB with OLLAMA_MAX_LOADED_MODELS=1. Thinking is off (think:
+# false) — reasoning tokens would eat max_tokens and truncate answers/judge JSON.
+
+llm:
+  provider: ollama
+  model: gemma4:12b
+  think: false
+  presence_penalty: 0.0
+  base_url: http://localhost:11434
+  temperature: 0.0
+  max_tokens: 768
+  seed: 7
+  timeout: 600   # 16 GB M2 needs >120s for a full answer over large chunks
+
+embedding:
+  provider: huggingface
+  model: Qwen/Qwen3-Embedding-0.6B
+  dim: 1024
+  normalize: true
+  version: qwen3-0.6b-v1
+  # fp16 queries: the v3 doc vectors were embedded in fp16 (tools/update_index.py
+  # --dtype float16). Versus fp32 queries: cosine 1.00000, identical top-8 on 255/260
+  # FinDER questions, and the process is 1.6 GB smaller (5.3 vs 6.9 GB, Nov 11 2026),
+  # which keeps it beside the 9.3 GB judge on 16 GB.
+  dtype: float16
+
+chunking:
+  max_chars: 1800
+  overlap_chars: 200
+  min_chars: 200
+  sec_aware: true
+
+retrieval:
+  top_k: 8
+  candidate_k: 60
+  # Re-tuned for Qwen3-Embedding-0.6B (tools/tune_weights.py --endpoints, 260 FinDER,
+  # Nov 2026): Hit@8 falls monotonically with BM25 weight — 0.208 dense-only,
+  # 0.158 at the old 0.6/0.4, 0.135 BM25-only. 5-fold CV (tools/cv_weights.py)
+  # picks 0.0 in 66% of folds / 0.1 in 33%; held-out 0.200 (optimism +0.008).
+  # BM25 off also saves ~5 GB RAM (needed on 16 GB) and ~2 s/query.
+  # CAVEAT (Nov 2026): that tuning used the old Qwen query instruction, later found
+  # to be the main cause of poor retrieval. With the fixed instruction, BM25 0.3-0.5
+  # helps on natural questions (Hit@8 0.42 -> 0.47, MRR +0.03; tools/ab_hybrid.py);
+  # kept off here so the instruction fix is measured on its own first.
+  use_bm25: false
+  # MMR diversification of the top 8 (tools/diversity_lab.py, Nov 2026): Hit@8 dev
+  # 0.525 -> 0.590 [+0.016,+0.123], test 0.524 -> 0.603 [+0.032,+0.135], W/L 11/1.
+  mmr_lambda: 0.85
+  mmr_pool: 60
+  # Soft period filter (retrieval/period.py; docs/EXPERIMENTS.md §12): a question that
+  # names year Y boosts the cosine of the ticker's fiscal-year Y and Y+1 filings by
+  # 0.1. 228 year-named synth questions: Hit@8 0.952 -> 0.961, in-period share of the
+  # top 8 0.69 -> 0.95; FinDER (4 scorable) no hit lost (the hard filter loses 1).
+  period_filter: true
+  period_mode: soft
+  period_boost: 0.1
+  # Company-blind HyDE (retrieval/rewrite.py; docs/EXPERIMENTS.md §7.1): one gemma call
+  # per question writes a generic 10-K-style passage; dense search uses the mean of the
+  # question and passage vectors. Hit@8 (with MMR): FinDER 0.59 -> 0.79, natural
+  # questions 0.83 -> 0.97. Cost ~7 s LLM + ~10 s memory contention per question on 16 GB.
+  query_expansion: hyde
+  use_dense: true
+  fusion: rrf
+  bm25_weight: 0.0
+  dense_weight: 1.0
+
+index:
+  store: chroma
+  path: data/sec_index_v3
+  collection: sec_filings
+
+audit:
+  enabled: true
+  path: logs/audit.jsonl
+
+# Per-request span tracing for QC / observability (see docs/OBSERVABILITY.md).
+# backend: jsonl -> nested spans to a file (no extra deps). Set backend: phoenix
+# (and `uv pip install -e ".[observability]"`) to stream traces to a locally-run
+# Arize Phoenix at the endpoint below. Off by default.
+observability:
+  enabled: false
+  backend: jsonl
+  path: logs/traces.jsonl
+  endpoint: http://localhost:6006/v1/traces
+  service: sec-intel
+
+# Independent LLM-as-judge citation verification for the LOCAL stack.
+#
+# Independence is the whole point: a model cannot credibly grade its own output,
+# so the judge must be a DIFFERENT model from the generator (gemma4:12b generates, qwen3:14b judges).
+# A same-model judge is rejected at startup by a self-grading guard.
+#
+# Disabled by default because it (a) requires a second model and (b) adds a second
+# LLM call per answer. To enable independent local verification:
+#     ollama pull gemma4:12b
+# then set `enabled: true` below.
+verification:
+  enabled: true
+  judge:
+    provider: ollama
+    model: qwen3:14b
+    think: false
+    presence_penalty: 0.0
+    base_url: http://localhost:11434
+    temperature: 0.0
+    timeout: 600     # judge swaps in beside the generator on 32 GB; loads are slow
+    max_tokens: 2048 # one claim+verbatim quote per answer sentence; 768 truncates the JSON
+  groundedness_floor: 0.6
+  repair: true
+  abstain_on_contradiction: true
+  qualifier_check: true
+  qualifier_repair: true
+
+generation:
+  qualifier_rule: true
+  concise_rule: true

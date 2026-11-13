@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" width="760" height="300" role="img" aria-labelledby="t d">
+<title id="t">Retrieval Hit@8 on FinDER dev, step by step</title><desc id="d">Share of 122 scorable FinDER dev questions with a gold chunk in the top 8: Original query instruction 0.361; Fixed query instruction 0.525; + MMR diversity (λ 0.85) 0.590; + company-blind HyDE rewrite 0.787</desc>
+<style>
+svg { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+.bg { fill: #ffffff; } .t1 { fill: #0b0b0b; } .t2 { fill: #52514e; } .t3 { fill: #7a7974; }
+.grid { stroke: #e4e3df; stroke-width: 1; } .axis { stroke: #b9b8b2; stroke-width: 1; }
+.gap { stroke: #ffffff; stroke-width: 2; }
+.s0 { fill: #2a78d6; } .s1 { fill: #eb6834; } .s2 { fill: #1baf7a; } .s3 { fill: #eda100; } .s4 { fill: #e87ba4; } .mut { fill: #b9b8b2; }
+@media (prefers-color-scheme: dark) {
+  .bg { fill: #0d1117; } .t1 { fill: #f0efec; } .t2 { fill: #c3c2b7; } .t3 { fill: #9a998f; }
+  .grid { stroke: #2a2a28; } .axis { stroke: #5c5b57; } .gap { stroke: #0d1117; }
+  .s0 { fill: #3987e5; } .s1 { fill: #d95926; } .s2 { fill: #199e70; } .s3 { fill: #c98500; } .s4 { fill: #d55181; } .mut { fill: #5c5b57; }
+}
+</style>
+<rect class="bg" width="760" height="300"/>
+<text x="24.0" y="32.0" class="t1" font-size="16" text-anchor="start" font-weight="600">Retrieval: share of questions with the gold passage in the top 8</text>
+<text x="24.0" y="54.0" class="t3" font-size="12" text-anchor="start" font-weight="normal">FinDER dev, 122 scorable questions; each step adds to the one above</text>
+<line x1="250.0" y1="74.0" x2="250.0" y2="270.0" class="grid"/>
+<text x="250.0" y="290.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">0</text>
+<line x1="360.0" y1="74.0" x2="360.0" y2="270.0" class="grid"/>
+<text x="360.0" y="290.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">25%</text>
+<line x1="470.0" y1="74.0" x2="470.0" y2="270.0" class="grid"/>
+<text x="470.0" y="290.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">50%</text>
+<line x1="580.0" y1="74.0" x2="580.0" y2="270.0" class="grid"/>
+<text x="580.0" y="290.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">75%</text>
+<line x1="690.0" y1="74.0" x2="690.0" y2="270.0" class="grid"/>
+<text x="690.0" y="290.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">100%</text>
+<text x="238.0" y="102.0" class="t2" font-size="13" text-anchor="end" font-weight="normal">Original query instruction</text>
+<path d="M250.0,80.0 H404.8 Q408.8,80.0 408.8,84.0 V110.0 Q408.8,114.0 404.8,114.0 H250.0 Z" class="mut"><title>Original query instruction: Hit@8 0.361 (EXPERIMENTS.md §1)</title></path>
+<text x="416.8" y="102.0" class="t1" font-size="13" text-anchor="start" font-weight="600">0.36</text>
+<text x="238.0" y="152.0" class="t2" font-size="13" text-anchor="end" font-weight="normal">Fixed query instruction</text>
+<path d="M250.0,130.0 H477.0 Q481.0,130.0 481.0,134.0 V160.0 Q481.0,164.0 477.0,164.0 H250.0 Z" class="mut"><title>Fixed query instruction: Hit@8 0.525 (EXPERIMENTS.md §1)</title></path>
+<text x="489.0" y="152.0" class="t1" font-size="13" text-anchor="start" font-weight="600">0.53</text>
+<text x="238.0" y="202.0" class="t2" font-size="13" text-anchor="end" font-weight="normal">+ MMR diversity (λ 0.85)</text>
+<path d="M250.0,180.0 H505.6 Q509.6,180.0 509.6,184.0 V210.0 Q509.6,214.0 505.6,214.0 H250.0 Z" class="mut"><title>+ MMR diversity (λ 0.85): Hit@8 0.590 (EXPERIMENTS.md §6)</title></path>
+<text x="517.6" y="202.0" class="t1" font-size="13" text-anchor="start" font-weight="600">0.59</text>
+<text x="238.0" y="252.0" class="t2" font-size="13" text-anchor="end" font-weight="normal">+ company-blind HyDE rewrite</text>
+<path d="M250.0,230.0 H592.3 Q596.3,230.0 596.3,234.0 V260.0 Q596.3,264.0 592.3,264.0 H250.0 Z" class="s0"><title>+ company-blind HyDE rewrite: Hit@8 0.787 (EXPERIMENTS.md §7.2)</title></path>
+<text x="604.3" y="252.0" class="t1" font-size="13" text-anchor="start" font-weight="600">0.79</text>
+</svg>

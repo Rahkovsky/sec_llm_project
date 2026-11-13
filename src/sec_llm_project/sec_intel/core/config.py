@@ -31,6 +31,15 @@ class LLMConfig:
     # Ollama's server default is 4096, which silently truncates an 8-chunk SEC
     # prompt (~7k tokens). Must cover retrieval.top_k * chunk size + answer.
     num_ctx: int = 8192
+    # Reasoning ("thinking") mode for hybrid models (Qwen3.x, Gemma 4, ...). Ollama
+    # enables it by default for such models, and the hidden reasoning tokens count
+    # against num_predict (max_tokens) — answers / judge JSON come back empty or
+    # truncated. Off by default; Ollama accepts think=false for non-thinking models.
+    think: bool = False
+    # Overrides the model's Modelfile default (Qwen3.6 ships presence_penalty=1.5,
+    # which pushes the model away from reusing tokens such as entity names and
+    # quoted filing wording). 0.0 = no penalty, the right setting for grounded RAG.
+    presence_penalty: float = 0.0
 
 
 @dataclass
@@ -48,6 +57,12 @@ class EmbeddingConfig:
     # custom modeling code and avoids re-downloading it each run. Empty falls back
     # to the embedder's built-in pin for known models, else the latest revision.
     revision: str = ""
+    # Weight precision for HF models ("float32" | "float16" | "bfloat16"). "" = the
+    # library default, which in transformers >= 5 is the checkpoint's own dtype
+    # (bfloat16 for Qwen3-Embedding), NOT float32. bf16 query vectors add score noise
+    # (~60% of the rank-8/9 gap); use "float32" for small models. Large models
+    # (e.g. Qwen3-Embedding-4B) may need half precision to fit RAM.
+    dtype: str = ""
     # Embedding version is recorded in the index sidecar for reproducibility
     # and to guard against querying with a mismatched model (plan item 2).
     version: str = "v1"
@@ -73,6 +88,25 @@ class RetrievalConfig:
     dense_weight: float = 0.5
     rerank: bool = False
     reranker_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    # Maximal marginal relevance over the top ``mmr_pool`` candidates: each pick
+    # maximizes lambda*cos(q, d) - (1-lambda)*max cos(d, already picked). None = off.
+    # FinDER dev (tools/diversity_lab.py): 0.85 lifts Hit@8 0.525 -> 0.590.
+    mmr_lambda: float | None = None
+    mmr_pool: int = 60
+    # Period filter (retrieval/period.py): when the question names a year Y and the
+    # filter has one ticker, keep only that ticker's filings of fiscal year Y and
+    # Y+1 (falls back to no year filter if the ticker has neither). Off by default.
+    period_filter: bool = False
+    # "hard": filter to {Y, Y+1}; "soft": keep all years but add ``period_boost`` to
+    # the cosine of in-period chunks (pool and MMR relevance). Lab (tools/period_lab.py,
+    # docs/EXPERIMENTS.md §12): hard loses gold passages that sit in another year's
+    # filing; soft 0.1 keeps every hit and raises the in-period share of the top 8
+    # from 0.69 to 0.95.
+    period_mode: str = "soft"
+    period_boost: float = 0.1
+    # Query expansion before dense search: None | "hyde" (retrieval/rewrite.py). The
+    # chunk score is the mean cosine over {question, hypothetical passage}.
+    query_expansion: str | None = None
 
 
 @dataclass
@@ -83,6 +117,11 @@ class GenerationConfig:
     abstain_below_confidence: float = 0.15
     max_context_chunks: int = 6
     quote_chars: int = 240
+    # Add the keep-the-filing's-qualifiers rule to the system prompt (v4, Nov 12
+    # 2026). Off by default so earlier configs reproduce their runs.
+    qualifier_rule: bool = False
+    # Add the one-sentence-per-point brevity rule (v5, Nov 13 2026). Off by default.
+    concise_rule: bool = False
 
 
 @dataclass
@@ -155,6 +194,12 @@ class VerificationConfig:
     groundedness_floor: float = 0.6  # abstain below this fraction of supported claims
     repair: bool = True              # one-shot re-prompt to drop/fix flagged claims
     abstain_on_contradiction: bool = True
+    # Dropped-qualifier check (generation/qualifiers.py): the judge model decides,
+    # for supported claims whose quote is hedged and the claim is not, whether the
+    # claim states as fact what the filing qualified. Repair re-prompts once to
+    # restore the qualifiers and keeps the result only if it is no worse.
+    qualifier_check: bool = False
+    qualifier_repair: bool = False
 
 
 @dataclass

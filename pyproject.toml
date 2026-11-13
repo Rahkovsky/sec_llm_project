@@ -25,7 +25,8 @@ sec = ["edgartools>=4.9", "python-dotenv>=1.0"]
 # OpenTelemetry export for span tracing -> self-hosted Arize Phoenix (or any OTLP
 # collector). The jsonl tracer needs none of this; only the phoenix backend does.
 observability = ["opentelemetry-sdk>=1.20", "opentelemetry-exporter-otlp-proto-http>=1.20"]
-dev = ["pytest>=8.0", "ruff>=0.6", "pyright>=1.1.400", "pre-commit>=4.0"]
+# numpy: MMR and multi-vector HyDE (lazy imports) are tested offline in CI.
+dev = ["pytest>=8.0", "ruff>=0.6", "pyright>=1.1.400", "pre-commit>=4.0", "numpy>=1.26"]
 # Convenience meta-extra for a full local stack (self-references the extras above).
 all = ["sec-llm-project[embeddings,vectorstore,sec,yaml,observability]"]
 
@@ -60,6 +61,7 @@ ignore = [
   "PLC0415",  # lazy/deferred imports are an intentional offline-first pattern
   "PLR0911",  # "too many return statements" — refactor opinion
   "PLR0913",  # "too many arguments" — config/dataclass constructors legitimately wide
+  "PLR0917",  # "too many positional arguments" — same reason as PLR0913
   "PLR0915",  # "too many statements" — refactor opinion
   "PLR2004",  # "magic value" — noisy for thresholds/scores
 ]

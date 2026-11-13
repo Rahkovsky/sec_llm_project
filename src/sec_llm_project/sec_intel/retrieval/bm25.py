@@ -11,6 +11,7 @@ import json
 import math
 import re
 from collections import Counter
+from collections.abc import Iterable
 from pathlib import Path
 
 from ..core.types import Chunk
@@ -50,9 +51,16 @@ class BM25Index:
             return []
         q_terms = tokenize(query)
         scores: list[tuple[str, float]] = []
-        for i, cid in enumerate(self.chunk_ids):
-            if allowed_ids is not None and cid not in allowed_ids:
-                continue
+        if allowed_ids is None:
+            positions: Iterable[int] = range(self._n)
+        else:
+            # Score only the allowed chunks (e.g. one ticker: ~1k of ~660k) instead
+            # of scanning the whole corpus. Ascending order keeps tie-breaking
+            # identical to the full scan (stable sort below).
+            pos = self._position()
+            positions = sorted(pos[c] for c in allowed_ids if c in pos)
+        for i in positions:
+            cid = self.chunk_ids[i]
             tf = self._tf[i]
             dl = self._doc_len[i]
             score = 0.0
@@ -67,6 +75,13 @@ class BM25Index:
                 scores.append((cid, score))
         scores.sort(key=lambda t: t[1], reverse=True)
         return scores[:k]
+
+    def _position(self) -> dict[str, int]:
+        # Lazy: from_saved() bypasses __init__, so build on first filtered search.
+        pos = getattr(self, "_pos", None)
+        if pos is None:
+            pos = self._pos = {cid: i for i, cid in enumerate(self.chunk_ids)}
+        return pos
 
     # ------------------------------------------------------------ persistence
     def save(self, path: str | Path) -> None:
