@@ -21,7 +21,7 @@ about three 10-Qs (one per year) and 8-Ks. Index `data/sec_index_qwen06`.
 | FinDER gold (`eval/finder_semantic.json`) | 260 questions with gold passages | Retrieval and end-to-end |
 | FinDER dev / test split (`eval/finder_split.json`) | 128 / 132 | Tune on dev, confirm once on test |
 | Placebos (in `eval/gold_plus_placebo.json`) | 6 unanswerable questions | Must be refused |
-| Claude-written synthetic Q/A (`eval/synth_claude.json`) | 361 | Retrieval diagnosis only |
+| Claude-written synthetic Q/A (`eval/synth_claude.json`, written in session with `tools/synth_local.py`) | 361 | Retrieval diagnosis only |
 
 **Retrieval metrics.**
 - *Relevant chunk*: passes `passage_hit` against FinDER's gold passage: it
@@ -918,7 +918,7 @@ Report: `out/provenance_16gb_v4/report_cover.txt`.
 | Unsupported claims (per claim) | 76 (7.3%) | 70 (6.6%) | 91 (7.5%) |
 | Lexical qualifier flags | 73 | 68 | **47** |
 | **Real dropped qualifiers (hand-labelled)** | **14** | – | **4** (+2 borderline) |
-| Judge-checked drops, check v2 on lexical candidates | 11 | 9 | 2 (circular: v4 repaired against this check) |
+| Judge-checked drops, check v2 on lexical candidates (`tools/qualifier_rescore.py`) | 11 | 9 | 2 (circular: v4 repaired against this check) |
 | Main error "dropped qualifiers" | 36 | 33 | 24 |
 | Main error "unsupported claims" | 41 | 38 | 52 |
 | Clean | 112 | 126 | 118 |
