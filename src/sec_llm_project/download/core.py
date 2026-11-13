@@ -49,7 +49,12 @@ class SECExtractor:
 
         # Try each form type
         for form in forms:
-            filings = cast(Any, co).get_filings(form=form)
+            # amendments=False: edgartools includes 10-K/A by default, and an amendment
+            # filed later in the same year sorts first, so the year filter below
+            # picked a few-page 10-K/A (Part III / auditor update) over the annual
+            # report (26 of 1,402 10-Ks in Nov 2026; MO and ALB lost every year).
+            # An explicitly requested amendment form ("10-K/A") still works.
+            filings = cast(Any, co).get_filings(form=form, amendments=form.endswith("/A"))
             if filings:
                 if year or start_date or end_date:
                     for filing in filings:  # Filter by date criteria
@@ -76,6 +81,29 @@ class SECExtractor:
                     return filings.latest(), form
 
         return None, None
+
+    # Some issuers (BK, WFC, IBM, USB, ...) file a short 10-K "wrapper" that
+    # incorporates the annual report (MD&A, financial statements) by reference to
+    # Exhibit 13; the primary document alone then lacks most of the 10-K content.
+    _WRAPPER_MAX_CHARS = 150_000
+
+    def _exhibit13_text(self, filing: object, primary: str, ticker: str) -> str:
+        """Text of the EX-13 exhibit(s) when the primary 10-K is a reference wrapper."""
+        if len(primary) > self._WRAPPER_MAX_CHARS:  # full 10-Ks run 300k+ chars
+            return ""
+        try:
+            atts = cast(Any, filing).attachments
+            docs = [a for a in atts if str(getattr(a, "document_type", "")).upper()
+                    .startswith("EX-13")]
+            parts = [self._normalize_text(a.text() or "") for a in docs if not a.is_binary()]
+        except Exception as e:  # attachment parsing is best-effort
+            self.logger.warning(f"Exhibit 13 lookup failed for {ticker}: {e}")
+            return ""
+        parts = [t for t in parts if t.strip()]
+        if parts:
+            self.logger.info(f"Appended Exhibit 13 for {ticker} ({sum(map(len, parts)):,} chars)")
+        return "".join(f"\n\nEXHIBIT 13 (ANNUAL REPORT, INCORPORATED BY REFERENCE)\n\n{t}"
+                       for t in parts)
 
     @staticmethod
     def _first_attr(obj: object, *names: str) -> Any:
@@ -239,6 +267,8 @@ class SECExtractor:
                 self.logger.error(f"Filing.text() returned non-string for {ticker}")
                 return 0
             text = self._normalize_text(raw_text)
+            if (form_type or "").startswith("10-K"):
+                text += self._exhibit13_text(filing, text, ticker)
         except Exception as e:  # external I/O/parsing errors
             self.logger.error(f"Failed to extract text for {ticker}: {e}")
             return 0

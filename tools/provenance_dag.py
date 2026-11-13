@@ -32,6 +32,9 @@ def main() -> int:
     ap.add_argument("--cases", default="eval/finder_semantic.json")
     ap.add_argument("-n", type=int, default=8, help="number of gold questions")
     ap.add_argument("--out", default="out/provenance")
+    ap.add_argument("--entity", choices=["case", "resolved"], default="case",
+                    help="ticker filter: the case's own ticker (oracle) or resolved from the "
+                         "question text (tools/eval_entity.py measures the resolver)")
     args = ap.parse_args()
 
     load_environment()  # .env (HF_HUB_OFFLINE etc.), same as the CLI does
@@ -60,7 +63,14 @@ def main() -> int:
                 continue
             print(f"[{qid}] {question[:80]}", flush=True)
             try:
-                answer = pipeline.ask(question, filters={"ticker": ticker} if ticker else None)
+                if args.entity == "resolved":
+                    filters, res = pipeline.resolve_filters(question)
+                    d.mkdir(parents=True, exist_ok=True)
+                    (d / "entity.json").write_text(json.dumps(
+                        {"gold": ticker, "resolved": res.tickers, "evidence": res.evidence}))
+                else:
+                    filters = {"ticker": ticker} if ticker else None
+                answer = pipeline.ask(question, filters=filters)
                 dag = build_dag(answer.to_dict())
             except Exception as exc:  # keep an overnight batch alive; row records it
                 print(f"    ERROR: {exc}", flush=True)

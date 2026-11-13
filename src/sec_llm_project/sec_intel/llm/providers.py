@@ -22,7 +22,8 @@ class OllamaLLM:
 
     def __init__(self, model: str, base_url: str = "", temperature: float = 0.0,
                  max_tokens: int = 768, seed: int = 7, timeout: float = 120.0,
-                 num_ctx: int = 8192) -> None:
+                 num_ctx: int = 8192, *, think: bool = False,
+                 presence_penalty: float = 0.0) -> None:
         self.name = f"ollama:{model}"
         self.model = model
         self.base_url = (base_url or "http://localhost:11434").rstrip("/")
@@ -31,6 +32,8 @@ class OllamaLLM:
         self.seed = seed
         self.timeout = timeout
         self.num_ctx = num_ctx
+        self.think = think
+        self.presence_penalty = presence_penalty
 
     def generate(self, messages: list[Message], *, temperature: float | None = None,
                  max_tokens: int | None = None, json_schema: dict[str, Any] | None = None
@@ -39,7 +42,10 @@ class OllamaLLM:
             "model": self.model,
             "messages": [{"role": m.role, "content": m.content} for m in messages],
             "stream": False,
+            # Thinking tokens would otherwise eat num_predict (see LLMConfig.think).
+            "think": self.think,
             "options": {
+                "presence_penalty": self.presence_penalty,
                 "temperature": self.temperature if temperature is None else temperature,
                 "num_predict": self.max_tokens if max_tokens is None else max_tokens,
                 "num_ctx": self.num_ctx,

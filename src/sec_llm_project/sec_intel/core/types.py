@@ -210,6 +210,9 @@ class ClaimVerdict:
     quote: str = ""              # verbatim supporting span from the cited evidence
     valid_quote: bool = False    # True iff `quote` is actually a substring of the cited chunk
     numeric_ok: bool = True      # False iff a figure in the claim is absent from the cited chunk
+    citation_corrected: bool = False  # quote found in a different chunk; citation re-pointed
+    meta: bool = False           # "the excerpts do not contain ..." -- about the evidence, not
+                                 # the company; excluded from groundedness
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -224,27 +227,33 @@ class VerificationReport:
     repaired: bool = False
 
     @property
+    def scored(self) -> list[ClaimVerdict]:
+        """Claims about the company (meta-statements about the evidence excluded)."""
+        return [c for c in self.claims if not c.meta]
+
+    @property
     def total(self) -> int:
-        return len(self.claims)
+        return len(self.scored)
 
     @property
     def supported(self) -> int:
-        return sum(1 for c in self.claims if c.verdict == SUPPORTED)
+        return sum(1 for c in self.scored if c.verdict == SUPPORTED)
 
     @property
     def contradicted(self) -> int:
-        return sum(1 for c in self.claims if c.verdict == CONTRADICTED)
+        return sum(1 for c in self.scored if c.verdict == CONTRADICTED)
 
     @property
     def groundedness(self) -> float:
         """Fraction of claims supported; PARTIAL counts as half. 0.0 when empty."""
-        if not self.claims:
+        claims = self.scored
+        if not claims:
             return 0.0
         score = sum(
             1.0 if c.verdict == SUPPORTED else 0.5 if c.verdict == PARTIAL else 0.0
-            for c in self.claims
+            for c in claims
         )
-        return score / len(self.claims)
+        return score / len(claims)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -252,6 +261,8 @@ class VerificationReport:
             "supported": self.supported,
             "contradicted": self.contradicted,
             "total": self.total,
+            "meta": len(self.claims) - self.total,
+            "citations_corrected": sum(c.citation_corrected for c in self.claims),
             "repaired": self.repaired,
             "judge_model": self.judge_model,
             "claims": [c.to_dict() for c in self.claims],

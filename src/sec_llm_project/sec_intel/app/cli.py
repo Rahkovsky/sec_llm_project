@@ -118,7 +118,17 @@ def _cmd_index(args: argparse.Namespace) -> int:
 def _cmd_ask(args: argparse.Namespace) -> int:
     pipeline = SECIntelPipeline(_load_config(args.config))
     pipeline.load_index()
-    filters = {"ticker": args.ticker.upper()} if args.ticker else None
+    if args.ticker:
+        filters = {"ticker": args.ticker.upper()}
+    else:
+        filters, res = pipeline.resolve_filters(args.question, scope=args.scope)
+        if filters is None and not args.all_companies:
+            print("Could not tell which company the question is about. Name it, pass "
+                  "--ticker, or --all-companies to search every filing.")
+            return 2
+        if filters:
+            print(f"Company: {filters['ticker']} (resolved from {res.evidence}; "
+                  f"--ticker overrides)")
     answer = pipeline.ask(args.question, filters=filters, top_k=args.top_k)
     if args.json:
         print(answer.to_json())
@@ -251,6 +261,10 @@ def build_parser() -> argparse.ArgumentParser:
     p_ask = sub.add_parser("ask", help="Ask a grounded question")
     p_ask.add_argument("question")
     p_ask.add_argument("--ticker", default=None)
+    p_ask.add_argument("--scope", choices=["primary", "all"], default="primary",
+                       help="without --ticker: filter on the main company only, or on every company named")
+    p_ask.add_argument("--all-companies", action="store_true",
+                       help="search every company when none can be resolved")
     p_ask.add_argument("--top-k", type=int, default=8)
     p_ask.add_argument("--json", action="store_true")
     p_ask.set_defaults(func=_cmd_ask)

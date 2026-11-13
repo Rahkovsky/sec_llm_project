@@ -24,6 +24,7 @@ def build_llm(config: LLMConfig) -> LLMProvider:
         return OllamaLLM(
             model=config.model, base_url=config.base_url, temperature=config.temperature,
             max_tokens=config.max_tokens, seed=config.seed, timeout=config.timeout,
-            num_ctx=config.num_ctx,
+            num_ctx=config.num_ctx, think=config.think,
+            presence_penalty=config.presence_penalty,
         )
     raise ValueError(f"Unknown LLM provider '{config.provider}' (expected 'mock' or 'ollama')")

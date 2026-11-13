@@ -14,6 +14,19 @@ from .base import EmbeddingInfo
 _INSTRUCTIONS: dict[str, tuple[str, str]] = {
     "nomic": ("search_query: ", "search_document: "),
     "e5": ("query: ", "passage: "),
+    # Qwen3-Embedding: instruction goes on the query side only; documents are raw.
+    # Do NOT mention "SEC filings" here: the previous instruction ("Given a question
+    # about SEC filings, retrieve the passages that answer it") steered queries toward
+    # filing boilerplate (34.5% of top-8 vs 19% of the corpus) and was the worst
+    # prompt on every query set (tools/ab_diagnose.py, tools/ab_hybrid.py, Nov 2026:
+    # Hit@8 0.27 vs 0.42 on Claude-written questions, 0.35 vs 0.52 on FinDER).
+    "qwen3-embedding": (
+        "Instruct: Given a terse search phrase from a financial analyst about a company, "
+        "retrieve the passage of the company's 10-K annual report that answers it\nQuery: ",
+        "",
+    ),
+    # EmbeddingGemma task strings (per the model card).
+    "embeddinggemma": ("task: search result | query: ", "title: none | text: "),
 }
 
 # Known-good commit pins for ``trust_remote_code`` models. Pinning runs a reviewed
@@ -36,7 +49,7 @@ def _instructions(model: str) -> tuple[str, str]:
 class HuggingFaceEmbedder:
     def __init__(self, model: str = "nomic-ai/nomic-embed-text-v1.5", normalize: bool = True,
                  version: str = "v1", cache_folder: str | None = None,
-                 revision: str | None = None) -> None:
+                 revision: str | None = None, dtype: str | None = None) -> None:
         from sentence_transformers import SentenceTransformer  # lazy
 
         # Nomic ships custom modeling code; trust_remote_code is required. Pin the
@@ -58,8 +71,10 @@ class HuggingFaceEmbedder:
         _tf.addFilter(_f)
         for _h in _tf.handlers:
             _h.addFilter(_f)
+        model_kwargs = {"dtype": dtype} if dtype else {}
         self._model = SentenceTransformer(
-            model, cache_folder=cache_folder, trust_remote_code=trust, revision=rev
+            model, cache_folder=cache_folder, trust_remote_code=trust, revision=rev,
+            model_kwargs=model_kwargs,
         )
         self._q_instr, self._d_instr = _instructions(model)
         self.normalize = normalize

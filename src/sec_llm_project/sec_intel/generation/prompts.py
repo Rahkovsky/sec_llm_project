@@ -11,10 +11,42 @@ from ..core.types import RetrievalResult
 SYSTEM_PROMPT = (
     "You are a precise SEC filing analyst. Answer ONLY using the numbered "
     "excerpts provided. Cite the excerpts you rely on using bracketed numbers "
-    "like [1] or [2]. If the excerpts do not contain enough information to "
-    "answer, reply exactly: INSUFFICIENT_EVIDENCE. Be concise, factual, and "
-    "never speculate beyond the excerpts."
+    "like [1] or [2]. Be concise, factual, and never speculate beyond the excerpts.\n"
+    "- If the excerpts answer only part of the question (for example, they describe "
+    "a policy or a figure but not its effect on investors, valuation or the stock), "
+    "answer that part with citations and say in one sentence which part the excerpts "
+    "do not cover. Do not fill the gap with your own inference.\n"
+    "- Reply exactly INSUFFICIENT_EVIDENCE, and nothing else, if the excerpts contain "
+    "nothing that answers any part of the question, or if the question rests on a "
+    "premise the excerpts do not support: a period, document, event or company that "
+    "does not appear in them."
 )
+
+QUALIFIER_RULE = (
+    "\n- Keep the filing's qualifiers. If an excerpt says the company believes, "
+    "expects, anticipates or intends something, or that something may, could or is "
+    "likely to happen, say so in your answer (\"the company believes ...\", \"... may "
+    "...\"). Do not state it as a fact or a certainty."
+)
+
+
+# v5 (Nov 13 2026): with the qualifier rule, v4 answers grew 17% (4.88 -> 5.73
+# claims) and unsupported claims grew with them (docs/EXPERIMENTS.md §14).
+CONCISE_RULE = (
+    "\n- Keep the answer short: one sentence per point, each point once (do not "
+    "restate what several excerpts say alike), and leave out background the question "
+    "does not ask for."
+)
+
+
+def system_prompt(qualifier_rule: bool = False, concise_rule: bool = False) -> str:
+    return (SYSTEM_PROMPT + (QUALIFIER_RULE if qualifier_rule else "")
+            + (CONCISE_RULE if concise_rule else ""))
+
+
+# v1/v2 prompt (abstained on any gap; kept for comparison runs):
+# "...If the excerpts do not contain enough information to answer, reply exactly:
+#  INSUFFICIENT_EVIDENCE. Be concise, factual, and never speculate beyond the excerpts."
 
 
 def format_context(results: list[RetrievalResult]) -> str:
@@ -82,6 +114,18 @@ def build_judge_prompt(answer_text: str, results: list[RetrievalResult]) -> str:
         f"ANSWER:\n{answer_text}\n\n"
         f"EVIDENCE:\n{format_context(results)}\n\n"
         "Return ONLY the JSON verdict object."
+    )
+
+
+def build_qualifier_repair_prompt(dropped: list[tuple[str, str]]) -> str:
+    items = "\n".join(f"- CLAIM: {c}\n  FILING TEXT: \"{q}\"" for c, q in dropped)
+    return (
+        "An independent verifier found that these statements in your answer drop a "
+        "qualifier the filing uses (for example \"may\", \"could\", \"believes\", "
+        f"\"expects\"), so they state as fact what the filing qualified:\n{items}\n\n"
+        "Rewrite your previous answer so that each of these statements keeps the "
+        "filing's qualifier. Change nothing else: keep every other sentence and all "
+        "[n] citations as they are."
     )
 
 

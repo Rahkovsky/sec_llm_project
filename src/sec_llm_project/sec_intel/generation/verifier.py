@@ -14,7 +14,8 @@ from __future__ import annotations
 
 import json
 import re
-from typing import Protocol, runtime_checkable
+import unicodedata
+from typing import Any, Protocol, runtime_checkable
 
 from ..core.config import LLMConfig, VerificationConfig
 from ..core.types import (
@@ -31,7 +32,25 @@ from ..llm.base import LLMProvider, Message
 from . import prompts
 from .numeric import figures_supported
 
-_CITE_RE = re.compile(r"\[(\d+)\]")
+# Citation markers: [3], and the grouped forms the generator also writes, [1, 2],
+# [1,2], [2; 4], [1-3]. (A [n]-only parser missed every grouped marker: 24 of 266 v2
+# answers cited only in grouped form, so their citations fell back to excerpts 1-2.)
+_CITE_RE = re.compile(r"\[(\d+(?:\s*[,;\u2013-]\s*\d+)*)\]")
+
+
+def cited_numbers(text: str) -> list[int]:
+    """Excerpt numbers cited in `text`, in order of first appearance."""
+    out: list[int] = []
+    for m in _CITE_RE.finditer(text):
+        for part in re.split(r"\s*[,;]\s*", m.group(1)):
+            ends = [int(x) for x in re.split(r"\s*[\u2013-]\s*", part)]
+            lo, hi = ends[0], ends[-1]
+            for n in range(lo, hi + 1) if 0 < hi - lo < 20 else ends:
+                if n not in out:
+                    out.append(n)
+    return out
+
+
 _WORD_RE = re.compile(r"[a-z0-9]+")
 _STOPWORDS = {
     "the", "a", "an", "and", "or", "of", "to", "in", "for", "on", "with", "is",
@@ -53,6 +72,66 @@ def _sentences(text: str) -> list[str]:
 
 def _normalize_ws(text: str) -> str:
     return " ".join(text.split())
+
+
+_TYPO = str.maketrans({"\u2018": "'", "\u2019": "'", "\u201c": '"', "\u201d": '"',
+                       "\u2013": "-", "\u2014": "-", "\u2212": "-", "\u00a0": " "})
+_QWORD_RE = re.compile(r"[a-z0-9]+")
+MIN_FUZZY_QUOTE_WORDS = 5
+
+
+def _qwords(text: str) -> str:
+    """Word stream for quote matching: case, punctuation, quote style, dashes ignored."""
+    return " " + " ".join(_QWORD_RE.findall(unicodedata.normalize("NFKC", text)
+                                            .translate(_TYPO).lower())) + " "
+
+
+def quote_matches(quote: str, source: str) -> bool:
+    """A judge's quote occurs in the source. Exact (whitespace-normalized) always
+    counts; otherwise a quote of >= 5 words counts when its word sequence occurs
+    contiguously in the source, ignoring punctuation, case, curly quotes and dashes.
+    In the v2 run 57 of 126 'unsupported' claims carried a correct quote that the
+    whitespace-only check rejected for a comma, a period or a curly quote."""
+    if not quote.strip():
+        return False
+    if _normalize_ws(quote) in _normalize_ws(source):
+        return True
+    q = _qwords(quote)
+    return len(q.split()) >= MIN_FUZZY_QUOTE_WORDS and q in _qwords(source)
+
+
+# "The provided excerpts do not contain information regarding ..." is a statement
+# about the evidence, not a claim about the company: it can be neither supported
+# nor refuted by a quote, so it is excluded from groundedness (11 of 126 v2
+# unsupported claims).
+_META_SUBJECT = (r"^(?:however,?\s*)?(?:the\s+)?(?:provided\s+|given\s+|available\s+)?"
+                 r"(?:excerpts?|documents?|context|evidence|filings?|text|sources?|"
+                 r"information provided)(?:\s+provided)?\s+")
+# "The excerpts do not <verb> ..." with any verb ("cover", "explicitly state", ...):
+# a statement about what the evidence lacks, not about the company. The v3 prompt
+# asks for one sentence on what is not covered, and gemma4 phrases it as "The
+# excerpts do not cover ..." (95 of 261 unflagged claims in the v3 run, Nov 12 2026).
+_META_RE = re.compile(_META_SUBJECT + r"(?:do|does|did)\s+not\s+(?:\w+ly\s+)?\w+",
+                      re.IGNORECASE)
+# "The documents include reports for fiscal years 2021, 2022 and 2024, but ..."
+# describes which filings are in the evidence, not what they say (placebo_0001).
+_META_INVENTORY_RE = re.compile(
+    _META_SUBJECT + r"(?:include|includes|cover|covers|contain|contains|consist of|span|are)\s+"
+    r"(?:the\s+|only\s+)?(?:annual\s+|quarterly\s+)?(?:reports?|filings?|10-[KQ]s?|"
+    r"documents?)\s+(?:for|from|covering)\s+(?:the\s+)?(?:fiscal\s+)?(?:years?|periods?|"
+    r"FY|(?:19|20)\d\d)", re.IGNORECASE)
+# The judge splits "The excerpts do not contain X, nor do they describe Y" into
+# two claims; the second ("nor do they describe Y") is meta too (placebo_0004, v3_gold).
+_META_NOR_RE = re.compile(
+    r"^(?:and\s+|but\s+)?nor\s+(?:do|does|did)\s+(?:they|it|the\s+(?:provided\s+)?"
+    r"(?:excerpts?|documents?|filings?|context|evidence))\s+(?:\w+ly\s+)?\w+", re.IGNORECASE)
+
+
+def is_meta_claim(claim: str) -> bool:
+    c = claim.strip().strip("*-• ")
+    if _META_INVENTORY_RE.match(c) or _META_NOR_RE.match(c):
+        return True
+    return bool(_META_RE.match(c)) and not re.search(r"(?i)\brather\b|;\s*(?:they|it)\b", c)
 
 
 @runtime_checkable
@@ -164,13 +243,19 @@ def _parse_claims(text: str, *, n_evidence: int) -> list[ClaimVerdict]:
 class CitationVerifier:
     """Run a judge over an answer, then enforce the verbatim-quote invariant."""
 
-    def __init__(self, judge: Judge, config: VerificationConfig | None = None) -> None:
+    def __init__(self, judge: Judge, config: VerificationConfig | None = None,
+                 qualifier_checker: Any = None) -> None:
         self.judge = judge
         self.config = config or VerificationConfig()
+        # generation.qualifiers.QualifierChecker (or None): judge-model check of
+        # supported claims that drop the filing's hedges.
+        self.qualifier_checker = qualifier_checker
 
     def verify(self, answer: Answer, context: list[RetrievalResult]) -> VerificationReport:
         claims = self.judge.judge(answer.text, context)
         for cv in claims:
+            cv.meta = is_meta_claim(cv.claim)
+            self._repoint_citation(cv, context)
             cv.valid_quote = self._quote_in_source(cv, context)
             cv.numeric_ok = self._numeric_in_source(cv, context)
             # A claim asserted as supported is downgraded if either invariant fails:
@@ -190,13 +275,29 @@ class CitationVerifier:
         return VerificationReport(claims=claims, judge_model=self.judge.name)
 
     @staticmethod
+    def _repoint_citation(cv: ClaimVerdict, context: list[RetrievalResult]) -> None:
+        """If the quote is not in the cited chunk (or nothing is cited) but occurs in
+        another retrieved chunk, point the citation there and flag it. The judge
+        numbers excerpts by hand and is off by one now and then (9 v2 claims); the
+        quote, not the number, is the evidence."""
+        if not cv.quote or cv.verdict not in (SUPPORTED, PARTIAL):
+            return
+        idx = (cv.citation or 0) - 1
+        if 0 <= idx < len(context) and quote_matches(cv.quote, context[idx].chunk.text):
+            return
+        for j, r in enumerate(context):
+            if j != idx and quote_matches(cv.quote, r.chunk.text):
+                cv.citation, cv.citation_corrected = j + 1, True
+                return
+
+    @staticmethod
     def _quote_in_source(cv: ClaimVerdict, context: list[RetrievalResult]) -> bool:
         if cv.citation is None or not cv.quote:
             return False
         idx = cv.citation - 1
         if not (0 <= idx < len(context)):
             return False
-        return _normalize_ws(cv.quote) in _normalize_ws(context[idx].chunk.text)
+        return quote_matches(cv.quote, context[idx].chunk.text)
 
     @staticmethod
     def _numeric_in_source(cv: ClaimVerdict, context: list[RetrievalResult]) -> bool:
@@ -241,7 +342,13 @@ def build_verifier(config: VerificationConfig,
         )
     from ..llm.factory import build_llm
 
-    return CitationVerifier(LLMJudge(build_llm(config.judge)), config)
+    judge_llm = build_llm(config.judge)
+    checker = None
+    if config.qualifier_check:
+        from .qualifiers import QualifierChecker
+
+        checker = QualifierChecker(judge_llm)
+    return CitationVerifier(LLMJudge(judge_llm), config, qualifier_checker=checker)
 
 
 def _same_model(judge: LLMConfig, generator: LLMConfig) -> bool:

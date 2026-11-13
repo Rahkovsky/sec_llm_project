@@ -24,6 +24,7 @@ from .index.builder import IndexBuilder
 from .index.store import SECIndex
 from .llm.base import LLMProvider
 from .llm.factory import build_llm
+from .retrieval.entity import EntityResolver, Resolution
 from .retrieval.hybrid import HybridRetriever
 
 
@@ -38,6 +39,7 @@ class SECIntelPipeline:
         self.verifier = build_verifier(self.config.verification, generator=self.config.llm)
         self._index: SECIndex | None = None
         self._retriever: HybridRetriever | None = None
+        self._resolver: EntityResolver | None = None
 
     # ----------------------------------------------------------- index setup
     def build_index(self, input_dir: str | Path | list[str | Path], **kwargs: Any) -> SECIndex:
@@ -74,16 +76,48 @@ class SECIntelPipeline:
 
         return CrossEncoderReranker(self.config.retrieval.reranker_model)
 
+    def _build_expander(self) -> Any:
+        mode = self.config.retrieval.query_expansion
+        if not mode:
+            return None
+        if mode != "hyde":
+            raise ValueError(f"unknown retrieval.query_expansion: {mode!r}")
+        from .retrieval.rewrite import HydeExpander
+
+        return HydeExpander(self.llm, self.resolver.mask)
+
     @property
     def retriever(self) -> HybridRetriever:
         if self._retriever is None:
             self._retriever = HybridRetriever(
                 self.index, self.embedder, self.config.retrieval,
-                reranker=self._build_reranker(),
+                reranker=self._build_reranker(), expander=self._build_expander(),
             )
         return self._retriever
 
     # ------------------------------------------------------------- use cases
+    @property
+    def resolver(self) -> EntityResolver:
+        """Company resolver over the issuers actually present in the loaded index."""
+        if self._resolver is None:
+            names: dict[str, str] = {}
+            for c in self.index.catalog():
+                m = c.metadata
+                if m.ticker not in names and m.company not in ("", "UNKNOWN"):
+                    names[m.ticker] = m.company
+            self._resolver = EntityResolver(names)
+        return self._resolver
+
+    def resolve_filters(self, question: str, *, scope: str = "primary"
+                        ) -> tuple[dict[str, Any] | None, Resolution]:
+        """Ticker filter from the question text. ``scope``: "primary" (the main
+        company only) or "all" (every company named, for comparisons)."""
+        res = self.resolver.resolve(question)
+        if not res.tickers:
+            return None, res
+        tickers = res.tickers[:1] if scope == "primary" else res.tickers
+        return {"ticker": tickers[0] if len(tickers) == 1 else tickers}, res
+
     def ask(self, question: str, *, filters: dict[str, Any] | None = None,
             top_k: int | None = None) -> Answer:
         answerer = GroundedAnswerer(

@@ -21,7 +21,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from sec_llm_project.sec_intel.evaluation.metrics import token_recall
+from sec_llm_project.sec_intel.evaluation.metrics import CONTAINMENT_THRESHOLD, passage_hit
+from sec_llm_project.sec_intel.generation.verifier import is_meta_claim
 
 # Modal + forward-looking/opinion hedges: dropping one turns a risk or
 # forward-looking disclosure into a bare factual claim. A deliberate LEXICAL
@@ -47,11 +48,16 @@ def hardened_hedges(claim: str, quote: str) -> list[str]:
     return sorted(ev) if ev and not hedges_in(claim) else []
 
 
-def chunk_texts(out_dir: Path, needed: set[str]) -> dict[str, str]:
-    """Full chunk texts for evidence ids (answer.json quotes are truncated)."""
+def chunk_texts(index_dir: Path, needed: set[str]) -> dict[str, str]:
+    """Full chunk texts for evidence ids (answer.json quotes are truncated).
+
+    Must read the index the run used: a missing catalog silently falls back to
+    the truncated quotes, which badly understates context recall."""
     texts: dict[str, str] = {}
-    catalog = Path("data/sec_index/chunks.jsonl")
+    catalog = index_dir / "chunks.jsonl"
     if not catalog.exists():
+        print(f"WARNING: {catalog} not found; context recall uses truncated quotes "
+              "and is understated", file=sys.stderr)
         return texts
     with open(catalog, encoding="utf-8") as fh:
         for line in fh:
@@ -61,13 +67,31 @@ def chunk_texts(out_dir: Path, needed: set[str]) -> dict[str, str]:
             cid = cid[: cid.find('"')]
             if cid in needed:
                 texts[cid] = json.loads(line).get("text", "")
+    if len(texts) < len(needed):
+        print(f"WARNING: {len(needed) - len(texts)}/{len(needed)} evidence chunks not in "
+              f"{catalog}", file=sys.stderr)
     return texts
+
+
+def evidence_ids(a: dict) -> list[str]:
+    """Chunks the answer was grounded on, for gold-recall scoring.
+
+    Verification evidence when present; otherwise the full ranked retrieval list
+    (recorded since Nov 2026); otherwise the citations (older abstentions carry
+    only the first one or two). Full texts are looked up by id, never quotes."""
+    ver = a["extra"].get("verification", {}).get("evidence", [])
+    if ver:
+        return [ev["chunk_id"] for ev in ver]
+    if a["extra"].get("retrieval"):
+        return [r["chunk_id"] for r in a["extra"]["retrieval"]]
+    return [c["chunk_id"] for c in a["citations"]]
 
 
 def classify(row: dict) -> str:
     """Attribute the dominant error source for one question."""
     if not row.get("answerable", True):  # placebo / negative control
-        return ("unanswerable: correctly abstained" if row["abstained"]
+        # an answer whose only claims say the excerpts lack the information is a refusal
+        return ("unanswerable: correctly abstained" if row["abstained"] or row["meta_only"]
                 else "unanswerable: CONFABULATED")
     if row["abstained"]:
         return ("retrieval miss -> abstained" if row["ev_recall"] is not None
@@ -91,8 +115,13 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="out/provenance")
     ap.add_argument("--cases", default="eval/finder_semantic.json")
+    ap.add_argument("--config", default="config/local.yaml",
+                    help="config the run used: its index supplies full chunk texts, "
+                         "its embedder the relevancy column")
+    ap.add_argument("--relevance", default="cover", choices=["cover", "strict"],
+                    help="gold-relevance rule for error attribution (strict = legacy runs)")
     ap.add_argument("--relevancy", action="store_true",
-                    help="add RAGAS answer-relevancy via local Nomic embeddings")
+                    help="add RAGAS answer-relevancy via the --config embedder")
     args = ap.parse_args()
 
     cases = {c["id"]: c for c in json.loads(Path(args.cases).read_text())}
@@ -102,15 +131,15 @@ def main() -> int:
         print("no answers found")
         return 1
 
-    need = {ev["chunk_id"] for a in answers.values()
-            for ev in a["extra"].get("verification", {}).get("evidence", [])}
-    texts = chunk_texts(Path(args.out), need)
+    need = {cid for a in answers.values() for cid in evidence_ids(a)}
+    from sec_llm_project.sec_intel.core.config import AppConfig
+    cfg = AppConfig.from_file(args.config)
+    texts = chunk_texts(Path(cfg.index.path), need)
 
     relev = {}
     if args.relevancy:
-        from sec_llm_project.sec_intel.core.config import AppConfig
         from sec_llm_project.sec_intel.embeddings.factory import build_embedder
-        emb = build_embedder(AppConfig.from_file("config/local.yaml").embedding)
+        emb = build_embedder(cfg.embedding)
         for qid, a in answers.items():
             if not a["abstained"]:
                 q, t = emb.embed_query(a["question"]), emb.embed_query(a["text"])
@@ -119,12 +148,23 @@ def main() -> int:
     rows, drops = [], []
     for qid, a in answers.items():
         ver = a["extra"].get("verification", {})
-        claims = ver.get("claims", [])
+        # Meta claims ("the excerpts do not say X") describe missing evidence, not
+        # the filing; the verifier excludes them from scoring, and so does this.
+        all_claims = ver.get("claims", [])
+        # Re-applied with the current rule, so older runs are scored the same way.
+        claims = [c for c in all_claims if not (c.get("meta") or is_meta_claim(c["claim"]))]
         gold = cases.get(qid, {}).get("relevant_passages", [])
-        ev_texts = [texts.get(ev["chunk_id"], ev["quote"])
-                    for ev in ver.get("evidence", [])] or [c["quote"] for c in a["citations"]]
-        ev_recall = (sum(any(token_recall(t, p) >= 0.5 for t in ev_texts) for p in gold)
-                     / len(gold)) if gold else None
+        quotes = {ev["chunk_id"]: ev["quote"] for ev in ver.get("evidence", [])}
+        quotes.update({c["chunk_id"]: c["quote"] for c in a["citations"]})
+        ev_texts = [texts.get(cid, quotes.get(cid, "")) for cid in evidence_ids(a)]
+
+        def recall(cont: float | None, ev_texts=ev_texts, gold=gold) -> float | None:
+            if not gold:
+                return None
+            return sum(any(passage_hit(t, [p], 0.5, cont) for t in ev_texts)
+                       for p in gold) / len(gold)
+        ev_recall_strict, ev_recall_cover = recall(None), recall(CONTAINMENT_THRESHOLD)
+        ev_recall = ev_recall_cover if args.relevance == "cover" else ev_recall_strict
 
         # Wrong-period proxy: a year named in the question vs cited filing dates
         # (±1y: the 10-K for fiscal t is filed early t+1). 19xx matters: asking
@@ -140,13 +180,18 @@ def main() -> int:
                "answerable": cases.get(qid, {}).get("answerable", True),
                "wrong_period": wrong_period, "year_named": bool(year_m),
                "claims": len(claims),
+               "meta_only": bool(all_claims) and not claims and not a["abstained"],
                "supported": sum(c["verdict"] == "SUPPORTED" for c in claims),
                "partial": sum(c["verdict"] == "PARTIAL" for c in claims),
                "unsupported": sum(c["verdict"] == "UNSUPPORTED" for c in claims),
                "contradicted": sum(c["verdict"] == "CONTRADICTED" for c in claims),
                "weight": sum(WEIGHTS.get(c["verdict"], 0) for c in claims),
-               "ev_recall": ev_recall, "relevancy": relev.get(qid)}
+               "ev_recall": ev_recall,
+               "ev_recall_strict": ev_recall_strict, "ev_recall_cover": ev_recall_cover, "relevancy": relev.get(qid)}
         row["hardened"] = 0
+        qual = a["extra"].get("qualifiers")
+        row["qual_judged"] = len(qual["dropped"]) if qual else None
+        row["qual_repaired"] = bool(qual and qual.get("repaired"))
         for c in claims:
             if c["verdict"] == "SUPPORTED" and c["quote"]:
                 d = hardened_hedges(c["claim"], c["quote"])
@@ -162,8 +207,8 @@ def main() -> int:
     answered = [r for r in rows if not r["abstained"]]
     faith = sum(r["supported"] for r in rows) / n_claims if n_claims else None
     with_gold = [r for r in rows if r["ev_recall"] is not None]
-    ctx_recall = (sum(r["ev_recall"] for r in with_gold) / len(with_gold)
-                  if with_gold else None)
+    ctx = {k: (sum(r[k] for r in with_gold) / len(with_gold) if with_gold else None)
+           for k in ("ev_recall_strict", "ev_recall_cover")}
     wcer = sum(r["weight"] for r in rows) / n_claims if n_claims else None
     mean_rel = (sum(relev.values()) / len(relev)) if relev else None
 
@@ -172,15 +217,24 @@ def main() -> int:
           f"abstained: {len(rows) - len(answered)}")
     print("RAGAS-style (local stack):")
     print(f"  faithfulness (claim support rate):   {fmt(faith)}")
-    print(f"  context recall (vs FinDER gold):     {fmt(ctx_recall)}")
+    print(f"  context recall, strict (legacy):     {fmt(ctx['ev_recall_strict'])}")
+    print(f"  context recall, cover:               {fmt(ctx['ev_recall_cover'])}")
     print(f"  answer relevancy (nomic cosine):     {fmt(mean_rel)}")
     print("DAG-level:")
     print(f"  weighted claim error rate:           {fmt(wcer)}")
-    print(f"  hardened-qualifier claims:           {sum(r['hardened'] for r in rows)}")
+    print(f"  hardened-qualifier claims (lexical): {sum(r['hardened'] for r in rows)}"
+          "  (proxy; 14/73 real when hand-labelled on v3)")
+    judged = [r for r in rows if r["qual_judged"] is not None]
+    if judged:
+        print(f"  dropped qualifiers (judge-checked):  {sum(r['qual_judged'] for r in judged)} "
+              f"in {sum(bool(r['qual_judged']) for r in judged)} answers; "
+              f"repaired {sum(r['qual_repaired'] for r in judged)} answers")
     unans = [r for r in rows if not r["answerable"]]
     if unans:
-        ok = sum(r["abstained"] for r in unans)
+        ok = sum(r["abstained"] or r["meta_only"] for r in unans)
         print(f"  correct abstention (placebos):       {ok}/{len(unans)}")
+    meta_only = [r["id"] for r in rows if r["meta_only"]]
+    print(f"  answered, but only meta claims:     {len(meta_only)} {meta_only[:8]}")
     yearq = [r for r in rows if r["year_named"] and not r["abstained"]]
     if yearq:
         bad = sum(bool(r["wrong_period"]) for r in yearq)
@@ -199,7 +253,7 @@ def main() -> int:
             w = csv.DictWriter(fh, fieldnames=["id", "dropped", "claim", "evidence"])
             w.writeheader()
             w.writerows(drops)
-    (out / "index.html").write_text(_dashboard(rows, faith, ctx_recall, mean_rel, wcer))
+    (out / "index.html").write_text(_dashboard(rows, faith, ctx["ev_recall_cover"], mean_rel, wcer))
     (out / "error_sources.svg").write_text(_bar_svg(rows))
     print(f"\nwrote {out}/index.html, error_sources.svg, questions.csv"
           + (f", qualifier_drops.csv ({len(drops)} hardened)" if drops else ""))
@@ -246,7 +300,7 @@ def _dashboard(rows, faith, ctx_recall, mean_rel, wcer) -> str:
     cards = "".join(
         f'<div class="card"><div class="v">{fmt(v)}</div><div class="k">{k}</div></div>'
         for k, v in [("faithfulness<br>(claim support)", faith),
-                     ("context recall<br>(vs gold passages)", ctx_recall),
+                     ("context recall, cover<br>(vs gold passages)", ctx_recall),
                      ("answer relevancy<br>(nomic cosine)", mean_rel),
                      ("weighted claim<br>error rate", wcer)])
     trs = []

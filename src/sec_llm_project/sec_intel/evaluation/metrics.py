@@ -77,6 +77,36 @@ def token_recall(chunk_text: str, passage: str) -> float:
     return len(p_toks & c_toks) / len(p_toks)
 
 
-def passage_hit(chunk_text: str, passages: list[str], threshold: float = 0.5) -> bool:
-    """True if chunk_text covers at least one gold passage at the given threshold."""
-    return any(token_recall(chunk_text, p) >= threshold for p in passages)
+def token_containment(chunk_text: str, passage: str) -> float:
+    """Fraction of chunk tokens present in the passage (chunk lies inside it)."""
+    c_toks = set(chunk_text.lower().split())
+    if not c_toks:
+        return 0.0
+    return len(c_toks & set(passage.lower().split())) / len(c_toks)
+
+
+# "cover" relevance: recall alone cannot credit a 1,800-char chunk against a gold
+# passage several times longer (half of FinDER's passages exceed 3,000 chars; a
+# single chunk then holds well under 50% of the passage's tokens, so those
+# questions score zero regardless of the retriever). A chunk that lies inside the
+# passage (>= 80% of its own tokens) is relevant too. Validated on the 127 long
+# FinDER passages: median 10 of ~1,260 same-ticker chunks match (the passage's
+# ~4 chunks repeated across 10-K years / 10-Qs), so it is not loose. Tiny chunks
+# (headers) are excluded: their few words trivially sit inside any long passage.
+CONTAINMENT_THRESHOLD = 0.8
+MIN_CONTAINMENT_TOKENS = 40
+
+
+def passage_hit(chunk_text: str, passages: list[str], threshold: float = 0.5,
+                containment: float | None = None) -> bool:
+    """True if chunk_text covers at least one gold passage at the given threshold.
+
+    With ``containment`` set ("cover" relevance), a chunk of at least
+    MIN_CONTAINMENT_TOKENS distinct tokens that lies inside a passage at that
+    fraction also counts. ``None`` keeps the legacy recall-only rule.
+    """
+    if any(token_recall(chunk_text, p) >= threshold for p in passages):
+        return True
+    if containment is None or len(set(chunk_text.lower().split())) < MIN_CONTAINMENT_TOKENS:
+        return False
+    return any(token_containment(chunk_text, p) >= containment for p in passages)

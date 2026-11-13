@@ -1,0 +1,289 @@
+{
+ "source": "out/provenance_16gb_v4 lexical qualifier flags, hand-labelled in session (Claude), Nov 13 2026; same rule as eval/qualifier_labels.json",
+ "items": [
+  {
+   "id": "finder_0005",
+   "claim": "The excerpts provide information about the complex regulatory and reimbursement environment in Amgen's industry and the need for a highly engaged and committed workforce.",
+   "evidence": "Our industry is subject to a complex regulatory and reimbursement environment. The unique demands of our industry, together with the challenges of running an enterprise focused on the discovery, development, manufacture and commercialization of innovative medicines, requires a highly engaged and committed workforce.",
+   "real": false
+  },
+  {
+   "id": "finder_0010",
+   "claim": "Third-Party and Personnel Security: Exelon manages risks from third-party service providers through a dedicated team that leverages security risk assessments, contractual terms, and security awareness training. Additionally, Exelon applies stringent employee and contractor screening and provides annual mandatory security awareness training.",
+   "evidence": "Exelon applies stringent employee and contractor screening, and advances security awareness through training and monitoring programs that address both cyber and physical threats. Exelon employees are subject to annual mandatory training addressing security awareness, including cybersecurity and phishing.",
+   "real": false
+  },
+  {
+   "id": "finder_0024",
+   "claim": "Akamai has implemented cybersecurity risk management programs and procedures designed to identify and address threats to both internal and customer-facing data and systems",
+   "evidence": "We have implemented cybersecurity risk management programs and procedures designed to identify and address threats to both internal and customer facing data and systems that are subject to ongoing compliance assessments, certifications and testing.",
+   "real": false
+  },
+  {
+   "id": "finder_0039",
+   "claim": "The centralized scale of the corporation provides a 'distinct competitive advantage' to its individual operating businesses",
+   "evidence": "We believe the centralized scale of the corporation provides a distinct competitive advantage to our individual operating businesses",
+   "real": true
+  },
+  {
+   "id": "finder_0047",
+   "claim": "\u201cWanna Get Away\u201d fares are generally the lowest and often require advance purchase",
+   "evidence": "\u201cWanna Get Away\u201d fares are generally the lowest fares and are often subject to advance purchase requirements.",
+   "real": false
+  },
+  {
+   "id": "finder_0047",
+   "claim": "This is designed to achieve high asset utilization and higher employee productivity",
+   "evidence": "Southwest's route structure includes service to and from many secondary or downtown airports such as Dallas Love Field, Houston Hobby, Chicago Midway, Baltimore-Washington International, Burbank, Manchester, Oakland, San Jose, and Providence. These conveniently located airports are typically less congested than other airlines' hub airports, which has contributed to Southwest's ability to achieve high asset utilization because aircraft can be scheduled to minimize the amount of time they are on the ground. This, in turn, has reduced the number of aircraft and gate facilities that would otherwise be required and is designed to allow for higher Employee productivity over a long period of time.",
+   "real": false
+  },
+  {
+   "id": "finder_0049",
+   "claim": "Dividends or other distributions from Principal Life are limited by Iowa law, which requires that such distributions be paid only from earned surplus arising from its business.",
+   "evidence": "Principal Life may pay dividends or make other distributions only from the earned surplus arising from its business",
+   "real": false
+  },
+  {
+   "id": "finder_0049",
+   "claim": "Principal Life must receive prior approval from the Commissioner of Insurance of the State of Iowa to pay stockholder dividends or make any other distribution if the distribution exceeds certain statutory limitations.",
+   "evidence": "must receive the prior approval of the Commissioner of Insurance of the State of Iowa (the \u201cCommissioner\u201d) to pay stockholder dividends or make any other distribution if such distribution would exceed certain statutory limitations",
+   "real": false
+  },
+  {
+   "id": "finder_0055",
+   "claim": "The company disclosed a non-prosecution agreement regarding an investigation into financial misstatements by Evoqua (prior to Xylem's purchase of the company), which resulted in a $8.5 million criminal monetary penalty",
+   "evidence": "On May 13, 2024, Evoqua and the USAO entered into a non-prosecution agreement (the \u201cAgreement\u201d) to resolve the matter. Under the Agreement, Evoqua paid a criminal monetary penalty of $8.5 million.",
+   "real": false
+  },
+  {
+   "id": "finder_0056",
+   "claim": "The excerpts describe the components of the compensation programs, including performance-based restricted stock units tied to metrics such as adjusted EPS compound annual growth rate, net sales, EPS growth, and free cash flow.",
+   "evidence": "A recipient of EPS CAGR performance restricted stock/units may earn a total award ranging from 0 % to 200 % of the initial grant. Awards of EPS performance restricted stock/units granted prior to 2022 were earned based upon our achievement of annual earnings per share goals and vested over the relevant three-year period. During the three-year vesting period, a recipient of EPS performance restricted stock/units earned a total award of either 0 % or 100 % of the initial grant. Awards of the strategic performance restricted stock units were earned based upon the achievement of two key metrics, net sales and EPS growth, compared to strategic plan objectives during a three-year period. A recipient of strategic performance restricted stock units earned a total award ranging from 0 % to 200 % of the initial grant. Awards of FCF performance restricted stock units were earned based upon the achievement of free cash flow (defined as Net cash provided by operating activities less capital expenditures and certain investing and financing activities) compared to annual operating plan objectives over a three-year period.",
+   "real": false
+  },
+  {
+   "id": "finder_0057",
+   "claim": "The excerpts note the retirement of a director.",
+   "evidence": "On December 15, 2023, Ronald Kuehn notified Kinder Morgan, Inc. (\u201cKMI\u201d) that he will retire from the Company\u2019s Board of Directors (the \u201cBoard\u201d) at the end of his current term and consequently will not stand for re-election to the Board at the Company\u2019s 2024 annual meeting of stockholders in May. Mr. Kuehn\u2019s current term will expire at KMI\u2019s 2024 annual meeting. Mr. Kuehn\u2019s decision to retire is not due to any disagreement with KMI.",
+   "real": false
+  },
+  {
+   "id": "finder_0072",
+   "claim": "The excerpts describe the company's cybersecurity risk management program, which includes risk assessments, a dedicated security team, external service provider usage, employee training, and an incident response plan.",
+   "evidence": "Our cybersecurity risk management program includes: \u2022 risk assessments designed to help identify material cybersecurity risks to our critical systems, information, products, services, and our global enterprise IT environment; \u2022 a security team responsible for managing our (1) cybersecurity risk assessment processes, (2) security controls, and (3) response to security breaches and cyberattacks; \u2022 the use of external service providers, where appropriate, to assess, perform tabletop exercises or otherwise assist with aspects of our security controls and designed to anticipate cyberattacks and respond to breaches, including a biennial maturity assessment of our program by an external third-party; \u2022 cybersecurity awareness training of our employees and contractors, incident response personnel, and senior management to help them better understand the issues and risks relative to cybersecurity, as well as data privacy (for our employees); \u2022 Periodically throughout the year, our IT department performs phishing and other exercises to both test our systems and reinforce training of our personnel; \u2022 a cybersecurity incident response plan managed by our CISO that includes procedures for responding to cybersecurity incidents and is designed to protect and preserve the confidentiality, integrity and continued availability of all information possessed by the Company; \u2022 policies to establish requirements for protecting information assets and defining acceptable behaviors to ensure compliance, mitigate risks, prevent unauthorized access, and foster a culture of security awareness and accountability, thereby enhancing the organization's overall security posture; and \u2022 a third-party risk management process for service providers, suppliers, and vendors.",
+   "real": false
+  },
+  {
+   "id": "finder_0080",
+   "claim": "The company operates in a 'highly competitive' discount retail sector and identifies its competitors as 'dollar stores, mass merchandisers, online retailers, discount retailers, drug stores, convenience stores, independently-operated discount stores, grocery stores and a wide variety of other retailers.'",
+   "evidence": "We operate in the discount retail sector, which is currently and is expected to continue to be highly competitive with respect to price, store location, merchandise quality, assortment and presentation, and customer service, including merchandise delivery and checkout options. Our competitors include dollar stores, mass merchandisers, online retailers, discount retailers, drug stores, convenience stores, independently-operated discount stores, grocery stores and a wide variety of other retailers.",
+   "real": false
+  },
+  {
+   "id": "finder_0083",
+   "claim": "To estimate liabilities, the Company uses historical data and trends regarding the frequency of claims and the costs to resolve claims relative to the types of products and markets where it operates.",
+   "evidence": "Historical data and trends regarding the frequency of claims incurred and the costs to resolve claims relative to the types of products and markets where the Company operates are used to estimate the construction defect liabilities for both existing and anticipated future claims.",
+   "real": false
+  },
+  {
+   "id": "finder_0088",
+   "claim": "The framework includes the following components: Assessment and Monitoring",
+   "evidence": "We regularly assess risks from cybersecurity threats; monitor our information systems for potential vulnerabilities; and test those systems pursuant to our cybersecurity policies, processes, and practices, which are integrated into our overall risk management program.",
+   "real": false
+  },
+  {
+   "id": "finder_0092",
+   "claim": "This includes capital investment for infrastructure improvements in the Regulated Businesses (between $11.5 billion to $12 billion over five years) and growth from acquisitions in the Regulated Businesses to expand the customer base (between $1.5 billion to $2 billion over five years)",
+   "evidence": "\u2022 capital investment for infrastructure improvements in the Regulated Businesses between $11.5 billion to $12 billion over the next five years, and between $25 billion to $28 billion over the next 10 years, including $2 billion expected in 2022; and\n\u2022 growth from acquisitions in the Regulated Businesses to expand the Company\u2019s water and wastewater customer base of between $1.5 billion to $2 billion over the next five years, and between $3 billion to $4 billion over the next 10 years, including $500 million expected in 2022.",
+   "real": false
+  },
+  {
+   "id": "finder_0101",
+   "claim": "The company uses a risk-based approach to identify and assess threats, evaluates technology environment changes, and conducts third-party assessments.",
+   "evidence": "We have implemented a risk-based approach to identify and assess the cybersecurity threats that could affect our business and information systems, and we evaluate changes and enhancements to our technology environment as well as conduct third-party assessments to confirm that they meet our information security control requirements.",
+   "real": false
+  },
+  {
+   "id": "finder_0101",
+   "claim": "The company maintains an enterprise-level data security incident response plan designed to minimize risk to data and systems, quickly recover operations, provide timely notice to regulators and affected individuals, minimize brand damage, manage litigation/disputes, and identify improvements.",
+   "evidence": "We also maintain a data security incident response plan, applied at an enterprise level, to facilitate our ability to rapidly detect and address data security incidents with the goals of: (i) minimizing risk to data and systems; (ii) quickly recovering and resuming operations; (iii) where applicable, providing timely notice of an incident to regulators and providing timely notice and remediation services to affected individuals; (iv) minimizing potential brand damage; (v) managing litigation, investigations, and disputes that may arise in the aftermath of an incident; and (vi) identifying opportunities to enhance Chubb\u2019s data security approach.",
+   "real": false
+  },
+  {
+   "id": "finder_0119",
+   "claim": "The company employs a global information security program led by a corporate Chief Information Security Officer who identifies and assesses material cybersecurity risks, establishes monitoring processes, and implements mitigation measures.",
+   "evidence": "Our global information security program is led by our corporate Chief Information Security Officer, who works closely with key corporate functional and line of business stakeholders. The Chief Information Security Officer partners with these functions for the purpose of identifying, considering and assessing material cybersecurity risks on an ongoing basis, establishing processes to ensure that such potential cybersecurity risks are monitored, implementing appropriate mitigation measures, reporting cybersecurity breaches and other information security incidents, and maintaining our cybersecurity program.",
+   "real": false
+  },
+  {
+   "id": "finder_0119",
+   "claim": "The company notes that while it employs service provider due diligence, its ability to monitor the cybersecurity practices of service providers is limited, and there can be no assurance it can prevent or mitigate risks from compromises or failures in systems, software, networks, or assets owned or controlled by vendors.",
+   "evidence": "Although we employ service provider due diligence and onboarding procedures to identify potential cybersecurity risk, our ability to monitor the cybersecurity practices of our service providers is limited and there can be no assurance that we can prevent or mitigate the risk of any compromise or failure in the information system, software, networks and other assets owned or controlled by our vendors.",
+   "real": false
+  },
+  {
+   "id": "finder_0123",
+   "claim": "The Company uses an '80/20 strategic approach' to 'guide investments and align resources to win with customers, while reducing complexity and cost across the Company'",
+   "evidence": "As part of the Company\u2019s 80/20 strategic approach, the Company intends to guide investments and align resources to win with customers, while reducing complexity and cost across the Company.",
+   "real": true
+  },
+  {
+   "id": "finder_0123",
+   "claim": "The Company describes itself as a 'global leader in sustainable packaging solutions'",
+   "evidence": "International Paper Company (the \"Company,\" \"International Paper\" or \"IP\", which may also be referred to as \"we\" or \"us\") is a global leader in sustainable packaging solutions.",
+   "real": false
+  },
+  {
+   "id": "finder_0127",
+   "claim": "The company utilizes a '70-20-10' approach to professional growth.",
+   "evidence": "We also believe in the 70-20-10 approach to professional growth. This model acknowledges that at least 70 percent of development occurs on the job through direct experience and skill building.",
+   "real": false,
+   "note": "borderline (not counted)"
+  },
+  {
+   "id": "finder_0128",
+   "claim": "This program is designed to protect the confidentiality, integrity, and availability of critical systems and information.",
+   "evidence": "We have a cybersecurity risk management program intended to protect the confidentiality, integrity, and availability of our critical systems and information.",
+   "real": false
+  },
+  {
+   "id": "finder_0128",
+   "claim": "This team supervises efforts to prevent, detect, mitigate, and remediate risks through briefings from internal security personnel, threat intelligence, and reports from security tools.",
+   "evidence": "Our management team supervises efforts to prevent, detect, mitigate, and remediate cybersecurity risks and incidents through various means, which may include briefings from internal security personnel; threat intelligence and other information obtained from governmental, public or private sources, including external consultants engaged by us; and alerts and reports produced by security tools deployed in the IT environment.",
+   "real": true
+  },
+  {
+   "id": "finder_0141",
+   "claim": "The excerpts describe the company's general cybersecurity incident response plan, which includes processes to triage, assess, escalate, contain, investigate, and remediate incidents, as well as annual tabletop exercises.",
+   "evidence": "The IRT uses a detailed incident response plan that outlines and coordinates the actions we take to prepare for, detect, respond to and recover from cybersecurity incidents, which include processes to triage, assess the severity of, escalate, contain, investigate, and remediate an incident, as well as to comply with potentially applicable legal obligations and mitigate brand and reputational damage. In addition, our IRT engages in tabletop exercises at least annually to simulate a response to a cybersecurity incident and uses the findings to improve our processes, plans and technologies.",
+   "real": false
+  },
+  {
+   "id": "finder_0150",
+   "claim": "The documents list the names, titles, and dates of service for various executive officers.",
+   "evidence": "pliance Officer, MidAmerican Energy Company, a regulated electric and gas utility March 2015 \u2014 December 2020 Patricia Correa 51 Senior Vice President, Chief Human Resources Officer, Xcel Energy Inc. February 2022 \u2014 Present Senior Vice President, Human Resources, Eaton Corporation, a power management company July 2019 \u2014 January 2022 Timothy O\u2019Connor 65 Executive Vice President, Chief Operations Officer, Xcel Energy Inc. August 2021 \u2014 Present Executive Vice President, Chief Generation Officer, Xcel Energy Inc. March 2020 \u2014 August 2021 Senior Vice President, Chief Nuclear Officer, Xcel Energy Services Inc February 2013 \u2014 March 2020 Amanda Rome 44 Executive Vice President, Group President, Utilities, and Chief Customer Officer, Xcel Energy Inc. October 2023 \u2014 Present Interim General Counsel, Xcel Energy Inc. January 2024 \u2014 May 2024 Executive Vice President, Chief Legal and Compliance Officer, Xcel Energy Inc. June 2022 \u2014 October 2023 Executive Vice President, General Counsel, Xcel Energy Inc. June 2020 \u2014 June 2022 Vice President and Deputy General Counsel, Xcel Energy Services Inc. October 2019 \u2014 June 2020 Brian J. Van Abel 43 Executive Vice President, Chief Financial Officer, Xcel Energy Inc. March 2020 \u2014 Present Senior Vice President, Finance and Corporate Development, Xcel Energy Services Inc. September 2018 \u2014 March 2020",
+   "real": false
+  },
+  {
+   "id": "finder_0158",
+   "claim": "The excerpts include a section on 'Share Repurchases' and 'Dividends' within Management's Discussion and Analysis.",
+   "evidence": "Share Repurchases\n\nIn December 2011, the Company's Board of Directors authorized the 2012 Share Repurchase Program (\"2012 Program\") and through subsequent amendments, the most recent in March 2017, the total repurchase authorization was increased from $500.0 million to $1.0 billion of the Company's common stock. The program has no expiration date and may be discontinued at any time. Purchases under the 2012 Program are subject to a review of the circumstances in place at the time and may be made from time to time as permitted by securities laws and other legal requirements.\n\nIn fiscal 2023, there were no share repurchases under the 2012 Program. At October 31, 2023, $256.4 million remained authorized for repurchase under the program. See Note 8. Stockholders\u2019 Equity for additional information.\n\nDividends",
+   "real": false
+  },
+  {
+   "id": "finder_0161",
+   "claim": "The company's ability to develop innovative products that utilize emerging technological trends in a timely and cost-effective manner is a key factor in maintaining market share",
+   "evidence": "The ability to develop and successfully launch and maintain innovative products, technologies and services that anticipate customers\u2019 and investors\u2019 changing requirements and utilize emerging technological trends in a timely and cost-effective manner is a key factor in maintaining market share",
+   "real": false
+  },
+  {
+   "id": "finder_0167",
+   "claim": "On August 28, 2024, Sara Kelly adopted a Rule 10b5-1 Trading Arrangement to sell up to 4,859 shares, which will be issued upon the exercise of a stock option on November 29, 2024, and sold pursuant to an order entered on November 29, 2024, with a limit price of $95 until August 26, 2025.",
+   "evidence": "Ms. Kelly\u2019s trading plan provides for the sale of up to 4,859 shares, which will be issued to Ms. Kelly upon the exercise of a stock option on November 29, 2024, and sold pursuant to an order entered on November 29, 2024, with such sale subject to a limit price of $95 during the applicable good-until-cancelled period for such order, which lasts until August 26, 2025.",
+   "real": false
+  },
+  {
+   "id": "finder_0169",
+   "claim": "The company monitors systems for vulnerabilities.",
+   "evidence": "The Company regularly assesses risks from cybersecurity threats, monitors its information systems for potential vulnerabilities",
+   "real": false
+  },
+  {
+   "id": "finder_0170",
+   "claim": "HP Inc. faces competitive risks related to market dynamics and technological advancements.",
+   "evidence": "Our industry is subject to rapid and substantial innovation, technological change and customer preferences.",
+   "real": false
+  },
+  {
+   "id": "finder_0170",
+   "claim": "Competitors target key market segments and compete on factors including technology, innovation, price, quality, and brand.",
+   "evidence": "We encounter aggressive competition from competitors in all areas of our business, and our competitors have targeted and are expected to continue targeting our key market segments. We compete on the basis of our technology, innovation, performance, price, quality, reliability, brand, reputation, distribution, range of products and services, ease of use, account relationships, customer training, service and support, security, availability of application software and internet infrastructure offerings, and our sustainability performance.",
+   "real": false
+  },
+  {
+   "id": "finder_0176",
+   "claim": "During the three months ended December 31, 2023, Guy Chiarello, Chief Operating Officer of the Company, adopted a Rule 10b5-1 Trading Plan on December 15, 2023, for the sale of securities of the Company\u2019s common stock.",
+   "evidence": "On December 15, 2023, Guy Chiarello, Chief Operating Officer of the Company, adopted a trading arrangement for the sale of securities of the Company\u2019s common stock (a \u201cRule 10b5-1 Trading Plan\u201d) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c).",
+   "real": false
+  },
+  {
+   "id": "finder_0176",
+   "claim": "In the prior period (the three months ended September 30, 2023), two other officers adopted Rule 10b5-1 Trading Plans.",
+   "evidence": "On September 22, 2023, Robert W. Hau, Chief Financial Officer of the Company, adopted a trading arrangement for the sale of securities of the Company\u2019s common stock (a \u201cRule 10b5-1 Trading Plan\u201d) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c).",
+   "real": false
+  },
+  {
+   "id": "finder_0179",
+   "claim": "The excerpts provide the following information regarding environmental remediation and guarantees: CMS Energy and Consumers are participating in environmental remediation projects for which they have recorded liabilities based on estimates of scope, cost, and timing.",
+   "evidence": "CMS Energy and Consumers are participating in various environmental remediation projects for which they have recorded liabilities. The recorded amounts represent estimates that may take into account such considerations as the number of sites, the anticipated scope, cost, and timing of remediation work",
+   "real": true
+  },
+  {
+   "id": "finder_0180",
+   "claim": "These assessments include the supply chain, where a 'Cybersecurity Risk Score' is used in a Supply Chain Scorecard",
+   "evidence": "The results are used to calculate a Cybersecurity Risk Score, a key component of our Supply Chain Scorecard used to proactively identify and manage potential risks.",
+   "real": false
+  },
+  {
+   "id": "finder_0184",
+   "claim": "Risks include malicious intrusions, data privacy breaches, and the use of AI and machine learning by threat actors.",
+   "evidence": "Data privacy or security breaches also pose a risk that sensitive data, including intellectual property, trade secrets or personal information belonging to us, patients, customers or other business partners, may be exposed to unauthorized persons or to the public.",
+   "real": false
+  },
+  {
+   "id": "finder_0207",
+   "claim": "The company is committed to 'fostering an inclusive culture' and 'promoting inclusion and diversity across the enterprise'.",
+   "evidence": "We believe in the value of each person\u2019s unique identity, background, and experiences and are committed to fostering an inclusive culture in which all employees feel empowered to do their best work because they feel accepted, respected, and that they belong.",
+   "real": false
+  },
+  {
+   "id": "finder_0220",
+   "claim": "The company maintains documented information security policies and standards in accordance with NIST guidance to protect operations, assets, data, and services",
+   "evidence": "In accordance with NIST guidance, Eaton maintains documented information security policies and standards to protect operations, assets, data and services and to defend against, respond to and recover from potential cyberattacks.",
+   "real": false
+  },
+  {
+   "id": "finder_0228",
+   "claim": "The company utilizes strategic alliances with system integrators, application service providers, referral partners, and sales agents to market our solutions and encourage increased adoption of our technology.",
+   "evidence": "In addition to entering into agreements with resellers, we have several other types of sales and marketing focused alliances with entities such as system integrators, application service providers, referral partners and sales agents. By aligning with these partners, we believe we are better able to market our solutions and encourage increased adoption of our technology throughout the industry.",
+   "real": false,
+   "note": "borderline (not counted)"
+  },
+  {
+   "id": "finder_0238",
+   "claim": "The company identifies several risks inherent in its international operations, including: currency fluctuations, possible nationalization or expropriation, price and exchange controls, counterfeit products, limitations on foreign participation in local enterprises, and other restrictive governmental actions",
+   "evidence": "International operations are subject to certain risks, which are inherent in conducting business abroad, including, but not limited to, currency fluctuations, possible nationalization or expropriation, price and exchange controls, counterfeit products, limitations on foreign participation in local enterprises and other restrictive governmental actions.",
+   "real": false
+  },
+  {
+   "id": "finder_0241",
+   "claim": "A loss of revenues if a cybersecurity attack involving commodities exchanges or financial institutions slows or halts commodities trading, preventing the marketing of production or engaging in hedging activities",
+   "evidence": "a cybersecurity attack involving commodities exchanges or financial institutions could slow or halt commodities trading, thus preventing us from marketing our production or engaging in hedging activities, resulting in a loss of revenues",
+   "real": false
+  },
+  {
+   "id": "finder_0241",
+   "claim": "Events of non-compliance, regulatory enforcement actions, fines, or penalties resulting from a deliberate corruption of financial or operating data",
+   "evidence": "a deliberate corruption of our financial or operating data could result in events of non-compliance which could then lead to regulatory enforcement actions, fines or penalties",
+   "real": false
+  },
+  {
+   "id": "finder_0241",
+   "claim": "Operational disruptions resulting in a loss of revenues from a cybersecurity attack on a communications network or power grid",
+   "evidence": "a cybersecurity attack on a communications network or power grid, which could cause operational disruptions resulting in a loss of revenues",
+   "real": false
+  },
+  {
+   "id": "finder_0244",
+   "claim": "The company's supply chain strategy involves focusing on core brands in two divisions within North America",
+   "evidence": "Our strategy is to unlock our full growth potential by focusing on our core brands in two divisions within North America while delivering on the promise of our purpose - Connecting people through food they love.",
+   "real": false
+  },
+  {
+   "id": "finder_0257",
+   "claim": "Certain officers adopted 10b5-1 trading plans",
+   "evidence": "During the three months ended September 30, 2025, the following EA directors and/or officers entered into trading plans intended to satisfy the requirements of Rule 10b5-1(c) of the Exchange Act as part of managing their EA equity holdings (\u201c10b5-1 Plan\u201d).",
+   "real": false
+  }
+ ]
+}

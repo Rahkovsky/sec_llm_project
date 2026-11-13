@@ -18,6 +18,8 @@ from __future__ import annotations
 import json
 import math
 import os
+import sys
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
@@ -64,6 +66,14 @@ class SECIndex:
         # freshly built in-memory index must not adopt a stale/foreign bm25.json.
         self.loaded_from_disk = False
         self._chunks: dict[str, Chunk] = {}
+        # Lazy text (indexes loaded from disk): ``_chunks`` then holds metadata-only
+        # stubs (text "") and ``_text_at`` maps chunk id -> (offset, length) of its
+        # line in chunks.jsonl, read on demand by ``get``. Chunk text is ~2 GB of
+        # Python strings on the 730k-chunk index (most chunks contain a curly
+        # quote or dash, so CPython stores them at 2 bytes/char); a query reads
+        # only the few dozen chunks it retrieves.
+        self._text_at: dict[str, tuple[int, int]] = {}
+        self._text_fd: int | None = None
         self._vectors: dict[str, list[float]] = {}
         self._chroma_collection: Any = None
         if store == "chroma":
@@ -85,6 +95,7 @@ class SECIndex:
             raise ValueError("chunks and vectors length mismatch")
         for chunk in chunks:
             self._chunks[chunk.chunk_id] = chunk
+            self._text_at.pop(chunk.chunk_id, None)  # the new text is in memory
         if self.store == "chroma":
             self._chroma_collection.upsert(
                 ids=[c.chunk_id for c in chunks],
@@ -105,13 +116,35 @@ class SECIndex:
 
     # --------------------------------------------------------------- queries
     def all_chunks(self) -> list[Chunk]:
+        """Every chunk with its text. On a lazily loaded index this reads the whole
+        catalog from disk (~2 GB of strings); use :meth:`catalog` when only
+        metadata is needed."""
+        if not self._text_at:
+            return list(self._chunks.values())
+        return [c for c in map(self.get, self._chunks) if c is not None]
+
+    def catalog(self) -> list[Chunk]:
+        """Every chunk's id and metadata (section, item, filing). ``text`` may be
+        empty: do not read it from these objects, use :meth:`get`."""
         return list(self._chunks.values())
 
     def get(self, chunk_id: str) -> Chunk | None:
-        return self._chunks.get(chunk_id)
+        chunk = self._chunks.get(chunk_id)
+        at = self._text_at.get(chunk_id) if chunk is not None else None
+        if at is None or self._text_fd is None:
+            return chunk
+        raw = os.pread(self._text_fd, at[1], at[0])
+        return replace(chunk, text=str(json.loads(raw).get("text", "")))
 
     def __len__(self) -> int:
         return len(self._chunks)
+
+    def vectors(self, chunk_ids: list[str]) -> dict[str, list[float]]:
+        """Stored embeddings for ``chunk_ids`` (missing ids are omitted)."""
+        if self.store == "chroma":
+            got = self._chroma_collection.get(ids=list(chunk_ids), include=["embeddings"])
+            return {cid: list(v) for cid, v in zip(got["ids"], got["embeddings"], strict=False)}
+        return {cid: self._vectors[cid] for cid in chunk_ids if cid in self._vectors}
 
     def dense_search(self, query_vector: list[float], k: int,
                      where: dict[str, Any] | None = None) -> list[tuple[str, float]]:
@@ -157,9 +190,16 @@ class SECIndex:
         Path(self.path, "index_meta.json").write_text(
             json.dumps(sidecar, indent=2), encoding="utf-8"
         )
-        with open(Path(self.path, "chunks.jsonl"), "w", encoding="utf-8") as fh:
-            for chunk in self._chunks.values():
+        # Write a temp file and rename: a lazily loaded index reads its text from
+        # the chunks.jsonl being replaced (the open descriptor keeps the old file).
+        target = Path(self.path, "chunks.jsonl")
+        tmp = target.with_suffix(".jsonl.tmp")
+        with open(tmp, "w", encoding="utf-8") as fh:
+            for cid in self._chunks:
+                chunk = self.get(cid)
+                assert chunk is not None
                 fh.write(json.dumps(chunk.to_dict(), ensure_ascii=False) + "\n")
+        os.replace(tmp, target)
         if self.store == "memory":
             with open(Path(self.path, "vectors.jsonl"), "w", encoding="utf-8") as fh:
                 for cid, vec in self._vectors.items():
@@ -177,11 +217,22 @@ class SECIndex:
             )
         index = cls(info, store=sidecar.get("store", "memory"), path=path,
                     collection=sidecar.get("collection", "sec_filings"))
-        with open(Path(path, "chunks.jsonl"), encoding="utf-8") as fh:
-            for line in fh:
-                if line.strip():
-                    chunk = Chunk.from_dict(json.loads(line))
+        chunks_file = Path(path, "chunks.jsonl")
+        metas: dict[Any, Any] = {}  # one shared (frozen) FilingMetadata per filing
+        offset = 0
+        with open(chunks_file, "rb") as fh:
+            for raw in fh:
+                if raw.strip():
+                    data = json.loads(raw)
+                    data["text"] = ""
+                    chunk = Chunk.from_dict(data)
+                    chunk.metadata = metas.setdefault(chunk.metadata, chunk.metadata)
+                    chunk.section_title = sys.intern(chunk.section_title)
+                    chunk.item_number = sys.intern(chunk.item_number)
                     index._chunks[chunk.chunk_id] = chunk
+                    index._text_at[chunk.chunk_id] = (offset, len(raw))
+                offset += len(raw)
+        index._text_fd = os.open(chunks_file, os.O_RDONLY)
         vec_file = Path(path, "vectors.jsonl")
         if index.store == "memory" and vec_file.exists():
             with open(vec_file, encoding="utf-8") as fh:

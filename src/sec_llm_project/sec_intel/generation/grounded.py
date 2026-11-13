@@ -10,6 +10,7 @@ confidence, and (optionally) an audit record.
 from __future__ import annotations
 
 import re
+from dataclasses import replace
 from typing import Any
 
 from ..core.audit import AuditLogger, null_logger
@@ -29,10 +30,10 @@ from ..core.types import (
 from ..llm.base import GenerationResult, LLMProvider, Message
 from ..retrieval.hybrid import HybridRetriever
 from . import prompts
-from .verifier import CitationVerifier
+from .qualifiers import QualifierItem, is_candidate
+from .verifier import CitationVerifier, cited_numbers
 
 _INSUFFICIENT = "INSUFFICIENT_EVIDENCE"
-_CITE_RE = re.compile(r"\[(\d+)\]")
 
 
 def _clamp(x: float) -> float:
@@ -54,6 +55,21 @@ class GroundedAnswerer:
 
     def answer(self, question: str, *, filters: dict[str, Any] | None = None,
                top_k: int | None = None) -> Answer:
+        # Every exit path (incl. all abstentions) carries the ranked retrieval list
+        # and the raw first generation, so failures can be analysed after a run.
+        trace: dict[str, Any] = {}
+        ans = self._answer(question, filters=filters, top_k=top_k, trace=trace)
+        ans.extra["retrieval"] = [_retrieval_row(r) for r in trace.get("results", [])]
+        period = getattr(self.retriever, "last_period", None)
+        if period:
+            ans.extra["period_filter"] = period
+        if "raw_generation" in trace:
+            ans.extra["raw_generation"] = trace["raw_generation"]
+        ans.extra.setdefault("abstain_reason", ans.abstain_reason if ans.abstained else "")
+        return ans
+
+    def _answer(self, question: str, *, filters: dict[str, Any] | None,
+                top_k: int | None, trace: dict[str, Any]) -> Answer:
         cfg = self.config
         # Root span wraps the whole request; child spans (retrieve/generate/verify)
         # capture the per-stage data the pipeline already computes. With the default
@@ -61,6 +77,7 @@ class GroundedAnswerer:
         with self.tracer.span("answer", kind=CHAIN, input=question) as root:
             with self.tracer.span("retrieve", kind=RETRIEVER) as rspan:
                 results = self.retriever.retrieve(question, top_k=top_k, filters=filters)
+                trace["results"] = results
                 context = results[: cfg.max_context_chunks]
                 rspan.set(
                     n_retrieved=len(results),
@@ -80,19 +97,23 @@ class GroundedAnswerer:
                 )
 
             messages = [
-                Message("system", prompts.SYSTEM_PROMPT),
+                Message("system", prompts.system_prompt(cfg.qualifier_rule, cfg.concise_rule)),
                 Message("user", prompts.build_user_prompt(question, context)),
             ]
             with self.tracer.span("generate", kind=LLM) as gspan:
                 gen = self.llm.generate(messages, temperature=0.0)
                 gspan.set(model=gen.model, output=gen.text)
+            trace["raw_generation"] = gen.text
 
-            if _INSUFFICIENT in gen.text:
+            text, partial = strip_insufficient(gen.text)
+            if text is None:
                 root.set(abstained=True, abstain_reason="model_insufficient")
                 return self._abstain(question, context,
                                      "model reported insufficient evidence", model=gen.model)
+            gen = replace(gen, text=text)
 
             answer = self._assemble(question, gen, context, results, evidence_score)
+            answer.extra["partial_insufficient"] = partial
 
             if self.verifier is not None:
                 with self.tracer.span("verify", kind=EVALUATOR) as vspan:
@@ -156,8 +177,22 @@ class GroundedAnswerer:
             if repaired is not None:
                 answer, report = repaired
 
+        qual: dict[str, Any] | None = None
+        if self.verifier.qualifier_checker is not None:
+            dropped, qual = self._dropped_qualifiers(report)
+            if dropped and vcfg.qualifier_repair:
+                fixed = self._repair_qualifiers(messages, answer, report, dropped, context,
+                                                results, evidence_score)
+                qual["repair_attempted"] = True
+                if fixed is not None:
+                    answer, report, qual_after = fixed
+                    qual = {**qual_after, "repair_attempted": True, "repaired": True,
+                            "dropped_before": qual["dropped"]}
+
         self._apply_verdicts(answer, report, context)
         answer.extra["verification"] = report.to_dict()
+        if qual is not None:
+            answer.extra["qualifiers"] = qual
         # Claim verdicts index into `context`, which is otherwise discarded —
         # persist it so provenance (claim -> evidence) survives the Answer.
         answer.extra["verification"]["evidence"] = [
@@ -165,6 +200,9 @@ class GroundedAnswerer:
         if report.total:
             answer.confidence = _clamp(answer.confidence * (0.4 + 0.6 * report.groundedness))
 
+        if report.claims and not report.total:
+            # every claim is "the excerpts do not contain ..." -- an abstention in prose
+            return self._finalize_abstain(answer, "answer only describes missing evidence")
         if report.total and self._fails_gate(report, vcfg):
             reason = ("contradicted by cited evidence" if report.contradicted
                       else f"insufficient grounding (groundedness={report.groundedness:.2f})")
@@ -195,14 +233,56 @@ class GroundedAnswerer:
             Message("user", prompts.build_repair_prompt(answer.text, flagged)),
         ]
         gen2 = self.llm.generate(repair_messages, temperature=0.0)
-        if _INSUFFICIENT in gen2.text:
+        text2, _ = strip_insufficient(gen2.text)
+        if text2 is None:
             return None
+        gen2 = replace(gen2, text=text2)
         answer2 = self._assemble(answer.question, gen2, context, results, evidence_score)
         report2 = self.verifier.verify(answer2, context)
         if (report2.groundedness >= report.groundedness
                 and report2.contradicted <= report.contradicted):
             report2.repaired = True
             return answer2, report2
+        return None
+
+    def _dropped_qualifiers(self, report: VerificationReport
+                            ) -> tuple[list[tuple[str, str]], dict[str, Any]]:
+        """Supported claims that state as fact what their quote hedges."""
+        assert self.verifier is not None and self.verifier.qualifier_checker is not None
+        cands = [cv for cv in report.scored
+                 if cv.verdict in (SUPPORTED, PARTIAL) and cv.quote
+                 and is_candidate(cv.claim, cv.quote)]
+        verdicts = self.verifier.qualifier_checker.check(
+            [QualifierItem(cv.claim, cv.quote) for cv in cands])
+        dropped = [(cv.claim, cv.quote) for cv, v in zip(cands, verdicts, strict=False) if v]
+        info = {"candidates": len(cands),
+                "unchecked": sum(v is None for v in verdicts),
+                "dropped": [{"claim": c, "quote": q} for c, q in dropped]}
+        return dropped, info
+
+    def _repair_qualifiers(self, messages: list[Message], answer: Answer,
+                           report: VerificationReport, dropped: list[tuple[str, str]],
+                           context: list[RetrievalResult], results: list[RetrievalResult],
+                           evidence_score: float
+                           ) -> tuple[Answer, VerificationReport, dict[str, Any]] | None:
+        """One re-prompt to restore the qualifiers; kept only if it is no worse."""
+        assert self.verifier is not None
+        gen2 = self.llm.generate([
+            *messages, Message("assistant", answer.text),
+            Message("user", prompts.build_qualifier_repair_prompt(dropped))],
+            temperature=0.0)
+        text2, _ = strip_insufficient(gen2.text)
+        if text2 is None:
+            return None
+        answer2 = self._assemble(answer.question, replace(gen2, text=text2), context,
+                                 results, evidence_score)
+        report2 = self.verifier.verify(answer2, context)
+        dropped2, info2 = self._dropped_qualifiers(report2)
+        if (report2.groundedness >= report.groundedness
+                and report2.contradicted <= report.contradicted
+                and len(dropped2) < len(dropped)):
+            report2.repaired = report.repaired
+            return answer2, report2, info2
         return None
 
     @staticmethod
@@ -254,12 +334,7 @@ class GroundedAnswerer:
 
     @staticmethod
     def _cited_indices(text: str, n: int) -> list[int]:
-        seen: list[int] = []
-        for m in _CITE_RE.finditer(text):
-            idx = int(m.group(1)) - 1
-            if 0 <= idx < n and idx not in seen:
-                seen.append(idx)
-        return seen
+        return [k - 1 for k in cited_numbers(text) if 1 <= k <= n]
 
     # ----------------------------------------------------------- abstention
     def _abstain(self, question: str, results: list[RetrievalResult], reason: str,
@@ -281,3 +356,30 @@ class GroundedAnswerer:
         )
         self.audit.log("answer", {"question": answer.question, "abstained": True, "reason": reason})
         return answer
+
+
+def strip_insufficient(text: str) -> tuple[str | None, bool]:
+    """Apply the INSUFFICIENT_EVIDENCE flag.
+
+    Returns (None, False) for an abstention: the flag with no cited content around
+    it. Otherwise returns the text without the flag and whether a flag was removed
+    (a partial answer: some sub-questions answered with citations, others not).
+    Previously any occurrence abstained, discarding ~10 substantive v2 answers that
+    flagged one sub-part (e.g. finder_0042). The cited remainder still goes through
+    the verifier and the groundedness gate.
+    """
+    if _INSUFFICIENT not in text:
+        return text, False
+    rest = re.sub(r"[ \t]*\**%s\**[.:]?[ \t]*" % _INSUFFICIENT, " ", text)
+    rest = re.sub(r"\n[ \t]+\n", "\n\n", rest).strip()
+    if not cited_numbers(rest) or len(rest.split()) < 8:
+        return None, False
+    return rest, True
+
+
+def _retrieval_row(r: RetrievalResult) -> dict[str, Any]:
+    m = r.chunk.metadata
+    return {"rank": r.rank, "chunk_id": r.chunk.chunk_id, "ticker": m.ticker,
+            "filing_type": m.filing_type, "filing_date": m.filing_date,
+            "item_number": r.chunk.item_number, "section_title": r.chunk.section_title,
+            **r.components}
