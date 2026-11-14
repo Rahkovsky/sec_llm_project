@@ -215,6 +215,26 @@ def _cmd_evaluate(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_serve(args: argparse.Namespace) -> int:
+    import os
+
+    import uvicorn
+
+    from .api import create_app
+
+    key = os.environ.get("SEC_API_KEY")
+    if not key and args.host not in ("127.0.0.1", "localhost"):
+        print("Refusing to serve on a public address without SEC_API_KEY.")
+        return 2
+    if not key:
+        print("WARNING: SEC_API_KEY is not set; the API accepts every request "
+              "(fine on 127.0.0.1 without a tunnel only).")
+    app = create_app(config_path=args.config or "config/local_16gb_v6.yaml",
+                     api_key=key, db_path=args.db)
+    uvicorn.run(app, host=args.host, port=args.port, log_level="info")
+    return 0
+
+
 def _cmd_demo(args: argparse.Namespace) -> int:
     from ..evaluation.dataset import index_sample_corpus
 
@@ -311,6 +331,14 @@ def build_parser() -> argparse.ArgumentParser:
     p_eval.add_argument("--update-baseline", nargs="?", const="tests/eval/baseline.json",
                         default=None, help="Write the current run's metrics as the baseline JSON")
     p_eval.set_defaults(func=_cmd_evaluate)
+
+    p_serve = sub.add_parser("serve", help="HTTP API + demo page (needs .[api]; "
+                                           "docs/API_PLAN.md)")
+    p_serve.add_argument("--host", default="127.0.0.1",
+                         help="bind address; keep 127.0.0.1 behind a tunnel")
+    p_serve.add_argument("--port", type=int, default=8000)
+    p_serve.add_argument("--db", default="data/api/jobs.db", help="SQLite job store")
+    p_serve.set_defaults(func=_cmd_serve)
 
     p_demo = sub.add_parser("demo", help="Run an offline end-to-end demo")
     p_demo.add_argument("--question", default=None)

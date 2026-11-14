@@ -10,6 +10,7 @@ confidence, and (optionally) an audit record.
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from dataclasses import replace
 from typing import Any
 
@@ -46,8 +47,11 @@ class GroundedAnswerer:
                  config: GenerationConfig | None = None,
                  audit: AuditLogger | None = None,
                  verifier: CitationVerifier | None = None,
-                 tracer: Tracer | None = None) -> None:
+                 tracer: Tracer | None = None,
+                 on_stage: Callable[[str], None] | None = None) -> None:
         self.retriever = retriever
+        # progress callback for the API ("retrieving", "answering", "verifying")
+        self.on_stage = on_stage or (lambda stage: None)
         self.llm = llm
         self.config = config or GenerationConfig()
         self.audit = audit or null_logger()
@@ -76,6 +80,7 @@ class GroundedAnswerer:
         # capture the per-stage data the pipeline already computes. With the default
         # NullTracer this is all no-ops.
         with self.tracer.span("answer", kind=CHAIN, input=question) as root:
+            self.on_stage("retrieving")
             with self.tracer.span("retrieve", kind=RETRIEVER) as rspan:
                 results = self.retriever.retrieve(question, top_k=top_k, filters=filters)
                 trace["results"] = results
@@ -101,6 +106,7 @@ class GroundedAnswerer:
                 Message("system", prompts.system_prompt(cfg.qualifier_rule, cfg.concise_rule)),
                 Message("user", prompts.build_user_prompt(question, context)),
             ]
+            self.on_stage("answering")
             with self.tracer.span("generate", kind=LLM) as gspan:
                 gen = self.llm.generate(messages, temperature=0.0)
                 gspan.set(model=gen.model, output=gen.text)
@@ -117,6 +123,7 @@ class GroundedAnswerer:
             answer.extra["partial_insufficient"] = partial
 
             if self.verifier is not None:
+                self.on_stage("verifying")
                 with self.tracer.span("verify", kind=EVALUATOR) as vspan:
                     answer = self._verify_and_gate(answer, context, results,
                                                    evidence_score, messages)

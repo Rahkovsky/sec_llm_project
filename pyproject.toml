@@ -25,13 +25,19 @@ sec = ["edgartools>=4.9", "python-dotenv>=1.0"]
 # OpenTelemetry export for span tracing -> self-hosted Arize Phoenix (or any OTLP
 # collector). The jsonl tracer needs none of this; only the phoenix backend does.
 observability = ["opentelemetry-sdk>=1.20", "opentelemetry-exporter-otlp-proto-http>=1.20"]
+# HTTP API for demonstrations (sec_intel/app/api.py; docs/API_PLAN.md). httpx: FastAPI's
+# TestClient in the tests.
+api = ["fastapi>=0.110", "uvicorn>=0.29", "httpx>=0.27"]
 # numpy: MMR and multi-vector HyDE (lazy imports) are tested offline in CI.
 dev = ["pytest>=8.0", "ruff>=0.6", "pyright>=1.1.400", "pre-commit>=4.0", "numpy>=1.26"]
 # Convenience meta-extra for a full local stack (self-references the extras above).
-all = ["sec-llm-project[embeddings,vectorstore,sec,yaml,observability]"]
+all = ["sec-llm-project[embeddings,vectorstore,sec,yaml,observability,api]"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"sec_llm_project.sec_intel.app" = ["demo.html"]
 
 [project.scripts]
 sec-intel = "sec_llm_project.sec_intel.app.cli:main"
@@ -68,6 +74,10 @@ ignore = [
 
 [tool.ruff.lint.isort]
 combine-as-imports = true
+
+[tool.ruff.lint.flake8-bugbear]
+# FastAPI declares dependencies as argument defaults
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query", "fastapi.Header"]
 
 [tool.ruff.lint.per-file-ignores]
 "**/__init__.py" = ["F401"]                       # namespace re-exports

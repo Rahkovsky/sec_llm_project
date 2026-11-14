@@ -7,6 +7,7 @@ dependency injection driven by :class:`AppConfig` (plan items 1, 11).
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -119,10 +120,15 @@ class SECIntelPipeline:
         return {"ticker": tickers[0] if len(tickers) == 1 else tickers}, res
 
     def ask(self, question: str, *, filters: dict[str, Any] | None = None,
-            top_k: int | None = None) -> Answer:
+            top_k: int | None = None, verify: bool = True,
+            on_stage: Callable[[str], None] | None = None) -> Answer:
+        """Answer a question. ``verify=False`` skips the judge (fast mode: no claim
+        verdicts, no refusal on weak support). ``on_stage`` is called with
+        "retrieving", "answering" and "verifying" as the answer progresses."""
         answerer = GroundedAnswerer(
             self.retriever, self.llm, self.config.generation, audit=self.audit,
-            verifier=self.verifier, tracer=self.tracer,
+            verifier=self.verifier if verify else None, tracer=self.tracer,
+            on_stage=on_stage,
         )
         return answerer.answer(question, filters=filters, top_k=top_k)
 
