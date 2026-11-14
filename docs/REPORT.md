@@ -45,7 +45,9 @@ Each answer is stored with a claim-provenance graph (claim → quote → retriev
 so every error can be traced to retrieval or to generation. That trace is how each question in
 the charts below gets one label. The `sec-intel ask` command resolves the company from the
 question (97% exact on FinDER, §5.3); the evaluation runs below give retrieval the case's own
-ticker, and an entity-resolved run is open work (issue #6).
+ticker. Resolving it instead changes 7 of 260 questions and is slightly better (156 → 159 clean),
+because three FinDER ticker labels are wrong, e.g. "IP" for a Regeneron question about
+intellectual property (§18).
 
 **Evaluation sets** (§0): 260 FinDER questions with gold passages (dev 128 / test 132, tuned on
 dev and confirmed once on test), 6 placebo questions that must be refused, and 361 natural
@@ -189,7 +191,7 @@ The remaining levers are faster prompt processing and a shorter judge output.
 | [#3](https://github.com/Rahkovsky/sec_llm_project/issues/3) | Dropped-qualifier judge check: a held-out label set |
 | [#4](https://github.com/Rahkovsky/sec_llm_project/issues/4) | Nondeterminism at temperature 0 |
 | [#5](https://github.com/Rahkovsky/sec_llm_project/issues/5) | Rerank with the HyDE passage in the query |
-| [#6](https://github.com/Rahkovsky/sec_llm_project/issues/6) | Finish embedding the remaining 10-Ks; entity-resolved run |
+| [#6](https://github.com/Rahkovsky/sec_llm_project/issues/6) | Remaining 10-Ks and entity-resolved run: done (§18) |
 | [#7](https://github.com/Rahkovsky/sec_llm_project/issues/7) | Period filter on more year-named questions |
 | [#8](https://github.com/Rahkovsky/sec_llm_project/issues/8) | Gold passages lift coverage only modestly; ranking is the gap |
 

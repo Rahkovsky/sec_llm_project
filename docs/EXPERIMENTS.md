@@ -1149,7 +1149,50 @@ Borderline, not counted: "potentially material issue" → "material issues".
 
 v5 is now the recommended 16 GB configuration.
 
-## 18. Not yet done / open
+## 18. Entity-resolved run on the full index (Nov 14)
+
+**Index.** The resumed update (§16) embedded the last 126 10-Ks:
+`data/sec_index_v4` = v3 + all 281 remaining 10-Ks, 827,737 chunks.
+`config/local_16gb_v5_index4.yaml` is v5 on that index.
+
+**Design.** The evaluation runs give retrieval the case's own ticker; `sec-intel
+ask` resolves it from the question instead (`EntityResolver`). The resolver
+returns exactly the case's ticker for 258 of 260 FinDER questions
+(`tools/eval_entity.py`, `out/entity_eval_v4.csv`). On those the pipeline is the
+same as in the given-ticker run (and the v4 index adds only other companies'
+filings, which the ticker filter excludes), so only the 7 questions where the
+resolver differs were rerun, with `--entity resolved` on the v4 index
+(`out/provenance_16gb_v5_entity`). The 6 placebos resolve to the same ticker (or,
+for SpaceX, none in either mode).
+
+| Question | Case ticker | Resolved | Given-ticker v5 | Resolved |
+|---|---|---|---|---|
+| finder_0047 Southwest vs AA, DAL, UAL | LUV | LUV DAL UAL | unsupported claims | unsupported claims (6 of 7 supported, was 4 of 6) |
+| finder_0086 "Regeneron's differentiation … IP" | IP | REGN | retrieval miss, abstained | **clean** |
+| finder_0145 "MC's risk ctrl's … IT ops" | IT | none | dropped qualifier | retrieval miss, abstained |
+| finder_0153 AVY vs 3M/Orafol | AVY | AVY MMM | retrieval miss, abstained | same |
+| finder_0157 Bio-Rad vs DHR, Merck, TMO | DHR | DHR MRK TMO | retrieval miss, abstained | same |
+| finder_0159 "Constellation Energy's (CE)" | CE | CEG CE | retrieval miss, abstained | **clean** |
+| finder_0212 "IT risk mgmt on JBHT" | IT | JBHT | retrieval miss, abstained | **clean** |
+
+**Three FinDER ticker labels are wrong.** In finder_0086 the label "IP"
+(International Paper) comes from "IP" meaning intellectual property; the gold
+passage is Regeneron's. In finder_0212 "IT" (Gartner) comes from "IT risk
+management"; the gold passage is J.B. Hunt's. In finder_0159 the question names
+Constellation Energy (CEG) but writes "(CE)", which is Celanese. The
+"case ticker" oracle therefore searched the wrong company in all three, and the
+resolver fixes them. Where it returns several tickers (comparisons) the answer
+is unchanged or slightly better. The one loss is finder_0145, where no company
+can be read from the question ("MC's", "ticker in focus") and the unfiltered
+search over 828k chunks finds nothing usable.
+
+**Estimate for all 260** (7 replaced, the rest as in §17): clean 156 → 159,
+retrieval-miss abstentions 25 → 23. The resolver is at least as good as the
+case labels, so the given-ticker numbers in this file are not flattered by the
+oracle. `eval/gold_plus_placebo.json` keeps FinDER's labels unchanged so that
+earlier runs stay comparable.
+
+## 19. Not yet done / open
 
 | Item | Status |
 |---|---|
@@ -1167,5 +1210,6 @@ v5 is now the recommended 16 GB configuration.
 | End-to-end v4 (v3 + qualifier rule/check v2/repair + soft period filter) | Done (§14): real dropped qualifiers 14 → 4; answers 17% longer |
 | Answer length after the qualifier rule | Done (§15, §17): on all 266, v5 cuts claims/answer 5.73 → 4.31, support 0.925 → 0.951, clean 118 → 156 |
 | Placebo metric | Done (§16): hand labels 18/18 correct in substance; automatic premise-asserted check agrees 18/18 and catches 8/8 written positive controls |
-| Remaining 281 v3 10-Ks (non-eval tickers) | Stopped Nov 13 15:10 with 156 done; update now resumes (§16), 127 left (~2.5 h) |
+| Remaining 281 v3 10-Ks (non-eval tickers) | Done (§18): `data/sec_index_v4`, 827,737 chunks |
+| Entity-resolved run | Done (§18): resolver differs on 7 of 260; fixes 3 wrong FinDER labels, loses 1; clean 156 → 159 |
 | Model-grouped eval runs | Timed (§16): `--workers 8` saves 15%; loads are only 7% of time. Next: Ollama flash attention / KV cache, shorter judge output |
