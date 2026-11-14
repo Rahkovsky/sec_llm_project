@@ -205,6 +205,18 @@ def build_judge_prompt(answer_text: str, results: list[RetrievalResult]) -> str:
     )
 
 
+def build_meta_retry_prompt() -> str:
+    return (
+        "Your answer only says what the excerpts do not contain. Read the excerpts again "
+        "and report what they DO say about the topic of the question (the company's "
+        "policy, practice, risk or figures it asks about), with [n] citations, even if "
+        "they do not answer every part of it; then say in one sentence which part they "
+        "do not cover. Do not use anything that is not in the excerpts. If the excerpts "
+        "say nothing about the topic, or the question rests on a period, document, event "
+        "or company that is not in them, reply exactly INSUFFICIENT_EVIDENCE."
+    )
+
+
 def build_qualifier_repair_prompt(dropped: list[tuple[str, str]]) -> str:
     items = "\n".join(f"- CLAIM: {c}\n  FILING TEXT: \"{q}\"" for c, q in dropped)
     return (

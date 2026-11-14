@@ -172,6 +172,11 @@ class GroundedAnswerer:
         vcfg = self.verifier.config
         report = self.verifier.verify(answer, context)
 
+        if report.claims and not report.total and self.config.meta_retry:
+            retried = self._meta_retry(messages, answer, context, results, evidence_score)
+            if retried is not None:
+                answer, report = retried
+
         if report.total and self._fails_gate(report, vcfg) and vcfg.repair:
             repaired = self._attempt_repair(messages, answer, report, context, results,
                                             evidence_score)
@@ -243,6 +248,26 @@ class GroundedAnswerer:
             (vcfg.abstain_on_contradiction and report.contradicted > 0)
             or report.groundedness < vcfg.groundedness_floor
         )
+
+    def _meta_retry(self, messages: list[Message], answer: Answer,
+                    context: list[RetrievalResult], results: list[RetrievalResult],
+                    evidence_score: float) -> tuple[Answer, VerificationReport] | None:
+        """The answer only described missing evidence: ask once for what the excerpts do
+        say. Kept only if the new answer has scored claims (the gate still applies)."""
+        assert self.verifier is not None
+        retry_messages = [*messages, Message("assistant", answer.text),
+                          Message("user", prompts.build_meta_retry_prompt())]
+        gen2 = self.llm.generate(retry_messages, temperature=0.0)
+        text2, _ = strip_insufficient(gen2.text)
+        if text2 is None:
+            return None
+        answer2 = self._assemble(answer.question, replace(gen2, text=text2), context,
+                                 results, evidence_score)
+        report2 = self.verifier.verify(answer2, context)
+        if not report2.total:
+            return None
+        answer2.extra["meta_retry"] = {"text_before": answer.text}
+        return answer2, report2
 
     def _attempt_repair(self, messages: list[Message], answer: Answer,
                         report: VerificationReport, context: list[RetrievalResult],

@@ -122,6 +122,9 @@ class GenerationConfig:
     qualifier_rule: bool = False
     # Add the one-sentence-per-point brevity rule (v5, Nov 13 2026). Off by default.
     concise_rule: bool = False
+    # When the answer only says what the excerpts lack ("The excerpts do not ..."),
+    # ask once more for what they do say about the topic (EXPERIMENTS §20.4). Off by default.
+    meta_retry: bool = False
 
 
 @dataclass
