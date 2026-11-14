@@ -180,7 +180,8 @@ of retrieval and checks. Model swapping, the first suspect, is only 7% of the ti
 judge's own output (~520 tokens per question at ~12 tokens/s; the judge is 63% of LLM time).
 `--workers N` runs several questions at once and groups calls by model; with 8 workers the
 16 questions took 15% less time (1954 s → 1663 s), with judge support unchanged within noise.
-The remaining levers are faster prompt processing and a shorter judge output.
+Flash attention and an 8-bit KV cache are already on in Ollama, so the remaining lever is a
+shorter judge output.
 
 ## Open work
 

@@ -1080,9 +1080,10 @@ prompt processing at ~120 tokens/s for both models, and to the judge's
 generation at ~12 tokens/s (the generator's is ~20 tokens/s): the judge alone
 is 63% of LLM time. `--workers 8` saves 15%, by removing most loads and running
 retrieval while another question is on the LLM; it cannot do more, because
-Ollama serves one request at a time here. The levers that remain are faster
-prompt processing (Ollama flash attention / KV-cache settings), a shorter judge
-output, and fewer judge tokens per claim.
+Ollama serves one request at a time here. Flash attention and an 8-bit KV
+cache are already on (Ollama 0.40 starts llama-server with `--flash-attn on
+--cache-type-k q8_0 --cache-type-v q8_0`), so the lever that remains is a
+shorter judge output (fewer tokens per claim).
 
 Answers: 2 of 16 are word-for-word the same in the two runs, against about half
 between two serial runs (§10); claims 86 vs 87, judge support 0.744 vs 0.770.
@@ -1212,4 +1213,4 @@ earlier runs stay comparable.
 | Placebo metric | Done (§16): hand labels 18/18 correct in substance; automatic premise-asserted check agrees 18/18 and catches 8/8 written positive controls |
 | Remaining 281 v3 10-Ks (non-eval tickers) | Done (§18): `data/sec_index_v4`, 827,737 chunks |
 | Entity-resolved run | Done (§18): resolver differs on 7 of 260; fixes 3 wrong FinDER labels, loses 1; clean 156 → 159 |
-| Model-grouped eval runs | Timed (§16): `--workers 8` saves 15%; loads are only 7% of time. Next: Ollama flash attention / KV cache, shorter judge output |
+| Model-grouped eval runs | Timed (§16): `--workers 8` saves 15%; loads are only 7% of time; flash attention and q8 KV cache already on. Next: shorter judge output |
