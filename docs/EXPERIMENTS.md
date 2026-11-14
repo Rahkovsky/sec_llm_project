@@ -1214,3 +1214,57 @@ earlier runs stay comparable.
 | Remaining 281 v3 10-Ks (non-eval tickers) | Done (§18): `data/sec_index_v4`, 827,737 chunks |
 | Entity-resolved run | Done (§18): resolver differs on 7 of 260; fixes 3 wrong FinDER labels, loses 1; clean 156 → 159 |
 | Model-grouped eval runs | Timed (§16): `--workers 8` saves 15%; loads are only 7% of time; flash attention and q8 KV cache already on. Next: shorter judge output |
+
+## 20. Next-steps experiments (Nov 14 –)
+
+The ideas in [NEXT_STEPS.md](NEXT_STEPS.md), tried in its suggested order on branch
+`experiments/next-steps`. Each subsection records the setup, the result and the decision.
+The baseline is the full v5 run of §17 (`out/provenance_16gb_v5`).
+
+### 20.1 Q2: prune sentences that carry unsupported claims
+
+**Question.** In 25 of the 31 v5 answers labelled "unsupported claims", exactly one claim
+(of ~5.4) is unsupported. Would removing those sentences, without any new model call,
+turn them into clean answers, and do the pruned answers still read well?
+
+**Method.** `generation/prune.py` maps each judged claim to the answer sentence that shares
+most of its words, then removes every sentence that carries an UNSUPPORTED or CONTRADICTED
+claim. Meta-claims ("the excerpts do not say X") are kept, because they tell the reader what
+the filings leave open; the judge often marks them unsupported. The first version of the lab
+removed them too and touched 194 answers; with the exclusion, 36. `tools/prune_lab.py`
+applies the rule to the stored v5 answers and relabels each question with the report's own
+rules (retrieval recall, wrong period and qualifier flags unchanged). Answers the gate had
+already turned into abstentions are left as they are, as in the pipeline, where pruning runs
+only after an answer passes the gate.
+
+**Result** (260 FinDER questions, `out/provenance_16gb_v5/prune/`):
+
+| Label | v5 | v5 pruned |
+|---|---|---|
+| Clean | 156 | **187** |
+| Unsupported claims | 31 | 0 |
+| Retrieval miss → ungrounded claims | 5 | 0 |
+| Dropped qualifier (lexical flag) | 13 | 17 |
+| Abstained with evidence | 26 | 27 |
+| Retrieval miss → abstained, wrong period, partial | 29 | 29 |
+
+36 answers lose 39 sentences; 11 supported claims are removed with them because they share a
+sentence with an unsupported one; 1 answer is left with only a meta-claim and becomes a
+refusal (finder_0219). Four answers move to "dropped qualifier": removing their unsupported
+sentence exposes a lexical hedge flag on a remaining one. The hand labels (§17) show that
+most such flags are not real drops.
+
+**Hand check of all 36 pruned answers.** 35 still read as complete answers: the removed
+sentence is usually one bullet or one closing sentence. One becomes a refusal, correctly.
+In 3 the removed sentence was arguably the main point: finder_0228 (Akamai) loses its two
+sentences on how the company competes, finder_0047 (Southwest) its cost-structure bullet,
+finder_0056 its description of the compensation programs. In finder_0228 and finder_0047 the
+removed text looks supported by the cited excerpt, so these are judge misses that pruning
+turns into lost content. How often the judge is wrong is measured in Q4.
+
+**Decision.** Implemented as `verification.prune_unsupported` (off by default), applied after
+the gate. The answer records what was removed (`extra.pruned`: the sentences, the claims,
+the collateral count and the original text), and citations no longer referenced by the
+pruned text are dropped. `config/local_16gb_v6.yaml` = v5 + pruning. The +31 clean answers
+are an estimate on stored outputs; a full run of v6 confirms it together with the later
+changes (Q4 first measures how many removed claims the judge got wrong).

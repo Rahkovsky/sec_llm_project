@@ -200,6 +200,9 @@ class VerificationConfig:
     # restore the qualifiers and keeps the result only if it is no worse.
     qualifier_check: bool = False
     qualifier_repair: bool = False
+    # After an answer passes the gate, remove the sentences that carry unsupported or
+    # contradicted claims (generation/prune.py); meta-claims are kept. EXPERIMENTS §20.1.
+    prune_unsupported: bool = False
 
 
 @dataclass

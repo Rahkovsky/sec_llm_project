@@ -30,6 +30,7 @@ from ..core.types import (
 from ..llm.base import GenerationResult, LLMProvider, Message
 from ..retrieval.hybrid import HybridRetriever
 from . import prompts
+from .prune import prune_unsupported
 from .qualifiers import QualifierItem, is_candidate
 from .verifier import CitationVerifier, cited_numbers
 
@@ -209,6 +210,31 @@ class GroundedAnswerer:
             self.audit.log("answer", {"question": answer.question, "abstained": True,
                                       "reason": reason, "verification": report.to_dict()})
             return self._finalize_abstain(answer, reason)
+        if vcfg.prune_unsupported:
+            return self._prune(answer, report, context)
+        return answer
+
+    def _prune(self, answer: Answer, report: VerificationReport,
+               context: list[RetrievalResult]) -> Answer:
+        """Drop sentences carrying unsupported/contradicted claims (generation/prune.py)."""
+        pr = prune_unsupported(answer.text, report.claims)
+        if not pr.changed:
+            return answer
+        pruned = VerificationReport(claims=pr.kept, judge_model=report.judge_model,
+                                    repaired=report.repaired)
+        answer.extra["pruned"] = {
+            "removed_sentences": pr.removed_sentences,
+            "removed_claims": [c.to_dict() for c in pr.removed_claims],
+            "collateral": pr.collateral, "text_before": answer.text}
+        answer.text = pr.text
+        cited = {context[i].chunk.chunk_id for i in self._cited_indices(pr.text, len(context))}
+        answer.citations = [c for c in answer.citations if c.chunk_id in cited]
+        evidence = answer.extra["verification"]["evidence"]
+        answer.extra["verification"] = {**pruned.to_dict(), "evidence": evidence}
+        if not pruned.total:
+            return self._finalize_abstain(
+                answer, "answer only describes missing evidence" if pruned.claims
+                else "every claim unsupported")
         return answer
 
     @staticmethod
