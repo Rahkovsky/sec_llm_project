@@ -103,3 +103,11 @@ def test_pipeline_prunes_and_records_what_it_removed():
 
     off = _answerer(text, verdicts, prune=False).answer("Cyber insurance?")
     assert off.text == text and "pruned" not in off.extra
+
+
+def test_split_does_not_break_at_initials_titles_or_company_suffixes():
+    text = ("Jonathan P. Graham joined from Danaher Corp. in 2019 [2]. Mr. Brown is CEO [1].\n"
+            "Regarding storage:\n*   Capacity rose [3].")
+    assert split_sentences(text) == [
+        "Jonathan P. Graham joined from Danaher Corp. in 2019 [2].", "Mr. Brown is CEO [1].",
+        "Regarding storage:", "*   Capacity rose [3]."]

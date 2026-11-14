@@ -301,7 +301,7 @@ class SentenceLLMJudge:
         self.quotes = quotes
 
     def judge(self, answer_text: str, context: list[RetrievalResult]) -> list[ClaimVerdict]:
-        from .prune import split_sentences
+        from .prune import is_lead_in, split_sentences
 
         sentences = split_sentences(answer_text)
         if not sentences:
@@ -315,6 +315,10 @@ class SentenceLLMJudge:
         ]
         result = self.llm.generate(messages, temperature=0.0, json_schema=schema)
         out = parse_sentence_verdicts(result.text, sentences, n_evidence=len(context))
+        for cv, sent in zip(out, sentences, strict=True):
+            if is_lead_in(sent):
+                cv.verdict, cv.citation, cv.quote = SUPPORTED, None, ""
+                cv.lead_in = True
         if not self.quotes:
             for cv in out:
                 if cv.citation is not None and cv.verdict != UNSUPPORTED:
@@ -405,7 +409,7 @@ class CitationVerifier:
         claims = self.judge.judge(answer.text, context)
         for cv in claims:
             cv.judge_verdict = cv.verdict  # before the quote / figure invariants
-            cv.meta = is_meta_claim(cv.claim)
+            cv.meta = cv.lead_in or is_meta_claim(cv.claim)
             self._repoint_citation(cv, context)
             cv.valid_quote = self._quote_in_source(cv, context)
             cv.numeric_ok = self._numeric_in_source(cv, context)

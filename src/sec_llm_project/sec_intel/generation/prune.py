@@ -26,9 +26,28 @@ def _words(s: str) -> set[str]:
     return set(_WORD.findall(s.lower()))
 
 
+# a piece ending like this is not a sentence end: an initial ("Jonathan P."), a title or
+# a company suffix
+_ABBREV = re.compile(r"(?:\b[A-Z]|\b(?:Mr|Ms|Mrs|Dr|Inc|Co|Corp|Ltd|No|Jr|Sr|St|vs|U\.S))\.$")
+
+
 def split_sentences(text: str) -> list[str]:
     """Sentences, each keeping its trailing citation such as ' [2]'."""
-    return [s.strip() for s in _SENT.split(text) if s.strip()]
+    out: list[str] = []
+    for piece in (s.strip() for s in _SENT.split(text)):
+        if not piece:
+            continue
+        if out and _ABBREV.search(out[-1]) and not out[-1].endswith("\n"):
+            out[-1] = f"{out[-1]} {piece}"
+        else:
+            out.append(piece)
+    return out
+
+
+def is_lead_in(sentence: str) -> bool:
+    """'Regarding storage:' or 'The framework includes the following:' with no citation:
+    it introduces a list and asserts nothing itself."""
+    return sentence.rstrip().endswith(":") and "[" not in sentence
 
 
 def owner_sentence(claim: str, sentences: list[str]) -> int:

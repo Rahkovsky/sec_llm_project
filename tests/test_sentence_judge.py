@@ -74,3 +74,13 @@ def test_figure_check_uses_every_passage_the_sentence_cites():
     verifier = CitationVerifier(SentenceLLMJudge(llm), VerificationConfig())
     report = verifier.verify(Answer(question="q", text=SENTS[0]), _ctx())
     assert report.claims[0].numeric_ok and report.claims[0].verdict == "SUPPORTED"
+
+
+def test_lead_in_line_is_not_scored():
+    text = "Regarding risk:\n*   The company may face cyber risk [2]."
+    llm = _LLM({"sentences": [{"s": 1, "verdict": "UNSUPPORTED", "citation": None},
+                              {"s": 2, "verdict": "SUPPORTED", "citation": 2}]})
+    verifier = CitationVerifier(SentenceLLMJudge(llm, quotes=False), VerificationConfig())
+    report = verifier.verify(Answer(question="q", text=text), _ctx())
+    assert report.claims[0].lead_in and report.claims[0].meta
+    assert report.total == 1 and report.groundedness == 1.0
