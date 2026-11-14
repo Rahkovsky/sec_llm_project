@@ -127,6 +127,22 @@ class JobStore:
             row = self._db.execute("SELECT * FROM jobs WHERE id=?", (job_id,)).fetchone()
         return dict(row) if row else None
 
+    def recent_timings(self, n: int = 50) -> list[dict[str, float]]:
+        """Stage timings of the last ``n`` answered questions, oldest first."""
+        with self._lock:
+            rows = self._db.execute(
+                "SELECT result FROM jobs WHERE status='done' AND result IS NOT NULL "
+                "ORDER BY finished DESC LIMIT ?", (n,)).fetchall()
+        out = []
+        for (raw,) in reversed(rows):
+            try:
+                res = json.loads(raw)
+            except (TypeError, ValueError):
+                continue
+            if not res.get("abstained") and res.get("timings"):
+                out.append(res["timings"])
+        return out
+
     def queued(self) -> list[dict[str, Any]]:
         with self._lock:
             rows = self._db.execute(
@@ -142,7 +158,12 @@ class QAService:
                  ) -> None:
         self.pipeline = pipeline
         self.store = store
-        self.estimator = estimator or Estimator(_seed_from(pipeline))
+        if estimator is None:  # start from the measured times of earlier questions
+            estimator = Estimator(_seed_from(pipeline))
+            for timings in store.recent_timings():
+                for stage, sec in timings.items():
+                    estimator.record("", stage, float(sec))
+        self.estimator = estimator
         self._q: queue.Queue[str] = queue.Queue()
         self.current: dict[str, Any] | None = None  # {id, mode, stage, stage_start}
         self._stop = threading.Event()

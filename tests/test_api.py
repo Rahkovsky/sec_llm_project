@@ -159,3 +159,11 @@ def test_excerpt_is_the_matching_sentence_and_sources_are_sorted():
     assert cut["sources"][0]["excerpt"] == "… rose 5% in 2024."
     no_text = serialize_answer(ans, "fast", {}, 1.0, cfg)
     assert no_text["sources"][0]["excerpt"] == "tection modules, as well"
+
+
+def test_estimates_survive_a_restart(tmp_path):
+    with _client(tmp_path, FakePipeline()) as c:
+        _wait(c, c.post("/v1/questions", json={"question": "Waters one"}, headers=AUTH).json()["id"])
+    with _client(tmp_path, FakePipeline()) as c:  # same jobs.db
+        est = c.get("/v1/estimate?mode=fast", headers=AUTH).json()
+    assert est["based_on_questions"] == 1 and est["estimated_seconds"] < 10

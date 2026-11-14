@@ -145,3 +145,15 @@ Changes after the test: source excerpts are now the cited passage's sentence tha
 answer (the stored quote was the passage start, often mid-word); sources sorted by number;
 stage medians shared by the two modes (retrieval and answering run the same way in both);
 `HF_HUB_OFFLINE=1` so start-up does not call the Hugging Face Hub.
+
+## Public test (Nov 14)
+
+Tailscale Funnel enabled for the tailnet (HTTPS certificates + Funnel policy); machine named
+`mac-home`. `scripts/serve_api.sh` published the API at the tailnet's `ts.net` address with a
+Let's Encrypt certificate. Checked through Tailscale's public relay (the route a phone on
+mobile data takes): page 200, requests without the key or with a wrong key 401, a fast
+question answered with sources in 91 s. Ctrl-C took the address offline (connection refused).
+The estimate was 54 s because the in-memory medians were lost at restart; the estimator now
+starts from the stage timings of the last 50 answered questions in `data/api/jobs.db`.
+The script uses the Tailscale app's own binary when the CLI is not installed, and stops with
+a message when Funnel or HTTPS is not enabled.
