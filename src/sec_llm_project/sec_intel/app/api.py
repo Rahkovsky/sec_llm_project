@@ -57,7 +57,8 @@ class QuestionIn(BaseModel):
 
 # ---------------------------------------------------------------- estimates
 class Estimator:
-    """Rolling median duration of each stage, per mode (last 50 questions)."""
+    """Rolling median duration of each stage (last 50 questions). Retrieval and answering
+    run the same way in both modes, so a stage's measurements are shared by the modes."""
 
     def __init__(self, seed: dict[str, float] | None = None) -> None:
         self.seed = {**SEED_SECONDS, **(seed or {})}
@@ -66,11 +67,11 @@ class Estimator:
 
     def record(self, mode: str, stage: str, seconds: float) -> None:
         with self._lock:
-            self._d.setdefault((mode, stage), deque(maxlen=50)).append(seconds)
+            self._d.setdefault(stage, deque(maxlen=50)).append(seconds)
 
     def stage(self, mode: str, stage: str) -> float:
         with self._lock:
-            d = self._d.get((mode, stage))
+            d = self._d.get(stage)
             return statistics.median(d) if d else self.seed[stage]
 
     def total(self, mode: str) -> float:
@@ -85,7 +86,7 @@ class Estimator:
 
     def samples(self, mode: str) -> int:
         with self._lock:
-            return min((len(self._d.get((mode, s), ())) for s in STAGES[mode]), default=0)
+            return min((len(self._d.get(s, ())) for s in STAGES[mode]), default=0)
 
 
 # --------------------------------------------------------------------- store
@@ -234,6 +235,13 @@ class QAService:
         return out
 
     # ----------------------------------------------------------- worker
+    def _chunk_text(self, chunk_id: str) -> str | None:
+        try:
+            chunk = self.pipeline.index.get(chunk_id)
+        except Exception:  # no index (tests) or a lookup error: the stored quote is used
+            return None
+        return getattr(chunk, "text", None)
+
     def _loop(self) -> None:
         while not self._stop.is_set():
             job_id = self._q.get()
@@ -267,7 +275,7 @@ class QAService:
                 for stage, sec in timings.items():  # abstentions skip stages: not recorded
                     self.estimator.record(mode, stage, sec)
             result = serialize_answer(answer, mode, timings, time.time() - t0,
-                                      self.pipeline.config)
+                                      self.pipeline.config, chunk_text=self._chunk_text)
             self.store.update(job["id"], status="done", finished=time.time(),
                               result=json.dumps(result))
         except Exception as exc:  # one failed question must not stop the worker
@@ -283,23 +291,48 @@ def _seed_from(pipeline: Any) -> dict[str, float]:
     return {"verifying": 34.0 if fmt == "verdicts" else 68.0}
 
 
+EXCERPT_CHARS = 320
+
+
+def _excerpt(answer_text: str, n: int, chunk_text: str | None, fallback: str) -> str:
+    """The sentence of the cited passage that best matches the answer sentences citing [n]
+    (the citation's stored quote is the passage start, often mid-word)."""
+    from ..generation.prune import split_sentences
+    from ..generation.verifier import best_matching_sentence, cited_numbers
+
+    if not chunk_text:
+        return fallback
+    citing = [s for s in split_sentences(answer_text) if n in cited_numbers(s)]
+    best = best_matching_sentence(" ".join(citing) or answer_text, chunk_text)
+    best = " ".join(best.split())
+    if best[:1].islower() and " " in best:  # the passage starts mid-word or mid-sentence
+        best = "… " + best.split(" ", 1)[1]
+    if len(best) > EXCERPT_CHARS:
+        best = best[:EXCERPT_CHARS].rsplit(" ", 1)[0] + " …"
+    return best
+
+
 def serialize_answer(answer: Any, mode: str, timings: dict[str, float], total_s: float,
-                     config: Any) -> dict[str, Any]:
-    """The API's result body: answer, numbered sources, verdicts (verified), timings."""
+                     config: Any, chunk_text: Callable[[str], str | None] | None = None,
+                     ) -> dict[str, Any]:
+    """The API's result body: answer, numbered sources, verdicts (verified), timings.
+    ``chunk_text(chunk_id)`` gives a passage's full text, for the source excerpts."""
     extra = answer.extra or {}
     ranked = [r["chunk_id"] for r in extra.get("retrieval", [])]
     by_id = {c.chunk_id: c for c in answer.citations}
     sources = []
     from ..generation.verifier import cited_numbers
 
-    for n in cited_numbers(answer.text):
+    for n in sorted(cited_numbers(answer.text)):
         cid = ranked[n - 1] if 0 < n <= len(ranked) else None
         c = by_id.get(cid) if cid else None
         if c is not None:
+            text = chunk_text(cid) if chunk_text else None
             sources.append({"n": n, "company": c.company, "ticker": c.ticker,
                             "form": c.filing_type, "filing_date": c.filing_date,
                             "section": c.section_title, "item": c.item_number,
-                            "url": c.source_url, "excerpt": c.quote})
+                            "url": c.source_url,
+                            "excerpt": _excerpt(answer.text, n, text, c.quote)})
     out: dict[str, Any] = {
         "answer": answer.text, "abstained": answer.abstained,
         "abstain_reason": answer.abstain_reason, "verified": mode == "verified",

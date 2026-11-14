@@ -328,6 +328,34 @@ placebos), `synth_claude.json` (361 natural-language questions for retrieval che
 labels for dropped qualifiers and placebo answers. The retrieval experiments are in `tools/`
 (`diversity_lab.py`, `rewrite_lab.py`, `rerank_lab.py`, `period_lab.py`).
 
+### HTTP API for demonstrations
+
+An optional API runs the same pipeline behind a question queue, for showing the system during a
+presentation. It is not a service for clients: it answers one question at a time and is started
+by hand ([plan and design](docs/API_PLAN.md)).
+
+```bash
+uv pip install -e ".[api]"
+scripts/serve_api.sh --local   # API and demo page on http://127.0.0.1:8000, key printed at start
+scripts/serve_api.sh           # the same, plus a public HTTPS address through Tailscale Funnel
+```
+
+The page at `/` has a question box, a Fast/Verified switch, a countdown and the answer with
+numbered sources. The endpoints, all except `/v1/health` behind `Authorization: Bearer <key>`:
+
+| Endpoint | |
+|---|---|
+| `POST /v1/questions` | `{"question": ..., "ticker": null, "mode": "fast" \| "verified"}` → `202` with `id`, queue position, estimated seconds |
+| `GET /v1/questions/{id}` | Status (`queued`, `retrieving`, `answering`, `verifying`, `done`, `failed`, `cancelled`), seconds remaining, and the result when done |
+| `GET /v1/questions/{id}/events` | The same as server-sent events |
+| `DELETE /v1/questions/{id}` | Cancel a queued question |
+| `GET /v1/estimate?mode=fast` | Expected time for a new question now |
+
+*Fast* (the default) skips the judge and marks the answer unverified, which takes 40–55 s. *Verified* adds
+the claim-by-claim check and returns the verdicts, which takes 100–120 s. The time estimate is the running
+median of each stage plus the questions waiting ahead. In the first local test the estimates
+were 54, 142 and 196 s for three questions submitted together, and the questions took 44, 144 and 200 s.
+
 ---
 
 ## 6. Repository layout

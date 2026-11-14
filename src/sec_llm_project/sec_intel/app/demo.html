@@ -163,7 +163,7 @@ function show(st) {
     h += `<h3 style="font-size:15px;margin:18px 0 4px">Sources</h3>`;
     h += r.sources.map(s => `<div class="src"><b>[${s.n}]</b> ${esc(s.company)} · ${esc(s.form)} filed ${esc(s.filing_date)} · ${esc(s.section)}` +
       (s.url ? ` · <a href="${esc(s.url)}" target="_blank" rel="noopener">SEC</a>` : "") +
-      `<div class="ex">“${esc(s.excerpt)}…”</div></div>`).join("");
+      `<div class="ex">“${esc(s.excerpt)}”</div></div>`).join("");
   }
   out.innerHTML = h;
 }

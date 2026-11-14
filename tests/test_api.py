@@ -134,3 +134,28 @@ def test_estimator_uses_medians_after_measurements():
     assert e.stage("fast", "answering") == 12.0
     assert e.remaining("fast", "retrieving", 20.0) == pytest.approx(4.0 + 12.0)
     assert e.remaining("verified", "verifying", 100.0) == 2.0  # overrun: floor
+
+
+def test_excerpt_is_the_matching_sentence_and_sources_are_sorted():
+    from sec_llm_project.sec_intel.app.api import serialize_answer
+
+    cit = lambda cid: Citation(chunk_id=cid, ticker="WAT", company="Waters", filing_type="10-K",  # noqa: E731
+                               filing_date="2025-02-25", section_title="Risk", item_number="1A",
+                               source_url="", score=0.9, quote="tection modules, as well")
+    ans = Answer(question="q", text="Waters keeps cyber insurance [2]. Sales rose [1].",
+                 citations=[cit("c2"), cit("c1")],
+                 extra={"retrieval": [{"chunk_id": "c1"}, {"chunk_id": "c2"}]})
+    texts = {"c1": "Net sales rose 5% in 2024. Other text.",
+             "c2": "Training covers protection modules. The Company maintains cyber insurance, "
+                   "which may not be sufficient."}
+    cfg = SimpleNamespace(llm=SimpleNamespace(model="g"),
+                          verification=SimpleNamespace(judge=SimpleNamespace(model="j")))
+    out = serialize_answer(ans, "fast", {}, 1.0, cfg, chunk_text=texts.get)
+    assert [s["n"] for s in out["sources"]] == [1, 2]
+    assert out["sources"][1]["excerpt"].startswith("The Company maintains cyber insurance")
+    assert out["sources"][0]["excerpt"] == "Net sales rose 5% in 2024."
+    texts["c1"] = "les rose 5% in 2024."
+    cut = serialize_answer(ans, "fast", {}, 1.0, cfg, chunk_text=texts.get)
+    assert cut["sources"][0]["excerpt"] == "… rose 5% in 2024."
+    no_text = serialize_answer(ans, "fast", {}, 1.0, cfg)
+    assert no_text["sources"][0]["excerpt"] == "tection modules, as well"

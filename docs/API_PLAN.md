@@ -1,7 +1,8 @@
 # Plan: a question-answering API on this machine
 
-*November 14, 2026. A plan, nothing built yet. For demonstrations during presentations,
-started by hand; default mode fast. Timings are from the 16-question timing run
+*November 14, 2026. Built (steps 1–5 and 7; step 6 waits for the Tailscale setup), see
+README §5 and the test below. For demonstrations during presentations, started by hand;
+default mode fast. Timings are from the 16-question timing run
 (EXPERIMENTS.md §16) on the M1 Pro, 16 GB.*
 
 ## What the API has to cope with
@@ -127,3 +128,20 @@ runs; default mode **fast**.
 
 Open: the tunnel. Recommended: Tailscale Funnel (free, stable URL). Alternative with no
 account at all: a Cloudflare quick tunnel (random URL each time).
+
+## First local test (Nov 14)
+
+`scripts/serve_api.sh --local`, v6 config, three questions submitted at once:
+
+| Question | Mode | Estimated at submit | Took (incl. queue) | Answer |
+|---|---|---|---|---|
+| Waters, cyber insurance | fast | 54 s | 44 s | Correct, four sources, keeps the filing's "may not be sufficient" |
+| Nvidia, data-center revenue FY2025 | verified | 142 s | 144 s | Only the +142% growth; the dollar figure was not retrieved (a retrieval miss, not an API issue) |
+| Costco, membership-fee risks | fast | 196 s | 200 s | Four cited risk statements |
+
+An earlier single verified question (Apple buybacks FY2024: "$95.0 billion [4]", supported)
+took 117 s against 88 s estimated, before any measurement replaced the seed values.
+Changes after the test: source excerpts are now the cited passage's sentence that matches the
+answer (the stored quote was the passage start, often mid-word); sources sorted by number;
+stage medians shared by the two modes (retrieval and answering run the same way in both);
+`HF_HUB_OFFLINE=1` so start-up does not call the Hugging Face Hub.

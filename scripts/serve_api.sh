@@ -29,6 +29,8 @@ if [ "$PUBLIC" = 1 ] && ! command -v tailscale >/dev/null; then
 fi
 
 export SEC_API_KEY="${SEC_API_KEY:-$(openssl rand -hex 16)}"
+# the embedding models are cached locally; do not call the Hugging Face Hub at start
+export HF_HUB_OFFLINE="${HF_HUB_OFFLINE:-1}"
 
 # Warm the generator (fast mode uses only it), so the first question pays no load time.
 GEN_MODEL=$(.venv/bin/python -c "import sys; sys.path.insert(0, 'src')
