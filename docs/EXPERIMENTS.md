@@ -1387,3 +1387,42 @@ supported and carry a lexical hedge flag; most such flags are not real drops (§
 
 **Decision.** The matcher change is on for all configs (it is a measurement fix). v6 keeps
 pruning on top; its full run measures both with the judge verdicts stored.
+
+### 20.4 Q1: ask once more when the answer only describes missing evidence
+
+**Problem.** In v5, 23 of the 260 FinDER answers were refused because every sentence was a
+meta-claim ("The provided excerpts do not contain information regarding ..."). Most of
+these questions are vague FinDER prompts ("Impact of AIG's cyber sec on comp positioning &
+financing costs") whose retrieved excerpts do describe the topic, just not the causal link
+the question asks about.
+
+**Change.** `generation.meta_retry` (`GroundedAnswerer._meta_retry`,
+`prompts.build_meta_retry_prompt`): if the first answer contains only meta-claims, ask the
+generator once more, with the same excerpts, to state what the excerpts *do* say about the
+topic, with citations, and then say in one sentence what they do not cover; if the excerpts
+say nothing about the topic, or the question rests on a period, document or company not in
+them, it must reply INSUFFICIENT_EVIDENCE (the placebo guard). The second
+answer goes through the same verification as any other; if it is still meta-only, the
+pipeline abstains as before. The first text is kept in `extra.meta_retry.text_before`.
+
+**Test** (`out/q1_meta_retry`, v6 config with the retry on): the 23 meta-only questions
+plus the 6 placebos, 4 workers.
+
+| | Count |
+|---|---|
+| Meta-only questions answered now | 18 of 23 |
+| … through the retry | 12 (the other 6 gave a normal first answer this time: run-to-run noise, §7) |
+| Still abstained (retry also meta-only) | 5 |
+| Factual claims in the 13 retried answers (12 FinDER + 1 placebo) | 61, all SUPPORTED |
+| Placebos: premise asserted (`tools/placebo_check.py`) | 0 of 6 |
+| Cost of a retry (generator compute, median) | 30 s (19–39 s), only on meta-only answers |
+
+Read by hand, the retried answers describe the governance, cyber or risk process the
+question is about and end with the gap ("The excerpts do not cover whether these practices
+boost investor confidence"). That is the honest answer to such a question. The placebo
+that went through the retry (AWS revenue "on March 3, 2024") reports the quarterly AWS
+figures from the 10-Q and says no daily figure exists; the placebo check marks it as not
+asserting the premise.
+
+**Decision.** On in v6. It turns about 12 of 23 refusals into grounded, cited answers at
+~30 s each, without a new placebo failure. The full v6 run measures it on all 266.
