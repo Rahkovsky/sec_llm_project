@@ -10,7 +10,8 @@ call's time and token counts.
         --format sentences --out out/judge_lab/sentences
     python tools/judge_lab.py compare out/provenance_16gb_v5 out/judge_lab/sentences
 
-``compare`` maps both judges' verdicts to answer sentences (the claims format is
+``compare`` re-applies the current quote and figure checks to both judges' claims
+(tools/quote_rescore.py), maps both judges' verdicts to answer sentences (the claims format is
 mapped by word overlap, as in generation/prune.py) and reports agreement, judge time
 and output tokens, and the clean-answer count each judge would give, with and
 without pruning.
@@ -147,10 +148,15 @@ def label(row: dict, text: str, claims: list[dict], prune: bool) -> str:
 
 
 def cmd_compare(args) -> int:
+    from quote_rescore import rescore  # the current quote/figure checks, for both judges
+
     run, new = Path(args.run), Path(args.new)
     with open(run / "questions.csv", newline="") as fh:
         rows = {r["id"]: r for r in csv.DictReader(fh)}
     answers = _answers(run)
+    cfg = AppConfig.load(args.config)
+    texts = chunk_texts(Path(cfg.index.path), {
+        e["chunk_id"] for a in answers.values() for e in a["extra"]["verification"]["evidence"]})
     pairs, t_old, t_new, tok_old, tok_new = Counter(), [], [], [], []
     labels = {k: Counter() for k in ("old", "new", "old_pruned", "new_pruned")}
     n = 0
@@ -160,7 +166,9 @@ def cmd_compare(args) -> int:
             continue
         n += 1
         nd = json.loads(p.read_text())
-        old_claims = a["extra"]["verification"]["claims"]
+        ctx = _context(a, texts)
+        old_claims = rescore(a["extra"]["verification"]["claims"], ctx)
+        nd["claims"] = rescore(nd["claims"], ctx)
         for o, w in zip(sentence_verdicts(a["text"], old_claims),
                         sentence_verdicts(a["text"], nd["claims"]), strict=True):
             pairs[(o, w)] += 1
@@ -205,6 +213,8 @@ def main() -> int:
     c = sub.add_parser("compare")
     c.add_argument("run")
     c.add_argument("new")
+    c.add_argument("--config", default="config/local_16gb_v5.yaml",
+                   help="its index supplies the chunk texts for the quote checks")
     args = ap.parse_args()
     return cmd_run(args) if args.cmd == "run" else cmd_compare(args)
 

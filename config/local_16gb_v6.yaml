@@ -1,5 +1,6 @@
 # v6 (Nov 14 2026): v5 + pruning of unsupported sentences (verification.prune_unsupported;
-# generation/prune.py, docs/EXPERIMENTS.md §20.1).
+# generation/prune.py, §20.1) + compact judge (verification.judge_format: verdicts, §20.2)
+# + quote check v2 (code, all configs, §20.3). docs/EXPERIMENTS.md §20.
 # v5 (Nov 13 2026): v4 + brevity rule (generation.concise_rule; docs/EXPERIMENTS.md §15).
 # v4 (Nov 12 2026): v3 + dropped-qualifier prevention and repair (checker prompt v2)
 # + soft period filter
@@ -121,6 +122,7 @@ verification:
   qualifier_check: true
   qualifier_repair: true
   prune_unsupported: true
+  judge_format: verdicts
 
 generation:
   qualifier_rule: true

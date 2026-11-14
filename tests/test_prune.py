@@ -111,3 +111,13 @@ def test_split_does_not_break_at_initials_titles_or_company_suffixes():
     assert split_sentences(text) == [
         "Jonathan P. Graham joined from Danaher Corp. in 2019 [2].", "Mr. Brown is CEO [1].",
         "Regarding storage:", "*   Capacity rose [3]."]
+
+
+def test_case_name_abbreviations_and_headings():
+    from sec_llm_project.sec_intel.generation.prune import is_lead_in
+
+    text = ("The lawsuit (Waterford Twp. Gen. Emps. Ret. Sys. v. Smith) lacks merit [1].\n"
+            "**Risk Profile**\n*   **Technology Integration:**\nThe company may face risk [2].")
+    sents = split_sentences(text)
+    assert sents[0].endswith("lacks merit [1].") and len(sents) == 4
+    assert [is_lead_in(s) for s in sents] == [False, True, True, False]

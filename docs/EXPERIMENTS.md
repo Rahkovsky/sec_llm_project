@@ -1273,6 +1273,53 @@ changes (Q4 first measures how many removed claims the judge got wrong).
 rejected the judge's quotes. With the check fixed, clean answers reach 178 without
 pruning, and pruning adds 7 more by removing only the claims that remain unsupported.
 
+### 20.2 S1: a judge that writes less
+
+**Question.** The judge takes 63% of model time (§16): for every claim it writes back the
+claim, a verdict, a citation and a verbatim quote, ~520 tokens per answer at ~12 tokens/s.
+Can it write less without judging differently?
+
+**Formats** (`verification.judge_format`; `tools/judge_lab.py` re-judges stored answers
+against the exact excerpts the original judge saw and compares):
+
+* `claims` (v5): the judge splits the answer into atomic claims and writes each back.
+* `sentences`: code numbers the answer's sentences ([S1], [S2], ...); the judge returns
+  `{s, verdict, citation, quote}` per sentence, quotes of at most 25 words.
+* `verdicts`: as `sentences` but without the quote; code takes the cited passage's
+  sentence that shares most words with the answer sentence as the quote, so the quote
+  and qualifier checks still run.
+
+The figure check of a sentence covers every excerpt the sentence itself cites ([1, 4]).
+Uncited lead-in lines ("Regarding storage:", "**Risk Profile**") are not scored.
+
+**Pilot (20 answers).** `sentences`: 46 s per answer vs 60 s, agreement 0.915 on
+scored sentences; `verdicts`: 32 s, 0.976. Writing a quote costs most of the tokens, so
+`sentences` saved little. The pilot also found two splitter defects (breaking at initials
+such as "Jonathan P." and at case-name abbreviations such as "Twp. Gen. Emps. Ret. Sys.
+v.") and markdown headings scored as claims; all three are fixed.
+
+**Full test (`verdicts`, all 209 answered v5 questions,** `out/judge_lab/verdicts`; both
+judges scored with the §20.3 quote check):
+
+| | claims (v5) | verdicts |
+|---|---|---|
+| Judge time per answer | 64.0 s | **30.3 s** |
+| Judge output tokens per answer | 528 | **147** |
+| Sentence verdicts agreeing (supported vs not), 794 scored sentences | – | **0.989** |
+| Clean answers (260) | 178 | 177 |
+| Unsupported claims (label) | 6 | 2 |
+| Dropped qualifier (lexical flag) | 18 | 25 |
+
+Of the 9 sentences where the two disagree, 5 are failed by the old judge and passed by the
+new one; by the hand labels of §20.3, 3 of those are supported (finder_0170, 0172, 0184)
+and 2 partly. The swapped percentages of finder_0022 are failed by both. The lexical
+qualifier flags rise because the code-chosen quote is a whole source sentence, which
+carries more hedge words than a judge's short quote; the flag is a weak proxy (§17), but it
+also sends more claims to the judge's qualifier check, which costs a call each.
+
+**Decision.** `judge_format: verdicts` halves the judge's time with the same verdicts.
+It is on in v6. Expected end-to-end time per question: ~122 s → ~88 s (serial).
+
 ### 20.3 Q4 (first part): most "unsupported" claims were rejected quotes, not bad answers
 
 **Question.** Q2 removes the claims the judge marks unsupported. How many of them are

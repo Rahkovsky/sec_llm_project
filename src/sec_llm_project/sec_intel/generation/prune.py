@@ -28,7 +28,8 @@ def _words(s: str) -> set[str]:
 
 # a piece ending like this is not a sentence end: an initial ("Jonathan P."), a title or
 # a company suffix
-_ABBREV = re.compile(r"(?:\b[A-Z]|\b(?:Mr|Ms|Mrs|Dr|Inc|Co|Corp|Ltd|No|Jr|Sr|St|vs|U\.S))\.$")
+# (also short capitalized abbreviations in case names: "Waterford Twp. Gen. Emps. Ret. Sys. v.")
+_ABBREV = re.compile(r"(?:\b[A-Z][a-z]{0,3}|\b(?:Corp|Inc|Ltd|Jr|Sr|vs?|U\.S))\.$")
 
 
 def split_sentences(text: str) -> list[str]:
@@ -45,9 +46,13 @@ def split_sentences(text: str) -> list[str]:
 
 
 def is_lead_in(sentence: str) -> bool:
-    """'Regarding storage:' or 'The framework includes the following:' with no citation:
-    it introduces a list and asserts nothing itself."""
-    return sentence.rstrip().endswith(":") and "[" not in sentence
+    """A line that asserts nothing itself: 'Regarding storage:', 'The framework includes
+    the following:', a markdown heading ('**Risk Profile**', '*   **Technology:**') or a
+    bare label ('AWK'), with no citation."""
+    if "[" in sentence:
+        return False
+    core = sentence.strip().strip("*#-• ").strip()
+    return core.endswith(":") or (len(core.split()) <= 6 and not core.endswith((".", "!", "?")))
 
 
 def owner_sentence(claim: str, sentences: list[str]) -> int:
