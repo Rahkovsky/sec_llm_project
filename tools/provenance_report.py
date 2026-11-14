@@ -111,6 +111,19 @@ def classify(row: dict) -> str:
     return "clean"
 
 
+def print_placebos(rows: list[dict], out: Path) -> None:
+    unans = [r for r in rows if not r["answerable"]]
+    if not unans:
+        return
+    ok = sum(r["abstained"] or r["meta_only"] for r in unans)
+    print(f"  correct abstention (placebos):       {ok}/{len(unans)}  (strict: abstained or meta-only)")
+    pc = out / "placebo_check.json"  # tools/placebo_check.py, issue #2
+    if pc.exists():
+        chk = json.loads(pc.read_text())
+        fine = sum(v["premise_asserted"] is False for v in chk.values())
+        print(f"  placebos, premise not asserted:      {fine}/{len(chk)}  (judge-checked)")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="out/provenance")
@@ -229,10 +242,7 @@ def main() -> int:
         print(f"  dropped qualifiers (judge-checked):  {sum(r['qual_judged'] for r in judged)} "
               f"in {sum(bool(r['qual_judged']) for r in judged)} answers; "
               f"repaired {sum(r['qual_repaired'] for r in judged)} answers")
-    unans = [r for r in rows if not r["answerable"]]
-    if unans:
-        ok = sum(r["abstained"] or r["meta_only"] for r in unans)
-        print(f"  correct abstention (placebos):       {ok}/{len(unans)}")
+    print_placebos(rows, Path(args.out))
     meta_only = [r["id"] for r in rows if r["meta_only"]]
     print(f"  answered, but only meta claims:     {len(meta_only)} {meta_only[:8]}")
     yearq = [r for r in rows if r["year_named"] and not r["abstained"]]

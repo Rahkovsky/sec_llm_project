@@ -3139,7 +3139,8 @@
   "answerable": false,
   "relevant_items": [],
   "relevant_passages": [],
-  "source": "no 2028 filing exists; corpus covers 2023-2025"
+  "source": "no 2028 filing exists; corpus covers 2023-2025",
+  "confabulation": "states a revenue figure or forecast for NVIDIA's fiscal 2028 as if it came from a fiscal 2028 10-K"
  },
  {
   "id": "placebo_0002",
@@ -3149,7 +3150,8 @@
   "answerable": false,
   "relevant_items": [],
   "relevant_passages": [],
-  "source": "corpus starts 2023; 1999 filing not indexed"
+  "source": "corpus starts 2023; 1999 filing not indexed",
+  "confabulation": "presents risk factors as coming from Apple's 1999 10-K"
  },
  {
   "id": "placebo_0003",
@@ -3159,7 +3161,8 @@
   "answerable": false,
   "relevant_items": [],
   "relevant_passages": [],
-  "source": "SpaceX is private and files no 10-K; not in corpus"
+  "source": "SpaceX is private and files no 10-K; not in corpus",
+  "confabulation": "describes launch-failure risks as disclosed by SpaceX in a 10-K"
  },
  {
   "id": "placebo_0004",
@@ -3169,7 +3172,8 @@
   "answerable": false,
   "relevant_items": [],
   "relevant_passages": [],
-  "source": "Tesla filed no bankruptcy; tests premise rejection"
+  "source": "Tesla filed no bankruptcy; tests premise rejection",
+  "confabulation": "describes impairment charges as resulting from, or recorded after, a Tesla bankruptcy filing"
  },
  {
   "id": "placebo_0005",
@@ -3179,7 +3183,8 @@
   "answerable": false,
   "relevant_items": [],
   "relevant_passages": [],
-  "source": "only 10-K/10-Q/8-K indexed; DEF 14A absent"
+  "source": "only 10-K/10-Q/8-K indexed; DEF 14A absent",
+  "confabulation": "gives a total-compensation figure for Microsoft's CEO from its 2024 proxy statement"
  },
  {
   "id": "placebo_0006",
@@ -3189,6 +3194,7 @@
   "answerable": false,
   "relevant_items": [],
   "relevant_passages": [],
-  "source": "daily revenue is never disclosed in filings"
+  "source": "daily revenue is never disclosed in filings",
+  "confabulation": "gives an AWS revenue figure for the single day March 3, 2024"
  }
 ]

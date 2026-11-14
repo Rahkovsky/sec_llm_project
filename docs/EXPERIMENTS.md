@@ -1024,8 +1024,8 @@ generator call itself is ~22 s. On the 16 GB machine only one of the generator
 question alternates between them several times: HyDE rewrite and answer
 (generator), claim verification and qualifier check (judge), and for some
 questions a repair (generator) and its re-check (judge). The likely cost is the
-model reloads. No run has been made with the changes below yet (the machine was
-needed for other work); they are ready for the next run.
+model reloads. The timing run at the end of this section shows that guess was
+wrong: loads are 7% of the time.
 
 **Index update resumes.** `tools/update_index.py` decided what was already
 indexed from `chunks.jsonl`, which is only rewritten at the end, so the Nov 13
@@ -1060,7 +1060,140 @@ cited fact that does not depend on the premise). By substance every run is 6/6;
 the counters (v3 6/6 and v3_gold 6/6 with the widened meta rule, v4 4/6)
 measure the form of the refusal, not its correctness.
 
-## 17. Not yet done / open
+**Timing run (16 questions, v5, from cold models).** FinDER `finder_0001`–`0016`
+(`out/timing/`), once serially and once with `--workers 8`:
+
+| | Serial | 8 workers |
+|---|---|---|
+| Elapsed | 1954 s (122 s/question) | 1663 s (104 s/question) |
+| Model switches | 32 | 4 |
+| Model load time (Ollama `load_duration`, all calls) | 143 s | 27 s |
+| Prompt processing | 687 s | 643 s |
+| Token generation | 905 s | 892 s |
+| Outside the LLM (retrieval, embedding, quote check) | 216 s | hidden behind LLM calls |
+
+Each v5 question makes three LLM calls: the HyDE rewrite (generator, ~160
+prompt tokens, ~90 out), the answer (generator, ~2,400 prompt tokens, ~175 out)
+and the claim judge (judge, ~2,500 prompt tokens, ~520 out). A model load takes
+only ~4.5 s because both models stay in the file cache. The time goes to
+prompt processing at ~120 tokens/s for both models, and to the judge's
+generation at ~12 tokens/s (the generator's is ~20 tokens/s): the judge alone
+is 63% of LLM time. `--workers 8` saves 15%, by removing most loads and running
+retrieval while another question is on the LLM; it cannot do more, because
+Ollama serves one request at a time here. Flash attention and an 8-bit KV
+cache are already on (Ollama 0.40 starts llama-server with `--flash-attn on
+--cache-type-k q8_0 --cache-type-v q8_0`), so the lever that remains is a
+shorter judge output (fewer tokens per claim).
+
+Answers: 2 of 16 are word-for-word the same in the two runs, against about half
+between two serial runs (§10); claims 86 vs 87, judge support 0.744 vs 0.770.
+Whether concurrent requests add to the run-to-run noise is not settled by 16
+questions; the quality numbers are within noise.
+
+**Automatic placebo check (`tools/placebo_check.py`, issue #2).** Each placebo
+case in `eval/gold_plus_placebo.json` now has a `confabulation` field, a short
+description of what a wrong answer would claim (e.g. "gives an AWS revenue figure
+for the single day March 3, 2024"). The judge model is asked whether the answer
+makes that claim; an abstained answer needs no call. Against the 18 hand labels
+above it agrees 18/18, but all of those are negatives. As positive controls,
+eight answers that assert the premise were written by hand (six plain, two that
+refuse in part and then assert it, e.g. "The excerpts do not give the exact
+figure. However, after the 2024 bankruptcy filing Tesla impaired some of its
+solar assets"): the judge marks all 8 YES. `tools/provenance_report.py` prints
+"placebos, premise not asserted" next to the old counter when
+`placebo_check.json` exists.
+
+## 17. Full v5 run: the brevity rule on all 266 questions (Nov 13–14)
+
+`config/local_16gb_v5.yaml` = v4 + the brevity rule of §15, v3 index, 266
+questions, `--workers 8` (~102 s/question; stopped once at 65 questions and
+resumed). Report: `out/provenance_16gb_v5/report_cover.txt`.
+
+| FinDER (260) | v3 | v4 | v5 |
+|---|---|---|---|
+| Answered | 212 | 213 | 209 |
+| Words per answer (mean) | 144 | 171 | **126** |
+| Claims per answer | 4.88 | 5.73 | **4.31** |
+| Claim support (supported + ½ partial, meta excluded) | 0.927 | 0.925 | **0.951** |
+| Unsupported claims | 76 (7.3%) | 91 (7.5%) | **44 (4.9%)** |
+| Lexical qualifier flags | 73 | 47 | 22 |
+| **Real dropped qualifiers (hand-labelled)** | 14 | 4 (+2 borderline) | **2** (+1 borderline) |
+| Main error "dropped qualifiers" | 36 | 24 | 13 |
+| Main error "unsupported claims" | 41 | 52 | 31 |
+| Retrieval miss → ungrounded claims | – | 16 | 5 |
+| Retrieval miss → abstained | – | 21 | 25 |
+| Clean | 112 | 118 | **156** |
+
+All 266: faithfulness 0.940 (v4 0.879), weighted claim error rate 0.119 (v4
+0.243), placebos 6/6 by both the strict counter and the premise check (§16).
+
+Paired with v4: 187 questions answered by both, 22 newly answered, 26 lost.
+Clean: 69 questions become clean, 31 stop being clean. Some of that churn is the
+run-to-run noise of §10 (~11% of labels), but the noise moves labels both ways;
+a sign test on the 100 discordant questions gives z = 3.8. Issue #1's three
+conditions hold: claims per answer 4.31 ≤ 4.88, real drops 2 ≤ 4, support
+0.951 ≥ 0.925.
+
+The 56-question test (§15) suggested the unsupported share might rise; on the
+full set it falls, from 7.5% to 4.9%. The 56 were selected for long,
+hedge-heavy answers, where cutting supported detail dominates. A likely
+reading, not checked claim by claim: across all questions the rule mostly
+removes background sentences, which are the claims the judge most often cannot
+find in the excerpts.
+
+**Hand labels** (`eval/qualifier_labels_v5_full.json`, same rule as before): of
+the 22 lexical flags, 2 are real: "nor is the impact expected to be material for
+the full year" → "did not have a material impact … for the full year"; and
+"estimates that may take into account … scope, cost, and timing" → "based on
+estimates of scope, cost, and timing" (the same sentence was counted in v4).
+Borderline, not counted: "potentially material issue" → "material issues".
+
+v5 is now the recommended 16 GB configuration.
+
+## 18. Entity-resolved run on the full index (Nov 14)
+
+**Index.** The resumed update (§16) embedded the last 126 10-Ks:
+`data/sec_index_v4` = v3 + all 281 remaining 10-Ks, 827,737 chunks.
+`config/local_16gb_v5_index4.yaml` is v5 on that index.
+
+**Design.** The evaluation runs give retrieval the case's own ticker; `sec-intel
+ask` resolves it from the question instead (`EntityResolver`). The resolver
+returns exactly the case's ticker for 258 of 260 FinDER questions
+(`tools/eval_entity.py`, `out/entity_eval_v4.csv`). On those the pipeline is the
+same as in the given-ticker run (and the v4 index adds only other companies'
+filings, which the ticker filter excludes), so only the 7 questions where the
+resolver differs were rerun, with `--entity resolved` on the v4 index
+(`out/provenance_16gb_v5_entity`). The 6 placebos resolve to the same ticker (or,
+for SpaceX, none in either mode).
+
+| Question | Case ticker | Resolved | Given-ticker v5 | Resolved |
+|---|---|---|---|---|
+| finder_0047 Southwest vs AA, DAL, UAL | LUV | LUV DAL UAL | unsupported claims | unsupported claims (6 of 7 supported, was 4 of 6) |
+| finder_0086 "Regeneron's differentiation … IP" | IP | REGN | retrieval miss, abstained | **clean** |
+| finder_0145 "MC's risk ctrl's … IT ops" | IT | none | dropped qualifier | retrieval miss, abstained |
+| finder_0153 AVY vs 3M/Orafol | AVY | AVY MMM | retrieval miss, abstained | same |
+| finder_0157 Bio-Rad vs DHR, Merck, TMO | DHR | DHR MRK TMO | retrieval miss, abstained | same |
+| finder_0159 "Constellation Energy's (CE)" | CE | CEG CE | retrieval miss, abstained | **clean** |
+| finder_0212 "IT risk mgmt on JBHT" | IT | JBHT | retrieval miss, abstained | **clean** |
+
+**Three FinDER ticker labels are wrong.** In finder_0086 the label "IP"
+(International Paper) comes from "IP" meaning intellectual property; the gold
+passage is Regeneron's. In finder_0212 "IT" (Gartner) comes from "IT risk
+management"; the gold passage is J.B. Hunt's. In finder_0159 the question names
+Constellation Energy (CEG) but writes "(CE)", which is Celanese. The
+"case ticker" oracle therefore searched the wrong company in all three, and the
+resolver fixes them. Where it returns several tickers (comparisons) the answer
+is unchanged or slightly better. The one loss is finder_0145, where no company
+can be read from the question ("MC's", "ticker in focus") and the unfiltered
+search over 828k chunks finds nothing usable.
+
+**Estimate for all 260** (7 replaced, the rest as in §17): clean 156 → 159,
+retrieval-miss abstentions 25 → 23. The resolver is at least as good as the
+case labels, so the given-ticker numbers in this file are not flattered by the
+oracle. `eval/gold_plus_placebo.json` keeps FinDER's labels unchanged so that
+earlier runs stay comparable.
+
+## 19. Not yet done / open
 
 | Item | Status |
 |---|---|
@@ -1076,7 +1209,8 @@ measure the form of the refusal, not its correctness.
 | 10-Q section segmentation | Lower priority now that diversification is label-free |
 | End-to-end run with all fixes, v3 and v3_gold | Done (§9, §10) |
 | End-to-end v4 (v3 + qualifier rule/check v2/repair + soft period filter) | Done (§14): real dropped qualifiers 14 → 4; answers 17% longer |
-| Answer length after the qualifier rule | Done on 56 questions (§15): brevity rule cuts words 224 → 149 and doubles clean answers; full 266-question run pending |
-| Placebo metric | Hand labels done (§16): 18/18 correct in substance. Open: an automatic premise-asserted check for new runs |
-| Remaining 281 v3 10-Ks (non-eval tickers) | Stopped Nov 13 15:10 with 156 done; update now resumes (§16), 127 left (~2.5 h) |
-| Model-grouped eval runs | Implemented (§16), not yet run: time a run with `--workers 8` against the serial timing log |
+| Answer length after the qualifier rule | Done (§15, §17): on all 266, v5 cuts claims/answer 5.73 → 4.31, support 0.925 → 0.951, clean 118 → 156 |
+| Placebo metric | Done (§16): hand labels 18/18 correct in substance; automatic premise-asserted check agrees 18/18 and catches 8/8 written positive controls |
+| Remaining 281 v3 10-Ks (non-eval tickers) | Done (§18): `data/sec_index_v4`, 827,737 chunks |
+| Entity-resolved run | Done (§18): resolver differs on 7 of 260; fixes 3 wrong FinDER labels, loses 1; clean 156 → 159 |
+| Model-grouped eval runs | Timed (§16): `--workers 8` saves 15%; loads are only 7% of time; flash attention and q8 KV cache already on. Next: shorter judge output |
