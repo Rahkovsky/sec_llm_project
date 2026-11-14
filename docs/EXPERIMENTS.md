@@ -1268,3 +1268,75 @@ the collateral count and the original text), and citations no longer referenced 
 pruned text are dropped. `config/local_16gb_v6.yaml` = v5 + pruning. The +31 clean answers
 are an estimate on stored outputs; a full run of v6 confirms it together with the later
 changes (Q4 first measures how many removed claims the judge got wrong).
+
+**Update (§20.3).** Most of the claims pruning removed were correct: the quote check had
+rejected the judge's quotes. With the check fixed, clean answers reach 178 without
+pruning, and pruning adds 7 more by removing only the claims that remain unsupported.
+
+### 20.3 Q4 (first part): most "unsupported" claims were rejected quotes, not bad answers
+
+**Question.** Q2 removes the claims the judge marks unsupported. How many of them are
+actually unsupported? (NEXT_STEPS.md Q4 asks for the judge's error rate before the next
+decision rests on it.)
+
+**Hand labels.** All 44 non-meta claims that v5 marks UNSUPPORTED or CONTRADICTED, each read
+against the three sentences of the retrieved excerpts that share most of its words
+(labels in `eval/unsupported_labels_v5.json`):
+
+| Hand label | Claims |
+|---|---|
+| Supported by the excerpts | 29 |
+| Partly supported, or not checkable from the matching sentences | 8 |
+| Wrong (finder_0022: the 2022 and 2023 US revenue shares swapped) | 2 |
+| A statement about the excerpts the judge split badly ("do not provide X" became "provide X") | 5 |
+
+**Cause.** In 36 of the 44 the judge said SUPPORTED, but the deterministic quote check
+rejected its quote and downgraded the claim. The judge's quotes were right in substance
+but not contiguous text: two spans joined by "..." (e.g. finder_0253: "We believe we have
+adequate defenses in these matters. ... We believe the likelihood ... is remote"), two
+sentences joined without a marker, a page header the chunker left inside the span
+("... legal proceedings, Diamondback Energy, Inc. and Subsidiaries Condensed Notes ...
+(Unaudited) disputes or claims ..."), or one word changed ("enforces" for "enforce").
+Two more failed the figure check, and four had no citation.
+
+**Change** (`generation/verifier.py: quote_matches`). A quote now also matches when:
+
+* it joins spans with "..." or joins sentences, and every segment of 3+ words matches; or
+* it has 8+ words, at least 90% of them occur in order in one region of the source (at
+  most 15 extra source words inside), and none of the differing words, on either side, is
+  a negation, a hedge (may, could, believes, expects, ...), a figure or a scale word.
+
+The verifier also keeps the judge's own verdict (`ClaimVerdict.judge_verdict`), so later
+runs show directly which claims an invariant downgraded.
+
+**Checks on the stored v5 claims** (`tools/quote_rescore.py`):
+
+* Of the 38 non-meta quotes the old check rejected, 31 now match. By the hand labels these
+  are 26 supported and 5 partly supported claims; none is one of the wrong ones.
+* All 859 quotes the old check accepted still match.
+* Adversarial test: in every accepted quote of 8+ words, drop the first hedge or negation,
+  or change the first digit (501 mutated quotes). 0 are accepted. A first version accepted
+  58: when the dropped word sat next to the quote's first word ("we [believe] that"), the
+  alignment started after it and never compared it; the compared region now covers the
+  whole quote.
+
+**Result** (v5 re-scored; the judge's verdict for a downgraded claim was not stored, so it
+is taken as SUPPORTED, an upper bound):
+
+| 260 FinDER questions | v5 as run | quote check fixed | + pruning (§20.1) |
+|---|---|---|---|
+| Claim support (meta excluded) | 0.951 | 0.985 | – |
+| Unsupported claims | 44 | 13 | – |
+| Clean | 156 | **178** | 185 |
+| Unsupported claims (label) | 31 | 6 | 0 |
+| Dropped qualifier (lexical flag) | 13 | 18 | 19 |
+
+**What this changes.** The answer step was better than the metric said: most of the
+"unsupported claims" failure class was the checker. Pruning alone (§20.1) had raised clean
+answers to 187, but mostly by deleting correct sentences; with the quote check fixed, the
+same 156 → 178 comes without removing anything, and pruning then acts only on the claims
+that remain unsupported. The 5 new dropped-qualifier labels are claims that now count as
+supported and carry a lexical hedge flag; most such flags are not real drops (§17).
+
+**Decision.** The matcher change is on for all configs (it is a measurement fix). v6 keeps
+pruning on top; its full run measures both with the judge verdicts stored.

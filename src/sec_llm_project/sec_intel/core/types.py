@@ -213,6 +213,9 @@ class ClaimVerdict:
     citation_corrected: bool = False  # quote found in a different chunk; citation re-pointed
     meta: bool = False           # "the excerpts do not contain ..." -- about the evidence, not
                                  # the company; excluded from groundedness
+    judge_verdict: str = ""      # the judge's verdict before the quote/figure invariants
+    sources: list[int] = field(default_factory=list)  # the answer's own [n] markers on this
+                                 # claim (sentence judge); figures may come from any of them
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

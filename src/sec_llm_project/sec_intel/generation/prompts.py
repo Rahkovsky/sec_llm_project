@@ -109,6 +109,94 @@ JUDGE_SCHEMA: dict = {
 }
 
 
+# Compact judge (verification.judge_format: sentences; EXPERIMENTS §20.2): the answer is
+# split into numbered sentences in code, so the judge writes no claim text back, and its
+# quotes are short. About 40% of the output tokens of the claims format.
+SENTENCE_JUDGE_SYSTEM_PROMPT = (
+    "You are an independent verifier of answers about SEC filings. You did NOT write "
+    "the answer. The ANSWER is given as numbered sentences [S1], [S2], .... Judge EACH "
+    "sentence ONLY against the numbered EVIDENCE. Respond with JSON: an object with key "
+    "'sentences' whose value is a list of objects {s, verdict, citation, quote}, one per "
+    "answer sentence, where 's' is the sentence number. 'verdict' is exactly one of: "
+    "SUPPORTED (every factual statement in the sentence is in the evidence), PARTIAL "
+    "(some are, some are not), UNSUPPORTED (none is, or the sentence goes beyond the "
+    "evidence), CONTRADICTED (an evidence passage directly refutes it). For SUPPORTED or "
+    "PARTIAL, 'citation' is the number of the evidence passage that best supports the "
+    "sentence and 'quote' a span of AT MOST 25 words copied VERBATIM from that passage; "
+    "if the passage qualifies the statement (may, could, believes, expects, ...), the "
+    "quote must include that qualifier. For CONTRADICTED give the refuting passage and "
+    "span. Otherwise citation null and quote empty. A sentence that only says what the "
+    "evidence does not contain is SUPPORTED with citation null. Never infer beyond the "
+    "evidence; absence of evidence is UNSUPPORTED, never CONTRADICTED."
+)
+
+SENTENCE_JUDGE_SCHEMA: dict = {
+    "type": "object",
+    "properties": {
+        "sentences": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "s": {"type": "integer"},
+                    "verdict": {"type": "string", "enum": [
+                        "SUPPORTED", "PARTIAL", "UNSUPPORTED", "CONTRADICTED"]},
+                    "citation": {"type": ["integer", "null"]},
+                    "quote": {"type": "string"},
+                },
+                "required": ["s", "verdict", "citation"],
+            },
+        }
+    },
+}
+
+
+# Variant without quotes (verification.judge_format: verdicts; EXPERIMENTS §20.2): the judge
+# returns only {s, verdict, citation}; code takes the cited passage's sentence that best
+# matches the answer sentence as the quote.
+VERDICT_JUDGE_SYSTEM_PROMPT = (
+    "You are an independent verifier of answers about SEC filings. You did NOT write "
+    "the answer. The ANSWER is given as numbered sentences [S1], [S2], .... Judge EACH "
+    "sentence ONLY against the numbered EVIDENCE. Respond with compact JSON: an object "
+    "with key 'sentences' whose value is a list of objects {s, verdict, citation}, one per "
+    "answer sentence, where 's' is the sentence number. 'verdict' is exactly one of: "
+    "SUPPORTED (every factual statement in the sentence is in the evidence), PARTIAL "
+    "(some are, some are not), UNSUPPORTED (none is, or the sentence goes beyond the "
+    "evidence), CONTRADICTED (an evidence passage directly refutes it). 'citation' is the number of "
+    "the evidence passage that best supports (or refutes) the sentence, else null. A "
+    "sentence that only says what the evidence does not contain is SUPPORTED with "
+    "citation null. Never infer beyond the evidence; absence of evidence is UNSUPPORTED."
+)
+
+VERDICT_JUDGE_SCHEMA: dict = {
+    "type": "object",
+    "properties": {
+        "sentences": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "s": {"type": "integer"},
+                    "verdict": {"type": "string", "enum": [
+                        "SUPPORTED", "PARTIAL", "UNSUPPORTED", "CONTRADICTED"]},
+                    "citation": {"type": ["integer", "null"]},
+                },
+                "required": ["s", "verdict", "citation"],
+            },
+        }
+    },
+}
+
+
+def build_sentence_judge_prompt(sentences: list[str], results: list[RetrievalResult]) -> str:
+    numbered = "\n".join(f"[S{i}] {s}" for i, s in enumerate(sentences, 1))
+    return (
+        f"ANSWER:\n{numbered}\n\n"
+        f"EVIDENCE:\n{format_context(results)}\n\n"
+        "Return ONLY the JSON verdict object."
+    )
+
+
 def build_judge_prompt(answer_text: str, results: list[RetrievalResult]) -> str:
     return (
         f"ANSWER:\n{answer_text}\n\n"

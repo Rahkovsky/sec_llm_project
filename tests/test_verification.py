@@ -326,3 +326,42 @@ def test_qualifier_rule_is_opt_in():
     assert "qualifiers" in prompts.system_prompt(True)
     assert "one sentence per point" in prompts.system_prompt(True, True)
     assert "one sentence per point" not in prompts.system_prompt(True)
+
+
+def test_quote_matching_tolerates_ellipsis_joined_sentences_and_page_headers():
+    from sec_llm_project.sec_intel.generation.verifier import quote_matches
+
+    src = ("We believe the likelihood that the outcome of these claims would have a material "
+           "adverse effect on us is remote. Other text follows here. We believe we have "
+           "adequate defenses in these matters. The Company records accrued liabilities for "
+           "contingencies related to outstanding legal proceedings, Diamondback Energy, Inc. "
+           "and Subsidiaries Notes to Consolidated Financial Statements (Unaudited) disputes or "
+           "claims when a loss is probable.")
+    # two spans joined by "..." or by a sentence end
+    assert quote_matches("We believe we have adequate defenses in these matters. ... We believe "
+                         "the likelihood that the outcome of these claims would have a material "
+                         "adverse effect on us is remote.", src)
+    assert quote_matches("We believe we have adequate defenses in these matters. The Company "
+                         "records accrued liabilities for contingencies", src)
+    # a page header inside the quoted span
+    assert quote_matches("The Company records accrued liabilities for contingencies related to "
+                         "outstanding legal proceedings, disputes or claims when a loss is "
+                         "probable", src)
+    # one-word paraphrase in a long quote
+    assert quote_matches("we have adequate defense in these matters and the outcome of these "
+                         "claims", src) is False  # spans two places: not one region
+    assert quote_matches("The Company record accrued liabilities for contingencies related to "
+                         "outstanding legal proceedings", src)
+
+
+def test_quote_matching_rejects_dropped_hedge_negation_or_changed_figure():
+    from sec_llm_project.sec_intel.generation.verifier import quote_matches
+
+    src = ("While we maintain cyber insurance, this insurance may not be sufficient to cover "
+           "all losses. Revenue was $5.2 billion in 2024 and we believe demand will grow.")
+    assert quote_matches("this insurance may not be sufficient to cover all losses", src)
+    assert not quote_matches("this insurance is not sufficient to cover all losses at all", src)
+    assert not quote_matches("this insurance may be sufficient to cover all losses", src)
+    assert not quote_matches("Revenue was $5.9 billion in 2024 and we believe demand", src)
+    assert not quote_matches("we demand will grow and revenue was billion in 2024", src)
+    assert not quote_matches("Revenue was $5.2 billion in 2024 and demand will grow", src)

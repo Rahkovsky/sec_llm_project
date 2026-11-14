@@ -203,6 +203,10 @@ class VerificationConfig:
     # After an answer passes the gate, remove the sentences that carry unsupported or
     # contradicted claims (generation/prune.py); meta-claims are kept. EXPERIMENTS §20.1.
     prune_unsupported: bool = False
+    # "claims": the judge splits the answer into atomic claims and writes each back with a
+    # verbatim quote. "sentences": code numbers the answer's sentences and the judge returns
+    # only a verdict, citation and short quote per sentence (fewer output tokens; §20.2).
+    judge_format: str = "claims"
 
 
 @dataclass
