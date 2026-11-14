@@ -131,11 +131,12 @@ def fig_retrieval() -> None:
 
 # ------------------------------------------------------------ 2. error sources
 RUNS = [("v1", "provenance_16gb"), ("v2", "provenance_16gb_v2"), ("v3", "provenance_16gb_v3"),
-        ("v3 + gold", "provenance_16gb_v3_gold"), ("v4", "provenance_16gb_v4")]
+        ("v3 + gold", "provenance_16gb_v3_gold"), ("v4", "provenance_16gb_v4"),
+        ("v5", "provenance_16gb_v5")]
 GROUPS = [
     ("Clean", ["clean"]),
     ("Dropped qualifier", ["generation: dropped qualifiers"]),
-    ("Unsupported claims", ["generation: unsupported claims"]),
+    ("Unsupported claims", ["generation: unsupported claims", "partial support"]),
     ("Abstained with evidence", ["abstained (gate/judge)"]),
     ("Retrieval miss / wrong period", ["retrieval miss -> abstained",
                                        "retrieval miss -> ungrounded claims",
@@ -155,7 +156,7 @@ def error_counts() -> list[tuple[str, list[int]]]:
 
 
 def fig_errors(rows) -> None:
-    s = Svg(820, 372, "Where the 260 FinDER questions end up, by version",
+    s = Svg(820, 420, "Where the 260 FinDER questions end up, by version",
             "Main outcome per FinDER question for each end-to-end run: "
             + "; ".join(f"{lab}: " + ", ".join(f"{g[0]} {n}" for g, n in zip(GROUPS, c,
                                                                                 strict=True))

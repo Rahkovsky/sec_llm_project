@@ -1102,7 +1102,54 @@ solar assets"): the judge marks all 8 YES. `tools/provenance_report.py` prints
 "placebos, premise not asserted" next to the old counter when
 `placebo_check.json` exists.
 
-## 17. Not yet done / open
+## 17. Full v5 run: the brevity rule on all 266 questions (Nov 13–14)
+
+`config/local_16gb_v5.yaml` = v4 + the brevity rule of §15, v3 index, 266
+questions, `--workers 8` (~102 s/question; stopped once at 65 questions and
+resumed). Report: `out/provenance_16gb_v5/report_cover.txt`.
+
+| FinDER (260) | v3 | v4 | v5 |
+|---|---|---|---|
+| Answered | 212 | 213 | 209 |
+| Words per answer (mean) | 144 | 171 | **126** |
+| Claims per answer | 4.88 | 5.73 | **4.31** |
+| Claim support (supported + ½ partial, meta excluded) | 0.927 | 0.925 | **0.951** |
+| Unsupported claims | 76 (7.3%) | 91 (7.5%) | **44 (4.9%)** |
+| Lexical qualifier flags | 73 | 47 | 22 |
+| **Real dropped qualifiers (hand-labelled)** | 14 | 4 (+2 borderline) | **2** (+1 borderline) |
+| Main error "dropped qualifiers" | 36 | 24 | 13 |
+| Main error "unsupported claims" | 41 | 52 | 31 |
+| Retrieval miss → ungrounded claims | – | 16 | 5 |
+| Retrieval miss → abstained | – | 21 | 25 |
+| Clean | 112 | 118 | **156** |
+
+All 266: faithfulness 0.940 (v4 0.879), weighted claim error rate 0.119 (v4
+0.243), placebos 6/6 by both the strict counter and the premise check (§16).
+
+Paired with v4: 187 questions answered by both, 22 newly answered, 26 lost.
+Clean: 69 questions become clean, 31 stop being clean. Some of that churn is the
+run-to-run noise of §10 (~11% of labels), but the noise moves labels both ways;
+a sign test on the 100 discordant questions gives z = 3.8. Issue #1's three
+conditions hold: claims per answer 4.31 ≤ 4.88, real drops 2 ≤ 4, support
+0.951 ≥ 0.925.
+
+The 56-question test (§15) suggested the unsupported share might rise; on the
+full set it falls, from 7.5% to 4.9%. The 56 were selected for long,
+hedge-heavy answers, where cutting supported detail dominates. A likely
+reading, not checked claim by claim: across all questions the rule mostly
+removes background sentences, which are the claims the judge most often cannot
+find in the excerpts.
+
+**Hand labels** (`eval/qualifier_labels_v5_full.json`, same rule as before): of
+the 22 lexical flags, 2 are real: "nor is the impact expected to be material for
+the full year" → "did not have a material impact … for the full year"; and
+"estimates that may take into account … scope, cost, and timing" → "based on
+estimates of scope, cost, and timing" (the same sentence was counted in v4).
+Borderline, not counted: "potentially material issue" → "material issues".
+
+v5 is now the recommended 16 GB configuration.
+
+## 18. Not yet done / open
 
 | Item | Status |
 |---|---|
@@ -1118,7 +1165,7 @@ solar assets"): the judge marks all 8 YES. `tools/provenance_report.py` prints
 | 10-Q section segmentation | Lower priority now that diversification is label-free |
 | End-to-end run with all fixes, v3 and v3_gold | Done (§9, §10) |
 | End-to-end v4 (v3 + qualifier rule/check v2/repair + soft period filter) | Done (§14): real dropped qualifiers 14 → 4; answers 17% longer |
-| Answer length after the qualifier rule | Done on 56 questions (§15): brevity rule cuts words 224 → 149 and doubles clean answers; full 266-question run pending |
+| Answer length after the qualifier rule | Done (§15, §17): on all 266, v5 cuts claims/answer 5.73 → 4.31, support 0.925 → 0.951, clean 118 → 156 |
 | Placebo metric | Done (§16): hand labels 18/18 correct in substance; automatic premise-asserted check agrees 18/18 and catches 8/8 written positive controls |
 | Remaining 281 v3 10-Ks (non-eval tickers) | Stopped Nov 13 15:10 with 156 done; update now resumes (§16), 127 left (~2.5 h) |
 | Model-grouped eval runs | Timed (§16): `--workers 8` saves 15%; loads are only 7% of time. Next: Ollama flash attention / KV cache, shorter judge output |

@@ -1,6 +1,6 @@
 # Results report: making a local SEC-filings RAG system answer correctly
 
-*November 10–13, 2026. Summary of [EXPERIMENTS.md](EXPERIMENTS.md), which has every table, method and
+*November 10–14, 2026. Summary of [EXPERIMENTS.md](EXPERIMENTS.md), which has every table, method and
 caveat; section numbers below (§) point there. Open work is tracked in issues
 [#1–#8](https://github.com/Rahkovsky/sec_llm_project/issues).*
 
@@ -9,21 +9,22 @@ caveat; section numbers below (§) point there. Open work is tracked in issues
 The system answers questions about 10-K, 10-Q and 8-K filings with cited excerpts, an
 independent judge that checks every claim, and a refusal when the evidence is weak. It runs
 fully on one 16 GB laptop (generator `gemma4:12b`, judge `qwen3:14b`, embedder
-`Qwen3-Embedding-0.6B`). Over four days of measured changes on the 260 FinDER gold questions:
+`Qwen3-Embedding-0.6B`). Over five days of measured changes on the 260 FinDER gold questions:
 
-| | Start (v1) | Now (v4) |
+| | Start (v1) | Now (v5) |
 |---|---|---|
 | Gold passage retrieved in the top 8 (FinDER dev) | 0.36 | **0.79** |
-| Questions answered (of 266) | 82 | **215** |
-| Clean answers: supported, hedges kept (of 260) | 31 | **118** |
-| Claims the judge marks supported | 0.763 | **0.879** |
-| Context recall (gold passage covered by the retrieved chunks) | 0.300 | **0.706** |
+| Questions answered (of 266) | 82 | **209** |
+| Clean answers: supported, hedges kept (of 260) | 31 | **156** |
+| Claims the judge marks supported | 0.763 | **0.940** |
+| Context recall (gold passage covered by the retrieved chunks) | 0.300 | **0.692** |
 | Placebo questions refused (false premise never asserted) | 6/6 | 6/6 |
 
 Three changes did most of the work: a better query instruction for the embedder, MMR
-diversity in the top 8, and a company-blind HyDE rewrite of the question. The remaining
-errors are mostly in the answer step, not retrieval. A brevity rule tested on 56 questions
-(v5) doubles clean answers there and is the next candidate default.
+diversity in the top 8, and a company-blind HyDE rewrite of the question. After that the
+errors were mostly in the answer step. Two prompt rules fixed most of them: keep the filing's
+hedges (v4), and answer briefly, one sentence per point (v5). v5 is the recommended
+configuration.
 
 ## How the system works
 
@@ -76,13 +77,13 @@ Two findings worth knowing:
 
 ![Main outcome per question, by version](figures/error_sources.svg)
 
-| Outcome (of 260 FinDER questions) | v1 | v2 | v3 | v3 + gold | v4 |
-|---|---|---|---|---|---|
-| Clean | 31 | 57 | 112 | 126 | 118 |
-| Dropped qualifier ("may" stated as fact) | 7 | 12 | 36 | 33 | 24 |
-| Unsupported claims | 12 | 27 | 41 | 38 | 52 |
-| Abstained although the evidence was retrieved | 12 | 48 | 30 | 30 | 26 |
-| Retrieval miss or wrong period | 198 | 116 | 41 | 33 | 40 |
+| Outcome (of 260 FinDER questions) | v1 | v2 | v3 | v3 + gold | v4 | v5 |
+|---|---|---|---|---|---|---|
+| Clean | 31 | 57 | 112 | 126 | 118 | **156** |
+| Dropped qualifier ("may" stated as fact) | 7 | 12 | 36 | 33 | 24 | 13 |
+| Unsupported claims | 12 | 27 | 41 | 38 | 52 | 32 |
+| Abstained although the evidence was retrieved | 12 | 48 | 30 | 30 | 26 | 26 |
+| Retrieval miss or wrong period | 198 | 116 | 41 | 33 | 40 | 33 |
 
 - **v1 → v2:** the query-instruction fix (§3).
 - **v2 → v3:** MMR + HyDE, a cleaned corpus (10-K/A amendments and Exhibit-13 wrappers replaced
@@ -95,9 +96,14 @@ Two findings worth knowing:
 - **v3 → v4:** a prompt rule to keep the filing's hedges, a judge check for dropped qualifiers,
   and one repair attempt (§11, §14). Hand-labelled real dropped qualifiers fell from 14 to 4,
   but answers got 17% longer and unsupported claims rose (issue #1).
+- **v4 → v5:** a brevity rule in the answer prompt (§15, §17). Claims per answer fell from 5.73
+  to 4.31 and unsupported claims from 91 to 44; real dropped qualifiers 4 → 2. Paired with v4,
+  69 questions became clean and 31 stopped being clean (sign test z = 3.8, well beyond the
+  run-to-run noise).
 
 As retrieval improved, more questions reached the answer step and its errors became visible.
-Dropped qualifiers and unsupported claims are now the main failure classes.
+Unsupported claims and abstentions despite retrieved evidence are now the largest failure
+classes after retrieval misses.
 
 ## 3. Answer stage: keeping hedges without longer answers
 
@@ -117,9 +123,22 @@ itself has 0 clean on them by selection.
 
 The brevity rule ("one sentence per point, each point once, no background the question does
 not ask for") cancels the length cost of the qualifier rule. Clean answers more than double,
-well above the ~6-question run-to-run noise on 56. The unsupported share rises because
-shortening removes supported detail while the unsupported claims stay. It needs a full
-266-question run to confirm (issue #1).
+well above the ~6-question run-to-run noise on 56. On these 56 the unsupported share rose,
+because shortening removed supported detail while the unsupported claims stayed.
+
+The full 266-question run confirmed the rule and reversed that worry (§17):
+
+| All 260 FinDER questions | v3 | v4 | v5 |
+|---|---|---|---|
+| Words per answer | 144 | 171 | **126** |
+| Claims per answer | 4.88 | 5.73 | **4.31** |
+| Claim support (meta claims excluded) | 0.927 | 0.925 | **0.951** |
+| Unsupported claims | 76 | 91 | **44** |
+| Real dropped qualifiers (hand-labelled) | 14 | 4 | **2** |
+| Clean answers | 112 | 118 | **156** |
+
+The 56 had been chosen for long, hedge-heavy answers; across all questions the shorter answers
+carry fewer unsupported claims, not more.
 
 ## 4. What did not work
 
@@ -165,8 +184,8 @@ The remaining levers are faster prompt processing and a shorter judge output.
 
 | Issue | Topic |
 |---|---|
-| [#1](https://github.com/Rahkovsky/sec_llm_project/issues/1) | Answer length and unsupported claims after the qualifier rule (brevity rule on all 266) |
-| [#2](https://github.com/Rahkovsky/sec_llm_project/issues/2) | Automatic placebo metric: is the false premise asserted? |
+| [#1](https://github.com/Rahkovsky/sec_llm_project/issues/1) | Answer length after the qualifier rule: solved by the brevity rule (v5, §17) |
+| [#2](https://github.com/Rahkovsky/sec_llm_project/issues/2) | Automatic placebo metric: done (`tools/placebo_check.py`, §16) |
 | [#3](https://github.com/Rahkovsky/sec_llm_project/issues/3) | Dropped-qualifier judge check: a held-out label set |
 | [#4](https://github.com/Rahkovsky/sec_llm_project/issues/4) | Nondeterminism at temperature 0 |
 | [#5](https://github.com/Rahkovsky/sec_llm_project/issues/5) | Rerank with the HyDE passage in the query |
@@ -178,11 +197,12 @@ The remaining levers are faster prompt processing and a shorter judge output.
 
 ```bash
 # end-to-end run (resumable) and its report
-python tools/provenance_dag.py --config config/local_16gb_v4.yaml \
-    --cases eval/gold_plus_placebo.json -n 266 --out out/provenance_16gb_v4
+python tools/provenance_dag.py --config config/local_16gb_v5.yaml \
+    --cases eval/gold_plus_placebo.json -n 266 --out out/provenance_16gb_v5
 #   add --workers 8 to group model calls by model (~15% faster, §16)
-python tools/provenance_report.py --out out/provenance_16gb_v4 \
-    --cases eval/gold_plus_placebo.json --config config/local_16gb_v4.yaml
+python tools/provenance_report.py --out out/provenance_16gb_v5 \
+    --cases eval/gold_plus_placebo.json --config config/local_16gb_v5.yaml
+python tools/placebo_check.py out/provenance_16gb_v5   # is a false premise asserted?
 
 # retrieval labs (paired, with bootstrap CIs)
 python tools/diversity_lab.py ...   # §6

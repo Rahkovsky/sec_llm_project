@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 372" width="820" height="372" role="img" aria-labelledby="t d">
-<title id="t">Where the 260 FinDER questions end up, by version</title><desc id="d">Main outcome per FinDER question for each end-to-end run: v1: Clean 31, Dropped qualifier 7, Unsupported claims 12, Abstained with evidence 12, Retrieval miss / wrong period 198; v2: Clean 57, Dropped qualifier 12, Unsupported claims 27, Abstained with evidence 48, Retrieval miss / wrong period 116; v3: Clean 112, Dropped qualifier 36, Unsupported claims 41, Abstained with evidence 30, Retrieval miss / wrong period 41; v3 + gold: Clean 126, Dropped qualifier 33, Unsupported claims 38, Abstained with evidence 30, Retrieval miss / wrong period 33; v4: Clean 118, Dropped qualifier 24, Unsupported claims 52, Abstained with evidence 26, Retrieval miss / wrong period 40</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 420" width="820" height="420" role="img" aria-labelledby="t d">
+<title id="t">Where the 260 FinDER questions end up, by version</title><desc id="d">Main outcome per FinDER question for each end-to-end run: v1: Clean 31, Dropped qualifier 7, Unsupported claims 12, Abstained with evidence 12, Retrieval miss / wrong period 198; v2: Clean 57, Dropped qualifier 12, Unsupported claims 27, Abstained with evidence 48, Retrieval miss / wrong period 116; v3: Clean 112, Dropped qualifier 36, Unsupported claims 41, Abstained with evidence 30, Retrieval miss / wrong period 41; v3 + gold: Clean 126, Dropped qualifier 33, Unsupported claims 38, Abstained with evidence 30, Retrieval miss / wrong period 33; v4: Clean 118, Dropped qualifier 24, Unsupported claims 52, Abstained with evidence 26, Retrieval miss / wrong period 40; v5: Clean 156, Dropped qualifier 13, Unsupported claims 32, Abstained with evidence 26, Retrieval miss / wrong period 33</desc>
 <style>
 svg { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
 .bg { fill: #ffffff; } .t1 { fill: #0b0b0b; } .t2 { fill: #52514e; } .t3 { fill: #7a7974; }
@@ -12,7 +12,7 @@ svg { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Ari
   .s0 { fill: #3987e5; } .s1 { fill: #d95926; } .s2 { fill: #199e70; } .s3 { fill: #c98500; } .s4 { fill: #d55181; } .mut { fill: #5c5b57; }
 }
 </style>
-<rect class="bg" width="820" height="372"/>
+<rect class="bg" width="820" height="420"/>
 <text x="24.0" y="32.0" class="t1" font-size="16" text-anchor="start" font-weight="600">End to end: main outcome of each of the 260 FinDER questions</text>
 <text x="24.0" y="54.0" class="t3" font-size="12" text-anchor="start" font-weight="normal">One label per question (its dominant failure); gemma4:12b answers, qwen3:14b judges</text>
 <rect x="24.0" y="70.0" width="12.0" height="12.0" rx="2" class="s0"></rect>
@@ -25,16 +25,16 @@ svg { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Ari
 <text x="412.0" y="81.0" class="t2" font-size="12" text-anchor="start" font-weight="normal">Abstained with evidence</text>
 <rect x="579.2" y="70.0" width="12.0" height="12.0" rx="2" class="s4"></rect>
 <text x="597.2" y="81.0" class="t2" font-size="12" text-anchor="start" font-weight="normal">Retrieval miss / wrong period</text>
-<line x1="110.0" y1="98.0" x2="110.0" y2="336.0" class="grid"/>
-<text x="110.0" y="354.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">0</text>
-<line x1="272.5" y1="98.0" x2="272.5" y2="336.0" class="grid"/>
-<text x="272.5" y="354.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">65</text>
-<line x1="435.0" y1="98.0" x2="435.0" y2="336.0" class="grid"/>
-<text x="435.0" y="354.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">130</text>
-<line x1="597.5" y1="98.0" x2="597.5" y2="336.0" class="grid"/>
-<text x="597.5" y="354.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">195</text>
-<line x1="760.0" y1="98.0" x2="760.0" y2="336.0" class="grid"/>
-<text x="760.0" y="354.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">260</text>
+<line x1="110.0" y1="98.0" x2="110.0" y2="384.0" class="grid"/>
+<text x="110.0" y="402.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">0</text>
+<line x1="272.5" y1="98.0" x2="272.5" y2="384.0" class="grid"/>
+<text x="272.5" y="402.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">65</text>
+<line x1="435.0" y1="98.0" x2="435.0" y2="384.0" class="grid"/>
+<text x="435.0" y="402.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">130</text>
+<line x1="597.5" y1="98.0" x2="597.5" y2="384.0" class="grid"/>
+<text x="597.5" y="402.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">195</text>
+<line x1="760.0" y1="98.0" x2="760.0" y2="384.0" class="grid"/>
+<text x="760.0" y="402.0" class="t3" font-size="11" text-anchor="middle" font-weight="normal">260</text>
 <text x="98.0" y="126.0" class="t2" font-size="13" text-anchor="end" font-weight="normal">v1</text>
 <rect x="110.0" y="104.0" width="77.5" height="34.0" rx="0" class="s0"><title>v1 - Clean: 31 of 260</title></rect>
 <text x="179.5" y="126.0" class="bg" font-size="13" text-anchor="end" font-weight="600">31</text>
@@ -90,4 +90,15 @@ svg { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Ari
 <line x1="595.0" y1="296.0" x2="595.0" y2="330.0" class="gap"/>
 <rect x="660.0" y="296.0" width="100.0" height="34.0" rx="0" class="s4"><title>v4 - Retrieval miss / wrong period: 40 of 260</title></rect>
 <line x1="660.0" y1="296.0" x2="660.0" y2="330.0" class="gap"/>
+<text x="98.0" y="366.0" class="t2" font-size="13" text-anchor="end" font-weight="normal">v5</text>
+<rect x="110.0" y="344.0" width="390.0" height="34.0" rx="0" class="s0"><title>v5 - Clean: 156 of 260</title></rect>
+<text x="492.0" y="366.0" class="bg" font-size="13" text-anchor="end" font-weight="600">156</text>
+<rect x="500.0" y="344.0" width="32.5" height="34.0" rx="0" class="s1"><title>v5 - Dropped qualifier: 13 of 260</title></rect>
+<line x1="500.0" y1="344.0" x2="500.0" y2="378.0" class="gap"/>
+<rect x="532.5" y="344.0" width="80.0" height="34.0" rx="0" class="s2"><title>v5 - Unsupported claims: 32 of 260</title></rect>
+<line x1="532.5" y1="344.0" x2="532.5" y2="378.0" class="gap"/>
+<rect x="612.5" y="344.0" width="65.0" height="34.0" rx="0" class="s3"><title>v5 - Abstained with evidence: 26 of 260</title></rect>
+<line x1="612.5" y1="344.0" x2="612.5" y2="378.0" class="gap"/>
+<rect x="677.5" y="344.0" width="82.5" height="34.0" rx="0" class="s4"><title>v5 - Retrieval miss / wrong period: 33 of 260</title></rect>
+<line x1="677.5" y1="344.0" x2="677.5" y2="378.0" class="gap"/>
 </svg>

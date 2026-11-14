@@ -1,0 +1,165 @@
+{
+ "source": "out/provenance_16gb_v5 (full 266-question v5 run) lexical qualifier flags, hand-labelled in session (Claude), Nov 14 2026; same rule as eval/qualifier_labels.json",
+ "real": 2,
+ "borderline": 1,
+ "items": [
+  {
+   "id": "finder_0017",
+   "dropped": "intend",
+   "claim": "Adobe invests in research and development to strengthen existing products, services, and solutions, and to expand offerings across its clouds and the next generation of AI, machine learning, and deep learning-driven tools",
+   "evidence": "We are investing, and intend to continue to invest, in research and development to strengthen our existing products, services and solutions, and to expand our offerings across our clouds and the next generation of AI, machine learning and deep learning-driven tools and features",
+   "real": false
+  },
+  {
+   "id": "finder_0023",
+   "dropped": "potential",
+   "claim": "The company considers factors such as cash balances and cash flows when determining when to execute share repurchases",
+   "evidence": "The Company considers several factors in determining when to execute share repurchases, including, among other things, actual and potential acquisition activity, cash balances and cash flows, issuances due to employee benefit plan activity, and market conditions.",
+   "real": false
+  },
+  {
+   "id": "finder_0049",
+   "dropped": "may",
+   "claim": "Dividends or distributions from Principal Life are limited by Iowa law to the earned surplus arising from its business",
+   "evidence": "Under Iowa law, Principal Life may pay dividends or make other distributions only from the earned surplus arising from its business",
+   "real": false
+  },
+  {
+   "id": "finder_0049",
+   "dropped": "may would",
+   "claim": "Principal Life must receive prior approval from the Commissioner of Insurance of the State of Iowa to pay stockholder dividends or distributions that exceed certain statutory limitations, and the Commissioner has discretion to disapprove such requests",
+   "evidence": "Principal Life may pay dividends or make other distributions only from the earned surplus arising from its business and must receive the prior approval of the Commissioner of Insurance of the State of Iowa (the \u201cCommissioner\u201d) to pay stockholder dividends or make any other distribution if such distribution would exceed certain statutory limitations. Iowa law gives the Commissioner discretion to disapprove requests for distributions in excess of these limitations.",
+   "real": false
+  },
+  {
+   "id": "finder_0063",
+   "dropped": "may",
+   "claim": "The excerpts describe CDW's cybersecurity management program, including its ISO 27001 certification, the use of a dedicated team led by a Chief Information Security Officer, and the use of third-party firms for penetration testing.",
+   "evidence": "Our information security management program is ISO 27001 certified, and we undergo routine audits by an independent, certified accreditation body to maintain this certification. Our program is designed to guide our practices which are based on relevant industry frameworks and laws. This program consists of policies, practices and procedures designed to manage material risks from cybersecurity threats, including training requirements, threat monitoring and detection and threat containment and risk assessments. Additionally, we leverage third-party firms to conduct routine external and internal penetration testing to emulate the common tactics and techniques of cyber threat actors and have processes to address identified vulnerabilities, although it may take time to mitigate or manage such vulnerabilities.",
+   "real": false
+  },
+  {
+   "id": "finder_0063",
+   "dropped": "believe",
+   "claim": "The company also maintains an incident response plan and cybersecurity insurance.",
+   "evidence": "Lastly, we maintain cybersecurity insurance coverage that we believe is appropriate for the size and complexity of our business to cover certain costs related to cybersecurity incidents. We refine our cybersecurity program by staying informed on security threats, leveraging third-party cybersecurity firms and investing in enhancements to our preventive and defensive capabilities. In addition to our policies and procedures to manage and identify cybersecurity risks, we have an incident response plan designed to analyze, contain, remediate and communicate cybersecurity matters to help ensure a timely and robust response to actual or attempted incidents.",
+   "real": false
+  },
+  {
+   "id": "finder_0080",
+   "dropped": "may",
+   "claim": "Store design initiatives at Family Dollar include providing improved merchandise offerings, establishing a minimum number of cooler doors, and tailoring space and assortment to local demographics.",
+   "evidence": "Our store design initiatives at Family Dollar provide significantly improved merchandise offerings and establish a minimum number of cooler doors. We tailor space and assortment to local demographics with emerging formats including H2.5, our primary store format with optimized layout and expanded frozen and refrigerated doors; larger rural stores where assortments may include Dollar Tree product; and XSB (Extra Small Box), which adds elements of H2.5 optimized to our smaller stores, particularly in urban markets.",
+   "real": false
+  },
+  {
+   "id": "finder_0088",
+   "dropped": "potential",
+   "claim": "REGENERON PHARMACEUTICALS, INC. manages cybersecurity risks through a risk-based approach integrated into its overall risk management program.",
+   "evidence": "We regularly assess risks from cybersecurity threats; monitor our information systems for potential vulnerabilities; and test those systems pursuant to our cybersecurity policies, processes, and practices, which are integrated into our overall risk management program.",
+   "real": false
+  },
+  {
+   "id": "finder_0101",
+   "dropped": "could",
+   "claim": "The company employs a risk-based approach to identify and assess threats, incorporating industry standards such as the NIST Cyber Security Framework",
+   "evidence": "we have implemented a risk-based approach to identify and assess the cybersecurity threats that could affect our business and information systems, and we evaluate changes and enhancements to our technology environment as well as conduct third party assessments to confirm that they meet our information security control requirements. Our cybersecurity program and control environment incorporate appropriate industry standards and best practices, such as the National Institutes of Standards and Technology Cyber Security Framework (NIST CSF)",
+   "real": false
+  },
+  {
+   "id": "finder_0103",
+   "dropped": "expected",
+   "claim": "The overall impact of the cybersecurity incident did not have a material impact on net income, net of insurance recoveries, or cash flows from operations for the full year fiscal 2024.",
+   "evidence": "The overall impact of the cybersecurity incident did not have a material impact on net income, net of insurance recoveries, or cash flows from operations in the third quarter of fiscal 2024, nor is the impact expected to be material for the full year fiscal 2024.",
+   "real": true,
+   "note": "'nor is the impact expected to be material for the full year' stated as 'did not have a material impact ... for the full year'"
+  },
+  {
+   "id": "finder_0119",
+   "dropped": "potentially",
+   "claim": "Management provides the Board and the Technology and Information Security Committee with regular updates on cybersecurity and related risk exposures, and the company uses a risk-based escalation process to notify the Board of significant emerging risks or material issues",
+   "evidence": "At least quarterly, management provides our Board and the Technology and Information Security Committee with updates about our cybersecurity and related risk exposures, our policies and procedures to mitigate such exposures and the status of projects to strengthen our information security infrastructure and program maturity and defend against and respond to cybersecurity threats. In addition, we use a risk-based escalation process to notify the Board and the Technology and Information Security Committee outside of the regular reporting cycle should we identify a significant emerging risk or potentially material issue that should be brought to their attention.",
+   "real": false,
+   "borderline": true,
+   "note": "'potentially material issue' narrowed to 'material issues'; not counted"
+  },
+  {
+   "id": "finder_0128",
+   "dropped": "potential",
+   "claim": "The Audit Committee oversees management\u2019s implementation of the cybersecurity risk management program and receives updates regarding material and lesser-impact cybersecurity incidents",
+   "evidence": "The Audit Committee oversees management\u2019s implementation of our cybersecurity risk management program. In addition, management updates the Audit Committee, as necessary, regarding any material cybersecurity incidents, as well as any incidents with lesser impact potential.",
+   "real": false
+  },
+  {
+   "id": "finder_0145",
+   "dropped": "could",
+   "claim": "Internal control over financial reporting includes policies and procedures for maintaining records, recording transactions, and preventing or detecting unauthorized acquisition, use, or disposition of assets",
+   "evidence": "A company\u2019s internal control over financial reporting includes those policies and procedures that (1) pertain to the maintenance of records that, in reasonable detail, accurately and fairly reflect the transactions and dispositions of the assets of the company; (2) provide reasonable assurance that transactions are recorded as necessary to permit preparation of financial statements in accordance with generally accepted accounting principles, and that receipts and expenditures of the company are being made only in accordance with authorizations of management and directors of the company; and (3) provide reasonable assurance regarding prevention or timely detection of unauthorized acquisition, use, or disposition of the company\u2019s assets that could have a material effect on the financial statements.",
+   "real": false
+  },
+  {
+   "id": "finder_0148",
+   "dropped": "believes",
+   "claim": "They do not specify litigation-related impacts on earnings or capex.",
+   "evidence": "Management believes that the probability of a material loss with respect to any currently pending legal proceeding is remote. However, litigation is inherently uncertain, and it is not possible to predict the ultimate disposition of any of these proceedings.",
+   "real": false
+  },
+  {
+   "id": "finder_0170",
+   "dropped": "expected",
+   "claim": "Competitors target key market segments and compete on factors such as technology, innovation, price, and brand.",
+   "evidence": "We encounter aggressive competition from competitors in all areas of our business, and our competitors have targeted and are expected to continue targeting our key market segments. We compete on the basis of our technology, innovation, performance, price, quality, reliability, brand, reputation, distribution, range of products and services, ease of use, account relationships, customer training, service and support, security, availability of application software and internet infrastructure offerings, and our sustainability performance.",
+   "real": false
+  },
+  {
+   "id": "finder_0176",
+   "dropped": "intended",
+   "claim": "During the three months ended December 31, 2023, Guy Chiarello, Chief Operating Officer, adopted a Rule 10b5-1 Trading Plan for the sale of common stock",
+   "evidence": "On December 15, 2023, Guy Chiarello, Chief Operating Officer of the Company, adopted a trading arrangement for the sale of securities of the Company\u2019s common stock (a \u201cRule 10b5-1 Trading Plan\u201d) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c).",
+   "real": false
+  },
+  {
+   "id": "finder_0176",
+   "dropped": "intended",
+   "claim": "During the three months ended September 30, 2023, Robert W. Hau, Chief Financial Officer, and Suzan Kereere, Head of Global Business Solutions, each adopted Rule 10b5-1 Trading Plans",
+   "evidence": "On September 22, 2023, Robert W. Hau, Chief Financial Officer of the Company, adopted a trading arrangement for the sale of securities of the Company\u2019s common stock (a \u201cRule 10b5-1 Trading Plan\u201d) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c). Mr. Hau\u2019s Rule 10b5-1 Trading Plan provides for the exercise of up to 188,088 employee stock options and sale of the underlying shares of common stock pursuant to one or more limit orders until January 31, 2024.\n\nOn September 18, 2023, Suzan Kereere, Head of Global Business Solutions of the Company, adopted a Rule 10b5-1 Trading Plan that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c). Ms. Kereere\u2019s Rule 10b5-1 Trading Plan provides for the sale of up to 6,534 shares of common stock pursuant to one or more limit orders until October 4, 2024.",
+   "real": false
+  },
+  {
+   "id": "finder_0177",
+   "dropped": "may",
+   "claim": "Julie L. Turpin is an executive vice president and the chief people officer.",
+   "evidence": "Julie L. Turpin. Ms. Turpin was appointed as an executive vice president in May 2021. She became our chief people officer and a senior vice president in March 2020.",
+   "real": false
+  },
+  {
+   "id": "finder_0179",
+   "dropped": "anticipated may",
+   "claim": "CMS Energy and Consumers participate in environmental remediation projects and record liabilities based on estimates of scope, cost, and timing.",
+   "evidence": "CMS Energy and Consumers are participating in various environmental remediation projects for which they have recorded liabilities. The recorded amounts represent estimates that may take into account such considerations as the number of sites, the anticipated scope, cost, and timing of remediation work...",
+   "real": true,
+   "note": "'estimates that may take into account ... scope, cost, and timing' stated as 'based on estimates of scope, cost, and timing' (labelled real in v4 and v5 subset for consistency)"
+  },
+  {
+   "id": "finder_0179",
+   "dropped": "would",
+   "claim": "CMS Energy and Consumers have indemnity obligations from the sale of membership interests and stock/asset sale agreements, but the company considers the likelihood of substantial losses related to these indemnities to be remote.",
+   "evidence": "CMS Energy and Consumers consider the likelihood that they would be required to perform or incur substantial losses related to these indemnities to be remote.",
+   "real": false
+  },
+  {
+   "id": "finder_0201",
+   "dropped": "anticipated expected",
+   "claim": "The company identifies specific risks related to these estimates, including the nature and complexity of work, subcontractors' and suppliers' performance, labor and material costs, and the allocation of transaction prices to performance obligations.",
+   "evidence": "For example, we must make assumptions regarding: (i) the nature and complexity of the work to be performed; (ii) subcontractors\u2019 and suppliers\u2019 expected performance; (iii) availability and costs of labor, materials, components subsystems and services (including expected increases in wages and prices); (iv) the length of time to complete the contract; (v) the allocation of transaction price to one or more performance obligations based on the products and services promised to the customer; (vi) incentives or penalties related to performance on contracts in estimating revenue and profit rates, and recording them when there is sufficient information for us to assess anticipated performance; and (vii) estimates of award fees in estimating revenue and profit rates based on actual and anticipated awards.",
+   "real": false
+  },
+  {
+   "id": "finder_0238",
+   "dropped": "potential",
+   "claim": "The company aspires to create a 'future ready' workforce to develop critical skills needed to tackle the organization's most pressing strategic priorities and to accelerate future growth",
+   "evidence": "BMS champions the learning and development of our people, our most important asset, to recognize their full potential, achieve their career aspirations and drive business success. We aspire to create a \u2018future ready\u2019 workforce by developing the critical skills needed to tackle the organization\u2019s most pressing strategic priorities.",
+   "real": false
+  }
+ ]
+}

@@ -77,16 +77,14 @@ text is in Waters' 10-K filed in February 2025, in Item 1A, Risk Factors:
 > cover the financial, legal, business or reputational losses that may result from an
 > interruption or breach of its systems."
 
-The system's actual answer was the following. It comes from the evaluation run of version `v4`,
-the current default; versions v1 to v5 are the successive configurations whose results are
+The system's actual answer was the following. It comes from the evaluation run of version `v5`,
+the recommended configuration; versions v1 to v5 are the successive configurations whose results are
 compared in section 4, each saved as a config file (section 5).
 
-> The company maintains cyber insurance, but the company states that this insurance may not,
-> however, be sufficient to cover the financial, legal, business, or reputational losses that
-> may result from an interruption or breach of its systems [2].
->
-> The excerpts do not provide information regarding the specific impact on the company's
-> valuation or specific investor risk metrics.
+> The Company maintains cyber insurance, but this insurance may not be sufficient to cover the
+> financial, legal, business, or reputational losses that may result from an interruption or
+> breach of its systems [2]. The excerpts do not provide information regarding the specific
+> impact of this insurance on the company's valuation or investor risk.
 
 Notice three things, each produced by a different part of the system: the answer cites excerpt
 `[2]`; it keeps the qualifier "may not … be sufficient"; and it says plainly that the filings do
@@ -239,12 +237,12 @@ Two measures matter most:
 
 ### Results
 
-| | Start (v1) | Now (v4) |
+| | Start (v1) | Now (v5) |
 |---|---|---|
 | Hit@8 on the development questions | 0.36 | **0.79** |
-| Questions answered (of 266) | 82 | **215** |
-| Clean answers (of 260) | 31 | **118** |
-| Share of claims the judge marks supported | 0.76 | **0.88** |
+| Questions answered (of 266) | 82 | **209** |
+| Clean answers (of 260) | 31 | **156** |
+| Share of claims the judge marks supported | 0.76 | **0.94** |
 | Placebo questions refused | 6 of 6 | 6 of 6 |
 
 ![Main outcome per question, by version](docs/figures/error_sources.svg)
@@ -254,9 +252,11 @@ the right passage was never found, so the model refused or answered from unrelat
 retrieval fixes of section 3.3–3.4 shrank that group from 198 to about 40 questions. As more
 questions reached the answer step, its errors became the main problem: claims the excerpts do
 not support (green) and dropped qualifiers (orange). The qualifier rule in v4 reduced the
-dropped qualifiers that a person confirmed as real from 14 to 4. The next candidate, a brevity
-rule that keeps answers short, doubled the clean answers on a 56-question subset and is being
-confirmed on the full set ([report §3](docs/REPORT.md), issue #1).
+dropped qualifiers that a person confirmed as real from 14 to 4, but made answers longer, and
+longer answers carried more unsupported claims. A brevity rule in v5 (one sentence per point,
+no background the question does not ask for) fixed that: claims per answer fell from 5.73 to
+4.31, unsupported claims from 91 to 44, real dropped qualifiers to 2, and clean answers rose
+from 118 to 156 ([report §3](docs/REPORT.md)).
 
 Two things did *not* help and are switched off: re-scoring the chunks with a cross-encoder
 **reranker**, and mixing keyword search (**BM25**) with dense retrieval. Both lowered Hit@8 on
@@ -283,11 +283,11 @@ ollama pull gemma4:12b && ollama pull qwen3:14b
 
 # download filings (the SEC asks every client to identify itself) and build the index
 export SEC_USER_NAME="Your Name" SEC_USER_EMAIL="you@example.com"
-sec-intel --config config/local_16gb_v4.yaml fetch WAT AAPL --forms 10-K 10-Q
-sec-intel --config config/local_16gb_v4.yaml index data/input/10-K data/input/10-Q
+sec-intel --config config/local_16gb_v5.yaml fetch WAT AAPL --forms 10-K 10-Q
+sec-intel --config config/local_16gb_v5.yaml index data/input/10-K data/input/10-Q
 
 # ask
-sec-intel --config config/local_16gb_v4.yaml ask "What does Waters say about its cyber insurance?"
+sec-intel --config config/local_16gb_v5.yaml ask "What does Waters say about its cyber insurance?"
 ```
 
 **Without models:** `sec-intel-mock demo` runs the whole pipeline on a small synthetic corpus with
@@ -305,8 +305,8 @@ Each evaluated version of the system is one config file, so any result can be re
 
 | Config | Version |
 |---|---|
-| `config/local_16gb_v4.yaml` | **Current default.** v3 plus the qualifier rule, qualifier check and repair, and a soft preference for the fiscal year a question names |
-| `config/local_16gb_v5.yaml` | v4 plus the brevity rule. Candidate; full evaluation pending (issue #1) |
+| `config/local_16gb_v5.yaml` | **Recommended.** v4 plus the brevity rule in the answer prompt |
+| `config/local_16gb_v4.yaml` | v3 plus the qualifier rule, qualifier check and repair, and a soft preference for the fiscal year a question names |
 | `config/local_16gb_v3.yaml` | Query-instruction fix, MMR, company-blind HyDE, and the answer-stage fixes |
 | `config/offline.yaml` | Mock model and hashing embeddings, for tests and CI |
 
@@ -314,14 +314,15 @@ Each evaluated version of the system is one config file, so any result can be re
 
 ```bash
 # answer, verify and build a provenance graph for each question (resumable)
-python tools/provenance_dag.py --config config/local_16gb_v4.yaml \
-    --cases eval/gold_plus_placebo.json -n 266 --out out/my_run
+python tools/provenance_dag.py --config config/local_16gb_v5.yaml \
+    --cases eval/gold_plus_placebo.json -n 266 --out out/my_run --workers 8
 # aggregate metrics and the per-question error labels
 python tools/provenance_report.py --out out/my_run \
-    --cases eval/gold_plus_placebo.json --config config/local_16gb_v4.yaml
+    --cases eval/gold_plus_placebo.json --config config/local_16gb_v5.yaml
 ```
 
-A full run takes about 10 hours on an M1 Pro. The evaluation sets are in `eval/`:
+A full run takes about 7.5 hours on an M1 Pro with `--workers 8` (several questions at once,
+model calls grouped by model; about 9 hours without). The evaluation sets are in `eval/`:
 `finder_semantic.json` (260 FinDER questions), `gold_plus_placebo.json` (those plus the 6
 placebos), `synth_claude.json` (361 natural-language questions for retrieval checks), and hand
 labels for dropped qualifiers and placebo answers. The retrieval experiments are in `tools/`
