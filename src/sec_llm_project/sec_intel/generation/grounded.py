@@ -10,6 +10,7 @@ confidence, and (optionally) an audit record.
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from dataclasses import replace
 from typing import Any
 
@@ -30,6 +31,7 @@ from ..core.types import (
 from ..llm.base import GenerationResult, LLMProvider, Message
 from ..retrieval.hybrid import HybridRetriever
 from . import prompts
+from .prune import prune_unsupported
 from .qualifiers import QualifierItem, is_candidate
 from .verifier import CitationVerifier, cited_numbers
 
@@ -45,8 +47,11 @@ class GroundedAnswerer:
                  config: GenerationConfig | None = None,
                  audit: AuditLogger | None = None,
                  verifier: CitationVerifier | None = None,
-                 tracer: Tracer | None = None) -> None:
+                 tracer: Tracer | None = None,
+                 on_stage: Callable[[str], None] | None = None) -> None:
         self.retriever = retriever
+        # progress callback for the API ("retrieving", "answering", "verifying")
+        self.on_stage = on_stage or (lambda stage: None)
         self.llm = llm
         self.config = config or GenerationConfig()
         self.audit = audit or null_logger()
@@ -75,6 +80,7 @@ class GroundedAnswerer:
         # capture the per-stage data the pipeline already computes. With the default
         # NullTracer this is all no-ops.
         with self.tracer.span("answer", kind=CHAIN, input=question) as root:
+            self.on_stage("retrieving")
             with self.tracer.span("retrieve", kind=RETRIEVER) as rspan:
                 results = self.retriever.retrieve(question, top_k=top_k, filters=filters)
                 trace["results"] = results
@@ -100,6 +106,7 @@ class GroundedAnswerer:
                 Message("system", prompts.system_prompt(cfg.qualifier_rule, cfg.concise_rule)),
                 Message("user", prompts.build_user_prompt(question, context)),
             ]
+            self.on_stage("answering")
             with self.tracer.span("generate", kind=LLM) as gspan:
                 gen = self.llm.generate(messages, temperature=0.0)
                 gspan.set(model=gen.model, output=gen.text)
@@ -116,6 +123,7 @@ class GroundedAnswerer:
             answer.extra["partial_insufficient"] = partial
 
             if self.verifier is not None:
+                self.on_stage("verifying")
                 with self.tracer.span("verify", kind=EVALUATOR) as vspan:
                     answer = self._verify_and_gate(answer, context, results,
                                                    evidence_score, messages)
@@ -171,6 +179,11 @@ class GroundedAnswerer:
         vcfg = self.verifier.config
         report = self.verifier.verify(answer, context)
 
+        if report.claims and not report.total and self.config.meta_retry:
+            retried = self._meta_retry(messages, answer, context, results, evidence_score)
+            if retried is not None:
+                answer, report = retried
+
         if report.total and self._fails_gate(report, vcfg) and vcfg.repair:
             repaired = self._attempt_repair(messages, answer, report, context, results,
                                             evidence_score)
@@ -209,6 +222,31 @@ class GroundedAnswerer:
             self.audit.log("answer", {"question": answer.question, "abstained": True,
                                       "reason": reason, "verification": report.to_dict()})
             return self._finalize_abstain(answer, reason)
+        if vcfg.prune_unsupported:
+            return self._prune(answer, report, context)
+        return answer
+
+    def _prune(self, answer: Answer, report: VerificationReport,
+               context: list[RetrievalResult]) -> Answer:
+        """Drop sentences carrying unsupported/contradicted claims (generation/prune.py)."""
+        pr = prune_unsupported(answer.text, report.claims)
+        if not pr.changed:
+            return answer
+        pruned = VerificationReport(claims=pr.kept, judge_model=report.judge_model,
+                                    repaired=report.repaired)
+        answer.extra["pruned"] = {
+            "removed_sentences": pr.removed_sentences,
+            "removed_claims": [c.to_dict() for c in pr.removed_claims],
+            "collateral": pr.collateral, "text_before": answer.text}
+        answer.text = pr.text
+        cited = {context[i].chunk.chunk_id for i in self._cited_indices(pr.text, len(context))}
+        answer.citations = [c for c in answer.citations if c.chunk_id in cited]
+        evidence = answer.extra["verification"]["evidence"]
+        answer.extra["verification"] = {**pruned.to_dict(), "evidence": evidence}
+        if not pruned.total:
+            return self._finalize_abstain(
+                answer, "answer only describes missing evidence" if pruned.claims
+                else "every claim unsupported")
         return answer
 
     @staticmethod
@@ -217,6 +255,26 @@ class GroundedAnswerer:
             (vcfg.abstain_on_contradiction and report.contradicted > 0)
             or report.groundedness < vcfg.groundedness_floor
         )
+
+    def _meta_retry(self, messages: list[Message], answer: Answer,
+                    context: list[RetrievalResult], results: list[RetrievalResult],
+                    evidence_score: float) -> tuple[Answer, VerificationReport] | None:
+        """The answer only described missing evidence: ask once for what the excerpts do
+        say. Kept only if the new answer has scored claims (the gate still applies)."""
+        assert self.verifier is not None
+        retry_messages = [*messages, Message("assistant", answer.text),
+                          Message("user", prompts.build_meta_retry_prompt())]
+        gen2 = self.llm.generate(retry_messages, temperature=0.0)
+        text2, _ = strip_insufficient(gen2.text)
+        if text2 is None:
+            return None
+        answer2 = self._assemble(answer.question, replace(gen2, text=text2), context,
+                                 results, evidence_score)
+        report2 = self.verifier.verify(answer2, context)
+        if not report2.total:
+            return None
+        answer2.extra["meta_retry"] = {"text_before": answer.text}
+        return answer2, report2
 
     def _attempt_repair(self, messages: list[Message], answer: Answer,
                         report: VerificationReport, context: list[RetrievalResult],

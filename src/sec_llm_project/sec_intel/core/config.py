@@ -122,6 +122,9 @@ class GenerationConfig:
     qualifier_rule: bool = False
     # Add the one-sentence-per-point brevity rule (v5, Nov 13 2026). Off by default.
     concise_rule: bool = False
+    # When the answer only says what the excerpts lack ("The excerpts do not ..."),
+    # ask once more for what they do say about the topic (EXPERIMENTS §20.4). Off by default.
+    meta_retry: bool = False
 
 
 @dataclass
@@ -200,6 +203,13 @@ class VerificationConfig:
     # restore the qualifiers and keeps the result only if it is no worse.
     qualifier_check: bool = False
     qualifier_repair: bool = False
+    # After an answer passes the gate, remove the sentences that carry unsupported or
+    # contradicted claims (generation/prune.py); meta-claims are kept. EXPERIMENTS §20.1.
+    prune_unsupported: bool = False
+    # "claims": the judge splits the answer into atomic claims and writes each back with a
+    # verbatim quote. "sentences": code numbers the answer's sentences and the judge returns
+    # only a verdict, citation and short quote per sentence (fewer output tokens; §20.2).
+    judge_format: str = "claims"
 
 
 @dataclass

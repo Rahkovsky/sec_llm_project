@@ -1,0 +1,269 @@
+{
+ "source": "out/provenance_16gb_v5: every non-meta claim marked UNSUPPORTED/CONTRADICTED, hand-labelled in session (Claude), Nov 14 2026, against the 3 excerpt sentences sharing most words with the claim (EXPERIMENTS.md \u00a720.3)",
+ "items": [
+  {
+   "id": "finder_0002",
+   "claim": "The company records accrued liabilities for contingencies related to outstanding legal proceedings, disputes, or claims when a loss is probable and the amount can be reasonably estimated",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0007",
+   "claim": "Northwest Pipeline (NWP) has a design capacity of approximately 3.8 MMdth/d and is planning several projects, including the Kelso-Beaver Reliability project, which is expected to increase capacity by 183 Mdth/d.",
+   "verdict": "UNSUPPORTED",
+   "label": "partial_or_unclear"
+  },
+  {
+   "id": "finder_0014",
+   "claim": "The company believes it distinguishes itself from competitors through the power of its joint venture and distribution relationships, its focus on high growth markets, and its expertise in targeted customer segments",
+   "verdict": "UNSUPPORTED",
+   "label": "partial_or_unclear"
+  },
+  {
+   "id": "finder_0016",
+   "claim": "A team of representatives from business areas supports the committee's activities by identifying, evaluating, and developing risk plans for emerging risks, such as cybersecurity",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0017",
+   "claim": "The company's cybersecurity strategy includes a risk steering committee, regular security reviews and simulations, and the use of third-party cybersecurity consultants",
+   "verdict": "UNSUPPORTED",
+   "label": "partial_or_unclear"
+  },
+  {
+   "id": "finder_0022",
+   "claim": "The company's revenue from the United States was 44% in 2022",
+   "verdict": "UNSUPPORTED",
+   "label": "wrong"
+  },
+  {
+   "id": "finder_0022",
+   "claim": "The company's revenue from the United States was 45% in 2023",
+   "verdict": "UNSUPPORTED",
+   "label": "wrong"
+  },
+  {
+   "id": "finder_0025",
+   "claim": "The excerpts provide information regarding investor confidence.",
+   "verdict": "UNSUPPORTED",
+   "label": "meta_split_error"
+  },
+  {
+   "id": "finder_0025",
+   "claim": "The excerpts provide information regarding specific valuation drivers.",
+   "verdict": "UNSUPPORTED",
+   "label": "meta_split_error"
+  },
+  {
+   "id": "finder_0027",
+   "claim": "The outcome of lawsuits and regulatory proceedings may be difficult to predict or estimate, and the ultimate losses may be higher than the amounts accrued for legal loss contingencies.",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0040",
+   "claim": "The Brazilian internal revenue authority issued a tax assessment of approximately $27 to $53 (depending on the reporting period) regarding taxes on foreign exchange transactions for purchases made between 2000 and 2001; the Company believes it has strong legal grounds to contest this and should ultimately prevail.",
+   "verdict": "UNSUPPORTED",
+   "label": "partial_or_unclear"
+  },
+  {
+   "id": "finder_0047",
+   "claim": "The Company's low-cost strategy includes using a single aircraft type (Boeing 737) and a specific route structure involving secondary or downtown airports to achieve high asset utilization and higher employee productivity",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0047",
+   "claim": "Pricing and cost structure are significant competitive factors in an industry where airlines compete for customers against alternatives like videoconferencing",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0056",
+   "claim": "The excerpts list specific performance metrics such as adjusted EPS compound annual growth rate, net sales, and free cash flow used to determine the vesting of restricted stock/units.",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0060",
+   "claim": "The company believes that developing employee capabilities is integral to delivering long-term value and that growing strong leaders and people managers is a critical driver of its future success.",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0088",
+   "claim": "The company utilizes a Technology Risk Management Committee to assess risks based on probability and potential impact, and it develops mitigation plans for any risks identified as high.",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0101",
+   "claim": "Management utilizes a Cyber Advisory Board of external experts and prioritizes investments to protect data confidentiality, integrity, and availability",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0101",
+   "claim": "Mitigation efforts include the use of information security tools monitored for anomalous patterns, participation in information sharing networks, and providing data protection training to all employees",
+   "verdict": "UNSUPPORTED",
+   "label": "partial_or_unclear"
+  },
+  {
+   "id": "finder_0105",
+   "claim": "The company is making strategic decisions and investments to create short-term value and seek opportunities for long-term strength, profitability, growth, and innovation",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0108",
+   "claim": "The committee also oversees the allocation of technology costs, ensures they are understood by the Board, and reviews continuity and disaster recovery planning and preparedness.",
+   "verdict": "UNSUPPORTED",
+   "label": "partial_or_unclear"
+  },
+  {
+   "id": "finder_0142",
+   "claim": "The company approved initiatives to redesign spans and layers in marketing, creative, and other functions to make them leaner, faster, and more agile, which will primarily result in employee severance through a net reduction in workforce",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0148",
+   "claim": "The excerpts mention that the results of operations and financial condition of SLB's customers and suppliers, as well as general economic and geopolitical conditions, are risk factors.",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0160",
+   "claim": "The CODM assesses performance and resource allocation across functions by comparing results to budgets and analyzing segment net income",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0162",
+   "claim": "The Company recorded $284 in 'Other current liabilities' and $1,129 in 'Other long-term liabilities' as the estimated settlement liability.",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0163",
+   "claim": "To mitigate cybersecurity risks, the company has developed and enforces company-wide policies related to password encryption, strength, and expiration",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0163",
+   "claim": "To mitigate cybersecurity risks, the company has developed and enforces company-wide policies related to password encryption, strength, and expiration",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0170",
+   "claim": "The company may be unable to accurately predict technological trends or market dynamics, such as those related to artificial intelligence and hybrid consumption.",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0172",
+   "claim": "Improper disclosure of confidential, personal, or proprietary data could result in regulatory scrutiny, legal liability, or harm to the company's reputation",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0180",
+   "claim": "The CISO is responsible for developing and implementing the information security program and regularly reports on cybersecurity matters to executive management and the Board of Directors",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0181",
+   "claim": "The Enterprise Risk Intelligence Committee (ERIC) provides guidance for integrating enterprise risk intelligence with important business processes, such as strategic planning, business forecasting, operational management, and investment allocation, to ensure consistent consideration of risks in decision making",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0182",
+   "claim": "The company is cooperating with an SEC investigation into the adequacy of its cybersecurity risk disclosures and related disclosure controls and procedures, which could result in civil monetary penalties, injunctive relief, or litigation if violations are found",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0184",
+   "claim": "Cybersecurity threats and incidents may impact vendors, customers, and other companies in the supply chain, including manufacturing, hardware, or software supply chain attacks that could cause production delays or data breaches.",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0188",
+   "claim": "Honeywell maintains a cybersecurity risk management program to assess, identify, manage, and govern material risks, and it evaluates these risks on a quarterly basis or as needed to determine if they have the potential to materially impact business operations, revenue, and expenditures.",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0190",
+   "claim": "The company acknowledges that a putative class action lawsuit was filed in December 2023 alleging that Janssen violated federal and state antitrust laws by delaying biosimilar competition with STELARA.",
+   "verdict": "UNSUPPORTED",
+   "label": "partial_or_unclear"
+  },
+  {
+   "id": "finder_0197",
+   "claim": "Third-party intellectual property disputes could cause severe disruptions to operations or the markets in which the company competes, and may subject the company to injunctions restricting the sale of products or services",
+   "verdict": "UNSUPPORTED",
+   "label": "partial_or_unclear"
+  },
+  {
+   "id": "finder_0219",
+   "claim": "The excerpts do cover the company's general information security program",
+   "verdict": "UNSUPPORTED",
+   "label": "meta_split_error"
+  },
+  {
+   "id": "finder_0219",
+   "claim": "The excerpts do cover the company's risk assessment activities",
+   "verdict": "UNSUPPORTED",
+   "label": "meta_split_error"
+  },
+  {
+   "id": "finder_0219",
+   "claim": "The excerpts do cover the potential risks associated with cyber-attacks",
+   "verdict": "UNSUPPORTED",
+   "label": "meta_split_error"
+  },
+  {
+   "id": "finder_0227",
+   "claim": "The company reports that, as of the date of the report, known cybersecurity incidents have not had a material impact on the company, and net expenses from information security breaches over the last three years are not material relative to total revenue.",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0228",
+   "claim": "The company competes in an intensely competitive market characterized by rapidly changing technology and evolving industry standards, where it competes primarily on factors such as performance, reliability, return on investment, reduced infrastructure complexity, and security",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0228",
+   "claim": "Some competitors may have greater financial, technical, and marketing resources, while smaller, more nimble competitors may offer less sophisticated products at lower prices",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0233",
+   "claim": "Any cyber incident could result in significant lost revenue, the inability to conduct critical business functions, significant remediation costs, increased capital costs, and increased protection costs, all of which could materially adversely affect FirstEnergy's business, results of operations, and financial condition",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0236",
+   "claim": "The Company has recognized indemnification liabilities related to eligible PFAS costs, including those related to Chemours environmental remediation activities.",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  },
+  {
+   "id": "finder_0253",
+   "claim": "The company believes it has adequate defenses and believes the likelihood of a material adverse effect from these matters is remote.",
+   "verdict": "UNSUPPORTED",
+   "label": "supported"
+  }
+ ]
+}

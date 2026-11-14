@@ -326,3 +326,93 @@ def test_qualifier_rule_is_opt_in():
     assert "qualifiers" in prompts.system_prompt(True)
     assert "one sentence per point" in prompts.system_prompt(True, True)
     assert "one sentence per point" not in prompts.system_prompt(True)
+
+
+def test_quote_matching_tolerates_ellipsis_joined_sentences_and_page_headers():
+    from sec_llm_project.sec_intel.generation.verifier import quote_matches
+
+    src = ("We believe the likelihood that the outcome of these claims would have a material "
+           "adverse effect on us is remote. Other text follows here. We believe we have "
+           "adequate defenses in these matters. The Company records accrued liabilities for "
+           "contingencies related to outstanding legal proceedings, Diamondback Energy, Inc. "
+           "and Subsidiaries Notes to Consolidated Financial Statements (Unaudited) disputes or "
+           "claims when a loss is probable.")
+    # two spans joined by "..." or by a sentence end
+    assert quote_matches("We believe we have adequate defenses in these matters. ... We believe "
+                         "the likelihood that the outcome of these claims would have a material "
+                         "adverse effect on us is remote.", src)
+    assert quote_matches("We believe we have adequate defenses in these matters. The Company "
+                         "records accrued liabilities for contingencies", src)
+    # a page header inside the quoted span
+    assert quote_matches("The Company records accrued liabilities for contingencies related to "
+                         "outstanding legal proceedings, disputes or claims when a loss is "
+                         "probable", src)
+    # one-word paraphrase in a long quote
+    assert quote_matches("we have adequate defense in these matters and the outcome of these "
+                         "claims", src) is False  # spans two places: not one region
+    assert quote_matches("The Company record accrued liabilities for contingencies related to "
+                         "outstanding legal proceedings", src)
+
+
+def test_quote_matching_rejects_dropped_hedge_negation_or_changed_figure():
+    from sec_llm_project.sec_intel.generation.verifier import quote_matches
+
+    src = ("While we maintain cyber insurance, this insurance may not be sufficient to cover "
+           "all losses. Revenue was $5.2 billion in 2024 and we believe demand will grow.")
+    assert quote_matches("this insurance may not be sufficient to cover all losses", src)
+    assert not quote_matches("this insurance is not sufficient to cover all losses at all", src)
+    assert not quote_matches("this insurance may be sufficient to cover all losses", src)
+    assert not quote_matches("Revenue was $5.9 billion in 2024 and we believe demand", src)
+    assert not quote_matches("we demand will grow and revenue was billion in 2024", src)
+    assert not quote_matches("Revenue was $5.2 billion in 2024 and demand will grow", src)
+
+
+def test_meta_retry_replaces_an_answer_that_only_describes_missing_evidence():
+    from sec_llm_project.sec_intel.core.config import GenerationConfig
+    from sec_llm_project.sec_intel.generation.grounded import GroundedAnswerer
+    from sec_llm_project.sec_intel.llm.base import GenerationResult
+
+    quote = "we maintain cyber insurance coverage for certain incident costs"
+    ctx = _ctx([f"In addition, {quote}."])
+
+    class Retriever:
+        last_latency_ms = 0.0
+
+        def retrieve(self, question, top_k=None, filters=None):
+            return ctx
+
+    class Gen:
+        model = "gen"
+
+        def __init__(self):
+            self.calls = []
+
+        def generate(self, messages, **kw):
+            self.calls.append(messages)
+            return GenerationResult(model="gen", text=(
+                "The excerpts do not discuss the impact on valuation." if len(self.calls) == 1
+                else "The company maintains cyber insurance for certain incident costs [1]."))
+
+    class Judge:
+        name = "judge"
+
+        def judge(self, answer_text, context):
+            if answer_text.startswith("The excerpts"):
+                return [ClaimVerdict(claim=answer_text, verdict="UNSUPPORTED")]
+            return [ClaimVerdict(claim=answer_text.replace(" [1]", ""), verdict="SUPPORTED",
+                                 citation=1, quote=quote)]
+
+    def ask(retry):
+        gen = Gen()
+        ans = GroundedAnswerer(Retriever(), gen, GenerationConfig(min_evidence_score=0.0,
+                                                                  meta_retry=retry),
+                               verifier=CitationVerifier(Judge(), VerificationConfig())
+                               ).answer("Valuation impact of cyber insurance?")
+        return ans, gen
+
+    ans, gen = ask(True)
+    assert not ans.abstained and "maintains cyber insurance" in ans.text
+    assert ans.extra["meta_retry"]["text_before"].startswith("The excerpts do not")
+    assert len(gen.calls) == 2
+    off, gen = ask(False)
+    assert off.abstained and len(gen.calls) == 1

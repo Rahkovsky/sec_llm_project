@@ -16,6 +16,9 @@ generation (RAG), but not that you know anything about SEC filings or this proje
 
 Section numbers written as §N refer to the experiment log, [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md).
 
+**Try it:** a [demo page and API](docs/API_USAGE.md) for live demonstrations (one question
+at a time, from the author's laptop when it is running).
+
 **Further reading:** [results report with charts](docs/REPORT.md) ·
 [experiment log](docs/EXPERIMENTS.md) · [open issues](https://github.com/Rahkovsky/sec_llm_project/issues)
 
@@ -305,6 +308,7 @@ Each evaluated version of the system is one config file, so any result can be re
 
 | Config | Version |
 |---|---|
+| `config/local_16gb_v6.yaml` | Candidate (full evaluation pending): v5 plus the compact judge (half the judge time), the fixed quote check, one retry for answers that only describe missing evidence, and pruning of unsupported sentences (§20); used by the demo API |
 | `config/local_16gb_v5.yaml` | **Recommended.** v4 plus the brevity rule in the answer prompt |
 | `config/local_16gb_v4.yaml` | v3 plus the qualifier rule, qualifier check and repair, and a soft preference for the fiscal year a question names |
 | `config/local_16gb_v3.yaml` | Query-instruction fix, MMR, company-blind HyDE, and the answer-stage fixes |
@@ -327,6 +331,35 @@ model calls grouped by model; about 9 hours without). The evaluation sets are in
 placebos), `synth_claude.json` (361 natural-language questions for retrieval checks), and hand
 labels for dropped qualifiers and placebo answers. The retrieval experiments are in `tools/`
 (`diversity_lab.py`, `rewrite_lab.py`, `rerank_lab.py`, `period_lab.py`).
+
+### HTTP API for demonstrations
+
+An optional API runs the same pipeline behind a question queue, for showing the system during a
+presentation. It is not a service for clients: it answers one question at a time and is started
+by hand. **How to use it: [docs/API_USAGE.md](docs/API_USAGE.md)**; design and tests:
+[docs/API_PLAN.md](docs/API_PLAN.md).
+
+```bash
+uv pip install -e ".[api]"
+scripts/serve_api.sh --local   # API and demo page on http://127.0.0.1:8000, key printed at start
+scripts/serve_api.sh           # the same, plus a public HTTPS address through Tailscale Funnel
+```
+
+The page at `/` has a question box, a Fast/Verified switch, a countdown and the answer with
+numbered sources. The endpoints, all except `/v1/health` behind `Authorization: Bearer <key>`:
+
+| Endpoint | |
+|---|---|
+| `POST /v1/questions` | `{"question": ..., "ticker": null, "mode": "fast" \| "verified"}` → `202` with `id`, queue position, estimated seconds |
+| `GET /v1/questions/{id}` | Status (`queued`, `retrieving`, `answering`, `verifying`, `done`, `failed`, `cancelled`), seconds remaining, and the result when done |
+| `GET /v1/questions/{id}/events` | The same as server-sent events |
+| `DELETE /v1/questions/{id}` | Cancel a queued question |
+| `GET /v1/estimate?mode=fast` | Expected time for a new question now |
+
+*Fast* (the default) skips the judge and marks the answer unverified, which takes 40–55 s. *Verified* adds
+the claim-by-claim check and returns the verdicts, which takes 100–120 s. The time estimate is the running
+median of each stage plus the questions waiting ahead. In the first local test the estimates
+were 54, 142 and 196 s for three questions submitted together, and the questions took 44, 144 and 200 s.
 
 ---
 

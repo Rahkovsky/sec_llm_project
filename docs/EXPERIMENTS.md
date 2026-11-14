@@ -1214,3 +1214,215 @@ earlier runs stay comparable.
 | Remaining 281 v3 10-Ks (non-eval tickers) | Done (§18): `data/sec_index_v4`, 827,737 chunks |
 | Entity-resolved run | Done (§18): resolver differs on 7 of 260; fixes 3 wrong FinDER labels, loses 1; clean 156 → 159 |
 | Model-grouped eval runs | Timed (§16): `--workers 8` saves 15%; loads are only 7% of time; flash attention and q8 KV cache already on. Next: shorter judge output |
+
+## 20. Next-steps experiments (Nov 14 –)
+
+The ideas in [NEXT_STEPS.md](NEXT_STEPS.md), tried in its suggested order on branch
+`experiments/next-steps`. Each subsection records the setup, the result and the decision.
+The baseline is the full v5 run of §17 (`out/provenance_16gb_v5`).
+
+### 20.1 Q2: prune sentences that carry unsupported claims
+
+**Question.** In 25 of the 31 v5 answers labelled "unsupported claims", exactly one claim
+(of ~5.4) is unsupported. Would removing those sentences, without any new model call,
+turn them into clean answers, and do the pruned answers still read well?
+
+**Method.** `generation/prune.py` maps each judged claim to the answer sentence that shares
+most of its words, then removes every sentence that carries an UNSUPPORTED or CONTRADICTED
+claim. Meta-claims ("the excerpts do not say X") are kept, because they tell the reader what
+the filings leave open; the judge often marks them unsupported. The first version of the lab
+removed them too and touched 194 answers; with the exclusion, 36. `tools/prune_lab.py`
+applies the rule to the stored v5 answers and relabels each question with the report's own
+rules (retrieval recall, wrong period and qualifier flags unchanged). Answers the gate had
+already turned into abstentions are left as they are, as in the pipeline, where pruning runs
+only after an answer passes the gate.
+
+**Result** (260 FinDER questions, `out/provenance_16gb_v5/prune/`):
+
+| Label | v5 | v5 pruned |
+|---|---|---|
+| Clean | 156 | **187** |
+| Unsupported claims | 31 | 0 |
+| Retrieval miss → ungrounded claims | 5 | 0 |
+| Dropped qualifier (lexical flag) | 13 | 17 |
+| Abstained with evidence | 26 | 27 |
+| Retrieval miss → abstained, wrong period, partial | 29 | 29 |
+
+36 answers lose 39 sentences; 11 supported claims are removed with them because they share a
+sentence with an unsupported one; 1 answer is left with only a meta-claim and becomes a
+refusal (finder_0219). Four answers move to "dropped qualifier": removing their unsupported
+sentence exposes a lexical hedge flag on a remaining one. The hand labels (§17) show that
+most such flags are not real drops.
+
+**Hand check of all 36 pruned answers.** 35 still read as complete answers: the removed
+sentence is usually one bullet or one closing sentence. One becomes a refusal, correctly.
+In 3 the removed sentence was arguably the main point: finder_0228 (Akamai) loses its two
+sentences on how the company competes, finder_0047 (Southwest) its cost-structure bullet,
+finder_0056 its description of the compensation programs. In finder_0228 and finder_0047 the
+removed text looks supported by the cited excerpt, so these are judge misses that pruning
+turns into lost content. How often the judge is wrong is measured in Q4.
+
+**Decision.** Implemented as `verification.prune_unsupported` (off by default), applied after
+the gate. The answer records what was removed (`extra.pruned`: the sentences, the claims,
+the collateral count and the original text), and citations no longer referenced by the
+pruned text are dropped. `config/local_16gb_v6.yaml` = v5 + pruning. The +31 clean answers
+are an estimate on stored outputs; a full run of v6 confirms it together with the later
+changes (Q4 first measures how many removed claims the judge got wrong).
+
+**Update (§20.3).** Most of the claims pruning removed were correct: the quote check had
+rejected the judge's quotes. With the check fixed, clean answers reach 178 without
+pruning, and pruning adds 7 more by removing only the claims that remain unsupported.
+
+### 20.2 S1: a judge that writes less
+
+**Question.** The judge takes 63% of model time (§16): for every claim it writes back the
+claim, a verdict, a citation and a verbatim quote, ~520 tokens per answer at ~12 tokens/s.
+Can it write less without judging differently?
+
+**Formats** (`verification.judge_format`; `tools/judge_lab.py` re-judges stored answers
+against the exact excerpts the original judge saw and compares):
+
+* `claims` (v5): the judge splits the answer into atomic claims and writes each back.
+* `sentences`: code numbers the answer's sentences ([S1], [S2], ...); the judge returns
+  `{s, verdict, citation, quote}` per sentence, quotes of at most 25 words.
+* `verdicts`: as `sentences` but without the quote; code takes the cited passage's
+  sentence that shares most words with the answer sentence as the quote, so the quote
+  and qualifier checks still run.
+
+The figure check of a sentence covers every excerpt the sentence itself cites ([1, 4]).
+Uncited lead-in lines ("Regarding storage:", "**Risk Profile**") are not scored.
+
+**Pilot (20 answers).** `sentences`: 46 s per answer vs 60 s, agreement 0.915 on
+scored sentences; `verdicts`: 32 s, 0.976. Writing a quote costs most of the tokens, so
+`sentences` saved little. The pilot also found two splitter defects (breaking at initials
+such as "Jonathan P." and at case-name abbreviations such as "Twp. Gen. Emps. Ret. Sys.
+v.") and markdown headings scored as claims; all three are fixed.
+
+**Full test (`verdicts`, all 209 answered v5 questions,** `out/judge_lab/verdicts`; both
+judges scored with the §20.3 quote check):
+
+| | claims (v5) | verdicts |
+|---|---|---|
+| Judge time per answer | 64.0 s | **30.3 s** |
+| Judge output tokens per answer | 528 | **147** |
+| Sentence verdicts agreeing (supported vs not), 794 scored sentences | – | **0.989** |
+| Clean answers (260) | 178 | 177 |
+| Unsupported claims (label) | 6 | 2 |
+| Dropped qualifier (lexical flag) | 18 | 25 |
+
+Of the 9 sentences where the two disagree, 5 are failed by the old judge and passed by the
+new one; by the hand labels of §20.3, 3 of those are supported (finder_0170, 0172, 0184)
+and 2 partly. The swapped percentages of finder_0022 are failed by both. The lexical
+qualifier flags rise because the code-chosen quote is a whole source sentence, which
+carries more hedge words than a judge's short quote; the flag is a weak proxy (§17), but it
+also sends more claims to the judge's qualifier check, which costs a call each.
+
+**Decision.** `judge_format: verdicts` halves the judge's time with the same verdicts.
+It is on in v6. Expected end-to-end time per question: ~122 s → ~88 s (serial).
+
+### 20.3 Q4 (first part): most "unsupported" claims were rejected quotes, not bad answers
+
+**Question.** Q2 removes the claims the judge marks unsupported. How many of them are
+actually unsupported? (NEXT_STEPS.md Q4 asks for the judge's error rate before the next
+decision rests on it.)
+
+**Hand labels.** All 44 non-meta claims that v5 marks UNSUPPORTED or CONTRADICTED, each read
+against the three sentences of the retrieved excerpts that share most of its words
+(labels in `eval/unsupported_labels_v5.json`):
+
+| Hand label | Claims |
+|---|---|
+| Supported by the excerpts | 29 |
+| Partly supported, or not checkable from the matching sentences | 8 |
+| Wrong (finder_0022: the 2022 and 2023 US revenue shares swapped) | 2 |
+| A statement about the excerpts the judge split badly ("do not provide X" became "provide X") | 5 |
+
+**Cause.** In 36 of the 44 the judge said SUPPORTED, but the deterministic quote check
+rejected its quote and downgraded the claim. The judge's quotes were right in substance
+but not contiguous text: two spans joined by "..." (e.g. finder_0253: "We believe we have
+adequate defenses in these matters. ... We believe the likelihood ... is remote"), two
+sentences joined without a marker, a page header the chunker left inside the span
+("... legal proceedings, Diamondback Energy, Inc. and Subsidiaries Condensed Notes ...
+(Unaudited) disputes or claims ..."), or one word changed ("enforces" for "enforce").
+Two more failed the figure check, and four had no citation.
+
+**Change** (`generation/verifier.py: quote_matches`). A quote now also matches when:
+
+* it joins spans with "..." or joins sentences, and every segment of 3+ words matches; or
+* it has 8+ words, at least 90% of them occur in order in one region of the source (at
+  most 15 extra source words inside), and none of the differing words, on either side, is
+  a negation, a hedge (may, could, believes, expects, ...), a figure or a scale word.
+
+The verifier also keeps the judge's own verdict (`ClaimVerdict.judge_verdict`), so later
+runs show directly which claims an invariant downgraded.
+
+**Checks on the stored v5 claims** (`tools/quote_rescore.py`):
+
+* Of the 38 non-meta quotes the old check rejected, 31 now match. By the hand labels these
+  are 26 supported and 5 partly supported claims; none is one of the wrong ones.
+* All 859 quotes the old check accepted still match.
+* Adversarial test: in every accepted quote of 8+ words, drop the first hedge or negation,
+  or change the first digit (501 mutated quotes). 0 are accepted. A first version accepted
+  58: when the dropped word sat next to the quote's first word ("we [believe] that"), the
+  alignment started after it and never compared it; the compared region now covers the
+  whole quote.
+
+**Result** (v5 re-scored; the judge's verdict for a downgraded claim was not stored, so it
+is taken as SUPPORTED, an upper bound):
+
+| 260 FinDER questions | v5 as run | quote check fixed | + pruning (§20.1) |
+|---|---|---|---|
+| Claim support (meta excluded) | 0.951 | 0.985 | – |
+| Unsupported claims | 44 | 13 | – |
+| Clean | 156 | **178** | 185 |
+| Unsupported claims (label) | 31 | 6 | 0 |
+| Dropped qualifier (lexical flag) | 13 | 18 | 19 |
+
+**What this changes.** The answer step was better than the metric said: most of the
+"unsupported claims" failure class was the checker. Pruning alone (§20.1) had raised clean
+answers to 187, but mostly by deleting correct sentences; with the quote check fixed, the
+same 156 → 178 comes without removing anything, and pruning then acts only on the claims
+that remain unsupported. The 5 new dropped-qualifier labels are claims that now count as
+supported and carry a lexical hedge flag; most such flags are not real drops (§17).
+
+**Decision.** The matcher change is on for all configs (it is a measurement fix). v6 keeps
+pruning on top; its full run measures both with the judge verdicts stored.
+
+### 20.4 Q1: ask once more when the answer only describes missing evidence
+
+**Problem.** In v5, 23 of the 260 FinDER answers were refused because every sentence was a
+meta-claim ("The provided excerpts do not contain information regarding ..."). Most of
+these questions are vague FinDER prompts ("Impact of AIG's cyber sec on comp positioning &
+financing costs") whose retrieved excerpts do describe the topic, just not the causal link
+the question asks about.
+
+**Change.** `generation.meta_retry` (`GroundedAnswerer._meta_retry`,
+`prompts.build_meta_retry_prompt`): if the first answer contains only meta-claims, ask the
+generator once more, with the same excerpts, to state what the excerpts *do* say about the
+topic, with citations, and then say in one sentence what they do not cover; if the excerpts
+say nothing about the topic, or the question rests on a period, document or company not in
+them, it must reply INSUFFICIENT_EVIDENCE (the placebo guard). The second
+answer goes through the same verification as any other; if it is still meta-only, the
+pipeline abstains as before. The first text is kept in `extra.meta_retry.text_before`.
+
+**Test** (`out/q1_meta_retry`, v6 config with the retry on): the 23 meta-only questions
+plus the 6 placebos, 4 workers.
+
+| | Count |
+|---|---|
+| Meta-only questions answered now | 18 of 23 |
+| … through the retry | 12 (the other 6 gave a normal first answer this time: run-to-run noise, §7) |
+| Still abstained (retry also meta-only) | 5 |
+| Factual claims in the 13 retried answers (12 FinDER + 1 placebo) | 61, all SUPPORTED |
+| Placebos: premise asserted (`tools/placebo_check.py`) | 0 of 6 |
+| Cost of a retry (generator compute, median) | 30 s (19–39 s), only on meta-only answers |
+
+Read by hand, the retried answers describe the governance, cyber or risk process the
+question is about and end with the gap ("The excerpts do not cover whether these practices
+boost investor confidence"). That is the honest answer to such a question. The placebo
+that went through the retry (AWS revenue "on March 3, 2024") reports the quarterly AWS
+figures from the 10-Q and says no daily figure exists; the placebo check marks it as not
+asserting the premise.
+
+**Decision.** On in v6. It turns about 12 of 23 refusals into grounded, cited answers at
+~30 s each, without a new placebo failure. The full v6 run measures it on all 266.
