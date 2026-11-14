@@ -23,8 +23,19 @@ if ! curl -sf http://127.0.0.1:11434/api/tags >/dev/null; then
   echo "Ollama is not running (brew services start ollama)." >&2
   exit 1
 fi
-if [ "$PUBLIC" = 1 ] && ! command -v tailscale >/dev/null; then
-  echo "tailscale CLI not found (Tailscale app: Settings > Install CLI), or use --local." >&2
+# the Tailscale CLI, or the app's own binary (which works as the CLI) if it is not installed
+TS=$(command -v tailscale || echo /Applications/Tailscale.app/Contents/MacOS/Tailscale)
+if [ "$PUBLIC" = 1 ] && [ ! -x "$TS" ]; then
+  echo "Tailscale not found (install the Tailscale app), or use --local." >&2
+  exit 1
+fi
+if [ "$PUBLIC" = 1 ] && ! "$TS" status --json | .venv/bin/python -c '
+import json, sys
+d = json.load(sys.stdin)
+caps = d["Self"].get("CapMap") or {}
+sys.exit(0 if d.get("CertDomains") and any("funnel" in k for k in caps) else 1)'; then
+  echo "Tailscale Funnel or HTTPS certificates are not enabled for this tailnet." >&2
+  echo "Run '$TS funnel 8000' once for the link that enables them, or use --local." >&2
   exit 1
 fi
 
@@ -42,7 +53,7 @@ curl -sf http://127.0.0.1:11434/api/generate \
   >/dev/null || echo "warning: could not warm $GEN_MODEL" >&2
 
 cleanup() {
-  [ "$PUBLIC" = 1 ] && tailscale funnel reset >/dev/null 2>&1 || true
+  [ "$PUBLIC" = 1 ] && "$TS" funnel reset >/dev/null 2>&1 || true
   [ -n "${API_PID:-}" ] && kill "$API_PID" 2>/dev/null || true
   echo "Stopped."
 }
@@ -59,8 +70,8 @@ done
 
 URL="http://127.0.0.1:$PORT"
 if [ "$PUBLIC" = 1 ]; then
-  tailscale funnel --bg "$PORT" >/dev/null
-  URL="https://$(tailscale status --json | .venv/bin/python -c \
+  "$TS" funnel --bg "$PORT" >/dev/null
+  URL="https://$("$TS" status --json | .venv/bin/python -c \
     'import json,sys; print(json.load(sys.stdin)["Self"]["DNSName"].rstrip("."))')"
 fi
 
