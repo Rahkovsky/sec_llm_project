@@ -80,8 +80,9 @@ question rather than the HyDE passage.
 
 1. ~~**Rerank against the HyDE passage** (issue #5)~~ **Done, negative** (EXPERIMENTS §20.7):
    HyDE is a better reranker query than the question for all three models (+0.04–0.09 Hit@8),
-   but no variant beats production. The best (RRF with Qwen@HyDE) is −0.057 on dev. Rerankers
-   are dropped.
+   but no variant beats production. The best (RRF with Qwen@HyDE) is −0.057 on dev. On the
+   well-worded synthetic set, Qwen on the question alone gains +0.025 near the ceiling. No
+   reranker in the pipeline.
 2. **Several HyDE passages:** generate 2–3 passages in different styles (risk factor, MD&A,
    notes to the financial statements) and average or fuse their rankings. FinDER answers sit in
    different sections, and one passage commits to one of them.

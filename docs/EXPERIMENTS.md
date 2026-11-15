@@ -1587,6 +1587,32 @@ passage it ranks it higher, but it finds it less often. Another reason the reran
 the dense score uses the question and the HyDE passage together, and MMR spreads the eight
 picks, while a pure reranker top 8 often holds near-duplicates from one section.
 
-**Decision.** No reranker in the pipeline. The test split was not run, because nothing won
-on dev. Rerankers are dropped for FinDER-style questions. The remaining Q3 ideas (several
-HyDE passages, a larger MMR pool) work in the dense stage.
+**Well-worded questions** (`eval/synth_claude.json`, 361 questions, the run §13 stopped;
+MiniLM and Qwen only, `out/rerank/run_v4_synth_hyde.log`). The gold passage is in the pool for
+360:
+
+| Variant (synthetic, 361) | Hit@8 | MRR@8 | ΔHit [95% CI] | W/L |
+|---|---|---|---|---|
+| prod | 0.964 | 0.860 | – | – |
+| **rr_qwen_mmr** | **0.989** | **0.918** | **+0.025 [+0.011, +0.042]** | 9/0 |
+| rr_qwen | 0.983 | 0.917 | +0.019 [+0.006, +0.036] | 8/1 |
+| rrf_qwen | 0.983 | 0.904 | +0.019 [+0.006, +0.036] | 7/0 |
+| rrf_minilm@hyde | 0.975 | 0.887 | +0.011 [−0.003, +0.028] | 6/2 |
+| rrf_qwen@hyde | 0.972 | 0.863 | +0.008 [−0.006, +0.022] | 5/2 |
+| rr_qwen@hyde | 0.956 | 0.806 | −0.008 [−0.030, +0.014] | 7/10 |
+| rr_minilm | 0.950 | 0.846 | −0.014 [−0.036, +0.006] | 5/10 |
+
+Here the picture flips. Qwen3-Reranker scoring the question itself beats production, with
+intervals above zero, and it raises MRR from 0.86 to 0.92. The HyDE passage no longer helps
+the reranker, because these questions are already worded like the filing. Two caveats. First,
+the set is near its ceiling (0.964), so the gain is 9 questions. Second, the questions were
+written from their gold passages (by Claude, §7.1), so they share wording with them, and a
+cross-encoder profits from such overlap more than a dense model does.
+
+**Decision.** No reranker in the pipeline. On FinDER every variant is lower (the best by
+0.057), and on the well-worded set the best gain is 0.025 near the ceiling. Qwen3-Reranker
+over 60 candidates also costs ~16 s per question on the M1, a quarter of a fast-mode answer.
+The test split was not run, because nothing won on FinDER dev. The one place a reranker could
+pay off is plainly worded questions like the demo API's (rr_qwen_mmr, question only). That
+needs its own test on real user questions before it is worth 16 s. The remaining Q3 ideas
+(several HyDE passages, a larger MMR pool) work in the dense stage.

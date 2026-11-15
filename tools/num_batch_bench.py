@@ -2,9 +2,10 @@
 
 Ollama runs llama.cpp with a 512-token batch. This sends prompts of the size the pipeline
 sends (8 filing chunks, ~2.4k tokens, the median of the v6 answer and judge calls) to each
-model with ``num_predict`` 1 and reads Ollama's own ``prompt_eval_duration``, so only prompt processing is timed. Every prompt starts
-with a fresh nonce, so Ollama's prefix cache cannot reuse an earlier prompt. A changed
-``num_batch`` restarts the runner; the first call per setting is a warm-up and is not counted.
+model with ``num_predict`` 1 and reads Ollama's own ``prompt_eval_duration``, so only prompt
+processing is timed. Every prompt starts with a fresh nonce, so Ollama's prefix cache cannot
+reuse an earlier prompt. A changed ``num_batch`` restarts the runner; the first call per
+setting is a warm-up and is not counted.
 
     python tools/num_batch_bench.py --models gemma4:12b qwen3:14b --batches 512 1024 2048
 """
