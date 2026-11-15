@@ -203,7 +203,7 @@ class CrossEncoderScorer:
         self.m = CrossEncoder(CROSS_ENCODERS[name], max_length=512)
 
     def __call__(self, q: str, docs: list[str]) -> list[float]:
-        return [float(s) for s in self.m.predict([(q, d) for d in docs], batch_size=16)]
+        return [float(s) for s in self.m.predict([(q, d) for d in docs], batch_size=4)]
 
 
 class QwenReranker:
@@ -233,9 +233,9 @@ class QwenReranker:
 
     def __call__(self, q: str, docs: list[str]) -> list[float]:
         out: list[float] = []
-        for i in range(0, len(docs), 8):
+        for i in range(0, len(docs), 4):
             texts = [f"<Instruct>: {self.INSTRUCT}\n<Query>: {q}\n<Document>: {d}"
-                     for d in docs[i:i + 8]]
+                     for d in docs[i:i + 4]]
             enc = self.tok(texts, padding=False, truncation="longest_first",
                            return_attention_mask=False,
                            max_length=self.max_len - len(self.pre) - len(self.suf))
