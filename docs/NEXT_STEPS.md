@@ -136,6 +136,9 @@ and how many of those the judge would have marked unsupported (should be ~0).
 
 ### S3. Faster prompt processing (est. −5 to −10 s, uncertain)
 
+**Done, negative** (EXPERIMENTS §20.8): the default batch of 512 is the fastest. With 1024 or
+2048, qwen3:14b is 8–18% slower and gemma4:12b is no faster.
+
 Ollama starts llama.cpp with a 512-token batch (`-b 512 -ub 512`). On Apple GPUs a larger batch
 (`num_batch` 1024 or 2048) sometimes speeds up prompt processing. **Measure** with the 16-question
 timing set (`out/timing/cases16.json`): ~30 minutes per setting. **Cost:** an option in the

@@ -1616,3 +1616,29 @@ The test split was not run, because nothing won on FinDER dev. The one place a r
 pay off is plainly worded questions like the demo API's (rr_qwen_mmr, question only). That
 needs its own test on real user questions before it is worth 16 s. The remaining Q3 ideas
 (several HyDE passages, a larger MMR pool) work in the dense stage.
+
+### 20.8 S3: a larger prompt batch does not speed up prompt processing
+
+**Question.** In v6, prompt processing is 65% of model time: about 50 s per question at
+~120–130 tokens/s, against 27 s of generation. Ollama runs llama.cpp with a 512-token batch,
+and a larger batch sometimes helps on Apple GPUs. Does `num_batch` 1024 or 2048 help here?
+
+**Lab.** `tools/num_batch_bench.py` sends prompts of eight real filing chunks (median 3,050
+tokens) with `num_predict` 1 and reads Ollama's own `prompt_eval_duration`. Each prompt starts
+with a nonce, so the prefix cache cannot reuse anything. There are 5 prompts per setting,
+in two rounds, the second in reverse order. A warm-up call after each change of setting is not
+counted. Raw rows: `out/timing/num_batch.json`.
+
+| Model | 512 (default) | 1024 | 2048 |
+|---|---|---|---|
+| gemma4:12b (tokens/s, round 1 / round 2) | 117 / 110 | 117 / 110 | 110 / 110 |
+| qwen3:14b | **123** / **123** | 113 / 113 | 101 / 101 |
+
+**Reading.** The default is the fastest. For the judge a larger batch is slower, by 8% at 1024
+and 18% at 2048. For the generator it makes no difference, apart from a drift between the
+rounds (probably heat) that affects all settings alike. The repeat calls agree to ±2 tokens/s,
+so the differences are not noise. Prompt processing on the M1 Pro is compute-bound at
+~120 tokens/s for 12–14B models, and a bigger batch only adds memory traffic.
+
+**Decision.** Keep the default. The way to cut prompt time is fewer prompt tokens: shorter
+chunks or fewer of them in the answer and judge prompts, or a smaller judge (S4).
