@@ -206,6 +206,11 @@ class VerificationConfig:
     # After an answer passes the gate, remove the sentences that carry unsupported or
     # contradicted claims (generation/prune.py); meta-claims are kept. EXPERIMENTS §20.1.
     prune_unsupported: bool = False
+    # A supported claim whose direction word is the opposite of its own quote's
+    # ("decrease" against a quote that says "increase" and not "decrease") is downgraded
+    # to UNSUPPORTED, like a figure absent from the source. The judge passes 2/3 of such
+    # flips; the check catches 12 of 18 it passed and flags 0 of 903 v6 claims (§20.9).
+    direction_check: bool = False
     # "claims": the judge splits the answer into atomic claims and writes each back with a
     # verbatim quote. "sentences": code numbers the answer's sentences and the judge returns
     # only a verdict, citation and short quote per sentence (fewer output tokens; §20.2).

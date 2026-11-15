@@ -99,7 +99,9 @@ every earlier retrieval change. **Cost:** an hour or two of compute per lab.
 - **FinDER ticker labels.** Three are wrong (§19). *Done (Nov 15):* `eval/finder_ticker_fixes.json`
   lists them; `eval/gold_plus_placebo_fixed.json` and `eval/finder_semantic_fixed.json` are the
   corrected copies; the originals are kept for comparability.
-- **Judge agreement.** Every support number comes from one judge (`qwen3:14b`). Re-judge a
+- **Judge agreement.** *Done in part (§20.9):* with planted errors, the judge catches 54 of 81
+  (67% with the checks). It misses most direction flips, which the new direction check fixes for
+  12 of 18 (v7), and a third of the added negations. Every support number comes from one judge (`qwen3:14b`). Re-judge a
   sample of 300 claims with a second model and with hand labels, to know the judge's error rate
   before the next prompt change is decided on a few points of support.
 - **Noise.** With ~11% label churn between identical runs, decide answer-stage changes on
@@ -145,6 +147,10 @@ timing set (`out/timing/cases16.json`): ~30 minutes per setting. **Cost:** an op
 provider.
 
 ### S4. Smaller judge (large saving, quality risk)
+
+**Measured** (EXPERIMENTS §20.9): with the figure and direction checks, `qwen3:8b` catches 68 of
+81 planted errors against 69 for `qwen3:14b`, at 18 s instead of 32 s per answer. Next: a full
+run with it as judge.
 
 A judge of about 8B parameters would roughly double generation speed and fit next to the answer
 model. It is only acceptable if it agrees with `qwen3:14b` and the hand labels on the claim sample

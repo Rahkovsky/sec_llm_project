@@ -210,6 +210,7 @@ class ClaimVerdict:
     quote: str = ""              # verbatim supporting span from the cited evidence
     valid_quote: bool = False    # True iff `quote` is actually a substring of the cited chunk
     numeric_ok: bool = True      # False iff a figure in the claim is absent from the cited chunk
+    direction_ok: bool = True    # False iff a direction word is the opposite of the quote's
     citation_corrected: bool = False  # quote found in a different chunk; citation re-pointed
     meta: bool = False           # "the excerpts do not contain ..." -- about the evidence, not
                                  # the company; excluded from groundedness

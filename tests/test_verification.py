@@ -416,3 +416,36 @@ def test_meta_retry_replaces_an_answer_that_only_describes_missing_evidence():
     assert len(gen.calls) == 2
     off, gen = ask(False)
     assert off.abstained and len(gen.calls) == 1
+
+
+def test_direction_check_downgrades_a_claim_that_reverses_its_quote():
+    """With verification.direction_check, "expects competition to decrease" against a quote
+    saying it is "expected to continue to increase" is overruled (EXPERIMENTS §20.9)."""
+    from sec_llm_project.sec_intel.generation.verifier import direction_flip
+
+    quote = "Competition has increased, and such competition is expected to continue to increase."
+
+    class QuoteJudge:
+        name = "q"
+
+        def __init__(self, claim):
+            self._claim = claim
+
+        def judge(self, answer_text, context):
+            return [ClaimVerdict(claim=self._claim, verdict="SUPPORTED", citation=1, quote=quote)]
+
+    ctx = _ctx(["Retail is competitive. " + quote])
+    flipped = "Competition is expected to continue to decrease."
+    on = VerificationConfig(direction_check=True)
+    bad = CitationVerifier(QuoteJudge(flipped), on).verify(Answer(question="q", text="x"), ctx)
+    assert bad.claims[0].verdict == "UNSUPPORTED" and bad.claims[0].direction_ok is False
+    assert bad.claims[0].judge_verdict == "SUPPORTED"
+    ok = CitationVerifier(QuoteJudge("Competition is expected to continue to increase."),
+                          on).verify(Answer(question="q", text="x"), ctx)
+    assert ok.claims[0].verdict == "SUPPORTED"
+    off = CitationVerifier(QuoteJudge(flipped)).verify(Answer(question="q", text="x"), ctx)
+    assert off.claims[0].verdict == "SUPPORTED"  # off by default
+    # both directions present in the quote: nothing to refute
+    assert direction_flip("costs decreased", "costs increased in Q1 and decreased in Q2") is None
+    assert direction_flip("an unfavorable outcome", "a favorable outcome") == "unfavorable/favorable"
+    assert direction_flip("sales rose", "") is None

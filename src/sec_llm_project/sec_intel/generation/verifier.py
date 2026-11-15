@@ -394,6 +394,32 @@ def _parse_claims(text: str, *, n_evidence: int) -> list[ClaimVerdict]:
     return out
 
 
+# Direction words and their opposites. A claim that says "decrease" where its own quote
+# says "increase" (and never "decrease") reverses the source; the judge often passes it
+# (EXPERIMENTS §20.9).
+_DIRECTION_PAIRS = [
+    ("increase", "decrease"), ("increased", "decreased"), ("increases", "decreases"),
+    ("increasing", "decreasing"), ("higher", "lower"), ("rose", "fell"), ("grew", "declined"),
+    ("more", "less"), ("above", "below"), ("gain", "loss"), ("gains", "losses"),
+    ("favorable", "unfavorable"), ("positive", "negative"), ("improve", "worsen"),
+    ("improved", "worsened"), ("efficiently", "inefficiently"), ("probable", "improbable"),
+]
+_OPPOSITE = dict(_DIRECTION_PAIRS) | {b: a for a, b in _DIRECTION_PAIRS}
+_WORD_RE = re.compile(r"[a-z]+")
+
+
+def direction_flip(claim: str, quote: str) -> str | None:
+    """The claim's direction word whose opposite is in the quote while the word itself is
+    not ("decrease/increase"), or None. Without a quote there is nothing to compare."""
+    if not quote:
+        return None
+    cw, qw = set(_WORD_RE.findall(claim.lower())), set(_WORD_RE.findall(quote.lower()))
+    for w in sorted(cw):
+        if w in _OPPOSITE and _OPPOSITE[w] in qw and w not in qw:
+            return f"{w}/{_OPPOSITE[w]}"
+    return None
+
+
 class CitationVerifier:
     """Run a judge over an answer, then enforce the verbatim-quote invariant."""
 
@@ -413,6 +439,8 @@ class CitationVerifier:
             self._repoint_citation(cv, context)
             cv.valid_quote = self._quote_in_source(cv, context)
             cv.numeric_ok = self._numeric_in_source(cv, context)
+            if self.config.direction_check and cv.verdict in (SUPPORTED, PARTIAL):
+                cv.direction_ok = direction_flip(cv.claim, cv.quote) is None
             # A claim asserted as supported is downgraded if either invariant fails:
             # the supporting quote isn't actually in the cited source, or the claim
             # asserts a figure that does not appear in the cited source (a numeric
@@ -421,6 +449,7 @@ class CitationVerifier:
             # whose quote/figures actually check out, else it is unverifiable.
             if cv.verdict in (SUPPORTED, PARTIAL) and (
                 cv.citation is None or not cv.valid_quote or not cv.numeric_ok
+                or not cv.direction_ok
             ):
                 cv.verdict = UNSUPPORTED
             # A contradiction must point at the refuting evidence; "contradicted

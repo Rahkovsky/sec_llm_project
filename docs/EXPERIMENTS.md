@@ -1642,3 +1642,65 @@ so the differences are not noise. Prompt processing on the M1 Pro is compute-bou
 
 **Decision.** Keep the default. The way to cut prompt time is fewer prompt tokens: shorter
 chunks or fewer of them in the answer and judge prompts, or a smaller judge (S4).
+
+### 20.9 Q4/S4: planted errors. The judge misses polarity flips; a direction check and a smaller judge
+
+**Question.** v6 marks 908 of 911 claims SUPPORTED, and a 40-claim hand check agrees (§20.6).
+That shows the judge rarely rejects good claims. It says nothing about whether it catches bad
+ones. Would `qwen3:14b` catch a wrong claim, and would a smaller judge (S4) do as well?
+
+**Lab.** `tools/judge_mutants.py` takes 81 random v6 answers and plants one error in a cited,
+non-meta sentence of each, 27 of each kind:
+- **figure:** an amount (`$` or a unit such as %, million or years) scaled by 1.3;
+- **direction:** increased ↔ decreased, higher ↔ lower, favorable ↔ unfavorable, …;
+- **negation:** "not" added after is/was/will/may/could/….
+
+The figure and direction mutants were read by hand. An early version also changed dates and
+names ("December 31", "10b5-1") and was fixed to change amounts only. `tools/judge_lab.py`
+re-judges the mutants and the unchanged originals with the v6 settings (verdicts format, quote
+and figure checks). For `qwen3:14b` on the originals the v6 production verdicts are used.
+`gemma4:12b` could not be tested: the pipeline refuses a judge that is the same model as the
+generator.
+
+| Judge | Caught, judge alone | Caught, with the quote/figure checks | figure / direction / negation | Correct sentences failed | Judge s/answer |
+|---|---|---|---|---|---|
+| qwen3:14b (prod) | 44/81 (54%) | 54/81 (67%) | 27 / **9** / 18 (of 27) | 0/337 | 32 |
+| qwen3:8b | 29/81 (36%) | 49/81 (60%) | 27 / **5** / 17 | 1/337 | **18** |
+
+All misses are real passes: the judge saw the planted claim and called it SUPPORTED. Figures
+are safe because of the figure check, which catches every one; `qwen3:14b` alone misses 10 of
+27. Direction flips are the blind spot. The judge often returns a quote that says the
+opposite, for example:
+
+> **Claim:** "ADI faces intense competition …, which it expects to **decrease**" — SUPPORTED, with
+> **Quote:** "we expect this competition to **increase** in the future"
+
+**The direction check** (`verification.direction_check`, `verifier.direction_flip`) compares
+the claim with its own quote. It fails a supported claim that uses a direction word whose
+opposite is in the quote while the word itself is not. It is mechanical, like the figure
+check, and needs no model call. `tools/polarity_lab.py` measures it:
+
+| | qwen3:14b | qwen3:8b |
+|---|---|---|
+| Direction flips the judge passed, now caught | 12 of 18 | 15 of 22 |
+| Planted errors caught, with all checks | **69/81 (85%)** | **68/81 (84%)** |
+| v6 SUPPORTED claims it fails | **0 of 903** | – |
+
+A negation counterpart (compare negation counts between the claim and the quote) does not work.
+It fails 40 of 903 correct claims (4.4%), because quotes are longer than claims and carry their
+own "not limited to" and "cannot be predicted". It catches only 3 of the 9 negations the judge
+passed. About a third of planted negations ("records reserves when it is **not** probable …")
+therefore still pass, and so do direction flips whose quote covers only the other half of the
+sentence.
+
+**S4.** With the checks, `qwen3:8b` catches as many planted errors as `qwen3:14b` (68 vs 69)
+and passes the same correct sentences, apart from one claim it returned without a quote. It
+needs 18 s per answer instead of 32 (−44%). Judged alone it is clearly weaker (36% vs 54%),
+so the mechanical checks carry it. This test covers only planted single-word errors, not the
+subtler partial or wrong-period claims of §20.6. A full run is needed before the judge is
+switched.
+
+**Decision.** `config/local_16gb_v7.yaml` = v6 + `direction_check`. It changes nothing on the
+v6 outputs (0 flags) and catches 12 of the 18 flips the judge passed, so it needs no new run.
+Next: a full run with `qwen3:8b` as judge (v7-8b), to compare clean answers, the labels and
+the time against v6.
