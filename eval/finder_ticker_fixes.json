@@ -1,0 +1,30 @@
+{
+ "_about": "FinDER ticker labels found wrong (docs/EXPERIMENTS.md \u00a719). The question or its gold passage is about the 'correct' company; the label came from an abbreviation in the question. finder_semantic_fixed.json and gold_plus_placebo_fixed.json are the originals with these three changes; the originals stay unchanged so earlier runs remain comparable.",
+ "fixes": [
+  {
+   "id": "finder_0086",
+   "label": "IP",
+   "correct": "REGN",
+   "why": "'IP' means intellectual property; the question and the gold passage are Regeneron's"
+  },
+  {
+   "id": "finder_0159",
+   "label": "CE",
+   "correct": "CEG",
+   "why": "the question names Constellation Energy (CEG) but writes '(CE)', which is Celanese"
+  },
+  {
+   "id": "finder_0212",
+   "label": "IT",
+   "correct": "JBHT",
+   "why": "'IT' means information technology; the question names JBHT and the gold passage is J.B. Hunt's"
+  }
+ ],
+ "unresolved": [
+  {
+   "id": "finder_0145",
+   "label": "IT",
+   "why": "no company can be read from the question ('MC's ... ticker in focus'); left unchanged"
+  }
+ ]
+}

@@ -93,8 +93,9 @@ every earlier retrieval change. **Cost:** an hour or two of compute per lab.
 - **The dropped-qualifier label overstates.** The 13 questions labelled "dropped qualifier" come
   from a lexical flag; hand labels find only 2 real drops among 22 flags. A held-out label set
   for the judge check (issue #3) would let the report count real drops automatically.
-- **FinDER ticker labels.** Three are wrong (§18). Publish a corrected copy of the eval file
-  (`eval/gold_plus_placebo_v2.json`) and keep the original for comparability.
+- **FinDER ticker labels.** Three are wrong (§19). *Done (Nov 15):* `eval/finder_ticker_fixes.json`
+  lists them; `eval/gold_plus_placebo_fixed.json` and `eval/finder_semantic_fixed.json` are the
+  corrected copies; the originals are kept for comparability.
 - **Judge agreement.** Every support number comes from one judge (`qwen3:14b`). Re-judge a
   sample of 300 claims with a second model and with hand labels, to know the judge's error rate
   before the next prompt change is decided on a few points of support.
