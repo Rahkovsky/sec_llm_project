@@ -17,6 +17,12 @@ Variants (all over the same 60-chunk pool):
 Rerankers: minilm (ms-marco-MiniLM-L-6-v2), bge (bge-reranker-v2-m3),
 qwen (Qwen3-Reranker-0.6B). Scores are cached in out/rerank/scores_<m>.json.
 
+``--rerank-query`` sets what the cross-encoder compares each chunk with (issue #5): the
+terse question (``q``, the original lab), the company-blind HyDE passage (``hyde``), or the
+question followed by the HyDE passage (``q+hyde``). Rerankers trained on web queries scored
+the terse FinDER questions poorly; the HyDE passage reads like the filing text it should match.
+Variant names and score caches carry the suffix (e.g. ``rr_bge@q+hyde``).
+
     python tools/rerank_lab.py --index data/sec_index_v3 --rerankers minilm qwen bge
     python tools/rerank_lab.py --cases eval/synth_claude.json ...
 """
@@ -64,6 +70,7 @@ def main() -> int:
     ap.add_argument("--split", default="all")
     ap.add_argument("--model", default="gemma4:12b", help="HyDE cache (company-blind)")
     ap.add_argument("--rerankers", nargs="+", default=["minilm", "qwen", "bge"])
+    ap.add_argument("--rerank-query", nargs="+", default=["q"], choices=["q", "hyde", "q+hyde"])
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
 
@@ -111,21 +118,26 @@ def main() -> int:
         rows.append({"id": c["id"], "variant": "prod", "hit": 0 < r <= K, "rr": 1 / r if r else 0.0})
 
     # Pass 2: one reranker at a time (memory), cached scores.
-    for m in args.rerankers:
-        cpath = OUT / f"scores_{m}.json"
+    def rerank_query(c: dict, mode: str) -> str:
+        hyde = blind[c["id"]]["hyde"]
+        return {"q": c["question"], "hyde": hyde, "q+hyde": f"{c['question']}\n\n{hyde}"}[mode]
+
+    for m, qmode in [(m, qm) for m in args.rerankers for qm in args.rerank_query]:
+        tag = m if qmode == "q" else f"{m}@{qmode}"
+        cpath = OUT / f"scores_{m}.json" if qmode == "q" else OUT / f"scores_{m}@{qmode}.json"
         cache = json.loads(cpath.read_text()) if cpath.exists() else {}
         model, t0, n_new = None, time.time(), 0
         for j, (c, meta, emb, _s, pool, rel) in enumerate(work, 1):
             need = [i for i in pool if f"{c['id']}|{meta[i]['id']}" not in cache]
             if need:
                 model = model or scorer(m)
-                got = model(c["question"], [meta[i]["text"] for i in need])
+                got = model(rerank_query(c, qmode), [meta[i]["text"] for i in need])
                 for i, sc in zip(need, got, strict=True):
                     cache[f"{c['id']}|{meta[i]['id']}"] = float(sc)
                 n_new += len(need)
             if j % 25 == 0:
                 cpath.write_text(json.dumps(cache))
-                print(f"  {m}: {j}/{len(work)} questions, {n_new} pairs scored "
+                print(f"  {tag}: {j}/{len(work)} questions, {n_new} pairs scored "
                       f"({time.time() - t0:.0f}s)", flush=True)
             sc = np.full(len(meta), -1e9, dtype=np.float32)
             for i in pool:
@@ -137,8 +149,9 @@ def main() -> int:
             dense_rank = {i: k for k, i in enumerate(pool, 1)}
             rr_rank = {i: k for k, i in enumerate(by_rr, 1)}
             fused = sorted(pool, key=lambda i: -(1 / (60 + dense_rank[i]) + 1 / (60 + rr_rank[i])))
-            for name, lst in ((f"rr_{m}", by_rr[:K]), (f"rr_{m}_mmr", mmr_on(scaled, emb, pool)),
-                              (f"rrf_{m}", fused[:K])):
+            for name, lst in ((f"rr_{tag}", by_rr[:K]),
+                              (f"rr_{tag}_mmr", mmr_on(scaled, emb, pool)),
+                              (f"rrf_{tag}", fused[:K])):
                 r = rank_of(lst, rel)
                 rows.append({"id": c["id"], "variant": name, "hit": 0 < r <= K,
                              "rr": 1 / r if r else 0.0})
@@ -146,7 +159,7 @@ def main() -> int:
         del model
         if torch.backends.mps.is_available():
             torch.mps.empty_cache()
-        print(f"  {m}: done, {n_new} new pairs in {time.time() - t0:.0f}s", flush=True)
+        print(f"  {tag}: done, {n_new} new pairs in {time.time() - t0:.0f}s", flush=True)
 
     df = pd.DataFrame(rows)
     piv = df.pivot_table(index="id", columns="variant", values=["hit", "rr"])
@@ -161,7 +174,8 @@ def main() -> int:
                     "W/L": f"{int((dh > 0).sum())}/{int((dh < 0).sum())}"})
     pd.set_option("display.width", 200)
     tab = pd.DataFrame(res).set_index("variant").sort_values("Hit@8", ascending=False).round(3)
-    stem = f"{index.name}_{Path(args.cases).stem}"
+    qtag = "" if args.rerank_query == ["q"] else "_" + "-".join(args.rerank_query)
+    stem = f"{index.name}_{Path(args.cases).stem}{qtag}"
     txt = (f"{index} {Path(args.cases).stem}: scorable {len(piv)}; pool = top {POOL} by "
            f"mean cos(question, company-blind HyDE); Delta vs prod (MMR lambda {LAM})\n\n"
            + tab.to_string())
