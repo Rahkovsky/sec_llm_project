@@ -1426,3 +1426,51 @@ asserting the premise.
 
 **Decision.** On in v6. It turns about 12 of 23 refusals into grounded, cited answers at
 ~30 s each, without a new placebo failure. The full v6 run measures it on all 266.
+
+### 20.5 S2: claims copied from the filing could skip the judge (lab only)
+
+**Question.** Many claims repeat a sentence of the cited passage almost word for word. If such a
+claim were marked supported without a model call, how much judge time would that save, and
+would any wrong claim slip through?
+
+**Rule** (`tools/copy_skip_lab.py`): a claim counts as copied when one sentence of a passage
+the answer cites (or two adjacent sentences that each hold a quarter of the claim's words)
+contains
+
+* at least *c* of the claim's content words,
+* every figure of the claim, in the same order of first appearance,
+* the same hedge, negation and direction words, with the same counts (`may`, `not`,
+  `approximately`, `increased`/`decreased`, `higher`/`lower`, …),
+* each of those words next to the same neighbouring word as in the claim, and each figure
+  next to both of its neighbours ("will not be" is not backed by a neighbouring "did not
+  recognize"; "$2,811 billion" is not backed by "2,811 MWs").
+
+Claims with fewer than four content words never count as copied.
+
+**Adversarial test.** Every copied claim the judge supported was mutated: a hedge dropped
+(`may`, `could`), a negation added or dropped, increased/decreased or higher/lower swapped,
+two figures swapped, one digit changed. The first version of the rule, which compared hedge
+words as a set across a two-sentence window, accepted 30 of 274 mutants. Counting the words,
+requiring each sentence of a pair to contribute, and checking word and figure context brought
+it to **0 of 228**.
+
+**Result on v5** (209 answered questions, 901 judged claims, no model calls):
+
+| Min. word coverage | Claims that skip the judge | Of those, judge did not support | Hand label of those | Answers with no judge call |
+|---|---|---|---|---|
+| 1.00 | 119 (13%) | 2 | 2 supported | 4 |
+| 0.95 | 138 (15%) | 2 | 2 supported | 5 |
+| 0.90 | 221 (25%) | 3 | 3 supported | 9 |
+| 0.85 | 292 (32%) | 3 | 3 supported | 18 |
+
+No wrong claim is skipped. The few skipped claims the judge did not support are judge or
+quote-check errors (§20.3), so skipping them is if anything more accurate.
+
+**What it saves.** Little. The judge is called once per answer (§20.2), so time is saved only
+in the verdicts it no longer writes (~10 output tokens per claim) and, for 4–9% of answers,
+the whole call (~34 s). That is roughly 4–7 s per question at c = 0.85–0.90, about 5% of a
+verified answer. The rule would pay off more with the per-claim judge formats.
+
+**Decision.** Not built into the pipeline yet. It is safe enough (0 false accepts, 0 of 228
+mutants), but the saving is small. Check it once more on the v6 outputs, which store the
+judge's own verdict, before deciding.
