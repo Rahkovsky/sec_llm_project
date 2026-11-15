@@ -1474,3 +1474,60 @@ verified answer. The rule would pay off more with the per-claim judge formats.
 **Decision.** Not built into the pipeline yet. It is safe enough (0 false accepts, 0 of 228
 mutants), but the saving is small. Check it once more on the v6 outputs, which store the
 judge's own verdict, before deciding.
+
+### 20.6 Full v6 run: 156 → 209 clean answers
+
+`config/local_16gb_v6.yaml` = v5 + the fixed quote check (§20.3) + the compact verdicts-only
+judge (§20.2) + one retry for meta-only answers (§20.4) + pruning of unsupported sentences
+(§20.1). All 266 questions, `--workers 8`, `out/provenance_16gb_v6` (6 h 48 min).
+
+| 266 questions | v5 | **v6** |
+|---|---|---|
+| Answered | 209 | **240** |
+| Clean (of 260 FinDER) | 156 | **209** |
+| Claim support (meta excluded) | 0.940 | **0.993** |
+| Claims per answer | 4.31 | 3.8 |
+| Label: unsupported claims | 31 | **0** |
+| Label: abstained by gate/judge | 26 | 9 |
+| Label: retrieval miss → abstained | 25 | 13 |
+| Label: dropped qualifier (lexical flag) | 13 | 24 |
+| Dropped qualifiers, judge-checked | 2 | 0 (9 answers repaired) |
+| Partial support | 1 | 3 |
+| Wrong-period evidence | 3 | 2 |
+| Placebos: premise not asserted (judge-checked) | 6/6 | 6/6 |
+| Model compute per question | 100 s | **79 s** (judge 60 → 34 s; retry +5 s on average) |
+
+**Where the 53 extra clean answers come from** (label transitions v5 → v6): 26 "unsupported
+claims" → clean (the quote fix: these were judge-supported claims whose quote the old check
+rejected, §20.3); 30 refusals → clean (16 by the gate or judge, 14 after a retrieval miss), 17
+of them through the meta-only retry; 8 lexical "dropped qualifier" → clean. Against that, 10
+clean → lexical "dropped qualifier" and 6 clean → other labels. With ~11% run-to-run churn
+(§7), the net +53 is far outside noise.
+
+**Is the compact judge too lenient?** v6 has no UNSUPPORTED claim at all (908 supported, 3
+partial). Pruning removed only 4 sentences in 4 answers, so the zero is not pruning's work.
+I hand-labelled a random sample of 40 v6 claims against the full cited passages (seed 7): 39
+supported, 1 partial, and the judge agrees on all 40. The known wrong answer of v5
+(finder_0022, swapped percentages) is marked PARTIAL in v6. The zero reflects the quote fix
+and better answers, not a blind judge; the 95% interval on the sample's agreement still
+allows a few percent of misses, which the judge-agreement study (Q4) should pin down.
+
+**The 30 new answers are not all full answers.** 17 of them cover the FinDER gold passage. The
+other 12 (retrieval missed the gold passage; most went through the retry) state what the
+retrieved excerpts say about the topic and say what they do not cover. They are grounded and
+honest, but partial: "clean" means every claim is supported, not that the question is fully
+answered.
+
+**The lexical qualifier flag rose (13 → 24 answers) without real drops.** Of its 37 flagged
+claims, 7 are one answer's bullet list under the lead-in "Cybersecurity events may result
+in:", whose bullets inherit the "may"; most others omit a hedged part the claim does not repeat
+("actual and potential acquisition activity" → "cash balances and cash flows"). One is a
+borderline drop (finder_0119, "potentially material issue" → "material issues"). The judge
+check finds none. The flag counts list items and omissions as drops; it remains a proxy.
+
+**Placebos.** The report's strict counter says 4/6 refused, because two placebo answers refuse
+in prose instead of abstaining (Microsoft's proxy statement is not in the index; Amazon has no
+daily AWS revenue, and the answer gives the quarterly figures instead). The judge-based check
+(`tools/placebo_check.py`) finds that none of the 6 asserts the false premise.
+
+**Decision.** v6 is the recommended config.
