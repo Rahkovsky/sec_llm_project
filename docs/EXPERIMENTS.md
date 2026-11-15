@@ -1475,6 +1475,12 @@ verified answer. The rule would pay off more with the per-claim judge formats.
 mutants), but the saving is small. Check it once more on the v6 outputs, which store the
 judge's own verdict, before deciding.
 
+**Recheck on v6** (`out/provenance_16gb_v6`, 911 judged claims): 26.2% / 33.7% of claims
+count as copied at c = 0.90 / 0.85. All of them are judge-SUPPORTED, and 0 of 240 mutants
+pass. Only 17 / 25 of 240 answers (7–10%) would skip the judge call entirely, which saves
+about 2.5–3.5 s per question on top of the unwritten verdicts. The rule stays out of the
+pipeline; it is safe but not worth the extra code path.
+
 ### 20.6 Full v6 run: 156 → 209 clean answers
 
 `config/local_16gb_v6.yaml` = v5 + the fixed quote check (§20.3) + the compact verdicts-only
@@ -1531,3 +1537,56 @@ daily AWS revenue, and the answer gives the quarterly figures instead). The judg
 (`tools/placebo_check.py`) finds that none of the 6 asserts the false premise.
 
 **Decision.** v6 is the recommended config.
+
+### 20.7 Q3: rerank against the HyDE passage (issue #5)
+
+**Question.** §13 found that every cross-encoder lowered Hit@8. The untested explanation was
+that the rerankers saw only the terse FinDER question, while the dense stage also uses the
+company-blind HyDE passage, which is worded like a filing. Do the rerankers help when they
+see the HyDE passage?
+
+**Lab.** `tools/rerank_lab.py --rerank-query q hyde q+hyde` on the v4 index, dev split. The
+pool is the same 60 production candidates. The cross-encoder compares each chunk with the
+question alone (`q`, as in §13), with the HyDE passage alone (`@hyde`), or with the question
+followed by the passage (`@q+hyde`). 122 questions are scorable, and the gold passage is in the
+pool for 108 of them, so 0.885 is the ceiling. At batch 16 the HyDE-length inputs ran the
+M1's GPU out of memory, so the rerankers now score in batches of 4. bge@hyde took about 7 s per
+question and Qwen about 15 s.
+
+| Variant (dev, 122) | Hit@8 | MRR@8 | ΔHit [95% CI] | W/L |
+|---|---|---|---|---|
+| **prod (dense + HyDE + MMR)** | **0.795** | 0.542 | – | – |
+| rrf_qwen@hyde | 0.738 | 0.533 | −0.057 [−0.115, 0.000] | 3/10 |
+| rrf_minilm@hyde | 0.721 | **0.562** | −0.074 [−0.139, −0.016] | 3/12 |
+| rrf_qwen@q+hyde | 0.713 | 0.489 | −0.082 [−0.148, −0.016] | 3/13 |
+| rrf_qwen (question only) | 0.705 | 0.490 | −0.090 [−0.156, −0.025] | 3/14 |
+| rr_qwen@hyde_mmr | 0.705 | 0.450 | −0.090 [−0.164, −0.016] | 6/17 |
+| rr_qwen@hyde | 0.672 | 0.421 | −0.123 | 5/20 |
+| rr_bge@hyde | 0.590 | 0.367 | −0.205 | 3/28 |
+| rr_bge (question only) | 0.533 | 0.333 | −0.262 | 3/35 |
+
+Effect of the reranker's query (Hit@8, reranker alone / fused with the dense rank):
+
+| Reranker | question | HyDE | question + HyDE |
+|---|---|---|---|
+| MiniLM | 0.541 / 0.672 | **0.631 / 0.721** | 0.598 / 0.713 |
+| bge-reranker-v2-m3 | 0.533 / 0.656 | **0.590 / 0.680** | 0.549 / 0.664 |
+| Qwen3-Reranker-0.6B | 0.631 / 0.705 | **0.672 / 0.738** | 0.623 / 0.713 |
+
+All 28 variants are in `out/rerank/sec_index_v4_finder_semantic_q-hyde-q+hyde.txt`.
+
+**Reading.** Half of the hypothesis holds. The HyDE passage is a better reranker query than
+the question for every model: +0.04 to +0.09 Hit@8 alone and +0.02 to +0.05 fused. The
+question plus the passage falls in between, so the terse question adds noise. Even so, no
+variant beats production. The best, RRF of the dense rank and Qwen@HyDE, is 0.057 lower, and
+its interval only reaches zero. It wins 3 questions and loses 10. Among the 25 questions
+production misses, some variant ranks the gold passage into the top 8 for 10. No single
+variant fixes more than 6 of them, and each loses more than it fixes. rrf_minilm@hyde has a
+slightly higher MRR than production (0.562 vs 0.542) but a lower Hit@8. When it finds the
+passage it ranks it higher, but it finds it less often. Another reason the rerankers may lose:
+the dense score uses the question and the HyDE passage together, and MMR spreads the eight
+picks, while a pure reranker top 8 often holds near-duplicates from one section.
+
+**Decision.** No reranker in the pipeline. The test split was not run, because nothing won
+on dev. Rerankers are dropped for FinDER-style questions. The remaining Q3 ideas (several
+HyDE passages, a larger MMR pool) work in the dense stage.

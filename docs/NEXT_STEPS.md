@@ -78,8 +78,10 @@ question rather than the HyDE passage.
 
 **Ideas, in order of cost:**
 
-1. **Rerank against the HyDE passage** (issue #5): give the cross-encoder the question plus the
-   company-blind HyDE text. This is a change to `tools/rerank_lab.py` and runs on the retrieval step alone, which is deterministic.
+1. ~~**Rerank against the HyDE passage** (issue #5)~~ **Done, negative** (EXPERIMENTS §20.7):
+   HyDE is a better reranker query than the question for all three models (+0.04–0.09 Hit@8),
+   but no variant beats production. The best (RRF with Qwen@HyDE) is −0.057 on dev. Rerankers
+   are dropped.
 2. **Several HyDE passages:** generate 2–3 passages in different styles (risk factor, MD&A,
    notes to the financial statements) and average or fuse their rankings. FinDER answers sit in
    different sections, and one passage commits to one of them.
@@ -160,5 +162,5 @@ claim verdicts. On a 32 GB machine both models also stay loaded, which removes t
 | S1 compact judge output | Largest speed gain; the re-judging set also serves S2 and S4 | ~1 h |
 | Q4 judge-agreement sample | Needed before trusting the next small quality differences | ~1 h + hand labels |
 | Q1 quote-first answering | Largest remaining quality gap (26 + part of 32 questions) | ~4 h |
-| Q3-1 rerank against HyDE | Cheapest untried retrieval idea | ~2 h |
+| ~~Q3-1 rerank against HyDE~~ | Done: no gain (§20.7) | ~2 h |
 | Full 266 run of the winners | Confirms on the whole set | ~6–7 h with S1 |
