@@ -86,7 +86,10 @@ question rather than the HyDE passage.
 2. **Several HyDE passages:** generate 2–3 passages in different styles (risk factor, MD&A,
    notes to the financial statements) and average or fuse their rankings. FinDER answers sit in
    different sections, and one passage commits to one of them.
-3. **Larger candidate pool for MMR** (60 → 120) and a lab sweep of λ on the full index.
+3. ~~**Larger candidate pool for MMR** (60 → 120) and a lab sweep of λ~~ **Done, no change**
+   (EXPERIMENTS §20.11): at λ 0.85 a pool above 60 changes no list, and no λ beats 0.85 on
+   dev. MMR is still worth +0.06 (dev) / +0.09 (test) over the plain top 8. The 14 dev gold
+   chunks below dense rank 60 need a better query, not a different selection.
 
 **Measure.** Paired retrieval labs with bootstrap CIs on dev, confirmed once on test, as for
 every earlier retrieval change. **Cost:** an hour or two of compute per lab.
@@ -148,9 +151,11 @@ provider.
 
 ### S4. Smaller judge (large saving, quality risk)
 
-**Measured** (EXPERIMENTS §20.9): with the figure and direction checks, `qwen3:8b` catches 68 of
-81 planted errors against 69 for `qwen3:14b`, at 18 s instead of 32 s per answer. Next: a full
-run with it as judge.
+**Done** (EXPERIMENTS §20.9–20.10): with the figure and direction checks, `qwen3:8b` catches 68 of
+81 planted errors against 69 for `qwen3:14b`. The full run gives 206 clean answers against v6's
+209 (within noise), the same support and placebos, and 63 s of model time per question instead
+of 81. `config/local_16gb_v7_8b.yaml` is now the recommended configuration. Its qualifier check
+is not measurably weaker on the 14 hand-labelled drops (5 vs 6 found), but that set is small.
 
 A judge of about 8B parameters would roughly double generation speed and fit next to the answer
 model. It is only acceptable if it agrees with `qwen3:14b` and the hand labels on the claim sample
@@ -173,4 +178,6 @@ claim verdicts. On a 32 GB machine both models also stay loaded, which removes t
 | Q4 judge-agreement sample | Needed before trusting the next small quality differences | ~1 h + hand labels |
 | Q1 quote-first answering | Largest remaining quality gap (26 + part of 32 questions) | ~4 h |
 | ~~Q3-1 rerank against HyDE~~ | Done: no gain (§20.7) | ~2 h |
+| ~~Q3-3 MMR pool and λ~~ | Done: no change (§20.11) | minutes |
+| ~~S4 smaller judge~~ | Done: `qwen3:8b` adopted, v7-8b (§20.10) | ~5 h |
 | Full 266 run of the winners | Confirms on the whole set | ~6–7 h with S1 |

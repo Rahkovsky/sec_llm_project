@@ -1704,3 +1704,66 @@ switched.
 v6 outputs (0 flags) and catches 12 of the 18 flips the judge passed, so it needs no new run.
 Next: a full run with `qwen3:8b` as judge (v7-8b), to compare clean answers, the labels and
 the time against v6.
+
+### 20.10 Full v7-8b run: the 8B judge holds at 22% less model time
+
+`config/local_16gb_v7_8b.yaml` is v6 plus the direction check (§20.9) with `qwen3:8b` as judge
+(and so as qualifier checker). Same 266 questions, same `--workers 8`. Output:
+`out/provenance_16gb_v7_8b/` (`report.txt`, `placebo.txt`).
+
+| | v6 (`qwen3:14b` judge) | v7-8b (`qwen3:8b` judge) |
+|---|---|---|
+| Answered (of 266) | 240 | 240 |
+| Clean answers (of 260) | 209 | 206 |
+| Claim support rate | 0.993 | 0.994 |
+| Weighted claim error | 0.010 | 0.012 |
+| Placebos: false premise not asserted | 6 of 6 | 6 of 6 |
+| Lexically hardened qualifiers (proxy) | 37 | 45 |
+| Answers repaired by the qualifier check | 9 | 4 |
+| Judge time per question | 34.2 s | **17.8 s** |
+| Model time per question (mean / median) | 80.6 / 72.3 s | **62.7 / 58.2 s** |
+
+The answers come from the same generator. Between the two runs 20 of 260 questions change
+label in either direction (13 clean → "dropped qualifiers", 6 the other way, the rest
+abstention swaps), which is within the ~11% churn of identical runs (issue #4). The direction
+check fired on 0 of 1,210 claims: the generator rarely flips a direction itself, so the check
+guards against the judge, as designed.
+
+The weaker qualifier check is the one plausible cost. The checker runs on the judge model, and
+the 8B model repaired 4 answers against 9. On the 73 hand-labelled v3 claims
+(`tools/qualifier_lab.py`, `out/qualifier_lab_8b.txt`) it finds 5 of the 14 real drops, with
+7 false alarms. `qwen3:14b` found 6 of 14 with 5. The difference is one item on 14 positives,
+so these labels cannot separate the two checkers. The lexical proxy that went from 37 to 45 is
+right about a fifth of the time (§11), so the rise is about 1–2 real drops.
+
+**Decision.** v7-8b replaces v6 as the recommended configuration and the demo API default. It
+gives the same quality within run noise for 22% less model time, mostly from the judge
+(−48%). The judge is weaker on its own (§20.9: 36% vs 54% of planted errors), so the figure
+and direction checks are part of the configuration, not optional. The planted negations it
+misses (§20.9) remain the main open risk.
+
+### 20.11 Q3-3: the MMR pool and λ are already at their best
+
+§6 chose MMR with λ 0.85 over a 60-chunk pool before HyDE existed and on an older index.
+`tools/pool_lab.py` reruns the choice on the production scoring (mean cosine of the question
+and the company-blind HyDE passage, v4 index). It sweeps pools of 30–200 and λ 0.75–1.0
+(1.0 = plain top 8), paired against production with bootstrap CIs. Output: `out/pool/`.
+
+| Variant | Dev Hit@8 (122) | ΔHit dev [95% CI] | Test Hit@8 (127) | ΔHit test |
+|---|---|---|---|---|
+| Prod: pool 60, λ 0.85 | **0.795** | – | 0.756 | – |
+| Pool 90/120/200, λ 0.85 | 0.795 | 0.000 (identical lists) | 0.756 | 0.000 |
+| Pool 30, λ 0.85 | 0.795 | 0.000 (1/1) | 0.772 | +0.016 [0.000, +0.039] (2/0) |
+| Best other λ (0.75, pool 90) | 0.787 | −0.008 [−0.057, +0.041] | 0.748 | −0.008 |
+| λ 0.90 / 0.95 | 0.770–0.779 | −0.016 to −0.025 | 0.717–0.724 | −0.031 to −0.039 |
+| Plain top 8 (λ 1.0) | 0.738 | −0.057 [−0.098, −0.016] | 0.669 | −0.087 [−0.150, −0.024] |
+
+The production row reproduces dev Hit@8 0.795. A pool larger than 60 changes no list at
+λ 0.85, because MMR at that λ never reaches beyond the 60th chunk. MMR itself is still worth
++0.06 (dev) to +0.09 (test) over the plain top 8, both CIs above zero. Pool 30 gains two test
+questions, but nothing on dev, so the rule (choose on dev, confirm on test) does not adopt it.
+
+The gold chunk's dense rank explains why tuning the selection is exhausted. On dev, 90 of 122
+are in the top 8 and another 13 are at 9–30. The 14 below rank 60 are out of reach of any pool
+that MMR uses at this λ, and the 7 below rank 200 need a different query, not a different
+selection. **Decision:** keep pool 60, λ 0.85.

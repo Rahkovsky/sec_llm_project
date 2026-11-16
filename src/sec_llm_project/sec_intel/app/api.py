@@ -14,7 +14,7 @@ requests only enqueue. A question is submitted, then polled or streamed:
 Fast mode skips the judge (no claim verdicts, no refusal on weak support); verified mode
 runs it. Expected times are rolling medians of each stage's measured duration.
 
-    SEC_API_KEY=... sec-intel serve --config config/local_16gb_v6.yaml
+    SEC_API_KEY=... sec-intel serve --config config/local_16gb_v7_8b.yaml
 """
 
 from __future__ import annotations
@@ -387,7 +387,7 @@ def create_app(pipeline: Any = None, *, config_path: str | None = None,
     async def lifespan(app: FastAPI):
         pipe = pipeline
         if pipe is None:
-            pipe = (build_pipeline or _build_pipeline)(config_path or "config/local_16gb_v6.yaml")
+            pipe = (build_pipeline or _build_pipeline)(config_path or "config/local_16gb_v7_8b.yaml")
         svc = QAService(pipe, JobStore(db_path))
         svc.start()
         state["svc"] = svc

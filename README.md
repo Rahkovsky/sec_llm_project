@@ -240,20 +240,26 @@ Two measures matter most:
 
 ### Results
 
-| | Start (v1) | v5 | Now (v6) |
-|---|---|---|---|
-| Hit@8 on the development questions | 0.36 | 0.79 | **0.79** |
-| Questions answered (of 266) | 82 | 209 | **240** |
-| Clean answers (of 260) | 31 | 156 | **209** |
-| Share of claims the judge marks supported | 0.76 | 0.94 | **0.99** |
-| Placebo questions: false premise not asserted | 6 of 6 | 6 of 6 | 6 of 6 |
-| Model time per question | – | 100 s | **79 s** |
+| | Start (v1) | v5 | v6 | Now (v7-8b) |
+|---|---|---|---|---|
+| Hit@8 on the development questions | 0.36 | 0.79 | 0.79 | **0.79** |
+| Questions answered (of 266) | 82 | 209 | 240 | **240** |
+| Clean answers (of 260) | 31 | 156 | 209 | **206** |
+| Share of claims the judge marks supported | 0.76 | 0.94 | 0.99 | **0.99** |
+| Placebo questions: false premise not asserted | 6 of 6 | 6 of 6 | 6 of 6 | 6 of 6 |
+| Model time per question | – | 100 s | 79 s | **63 s** |
 
 v6 adds a fixed quote check (most of v5's "unsupported" claims were correct claims whose
 quote the old check rejected), a judge that writes only verdicts (half the judge time), and
 one retry when an answer only says what the excerpts lack. A hand check of 40 random v6 claims
 agreed with the judge on all 40. Some of the new answers are partial: they report what the
 filings say about the topic and name what they do not cover ([§20](docs/EXPERIMENTS.md)).
+
+v7-8b adds a mechanical direction check (a supported claim fails if its quote says the
+opposite: "increase" against "decrease") and replaces the `qwen3:14b` judge with `qwen3:8b`.
+With the figure and direction checks the smaller judge catches as many planted errors (68 vs 69
+of 81). On the full run it matches v6 within run-to-run noise (206 vs 209 clean) and the judge
+needs half the time ([§20.9–20.10](docs/EXPERIMENTS.md)).
 
 ![Main outcome per question, by version](docs/figures/error_sources.svg)
 
@@ -289,15 +295,15 @@ answer model and the judge do not fit in memory together, so Ollama loads one at
 # install the package with the embedder, vector store and EDGAR client
 uv pip install -e ".[dev,yaml,embeddings,vectorstore,sec]"
 brew install ollama && brew services start ollama
-ollama pull gemma4:12b && ollama pull qwen3:14b
+ollama pull gemma4:12b && ollama pull qwen3:8b
 
 # download filings (the SEC asks every client to identify itself) and build the index
 export SEC_USER_NAME="Your Name" SEC_USER_EMAIL="you@example.com"
-sec-intel --config config/local_16gb_v6.yaml fetch WAT AAPL --forms 10-K 10-Q
-sec-intel --config config/local_16gb_v6.yaml index data/input/10-K data/input/10-Q
+sec-intel --config config/local_16gb_v7_8b.yaml fetch WAT AAPL --forms 10-K 10-Q
+sec-intel --config config/local_16gb_v7_8b.yaml index data/input/10-K data/input/10-Q
 
 # ask
-sec-intel --config config/local_16gb_v6.yaml ask "What does Waters say about its cyber insurance?"
+sec-intel --config config/local_16gb_v7_8b.yaml ask "What does Waters say about its cyber insurance?"
 ```
 
 **Without models:** `sec-intel-mock demo` runs the whole pipeline on a small synthetic corpus with
@@ -315,7 +321,9 @@ Each evaluated version of the system is one config file, so any result can be re
 
 | Config | Version |
 |---|---|
-| `config/local_16gb_v6.yaml` | **Recommended.** v5 plus the compact judge (half the judge time), the fixed quote check, one retry for answers that only describe missing evidence, and pruning of unsupported sentences (§20.6: 209 clean answers, 79 s per question); used by the demo API |
+| `config/local_16gb_v7_8b.yaml` | **Recommended.** v6 plus the direction check, with `qwen3:8b` as judge (§20.10: 206 clean answers, 63 s per question); used by the demo API |
+| `config/local_16gb_v7.yaml` | v6 plus the direction check (`qwen3:14b` judge) |
+| `config/local_16gb_v6.yaml` | v5 plus the compact judge (half the judge time), the fixed quote check, one retry for answers that only describe missing evidence, and pruning of unsupported sentences (§20.6: 209 clean answers, 79 s per question) |
 | `config/local_16gb_v5.yaml` | v4 plus the brevity rule in the answer prompt |
 | `config/local_16gb_v4.yaml` | v3 plus the qualifier rule, qualifier check and repair, and a soft preference for the fiscal year a question names |
 | `config/local_16gb_v3.yaml` | Query-instruction fix, MMR, company-blind HyDE, and the answer-stage fixes |
@@ -325,11 +333,11 @@ Each evaluated version of the system is one config file, so any result can be re
 
 ```bash
 # answer, verify and build a provenance graph for each question (resumable)
-python tools/provenance_dag.py --config config/local_16gb_v6.yaml \
+python tools/provenance_dag.py --config config/local_16gb_v7_8b.yaml \
     --cases eval/gold_plus_placebo.json -n 266 --out out/my_run --workers 8
 # aggregate metrics and the per-question error labels
 python tools/provenance_report.py --out out/my_run \
-    --cases eval/gold_plus_placebo.json --config config/local_16gb_v6.yaml
+    --cases eval/gold_plus_placebo.json --config config/local_16gb_v7_8b.yaml
 ```
 
 A full run takes about 7 hours on an M1 Pro with `--workers 8` (several questions at once,

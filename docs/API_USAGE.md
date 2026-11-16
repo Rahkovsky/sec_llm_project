@@ -98,7 +98,7 @@ The script refuses to start while an evaluation is running (they share the model
 the answer model, starts the API on `127.0.0.1:8000`, publishes it with Tailscale Funnel, and
 prints the address and a new key. It keeps the Mac awake while running. **Ctrl-C** stops the
 API and takes the address offline. Set `SEC_API_KEY` beforehand to reuse a key, and `CONFIG`
-to use another config (default `config/local_16gb_v6.yaml`).
+to use another config (default `config/local_16gb_v7_8b.yaml`).
 
 Only the API is published. Ollama, the Phoenix tracing UI and everything else on the machine
 stay unreachable from outside, and every request except `/v1/health` needs the key. Jobs and

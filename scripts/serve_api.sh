@@ -6,11 +6,11 @@
 #
 # Ctrl-C stops the API and takes the public URL offline. The demo key is printed at
 # start; set SEC_API_KEY beforehand to reuse a key, otherwise a new one is generated.
-# Environment: CONFIG (default config/local_16gb_v6.yaml), PORT (default 8000).
+# Environment: CONFIG (default config/local_16gb_v7_8b.yaml), PORT (default 8000).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-CONFIG="${CONFIG:-config/local_16gb_v6.yaml}"
+CONFIG="${CONFIG:-config/local_16gb_v7_8b.yaml}"
 PORT="${PORT:-8000}"
 PUBLIC=1
 [ "${1:-}" = "--local" ] && PUBLIC=0
