@@ -245,6 +245,7 @@ Two measures matter most:
 | Hit@8 on the development questions | 0.36 | 0.79 | 0.79 | **0.79** |
 | Questions answered (of 266) | 82 | 209 | 240 | **240** |
 | Clean answers (of 260) | 31 | 156 | 209 | **206** |
+| Clean, with hand-labelled qualifiers (of 260) | – | – | 233 | **234** |
 | Share of claims the judge marks supported | 0.76 | 0.94 | 0.99 | **0.99** |
 | Placebo questions: false premise not asserted | 6 of 6 | 6 of 6 | 6 of 6 | 6 of 6 |
 | Model time per question | – | 100 s | 79 s | **63 s** |
@@ -259,7 +260,9 @@ v7-8b adds a mechanical direction check (a supported claim fails if its quote sa
 opposite: "increase" against "decrease") and replaces the `qwen3:14b` judge with `qwen3:8b`.
 With the figure and direction checks the smaller judge catches as many planted errors (68 vs 69
 of 81). On the full run it matches v6 within run-to-run noise (206 vs 209 clean) and the judge
-needs half the time ([§20.9–20.10](docs/EXPERIMENTS.md)).
+needs half the time ([§20.9–20.10](docs/EXPERIMENTS.md)). Hand labels show that almost all of
+the "dropped qualifier" flags in both runs are false. With them, v6 has 233 clean answers and
+v7-8b 234 ([§20.13](docs/EXPERIMENTS.md)).
 
 ![Main outcome per question, by version](docs/figures/error_sources.svg)
 

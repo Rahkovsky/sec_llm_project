@@ -1,0 +1,1183 @@
+{
+ "source": "held-out set for the qualifier check (issue #3): union of qualifier_labels_v4, _v5, _v5_full and _v6v7, deduplicated on claim+evidence. None of these was used to write prompt v2 (written on eval/qualifier_labels.json).",
+ "real": 8,
+ "borderline": 3,
+ "items": [
+  {
+   "id": "finder_0005",
+   "claim": "The excerpts provide information about the complex regulatory and reimbursement environment in Amgen's industry and the need for a highly engaged and committed workforce.",
+   "evidence": "Our industry is subject to a complex regulatory and reimbursement environment. The unique demands of our industry, together with the challenges of running an enterprise focused on the discovery, development, manufacture and commercialization of innovative medicines, requires a highly engaged and committed workforce.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0010",
+   "claim": "Third-Party and Personnel Security: Exelon manages risks from third-party service providers through a dedicated team that leverages security risk assessments, contractual terms, and security awareness training. Additionally, Exelon applies stringent employee and contractor screening and provides annual mandatory security awareness training.",
+   "evidence": "Exelon applies stringent employee and contractor screening, and advances security awareness through training and monitoring programs that address both cyber and physical threats. Exelon employees are subject to annual mandatory training addressing security awareness, including cybersecurity and phishing.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0024",
+   "claim": "Akamai has implemented cybersecurity risk management programs and procedures designed to identify and address threats to both internal and customer-facing data and systems",
+   "evidence": "We have implemented cybersecurity risk management programs and procedures designed to identify and address threats to both internal and customer facing data and systems that are subject to ongoing compliance assessments, certifications and testing.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0039",
+   "claim": "The centralized scale of the corporation provides a 'distinct competitive advantage' to its individual operating businesses",
+   "evidence": "We believe the centralized scale of the corporation provides a distinct competitive advantage to our individual operating businesses",
+   "real": true,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0047",
+   "claim": "\u201cWanna Get Away\u201d fares are generally the lowest and often require advance purchase",
+   "evidence": "\u201cWanna Get Away\u201d fares are generally the lowest fares and are often subject to advance purchase requirements.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0047",
+   "claim": "This is designed to achieve high asset utilization and higher employee productivity",
+   "evidence": "Southwest's route structure includes service to and from many secondary or downtown airports such as Dallas Love Field, Houston Hobby, Chicago Midway, Baltimore-Washington International, Burbank, Manchester, Oakland, San Jose, and Providence. These conveniently located airports are typically less congested than other airlines' hub airports, which has contributed to Southwest's ability to achieve high asset utilization because aircraft can be scheduled to minimize the amount of time they are on the ground. This, in turn, has reduced the number of aircraft and gate facilities that would otherwise be required and is designed to allow for higher Employee productivity over a long period of time.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0049",
+   "claim": "Dividends or other distributions from Principal Life are limited by Iowa law, which requires that such distributions be paid only from earned surplus arising from its business.",
+   "evidence": "Principal Life may pay dividends or make other distributions only from the earned surplus arising from its business",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0049",
+   "claim": "Principal Life must receive prior approval from the Commissioner of Insurance of the State of Iowa to pay stockholder dividends or make any other distribution if the distribution exceeds certain statutory limitations.",
+   "evidence": "must receive the prior approval of the Commissioner of Insurance of the State of Iowa (the \u201cCommissioner\u201d) to pay stockholder dividends or make any other distribution if such distribution would exceed certain statutory limitations",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0055",
+   "claim": "The company disclosed a non-prosecution agreement regarding an investigation into financial misstatements by Evoqua (prior to Xylem's purchase of the company), which resulted in a $8.5 million criminal monetary penalty",
+   "evidence": "On May 13, 2024, Evoqua and the USAO entered into a non-prosecution agreement (the \u201cAgreement\u201d) to resolve the matter. Under the Agreement, Evoqua paid a criminal monetary penalty of $8.5 million.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0056",
+   "claim": "The excerpts describe the components of the compensation programs, including performance-based restricted stock units tied to metrics such as adjusted EPS compound annual growth rate, net sales, EPS growth, and free cash flow.",
+   "evidence": "A recipient of EPS CAGR performance restricted stock/units may earn a total award ranging from 0 % to 200 % of the initial grant. Awards of EPS performance restricted stock/units granted prior to 2022 were earned based upon our achievement of annual earnings per share goals and vested over the relevant three-year period. During the three-year vesting period, a recipient of EPS performance restricted stock/units earned a total award of either 0 % or 100 % of the initial grant. Awards of the strategic performance restricted stock units were earned based upon the achievement of two key metrics, net sales and EPS growth, compared to strategic plan objectives during a three-year period. A recipient of strategic performance restricted stock units earned a total award ranging from 0 % to 200 % of the initial grant. Awards of FCF performance restricted stock units were earned based upon the achievement of free cash flow (defined as Net cash provided by operating activities less capital expenditures and certain investing and financing activities) compared to annual operating plan objectives over a three-year period.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0057",
+   "claim": "The excerpts note the retirement of a director.",
+   "evidence": "On December 15, 2023, Ronald Kuehn notified Kinder Morgan, Inc. (\u201cKMI\u201d) that he will retire from the Company\u2019s Board of Directors (the \u201cBoard\u201d) at the end of his current term and consequently will not stand for re-election to the Board at the Company\u2019s 2024 annual meeting of stockholders in May. Mr. Kuehn\u2019s current term will expire at KMI\u2019s 2024 annual meeting. Mr. Kuehn\u2019s decision to retire is not due to any disagreement with KMI.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0072",
+   "claim": "The excerpts describe the company's cybersecurity risk management program, which includes risk assessments, a dedicated security team, external service provider usage, employee training, and an incident response plan.",
+   "evidence": "Our cybersecurity risk management program includes: \u2022 risk assessments designed to help identify material cybersecurity risks to our critical systems, information, products, services, and our global enterprise IT environment; \u2022 a security team responsible for managing our (1) cybersecurity risk assessment processes, (2) security controls, and (3) response to security breaches and cyberattacks; \u2022 the use of external service providers, where appropriate, to assess, perform tabletop exercises or otherwise assist with aspects of our security controls and designed to anticipate cyberattacks and respond to breaches, including a biennial maturity assessment of our program by an external third-party; \u2022 cybersecurity awareness training of our employees and contractors, incident response personnel, and senior management to help them better understand the issues and risks relative to cybersecurity, as well as data privacy (for our employees); \u2022 Periodically throughout the year, our IT department performs phishing and other exercises to both test our systems and reinforce training of our personnel; \u2022 a cybersecurity incident response plan managed by our CISO that includes procedures for responding to cybersecurity incidents and is designed to protect and preserve the confidentiality, integrity and continued availability of all information possessed by the Company; \u2022 policies to establish requirements for protecting information assets and defining acceptable behaviors to ensure compliance, mitigate risks, prevent unauthorized access, and foster a culture of security awareness and accountability, thereby enhancing the organization's overall security posture; and \u2022 a third-party risk management process for service providers, suppliers, and vendors.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0080",
+   "claim": "The company operates in a 'highly competitive' discount retail sector and identifies its competitors as 'dollar stores, mass merchandisers, online retailers, discount retailers, drug stores, convenience stores, independently-operated discount stores, grocery stores and a wide variety of other retailers.'",
+   "evidence": "We operate in the discount retail sector, which is currently and is expected to continue to be highly competitive with respect to price, store location, merchandise quality, assortment and presentation, and customer service, including merchandise delivery and checkout options. Our competitors include dollar stores, mass merchandisers, online retailers, discount retailers, drug stores, convenience stores, independently-operated discount stores, grocery stores and a wide variety of other retailers.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0083",
+   "claim": "To estimate liabilities, the Company uses historical data and trends regarding the frequency of claims and the costs to resolve claims relative to the types of products and markets where it operates.",
+   "evidence": "Historical data and trends regarding the frequency of claims incurred and the costs to resolve claims relative to the types of products and markets where the Company operates are used to estimate the construction defect liabilities for both existing and anticipated future claims.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0088",
+   "claim": "The framework includes the following components: Assessment and Monitoring",
+   "evidence": "We regularly assess risks from cybersecurity threats; monitor our information systems for potential vulnerabilities; and test those systems pursuant to our cybersecurity policies, processes, and practices, which are integrated into our overall risk management program.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0092",
+   "claim": "This includes capital investment for infrastructure improvements in the Regulated Businesses (between $11.5 billion to $12 billion over five years) and growth from acquisitions in the Regulated Businesses to expand the customer base (between $1.5 billion to $2 billion over five years)",
+   "evidence": "\u2022 capital investment for infrastructure improvements in the Regulated Businesses between $11.5 billion to $12 billion over the next five years, and between $25 billion to $28 billion over the next 10 years, including $2 billion expected in 2022; and\n\u2022 growth from acquisitions in the Regulated Businesses to expand the Company\u2019s water and wastewater customer base of between $1.5 billion to $2 billion over the next five years, and between $3 billion to $4 billion over the next 10 years, including $500 million expected in 2022.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0101",
+   "claim": "The company uses a risk-based approach to identify and assess threats, evaluates technology environment changes, and conducts third-party assessments.",
+   "evidence": "We have implemented a risk-based approach to identify and assess the cybersecurity threats that could affect our business and information systems, and we evaluate changes and enhancements to our technology environment as well as conduct third-party assessments to confirm that they meet our information security control requirements.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0101",
+   "claim": "The company maintains an enterprise-level data security incident response plan designed to minimize risk to data and systems, quickly recover operations, provide timely notice to regulators and affected individuals, minimize brand damage, manage litigation/disputes, and identify improvements.",
+   "evidence": "We also maintain a data security incident response plan, applied at an enterprise level, to facilitate our ability to rapidly detect and address data security incidents with the goals of: (i) minimizing risk to data and systems; (ii) quickly recovering and resuming operations; (iii) where applicable, providing timely notice of an incident to regulators and providing timely notice and remediation services to affected individuals; (iv) minimizing potential brand damage; (v) managing litigation, investigations, and disputes that may arise in the aftermath of an incident; and (vi) identifying opportunities to enhance Chubb\u2019s data security approach.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0119",
+   "claim": "The company employs a global information security program led by a corporate Chief Information Security Officer who identifies and assesses material cybersecurity risks, establishes monitoring processes, and implements mitigation measures.",
+   "evidence": "Our global information security program is led by our corporate Chief Information Security Officer, who works closely with key corporate functional and line of business stakeholders. The Chief Information Security Officer partners with these functions for the purpose of identifying, considering and assessing material cybersecurity risks on an ongoing basis, establishing processes to ensure that such potential cybersecurity risks are monitored, implementing appropriate mitigation measures, reporting cybersecurity breaches and other information security incidents, and maintaining our cybersecurity program.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0119",
+   "claim": "The company notes that while it employs service provider due diligence, its ability to monitor the cybersecurity practices of service providers is limited, and there can be no assurance it can prevent or mitigate risks from compromises or failures in systems, software, networks, or assets owned or controlled by vendors.",
+   "evidence": "Although we employ service provider due diligence and onboarding procedures to identify potential cybersecurity risk, our ability to monitor the cybersecurity practices of our service providers is limited and there can be no assurance that we can prevent or mitigate the risk of any compromise or failure in the information system, software, networks and other assets owned or controlled by our vendors.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0123",
+   "claim": "The Company uses an '80/20 strategic approach' to 'guide investments and align resources to win with customers, while reducing complexity and cost across the Company'",
+   "evidence": "As part of the Company\u2019s 80/20 strategic approach, the Company intends to guide investments and align resources to win with customers, while reducing complexity and cost across the Company.",
+   "real": true,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0123",
+   "claim": "The Company describes itself as a 'global leader in sustainable packaging solutions'",
+   "evidence": "International Paper Company (the \"Company,\" \"International Paper\" or \"IP\", which may also be referred to as \"we\" or \"us\") is a global leader in sustainable packaging solutions.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0127",
+   "claim": "The company utilizes a '70-20-10' approach to professional growth.",
+   "evidence": "We also believe in the 70-20-10 approach to professional growth. This model acknowledges that at least 70 percent of development occurs on the job through direct experience and skill building.",
+   "real": false,
+   "note": "borderline (not counted)",
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0128",
+   "claim": "This program is designed to protect the confidentiality, integrity, and availability of critical systems and information.",
+   "evidence": "We have a cybersecurity risk management program intended to protect the confidentiality, integrity, and availability of our critical systems and information.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0128",
+   "claim": "This team supervises efforts to prevent, detect, mitigate, and remediate risks through briefings from internal security personnel, threat intelligence, and reports from security tools.",
+   "evidence": "Our management team supervises efforts to prevent, detect, mitigate, and remediate cybersecurity risks and incidents through various means, which may include briefings from internal security personnel; threat intelligence and other information obtained from governmental, public or private sources, including external consultants engaged by us; and alerts and reports produced by security tools deployed in the IT environment.",
+   "real": true,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0141",
+   "claim": "The excerpts describe the company's general cybersecurity incident response plan, which includes processes to triage, assess, escalate, contain, investigate, and remediate incidents, as well as annual tabletop exercises.",
+   "evidence": "The IRT uses a detailed incident response plan that outlines and coordinates the actions we take to prepare for, detect, respond to and recover from cybersecurity incidents, which include processes to triage, assess the severity of, escalate, contain, investigate, and remediate an incident, as well as to comply with potentially applicable legal obligations and mitigate brand and reputational damage. In addition, our IRT engages in tabletop exercises at least annually to simulate a response to a cybersecurity incident and uses the findings to improve our processes, plans and technologies.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0150",
+   "claim": "The documents list the names, titles, and dates of service for various executive officers.",
+   "evidence": "pliance Officer, MidAmerican Energy Company, a regulated electric and gas utility March 2015 \u2014 December 2020 Patricia Correa 51 Senior Vice President, Chief Human Resources Officer, Xcel Energy Inc. February 2022 \u2014 Present Senior Vice President, Human Resources, Eaton Corporation, a power management company July 2019 \u2014 January 2022 Timothy O\u2019Connor 65 Executive Vice President, Chief Operations Officer, Xcel Energy Inc. August 2021 \u2014 Present Executive Vice President, Chief Generation Officer, Xcel Energy Inc. March 2020 \u2014 August 2021 Senior Vice President, Chief Nuclear Officer, Xcel Energy Services Inc February 2013 \u2014 March 2020 Amanda Rome 44 Executive Vice President, Group President, Utilities, and Chief Customer Officer, Xcel Energy Inc. October 2023 \u2014 Present Interim General Counsel, Xcel Energy Inc. January 2024 \u2014 May 2024 Executive Vice President, Chief Legal and Compliance Officer, Xcel Energy Inc. June 2022 \u2014 October 2023 Executive Vice President, General Counsel, Xcel Energy Inc. June 2020 \u2014 June 2022 Vice President and Deputy General Counsel, Xcel Energy Services Inc. October 2019 \u2014 June 2020 Brian J. Van Abel 43 Executive Vice President, Chief Financial Officer, Xcel Energy Inc. March 2020 \u2014 Present Senior Vice President, Finance and Corporate Development, Xcel Energy Services Inc. September 2018 \u2014 March 2020",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0158",
+   "claim": "The excerpts include a section on 'Share Repurchases' and 'Dividends' within Management's Discussion and Analysis.",
+   "evidence": "Share Repurchases\n\nIn December 2011, the Company's Board of Directors authorized the 2012 Share Repurchase Program (\"2012 Program\") and through subsequent amendments, the most recent in March 2017, the total repurchase authorization was increased from $500.0 million to $1.0 billion of the Company's common stock. The program has no expiration date and may be discontinued at any time. Purchases under the 2012 Program are subject to a review of the circumstances in place at the time and may be made from time to time as permitted by securities laws and other legal requirements.\n\nIn fiscal 2023, there were no share repurchases under the 2012 Program. At October 31, 2023, $256.4 million remained authorized for repurchase under the program. See Note 8. Stockholders\u2019 Equity for additional information.\n\nDividends",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0161",
+   "claim": "The company's ability to develop innovative products that utilize emerging technological trends in a timely and cost-effective manner is a key factor in maintaining market share",
+   "evidence": "The ability to develop and successfully launch and maintain innovative products, technologies and services that anticipate customers\u2019 and investors\u2019 changing requirements and utilize emerging technological trends in a timely and cost-effective manner is a key factor in maintaining market share",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0167",
+   "claim": "On August 28, 2024, Sara Kelly adopted a Rule 10b5-1 Trading Arrangement to sell up to 4,859 shares, which will be issued upon the exercise of a stock option on November 29, 2024, and sold pursuant to an order entered on November 29, 2024, with a limit price of $95 until August 26, 2025.",
+   "evidence": "Ms. Kelly\u2019s trading plan provides for the sale of up to 4,859 shares, which will be issued to Ms. Kelly upon the exercise of a stock option on November 29, 2024, and sold pursuant to an order entered on November 29, 2024, with such sale subject to a limit price of $95 during the applicable good-until-cancelled period for such order, which lasts until August 26, 2025.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0169",
+   "claim": "The company monitors systems for vulnerabilities.",
+   "evidence": "The Company regularly assesses risks from cybersecurity threats, monitors its information systems for potential vulnerabilities",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0170",
+   "claim": "HP Inc. faces competitive risks related to market dynamics and technological advancements.",
+   "evidence": "Our industry is subject to rapid and substantial innovation, technological change and customer preferences.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0170",
+   "claim": "Competitors target key market segments and compete on factors including technology, innovation, price, quality, and brand.",
+   "evidence": "We encounter aggressive competition from competitors in all areas of our business, and our competitors have targeted and are expected to continue targeting our key market segments. We compete on the basis of our technology, innovation, performance, price, quality, reliability, brand, reputation, distribution, range of products and services, ease of use, account relationships, customer training, service and support, security, availability of application software and internet infrastructure offerings, and our sustainability performance.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0176",
+   "claim": "During the three months ended December 31, 2023, Guy Chiarello, Chief Operating Officer of the Company, adopted a Rule 10b5-1 Trading Plan on December 15, 2023, for the sale of securities of the Company\u2019s common stock.",
+   "evidence": "On December 15, 2023, Guy Chiarello, Chief Operating Officer of the Company, adopted a trading arrangement for the sale of securities of the Company\u2019s common stock (a \u201cRule 10b5-1 Trading Plan\u201d) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c).",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0176",
+   "claim": "In the prior period (the three months ended September 30, 2023), two other officers adopted Rule 10b5-1 Trading Plans.",
+   "evidence": "On September 22, 2023, Robert W. Hau, Chief Financial Officer of the Company, adopted a trading arrangement for the sale of securities of the Company\u2019s common stock (a \u201cRule 10b5-1 Trading Plan\u201d) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c).",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0179",
+   "claim": "The excerpts provide the following information regarding environmental remediation and guarantees: CMS Energy and Consumers are participating in environmental remediation projects for which they have recorded liabilities based on estimates of scope, cost, and timing.",
+   "evidence": "CMS Energy and Consumers are participating in various environmental remediation projects for which they have recorded liabilities. The recorded amounts represent estimates that may take into account such considerations as the number of sites, the anticipated scope, cost, and timing of remediation work",
+   "real": true,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0180",
+   "claim": "These assessments include the supply chain, where a 'Cybersecurity Risk Score' is used in a Supply Chain Scorecard",
+   "evidence": "The results are used to calculate a Cybersecurity Risk Score, a key component of our Supply Chain Scorecard used to proactively identify and manage potential risks.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0184",
+   "claim": "Risks include malicious intrusions, data privacy breaches, and the use of AI and machine learning by threat actors.",
+   "evidence": "Data privacy or security breaches also pose a risk that sensitive data, including intellectual property, trade secrets or personal information belonging to us, patients, customers or other business partners, may be exposed to unauthorized persons or to the public.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0207",
+   "claim": "The company is committed to 'fostering an inclusive culture' and 'promoting inclusion and diversity across the enterprise'.",
+   "evidence": "We believe in the value of each person\u2019s unique identity, background, and experiences and are committed to fostering an inclusive culture in which all employees feel empowered to do their best work because they feel accepted, respected, and that they belong.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0220",
+   "claim": "The company maintains documented information security policies and standards in accordance with NIST guidance to protect operations, assets, data, and services",
+   "evidence": "In accordance with NIST guidance, Eaton maintains documented information security policies and standards to protect operations, assets, data and services and to defend against, respond to and recover from potential cyberattacks.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0228",
+   "claim": "The company utilizes strategic alliances with system integrators, application service providers, referral partners, and sales agents to market our solutions and encourage increased adoption of our technology.",
+   "evidence": "In addition to entering into agreements with resellers, we have several other types of sales and marketing focused alliances with entities such as system integrators, application service providers, referral partners and sales agents. By aligning with these partners, we believe we are better able to market our solutions and encourage increased adoption of our technology throughout the industry.",
+   "real": false,
+   "note": "borderline (not counted)",
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0238",
+   "claim": "The company identifies several risks inherent in its international operations, including: currency fluctuations, possible nationalization or expropriation, price and exchange controls, counterfeit products, limitations on foreign participation in local enterprises, and other restrictive governmental actions",
+   "evidence": "International operations are subject to certain risks, which are inherent in conducting business abroad, including, but not limited to, currency fluctuations, possible nationalization or expropriation, price and exchange controls, counterfeit products, limitations on foreign participation in local enterprises and other restrictive governmental actions.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0241",
+   "claim": "A loss of revenues if a cybersecurity attack involving commodities exchanges or financial institutions slows or halts commodities trading, preventing the marketing of production or engaging in hedging activities",
+   "evidence": "a cybersecurity attack involving commodities exchanges or financial institutions could slow or halt commodities trading, thus preventing us from marketing our production or engaging in hedging activities, resulting in a loss of revenues",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0241",
+   "claim": "Events of non-compliance, regulatory enforcement actions, fines, or penalties resulting from a deliberate corruption of financial or operating data",
+   "evidence": "a deliberate corruption of our financial or operating data could result in events of non-compliance which could then lead to regulatory enforcement actions, fines or penalties",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0241",
+   "claim": "Operational disruptions resulting in a loss of revenues from a cybersecurity attack on a communications network or power grid",
+   "evidence": "a cybersecurity attack on a communications network or power grid, which could cause operational disruptions resulting in a loss of revenues",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0244",
+   "claim": "The company's supply chain strategy involves focusing on core brands in two divisions within North America",
+   "evidence": "Our strategy is to unlock our full growth potential by focusing on our core brands in two divisions within North America while delivering on the promise of our purpose - Connecting people through food they love.",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0257",
+   "claim": "Certain officers adopted 10b5-1 trading plans",
+   "evidence": "During the three months ended September 30, 2025, the following EA directors and/or officers entered into trading plans intended to satisfy the requirements of Rule 10b5-1(c) of the Exchange Act as part of managing their EA equity holdings (\u201c10b5-1 Plan\u201d).",
+   "real": false,
+   "run": "v4",
+   "label_file": "eval/qualifier_labels_v4.json"
+  },
+  {
+   "id": "finder_0023",
+   "claim": "The company considers cash balances and cash flows as factors in determining when to execute share repurchases",
+   "evidence": "The Company considers several factors in determining when to execute share repurchases, including, among other things, actual and potential acquisition activity, cash balances and cash flows, issuances due to employee benefit plan activity, and market conditions.",
+   "real": false,
+   "run": "v5_qualsub",
+   "label_file": "eval/qualifier_labels_v5.json"
+  },
+  {
+   "id": "finder_0049",
+   "claim": "Dividends from Principal Life, PFG's primary subsidiary, are limited by Iowa law to the earned surplus arising from its business",
+   "evidence": "Under Iowa law, Principal Life may pay dividends or make other distributions only from the earned surplus arising from its business",
+   "real": false,
+   "run": "v5_qualsub",
+   "label_file": "eval/qualifier_labels_v5.json"
+  },
+  {
+   "id": "finder_0049",
+   "claim": "Principal Life must receive prior approval from the Commissioner of Insurance of the State of Iowa to pay stockholder dividends or distributions that exceed certain statutory limitations, and the Commissioner has the discretion to disapprove such requests",
+   "evidence": "Principal Life may pay dividends or make other distributions only from the earned surplus arising from its business and must receive the prior approval of the Commissioner of Insurance of the State of Iowa (the \u201cCommissioner\u201d) to pay stockholder dividends or make any other distribution if such distribution would exceed certain statutory limitations. Iowa law gives the Commissioner discretion to disapprove requests for distributions in excess of these limitations.",
+   "real": false,
+   "run": "v5_qualsub",
+   "label_file": "eval/qualifier_labels_v5.json"
+  },
+  {
+   "id": "finder_0088",
+   "claim": "The company regularly assesses risks, monitors information systems for vulnerabilities, and tests systems pursuant to established cybersecurity policies, processes, and practices",
+   "evidence": "We regularly assess risks from cybersecurity threats; monitor our information systems for potential vulnerabilities; and test those systems pursuant to our cybersecurity policies, processes, and practices",
+   "real": false,
+   "run": "v5_qualsub",
+   "label_file": "eval/qualifier_labels_v5.json"
+  },
+  {
+   "id": "finder_0101",
+   "claim": "The company uses a risk-based approach to identify and assess threats, incorporates industry standards like the NIST Cyber Security Framework (NIST CSF), and conducts third-party assessments to ensure information security control requirements are met.",
+   "evidence": "We have implemented a risk-based approach to identify and assess the cybersecurity threats that could affect our business and information systems, and we evaluate changes and enhancements to our technology environment as well as conduct third party assessments to confirm that they meet our information security control requirements. Our cybersecurity program and control environment incorporate appropriate industry standards and best practices, such as the National Institutes of Standards and Technology Cyber Security Framework (NIST CSF).",
+   "real": false,
+   "run": "v5_qualsub",
+   "label_file": "eval/qualifier_labels_v5.json"
+  },
+  {
+   "id": "finder_0143",
+   "claim": "The excerpts describe the company's business strategy to differentiate itself from competitors through 'premier, holistic solutions,' 'exceptional experiences,' and a 'strong, conservative balance sheet'.",
+   "evidence": "Northern Trust\u2019s business strategy is to provide exceptional quality financial services to targeted market segments in which it believes it has a competitive advantage to offer clients a unique value proposition. As part of this strategy, Northern Trust seeks to differentiate itself from its competitors with premier, holistic solutions and exceptional experiences tailored to meet clients\u2019 needs. In addition, Northern Trust emphasizes the development and growth of recurring and scalable sources of fee-based income and continual productivity improvements. Northern Trust also seeks to maintain its foundational strength with a strong, conservative balance sheet and a globally respected brand.",
+   "real": false,
+   "run": "v5_qualsub",
+   "label_file": "eval/qualifier_labels_v5.json"
+  },
+  {
+   "id": "finder_0176",
+   "claim": "During the three months ended December 31, 2023, Guy Chiarello, Chief Operating Officer, adopted a Rule 10b5-1 Trading Plan for the sale of common stock",
+   "evidence": "On December 15, 2023, Guy Chiarello, Chief Operating Officer of the Company, adopted a trading arrangement for the sale of securities of the Company\u2019s common stock (a \u201cRule 10b5-1 Trading Plan\u201d) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c).",
+   "real": false,
+   "run": "v5_qualsub",
+   "label_file": "eval/qualifier_labels_v5.json"
+  },
+  {
+   "id": "finder_0176",
+   "claim": "In the three months ended September 30, 2023, Robert W. Hau, Chief Financial Officer, and Suzan Kereere, Head of Global Business Solutions, each adopted Rule 10b5-1 Trading Plans",
+   "evidence": "On September 22, 2023, Robert W. Hau, Chief Financial Officer of the Company, adopted a trading arrangement for the sale of securities of the Company\u2019s common stock (a \u201cRule 10b5-1 Trading Plan\u201d) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c). Mr. Hau\u2019s Rule 10b5-1 Trading Plan provides for the exercise of up to 188,088 employee stock options and sale of the underlying shares of common stock pursuant to one or more limit orders until January 31, 2024.\n\nOn September 18, 2023, Suzan Kereere, Head of Global Business Solutions of the Company, adopted a Rule 10b5-1 Trading Plan that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c). Ms. Kereere\u2019s Rule 10b5-1 Trading Plan provides for the sale of up to 6,534 shares of common stock pursuant to one or more limit orders until October 4, 2024.",
+   "real": false,
+   "run": "v5_qualsub",
+   "label_file": "eval/qualifier_labels_v5.json"
+  },
+  {
+   "id": "finder_0179",
+   "claim": "CMS Energy and Consumers participate in environmental remediation projects and record liabilities based on estimates of scope, cost, and timing.",
+   "evidence": "CMS Energy and Consumers are participating in various environmental remediation projects for which they have recorded liabilities. The recorded amounts represent estimates that may take into account such considerations as the number of sites, the anticipated scope, cost, and timing of remediation work...",
+   "real": true,
+   "note": "same drop labelled real in v4: 'estimates that may take into account ... anticipated scope' -> 'based on estimates of scope'",
+   "run": "v5_qualsub",
+   "label_file": "eval/qualifier_labels_v5.json"
+  },
+  {
+   "id": "finder_0179",
+   "claim": "CMS Energy and Consumers have indemnity obligations from the sale of membership interests and stock/asset sale agreements, but the company considers the likelihood of substantial losses related to these indemnities to be remote.",
+   "evidence": "CMS Energy believes the likelihood of material loss to be remote for the indemnity obligations not recorded as liabilities.",
+   "real": false,
+   "run": "v5_qualsub",
+   "label_file": "eval/qualifier_labels_v5.json"
+  },
+  {
+   "id": "finder_0017",
+   "dropped": "intend",
+   "claim": "Adobe invests in research and development to strengthen existing products, services, and solutions, and to expand offerings across its clouds and the next generation of AI, machine learning, and deep learning-driven tools",
+   "evidence": "We are investing, and intend to continue to invest, in research and development to strengthen our existing products, services and solutions, and to expand our offerings across our clouds and the next generation of AI, machine learning and deep learning-driven tools and features",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0023",
+   "dropped": "potential",
+   "claim": "The company considers factors such as cash balances and cash flows when determining when to execute share repurchases",
+   "evidence": "The Company considers several factors in determining when to execute share repurchases, including, among other things, actual and potential acquisition activity, cash balances and cash flows, issuances due to employee benefit plan activity, and market conditions.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0049",
+   "dropped": "may",
+   "claim": "Dividends or distributions from Principal Life are limited by Iowa law to the earned surplus arising from its business",
+   "evidence": "Under Iowa law, Principal Life may pay dividends or make other distributions only from the earned surplus arising from its business",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0049",
+   "dropped": "may would",
+   "claim": "Principal Life must receive prior approval from the Commissioner of Insurance of the State of Iowa to pay stockholder dividends or distributions that exceed certain statutory limitations, and the Commissioner has discretion to disapprove such requests",
+   "evidence": "Principal Life may pay dividends or make other distributions only from the earned surplus arising from its business and must receive the prior approval of the Commissioner of Insurance of the State of Iowa (the \u201cCommissioner\u201d) to pay stockholder dividends or make any other distribution if such distribution would exceed certain statutory limitations. Iowa law gives the Commissioner discretion to disapprove requests for distributions in excess of these limitations.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0063",
+   "dropped": "may",
+   "claim": "The excerpts describe CDW's cybersecurity management program, including its ISO 27001 certification, the use of a dedicated team led by a Chief Information Security Officer, and the use of third-party firms for penetration testing.",
+   "evidence": "Our information security management program is ISO 27001 certified, and we undergo routine audits by an independent, certified accreditation body to maintain this certification. Our program is designed to guide our practices which are based on relevant industry frameworks and laws. This program consists of policies, practices and procedures designed to manage material risks from cybersecurity threats, including training requirements, threat monitoring and detection and threat containment and risk assessments. Additionally, we leverage third-party firms to conduct routine external and internal penetration testing to emulate the common tactics and techniques of cyber threat actors and have processes to address identified vulnerabilities, although it may take time to mitigate or manage such vulnerabilities.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0063",
+   "dropped": "believe",
+   "claim": "The company also maintains an incident response plan and cybersecurity insurance.",
+   "evidence": "Lastly, we maintain cybersecurity insurance coverage that we believe is appropriate for the size and complexity of our business to cover certain costs related to cybersecurity incidents. We refine our cybersecurity program by staying informed on security threats, leveraging third-party cybersecurity firms and investing in enhancements to our preventive and defensive capabilities. In addition to our policies and procedures to manage and identify cybersecurity risks, we have an incident response plan designed to analyze, contain, remediate and communicate cybersecurity matters to help ensure a timely and robust response to actual or attempted incidents.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0080",
+   "dropped": "may",
+   "claim": "Store design initiatives at Family Dollar include providing improved merchandise offerings, establishing a minimum number of cooler doors, and tailoring space and assortment to local demographics.",
+   "evidence": "Our store design initiatives at Family Dollar provide significantly improved merchandise offerings and establish a minimum number of cooler doors. We tailor space and assortment to local demographics with emerging formats including H2.5, our primary store format with optimized layout and expanded frozen and refrigerated doors; larger rural stores where assortments may include Dollar Tree product; and XSB (Extra Small Box), which adds elements of H2.5 optimized to our smaller stores, particularly in urban markets.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0088",
+   "dropped": "potential",
+   "claim": "REGENERON PHARMACEUTICALS, INC. manages cybersecurity risks through a risk-based approach integrated into its overall risk management program.",
+   "evidence": "We regularly assess risks from cybersecurity threats; monitor our information systems for potential vulnerabilities; and test those systems pursuant to our cybersecurity policies, processes, and practices, which are integrated into our overall risk management program.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0101",
+   "dropped": "could",
+   "claim": "The company employs a risk-based approach to identify and assess threats, incorporating industry standards such as the NIST Cyber Security Framework",
+   "evidence": "we have implemented a risk-based approach to identify and assess the cybersecurity threats that could affect our business and information systems, and we evaluate changes and enhancements to our technology environment as well as conduct third party assessments to confirm that they meet our information security control requirements. Our cybersecurity program and control environment incorporate appropriate industry standards and best practices, such as the National Institutes of Standards and Technology Cyber Security Framework (NIST CSF)",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0103",
+   "dropped": "expected",
+   "claim": "The overall impact of the cybersecurity incident did not have a material impact on net income, net of insurance recoveries, or cash flows from operations for the full year fiscal 2024.",
+   "evidence": "The overall impact of the cybersecurity incident did not have a material impact on net income, net of insurance recoveries, or cash flows from operations in the third quarter of fiscal 2024, nor is the impact expected to be material for the full year fiscal 2024.",
+   "real": true,
+   "note": "'nor is the impact expected to be material for the full year' stated as 'did not have a material impact ... for the full year'",
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0119",
+   "dropped": "potentially",
+   "claim": "Management provides the Board and the Technology and Information Security Committee with regular updates on cybersecurity and related risk exposures, and the company uses a risk-based escalation process to notify the Board of significant emerging risks or material issues",
+   "evidence": "At least quarterly, management provides our Board and the Technology and Information Security Committee with updates about our cybersecurity and related risk exposures, our policies and procedures to mitigate such exposures and the status of projects to strengthen our information security infrastructure and program maturity and defend against and respond to cybersecurity threats. In addition, we use a risk-based escalation process to notify the Board and the Technology and Information Security Committee outside of the regular reporting cycle should we identify a significant emerging risk or potentially material issue that should be brought to their attention.",
+   "real": false,
+   "borderline": true,
+   "note": "'potentially material issue' narrowed to 'material issues'; not counted",
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0128",
+   "dropped": "potential",
+   "claim": "The Audit Committee oversees management\u2019s implementation of the cybersecurity risk management program and receives updates regarding material and lesser-impact cybersecurity incidents",
+   "evidence": "The Audit Committee oversees management\u2019s implementation of our cybersecurity risk management program. In addition, management updates the Audit Committee, as necessary, regarding any material cybersecurity incidents, as well as any incidents with lesser impact potential.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0145",
+   "dropped": "could",
+   "claim": "Internal control over financial reporting includes policies and procedures for maintaining records, recording transactions, and preventing or detecting unauthorized acquisition, use, or disposition of assets",
+   "evidence": "A company\u2019s internal control over financial reporting includes those policies and procedures that (1) pertain to the maintenance of records that, in reasonable detail, accurately and fairly reflect the transactions and dispositions of the assets of the company; (2) provide reasonable assurance that transactions are recorded as necessary to permit preparation of financial statements in accordance with generally accepted accounting principles, and that receipts and expenditures of the company are being made only in accordance with authorizations of management and directors of the company; and (3) provide reasonable assurance regarding prevention or timely detection of unauthorized acquisition, use, or disposition of the company\u2019s assets that could have a material effect on the financial statements.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0148",
+   "dropped": "believes",
+   "claim": "They do not specify litigation-related impacts on earnings or capex.",
+   "evidence": "Management believes that the probability of a material loss with respect to any currently pending legal proceeding is remote. However, litigation is inherently uncertain, and it is not possible to predict the ultimate disposition of any of these proceedings.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0170",
+   "dropped": "expected",
+   "claim": "Competitors target key market segments and compete on factors such as technology, innovation, price, and brand.",
+   "evidence": "We encounter aggressive competition from competitors in all areas of our business, and our competitors have targeted and are expected to continue targeting our key market segments. We compete on the basis of our technology, innovation, performance, price, quality, reliability, brand, reputation, distribution, range of products and services, ease of use, account relationships, customer training, service and support, security, availability of application software and internet infrastructure offerings, and our sustainability performance.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0176",
+   "dropped": "intended",
+   "claim": "During the three months ended September 30, 2023, Robert W. Hau, Chief Financial Officer, and Suzan Kereere, Head of Global Business Solutions, each adopted Rule 10b5-1 Trading Plans",
+   "evidence": "On September 22, 2023, Robert W. Hau, Chief Financial Officer of the Company, adopted a trading arrangement for the sale of securities of the Company\u2019s common stock (a \u201cRule 10b5-1 Trading Plan\u201d) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c). Mr. Hau\u2019s Rule 10b5-1 Trading Plan provides for the exercise of up to 188,088 employee stock options and sale of the underlying shares of common stock pursuant to one or more limit orders until January 31, 2024.\n\nOn September 18, 2023, Suzan Kereere, Head of Global Business Solutions of the Company, adopted a Rule 10b5-1 Trading Plan that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c). Ms. Kereere\u2019s Rule 10b5-1 Trading Plan provides for the sale of up to 6,534 shares of common stock pursuant to one or more limit orders until October 4, 2024.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0177",
+   "dropped": "may",
+   "claim": "Julie L. Turpin is an executive vice president and the chief people officer.",
+   "evidence": "Julie L. Turpin. Ms. Turpin was appointed as an executive vice president in May 2021. She became our chief people officer and a senior vice president in March 2020.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0179",
+   "dropped": "would",
+   "claim": "CMS Energy and Consumers have indemnity obligations from the sale of membership interests and stock/asset sale agreements, but the company considers the likelihood of substantial losses related to these indemnities to be remote.",
+   "evidence": "CMS Energy and Consumers consider the likelihood that they would be required to perform or incur substantial losses related to these indemnities to be remote.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0201",
+   "dropped": "anticipated expected",
+   "claim": "The company identifies specific risks related to these estimates, including the nature and complexity of work, subcontractors' and suppliers' performance, labor and material costs, and the allocation of transaction prices to performance obligations.",
+   "evidence": "For example, we must make assumptions regarding: (i) the nature and complexity of the work to be performed; (ii) subcontractors\u2019 and suppliers\u2019 expected performance; (iii) availability and costs of labor, materials, components subsystems and services (including expected increases in wages and prices); (iv) the length of time to complete the contract; (v) the allocation of transaction price to one or more performance obligations based on the products and services promised to the customer; (vi) incentives or penalties related to performance on contracts in estimating revenue and profit rates, and recording them when there is sufficient information for us to assess anticipated performance; and (vii) estimates of award fees in estimating revenue and profit rates based on actual and anticipated awards.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0238",
+   "dropped": "potential",
+   "claim": "The company aspires to create a 'future ready' workforce to develop critical skills needed to tackle the organization's most pressing strategic priorities and to accelerate future growth",
+   "evidence": "BMS champions the learning and development of our people, our most important asset, to recognize their full potential, achieve their career aspirations and drive business success. We aspire to create a \u2018future ready\u2019 workforce by developing the critical skills needed to tackle the organization\u2019s most pressing strategic priorities.",
+   "real": false,
+   "run": "v5",
+   "label_file": "eval/qualifier_labels_v5_full.json"
+  },
+  {
+   "id": "finder_0017",
+   "run": "v6",
+   "claim": "Adobe invests in research and development to strengthen existing products, services, and solutions, and to expand offerings across its clouds and the next generation of AI, machine learning, and deep learning-driven tools.",
+   "evidence": "We are investing, and intend to continue to invest, in research and development to strengthen our existing products, services and solutions, and to expand our offerings across our clouds and the next generation of AI, machine learning and deep learning-driven tools and features to solve problems in areas such as content understanding and generation, recommendations, personalization and more.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0024",
+   "run": "v6",
+   "claim": "Akamai has implemented cybersecurity risk management programs and procedures designed to identify and address threats to internal and customer-facing data and systems.",
+   "evidence": "We have implemented cybersecurity risk management programs and procedures designed to identify and address threats to both internal and customer facing data and systems that are subject to ongoing compliance assessments, certifications and testing.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0040",
+   "run": "v6",
+   "claim": "*   **U.S. Treasury Bill Transactions:** The Company is contesting a tax assessment of approximately $27 to $53 (depending on the reporting period) related to foreign exchange transactions between 2000 and 2001.",
+   "evidence": "Treasury bills by the subsidiary and their subsequent disposition during the period 2000 to 2001 were subject to a tax on foreign exchange transactions.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0045",
+   "run": "v6",
+   "claim": "The company provides annual cybersecurity education for all computer users regarding policies, standards, and best practices.",
+   "evidence": "Our cybersecurity program includes, but is not limited to:\n\n\u2022 annual cybersecurity education for all company computer users on relevant policies and standards, best practices at work and at home;\n\n\u2022 communication processes including how to identify, respond, and report threats or potential vulnerabilities;\n\n\u2022 protective software installed and configured on Company systems and mobile devices, updated and patched on a regular basis, to provide the highest level of protection against malicious threats;",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0067",
+   "run": "v6",
+   "claim": "For the three months ended October 27, 2024, the average price paid per share was $190.89.",
+   "evidence": "Purchased Average Aggregate Total Number of Maximum Dollar\n Price Paid Price Paid* Value of Shares\n per Share* That May Yet be\n Shares Purchased as Purchased Under\n the Programs*\n\n Part of Publicly\n\n Announced Programs\n Month #1\n Month #2\n Month #3\n \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n (In millions, except per share amounts)\n (July 29, 2024 to August 25, 2024) 1.5 $195.93 $ 292 1.5 $10,030\n (August 26, 2024 to September 22, 2024) 2.6 $187.33 492 2.6 $9,538\n (September 23, 2024 to October 27, 2024) 3.5 $191.41 669 3.5 $8,869\n Total 7.6 $190.89 $ 1,453 7.6\n\n*Amounts include the 1% surcharge on stock repurchases under the Inflation Reduction Act\u2019s excise tax.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0075",
+   "run": "v6",
+   "claim": "*   **Technology Integration:** The Company offers \"Technology Solutions\" which include proprietary digital tools and services such as metrics and benchmarking applications for trial performance monitoring and optimization.",
+   "evidence": "ith a wide offering of functional service provider solutions\n \u2022Dedicated group experienced in conduct of trials for medical devices and diagnostics to provide services for expanding market in medical devices\n \u2022Leader in clinical pharmacology\n \u2022Wide range of commercialization solutions including life cycle management and post-approval studies\n \u2022Market access solutions\n Technology Solutions Proprietary digital tools and services providing customers with greater access to key insights and results, as well as improved trial management, enhanced transparency, quality, and speed of clinical trials, resulting in reduced costs and increased market potential for customers:\n \u2022Patient-facing software applications supporting virtual, hybrid, and traditional trials\n \u2022Metrics and benchmarking applications for trial performance monitoring and optimization\n \u2022Award-winning informatics software suite for risk-based quality management across clinical trials\n \u2022Patient randomization and Clinical Supply Management\n\nHuman Capital\n\nMission and Culture\n\nLabcorp believes in the power of science to change lives.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0075",
+   "run": "v6",
+   "claim": "*   **Drug Development Services:** The Company provides early development research laboratories, analytical services, safety assessments, chemistry manufacturing services, and early phase development solutions.",
+   "evidence": "Service Key Features\n Early Development Research Laboratories \u2022Lead optimization: connects early discovery activities to regulated preclinical studies\n \u2022Analytical services: bioanalytical testing services offering appropriate dose and frequency of drug administration\n \u2022Safety assessment: general, genetic, and immunotoxicology services; nonclinical pathology; safety pharmacology services; preclinical medical device services; respiratory services; and developmental and reproductive toxicology (DART) studies\n \u2022Chemistry manufacturing services: robust, cost-effective solutions in the areas of safety, identity, strength, quality, and purity assessments for biologics\n \u2022Early phase development solutions: focused, multidisciplinary teams of experts that craft integrated solutions to identify and develop lead drug candidates and reduce development challenges\n \u2022Crop protection and chemical testing: Consulting services for chemical manufacturers and other firms engaged in the development of modern crop protection technology\n Central Laboratory Services \u2022Clinical laboratory services for individuals participating in clinical studies\n \u2022Provided to biopharmaceutical customers through its global network of central laboratories in the U.S., Europe, and Asia\n \u2022Operates world\u2019s largest automated clinical trial sample collection kit production lines that enable kits to be produced with 5.5 sigma precision\n \u20226 ISO 15189-certified laboratories\n Technology Solutions Proprietary digital tools and services providing customers with greater access to key insights and results, enhanced transparency, quality, and speed of clinical trial patient recruitment, resulting in reduced costs and increased market potential for customers:\n \u2022Metrics and benchmarking applications for monitoring patient recrui",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0075",
+   "run": "v6",
+   "claim": "*   **Laboratory Services (LH):** The Company provides clinical laboratory services for individuals participating in clinical studies through a global network of central laboratories.",
+   "evidence": "Service Key Features\n Early Development Research Laboratories \u2022Lead optimization: connects early discovery activities to regulated preclinical studies\n \u2022Analytical services: bioanalytical testing services offering appropriate dose and frequency of drug administration\n \u2022Safety assessment: general, genetic, and immunotoxicology services; nonclinical pathology; safety pharmacology services; preclinical medical device services; respiratory services; and developmental and reproductive toxicology (DART) studies\n \u2022Chemistry manufacturing services: robust, cost-effective solutions in the areas of safety, identity, strength, quality, and purity assessments for biologics\n \u2022Early phase development solutions: focused, multidisciplinary teams of experts that craft integrated solutions to identify and develop lead drug candidates and reduce development challenges\n \u2022Crop protection and chemical testing: Consulting services for chemical manufacturers and other firms engaged in the development of modern crop protection technology\n Central Laboratory Services \u2022Clinical laboratory services for individuals participating in clinical studies\n \u2022Provided to biopharmaceutical customers through its global network of central laboratories in the U.S., Europe, and Asia\n \u2022Operates world\u2019s largest automated clinical trial sample collection kit production lines that enable kits to be produced with 5.5 sigma precision\n \u20226 ISO 15189-certified laboratories\n Technology Solutions Proprietary digital tools and services providing customers with greater access to key insights and results, enhanced transparency, quality, and speed of clinical trial patient recruitment, resulting in reduced costs and increased market potential for customers:\n \u2022Metrics and benchmarking applications for monitoring patient recrui",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0088",
+   "run": "v6",
+   "claim": "REGENERON PHARMACEUTICALS, INC. manages cybersecurity risks through a risk-based approach integrated into its overall risk management program, which includes regular risk assessments, monitoring of information systems for vulnerabilities, and testing systems pursuant to established policies.",
+   "evidence": "Cybersecurity\n\nRisk Management and Strategy\n\nWe regularly assess risks from cybersecurity threats; monitor our information systems for potential vulnerabilities; and test those systems pursuant to our cybersecurity policies, processes, and practices, which are integrated into our overall risk management program.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0108",
+   "run": "v6",
+   "claim": "The committee provides oversight of technology investments and plans to drive efficiency and to meet defined standards for risk, information security, and redundancy.",
+   "evidence": "It provides oversight of technology investments and plans to drive efficiency as well as to meet defined standards for risk, information security, and redundancy; oversees allocation of technology costs and ensures that they are understood by the Board; evaluates innovation and technology trends that may affect our strategic plans, including monitoring of overall industry trends; and reviews and provides oversight of our continuity and disaster recovery planning and preparedness.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0108",
+   "run": "v6",
+   "claim": "The committee also oversees the allocation of technology costs, ensures they are understood by the Board, and reviews continuity and disaster recovery planning and preparedness.",
+   "evidence": "It provides oversight of technology investments and plans to drive efficiency as well as to meet defined standards for risk, information security, and redundancy; oversees allocation of technology costs and ensures that they are understood by the Board; evaluates innovation and technology trends that may affect our strategic plans, including monitoring of overall industry trends; and reviews and provides oversight of our continuity and disaster recovery planning and preparedness.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0115",
+   "run": "v6",
+   "claim": "The company acknowledges that many of its products can be produced by competitors using similar or alternative manufacturing processes.",
+   "evidence": "Although Howmet believes its advanced technology, manufacturing processes and experience provide advantages to Howmet\u2019s customers, such as high quality and superior mechanical properties that meet the Company\u2019s customers\u2019 most stringent requirements, many of the products Howmet makes can be produced by competitors using similar types of manufacturing processes as well as alternative forms of manufacturing.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0117",
+   "run": "v6",
+   "claim": "The company maintains business continuity and cyber incident response plans, conducts simulation exercises, and engages external partners for annual audits and infrastructure testing.",
+   "evidence": "To proactively identify, mitigate, and prepare for potential cybersecurity incidents, we maintain both a business continuity plan and cyber incident response plan with formalized workflows and playbooks.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0119",
+   "run": "v6",
+   "claim": "Management uses a risk-based escalation process to notify the Board of significant emerging risks or material issues.",
+   "evidence": "In addition, we use a risk-based escalation process to notify the Board and the Technology and Information Security Committee outside of the regular reporting cycle should we identify a significant emerging risk or potentially material issue that should be brought to their attention.",
+   "real": false,
+   "borderline": true,
+   "note": "'should we identify a significant emerging risk or potentially material issue' narrowed to 'significant emerging risks or material issues'; not counted (same as v5_full finder_0119)",
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0123",
+   "run": "v6",
+   "claim": "The company identifies as a global leader in sustainable packaging solutions and produces renewable fiber-based packaging and pulp products.",
+   "evidence": "BUSINESS\n\nGENERAL\n\nInternational Paper Company (the \"Company,\" \"International Paper\" or \"IP\", which may also be referred to as \"we\" or \"us\") is a global leader in sustainable packaging solutions.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0132",
+   "run": "v6",
+   "claim": "The company's policies and practices include identifying critical assets, conducting vulnerability assessments, and maintaining an incident response and recovery plan.",
+   "evidence": "Our policies, procedures and practices include, but are not limited to:\n\n\u2022 identifying critical assets and high-risk threats and analyzing identified risks to determine the potential impact on the organization and the likelihood of occurrence;\n\n\u2022 cybersecurity detection, controls and remediation practices, including vulnerability assessments, penetration testing and tabletop exercises;\n\n\u2022 an incident response and recovery plan that includes escalation protocols, procedures for containment of incidents and investigation and remediation procedures;\n\n\u2022 installation of and regular updates to antivirus software on all company managed systems and workstations to detect and prevent malicious code from impacting our systems;\n\n\u2022 conducting regular workforce trainings for employees to identify cybersecurity concerns and educate employees on potential risks and best practices;\n\n\u2022 evaluating the effectiveness of our program by performing internal assessments;\n\n\u2022 periodic external audits by an independent third party to test for the adequacy of, and compliance with, controls and standards; and",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0132",
+   "run": "v6",
+   "claim": "The company conducts regular workforce training and installs antivirus software on managed systems to detect and prevent malicious code.",
+   "evidence": "Our policies, procedures and practices include, but are not limited to:\n\n\u2022 identifying critical assets and high-risk threats and analyzing identified risks to determine the potential impact on the organization and the likelihood of occurrence;\n\n\u2022 cybersecurity detection, controls and remediation practices, including vulnerability assessments, penetration testing and tabletop exercises;\n\n\u2022 an incident response and recovery plan that includes escalation protocols, procedures for containment of incidents and investigation and remediation procedures;\n\n\u2022 installation of and regular updates to antivirus software on all company managed systems and workstations to detect and prevent malicious code from impacting our systems;\n\n\u2022 conducting regular workforce trainings for employees to identify cybersecurity concerns and educate employees on potential risks and best practices;\n\n\u2022 evaluating the effectiveness of our program by performing internal assessments;\n\n\u2022 periodic external audits by an independent third party to test for the adequacy of, and compliance with, controls and standards; and",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0141",
+   "run": "v6",
+   "claim": "The company maintains an incident response team (IRT) that uses a detailed incident response plan to prepare for, detect, respond to, and recover from cybersecurity incidents, including processes to triage, assess severity, escalate, contain, investigate, and remediate incidents.",
+   "evidence": "The IRT uses a detailed incident response plan that outlines and coordinates the actions we take to prepare for, detect, respond to and recover from cybersecurity incidents, which include processes to triage, assess the severity of, escalate, contain, investigate, and remediate an incident, as well as to comply with potentially applicable legal obligations and mitigate brand and reputational damage.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0155",
+   "run": "v6",
+   "claim": "*   **Investment and Growth:** Reviewing and approving asset allocation targets and investment policies to ensure consistency with overall goals, strategies, and objectives; reviewing and approving investment guidelines to maintain portfolio liquidity, credit quality, diversification, and volatility; and systematically reviewing portfolio exposures.",
+   "evidence": "Among its responsibilities, the Risk & Finance Committee of the Board:\n\n\u2022 reviews and approves asset allocation targets and investment policy to ensure that it is consistent with our overall goals, strategies, and objectives;\n\n\u2022 reviews and approves investment guidelines to ensure that appropriate levels of portfolio liquidity, credit quality, diversification, and volatility are maintained; and\n\n\u2022 systematically reviews the portfolio's exposures including any potential violations of investment guidelines.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0164",
+   "run": "v6",
+   "claim": "*   The Board of Directors and Audit Committee receive regular updates from the Chief Information Security Officer regarding the monitoring and mitigation of cybersecurity risks.",
+   "evidence": "Additional information on cybersecurity risks we face is discussed in Part I, Item 1A, \u201cRisk Factors,\u201d under the heading \u201cWe have and may continue to experience security breaches and cyber threats.\u201d\n\nOur Board of Directors maintains ultimate oversight over risks associated with cybersecurity and receives updates at least annually from our Chief Information Security Officer.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0167",
+   "run": "v6",
+   "claim": "Sara Kelly, executive vice president and chief partner officer, adopted a Rule 10b5-1 trading arrangement on August 28, 2024, to sell up to 4,859 shares.",
+   "evidence": "Other Information\n\nInsider Adoption or Termination of Trading Arrangements:\n\nDuring the fiscal quarter ended September 29, 2024, none of our directors or officers informed us of the adoption or termination of a \u201cRule 10b5-1 trading arrangement\u201d or \u201cnon-Rule 10b5-1 trading arrangement,\u201d as those terms are defined in Regulation S-K, Item 408, except as described in the table below:\n\n Name & Title Date Adopted Character of Trading Arrangement (1) Aggregate Number of Shares of Common Stock to be Purchased or Sold Pursuant to Trading Arrangement Duration (5) Other Material Terms Date Terminated\n Sara Kelly, August 28, 2024 Rule 10b5-1 Trading Arrangement Up to 4,859 shares to be sold (2) August 27, 2025 (6) N/A N/A\n executive vice president, chief partner officer Plus\n Up to 6,743 shares to be sold (3)\n Plus\n Up to 7,500 shares to be sold (4)\n \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n(1) Except as indicated by footnote, each trading arrangement marked as a \u201cRule 10b5-1 Trading Arrangement\u201d is intended to satisfy the affirmative defense of Rule 10b5-1(c), as amended (the \u201cRule\u201d).",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0167",
+   "run": "v6",
+   "claim": "This trading plan provides for the sale of up to 4,859 shares to be issued upon the exercise of a stock option on November 29, 2024, with a limit price of $95 during the period lasting until August 26, 2025.",
+   "evidence": "Kelly upon the exercise of a stock option on November 29, 2024, and sold pursuant to an order entered on November 29, 2024, with such sale subject to a limit price of $95 during the applicable good-until-cancelled period for such order, which lasts until August 26, 2025.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0167",
+   "run": "v6",
+   "claim": "Additionally, a prior Rule 10b5-1 trading arrangement adopted on August 5, 2023, provided for the sale of up to 3,500 shares, including up to 500 shares on a monthly basis beginning in November 2023.",
+   "evidence": "Other Information\n\nInsider Adoption or Termination of Trading Arrangements:\n\nDuring the fiscal quarter ended October 1, 2023, none of our directors or officers informed us of the adoption or termination of a \u201cRule 10b5-1 trading arrangement\u201d or \u201cnon-Rule 10b5-1 trading arrangement,\u201d as those terms are defined in Regulation S-K, Item 408, except as described in the table below:\n\n Name & Title Date Adopted Character of Trading Arrangement (1) Aggregate Number of Shares of Common Stock to be Purchased or Sold Pursuant to Trading Arrangement Duration (3) Other Material Terms Date Terminated\n Sara Kelly, August 5, 2023 Rule 10b5-1 Trading Arrangement Up to 3,500 shares to be Sold (2) 6/7/2024 (4) N/A N/A\n\n executive vice president, chief partner officer\n \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n(1) Except as indicated by footnote, each trading arrangement marked as a \u201cRule 10b5-1 Trading Arrangement\u201d is intended to satisfy the affirmative defense of Rule 10b5-1(c), as amended (the \u201cRule\u201d).",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0170",
+   "run": "v6",
+   "claim": "*   **Execution and Strategy:** Risks include the company's ability to successfully innovate, develop, and execute a go-to-market strategy in an evolving distribution and reseller landscape.",
+   "evidence": "ging marketplaces and effectively deliver HP\u2019s services;\n\n\u2022 HP\u2019s ability to execute on its strategic plans, including the previously announced initiatives, business model changes and transformation;\n\n\u2022 execution of planned structural cost reductions and productivity initiatives;\n\n\u2022 HP\u2019s ability to complete any contemplated share repurchases, other capital return programs or other strategic transactions;\n\n\u2022 the competitive pressures faced by HP\u2019s businesses;\n\n\u2022 risks associated with executing HP\u2019s strategy and business model changes and transformation;\n\n\u2022 successfully innovating, developing and executing HP\u2019s go-to-market strategy, including online, omnichannel and contractual sales, in an evolving distribution, reseller and customer landscape;\n\n\u2022 the development and transition of new products and services and the enhancement of existing products and services to meet evolving customer needs and respond to emerging technological trends;\n\n\u2022 successfully competing and maintaining the value proposition of HP\u2019s products, including supplies;\n\n\u2022 challenges to HP\u2019s ability to accurately forecast inventories, demand and pricing, which may be due to HP\u2019s multi-tiered channel, sales of HP\u2019s products to unauthorized resellers or unauthorized resale of HP\u2019s products or our uneven sales cycle;\n\n\u2022 integration and other risks associated with business combination and investment transactions;\n\n\u2022 the results of our restructuring plans (including the 2023 plan), including estimates and assumptions related to the cost (including any possible disruption of HP\u2019s business) and the anticipated benefits of our restructuring plans;\n\n\u2022 the protection of HP\u2019s intellectual property assets, including intellectual property licensed from third parties;\n\n\u2022 the hiring and retention of key employees;",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0176",
+   "run": "v6",
+   "claim": "During the three months ended December 31, 2023, Guy Chiarello, Chief Operating Officer, adopted a Rule 10b5-1 Trading Plan for the sale of common stock.",
+   "evidence": "On December 15, 2023, Guy Chiarello, Chief Operating Officer of the Company, adopted a trading arrangement for the sale of securities of the Company\u2019s common stock (a \u201cRule 10b5-1 Trading Plan\u201d) that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c).",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0176",
+   "run": "v6",
+   "claim": "In the three months ended September 30, 2023, Robert W. Hau, Chief Financial Officer, and Suzan Kereere, Head of Global Business Solutions, both adopted Rule 10b5-1 Trading Plans.",
+   "evidence": "On September 18, 2023, Suzan Kereere, Head of Global Business Solutions of the Company, adopted a Rule 10b5-1 Trading Plan that is intended to satisfy the affirmative defense conditions of Exchange Act Rule 10b5-1(c).",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0179",
+   "run": "v6",
+   "claim": "*   CMS Energy and Consumers have indemnity obligations from the sale of membership interests and stock/asset sale agreements, but the company considers the likelihood of substantial losses related to these indemnities to be remote,,.",
+   "evidence": "CMS Energy and Consumers consider the likelihood that they would be required to perform or incur substantial losses related to these indemnities to be remote.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0187",
+   "run": "v6",
+   "claim": "*   Loss of intellectual property, proprietary information, or employee, customer, or vendor data.",
+   "evidence": "Our information technology systems and network infrastructure may be subject to unauthorized access or attack, including ransomware attacks, which could result in (i) a loss of intellectual property, proprietary\n\ninformation, or employee, customer or vendor data; (ii) public disclosure of sensitive information; (iii) increased costs to prevent, respond to, or mitigate cybersecurity events, such as deploying additional personnel and protection technologies, training employees, and engaging third-party experts and consultants; (iv) systems interruption; (v) disruption of our business operations; (vi) remediation costs for repairs of system damage; (vii) reputational damage that adversely affects customer or investor confidence; and (viii) damage to our competitiveness, the price of our common stock or debt securities, and long-term stockholder value.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0187",
+   "run": "v6",
+   "claim": "*   Public disclosure of sensitive information.",
+   "evidence": "Our information technology systems and network infrastructure may be subject to unauthorized access or attack, including ransomware attacks, which could result in (i) a loss of intellectual property, proprietary\n\ninformation, or employee, customer or vendor data; (ii) public disclosure of sensitive information; (iii) increased costs to prevent, respond to, or mitigate cybersecurity events, such as deploying additional personnel and protection technologies, training employees, and engaging third-party experts and consultants; (iv) systems interruption; (v) disruption of our business operations; (vi) remediation costs for repairs of system damage; (vii) reputational damage that adversely affects customer or investor confidence; and (viii) damage to our competitiveness, the price of our common stock or debt securities, and long-term stockholder value.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0187",
+   "run": "v6",
+   "claim": "*   Increased costs to prevent, respond to, or mitigate events, such as deploying additional personnel and protection technologies, training employees, and engaging third-party experts.",
+   "evidence": "Our information technology systems and network infrastructure may be subject to unauthorized access or attack, including ransomware attacks, which could result in (i) a loss of intellectual property, proprietary\n\ninformation, or employee, customer or vendor data; (ii) public disclosure of sensitive information; (iii) increased costs to prevent, respond to, or mitigate cybersecurity events, such as deploying additional personnel and protection technologies, training employees, and engaging third-party experts and consultants; (iv) systems interruption; (v) disruption of our business operations; (vi) remediation costs for repairs of system damage; (vii) reputational damage that adversely affects customer or investor confidence; and (viii) damage to our competitiveness, the price of our common stock or debt securities, and long-term stockholder value.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0187",
+   "run": "v6",
+   "claim": "*   Systems interruption and disruption of business operations.",
+   "evidence": "Our information technology systems and network infrastructure may be subject to unauthorized access or attack, including ransomware attacks, which could result in (i) a loss of intellectual property, proprietary\n\ninformation, or employee, customer or vendor data; (ii) public disclosure of sensitive information; (iii) increased costs to prevent, respond to, or mitigate cybersecurity events, such as deploying additional personnel and protection technologies, training employees, and engaging third-party experts and consultants; (iv) systems interruption; (v) disruption of our business operations; (vi) remediation costs for repairs of system damage; (vii) reputational damage that adversely affects customer or investor confidence; and (viii) damage to our competitiveness, the price of our common stock or debt securities, and long-term stockholder value.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0187",
+   "run": "v6",
+   "claim": "*   Remediation costs for repairs of system damage.",
+   "evidence": "Our information technology systems and network infrastructure may be subject to unauthorized access or attack, including ransomware attacks, which could result in (i) a loss of intellectual property, proprietary\n\ninformation, or employee, customer or vendor data; (ii) public disclosure of sensitive information; (iii) increased costs to prevent, respond to, or mitigate cybersecurity events, such as deploying additional personnel and protection technologies, training employees, and engaging third-party experts and consultants; (iv) systems interruption; (v) disruption of our business operations; (vi) remediation costs for repairs of system damage; (vii) reputational damage that adversely affects customer or investor confidence; and (viii) damage to our competitiveness, the price of our common stock or debt securities, and long-term stockholder value.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0187",
+   "run": "v6",
+   "claim": "*   Reputational damage that adversely affects customer or investor confidence.",
+   "evidence": "Our information technology systems and network infrastructure may be subject to unauthorized access or attack, including ransomware attacks, which could result in (i) a loss of intellectual property, proprietary\n\ninformation, or employee, customer or vendor data; (ii) public disclosure of sensitive information; (iii) increased costs to prevent, respond to, or mitigate cybersecurity events, such as deploying additional personnel and protection technologies, training employees, and engaging third-party experts and consultants; (iv) systems interruption; (v) disruption of our business operations; (vi) remediation costs for repairs of system damage; (vii) reputational damage that adversely affects customer or investor confidence; and (viii) damage to our competitiveness, the price of our common stock or debt securities, and long-term stockholder value.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0187",
+   "run": "v6",
+   "claim": "*   Damage to the company's competitiveness, the price of its common stock or debt securities, and long-term stockholder value.",
+   "evidence": "Our information technology systems and network infrastructure may be subject to unauthorized access or attack, including ransomware attacks, which could result in (i) a loss of intellectual property, proprietary\n\ninformation, or employee, customer or vendor data; (ii) public disclosure of sensitive information; (iii) increased costs to prevent, respond to, or mitigate cybersecurity events, such as deploying additional personnel and protection technologies, training employees, and engaging third-party experts and consultants; (iv) systems interruption; (v) disruption of our business operations; (vi) remediation costs for repairs of system damage; (vii) reputational damage that adversely affects customer or investor confidence; and (viii) damage to our competitiveness, the price of our common stock or debt securities, and long-term stockholder value.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0201",
+   "run": "v6",
+   "claim": "The company identifies specific risks related to these estimates, including the nature and complexity of work, subcontractors' and suppliers' performance, labor and material costs, and the allocation of transaction prices.",
+   "evidence": "For example, we must make assumptions regarding: (i) the nature and complexity of the\n\nwork to be performed; (ii) subcontractors\u2019 and suppliers\u2019 expected performance; (iii) availability and costs of labor,\n\nmaterials, components subsystems and services (including expected increases in wages and prices); (iv) the length\n\nof time to complete the contract; (v) the allocation of transaction price to one or more performance obligations\n\nbased on the products and services promised to the customer; (vi) incentives or penalties related to performance on\n\ncontracts in estimating revenue and profit rates, and recording them when there is sufficient information for us to\n\nassess anticipated performance; and (vii) estimates of award fees in estimating revenue and profit rates based on\n\nactual and anticipated awards.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0252",
+   "run": "v6",
+   "claim": "To date, risks from cybersecurity threats, including those resulting from any previous cybersecurity incidents, have not materially affected the company's business strategy, results of operations, or financial condition.",
+   "evidence": "To date, risks from cybersecurity threats, including as a result of any previous cybersecurity incidents, have not materially affected us, including our business strategy, results of operations or financial condition, and we do not believe that such risks are reasonably likely to have such an effect over the long term.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0040",
+   "run": "v7_8b",
+   "claim": "*   **U.S. Treasury Bill Transactions:** The Company is contesting a tax assessment of approximately $27 to $53 (depending on the reporting period) related to the purchase and disposition of U.S. Treasury bills between 2000 and 2001.",
+   "evidence": "Treasury bills by the subsidiary and their subsequent disposition during the period 2000 to 2001 were subject to a tax on foreign exchange transactions.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0047",
+   "run": "v7_8b",
+   "claim": "*   **Fuel:** Jet fuel and oil constituted approximately 24 percent of the Company's operating expenses during 2023.",
+   "evidence": "Jet fuel and oil constituted approximately 24 percent of the Company's operating expenses during 2023, and the Company's ability to control the cost of fuel is subject to the external factors discussed in \u201cThe Company's business can be significantly impacted by the availability of jet fuel and high and/or volatile fuel prices, and the Company's operations are subject to disruption in the event of any delayed supply of fuel; therefore, the Company's strategic plans and future profitability are likely to be impacted by the Company's ability to effectively address fuel price increases and fuel price volatility and availability.\u201d\n\nSalaries, wages, and benefits constituted approximately 43 percent of the Company's operating expenses during 2023.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0049",
+   "run": "v7_8b",
+   "claim": "*   Dividends from Principal Life, the primary subsidiary, are limited by Iowa law to the earned surplus arising from its business.",
+   "evidence": "Under Iowa law, Principal Life may pay dividends or make other distributions only from the earned surplus arising from its business and must receive the prior approval of the Commissioner of Insurance of the State of Iowa (the \u201cCommissioner\u201d) to pay stockholder dividends or make any other distribution if such distribution would exceed certain statutory limitations.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0049",
+   "run": "v7_8b",
+   "claim": "*   The Commissioner of Insurance of the State of Iowa has the discretion to disapprove requests for distributions that exceed certain statutory limitations.",
+   "evidence": "Under Iowa law, Principal Life may pay dividends or make other distributions only from the earned surplus arising from its business and must receive the prior approval of the Commissioner of Insurance of the State of Iowa (the \u201cCommissioner\u201d) to pay stockholder dividends or make any other distribution if such distribution would exceed certain statutory limitations.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0064",
+   "run": "v7_8b",
+   "claim": "*   As of December 31, 2023, the company reported $584 million in accrued costs and $387 million in reasonably possible future costs for environmental remediation.",
+   "evidence": "Environmental Matters\n\nThe table below summarizes the amount accrued for environmental remediation costs, management\u2019s estimate of the amount of reasonably possible future costs in excess of accrued costs and the deferred costs expected to be recoverable through overhead charges on U.S.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0075",
+   "run": "v7_8b",
+   "claim": "*   **Technology Integration:** Technology Solutions include proprietary digital tools and services such as metrics and benchmarking applications for trial performance monitoring and optimization, and an informatics software suite for risk-based quality management.",
+   "evidence": "ith a wide offering of functional service provider solutions\n \u2022Dedicated group experienced in conduct of trials for medical devices and diagnostics to provide services for expanding market in medical devices\n \u2022Leader in clinical pharmacology\n \u2022Wide range of commercialization solutions including life cycle management and post-approval studies\n \u2022Market access solutions\n Technology Solutions Proprietary digital tools and services providing customers with greater access to key insights and results, as well as improved trial management, enhanced transparency, quality, and speed of clinical trials, resulting in reduced costs and increased market potential for customers:\n \u2022Patient-facing software applications supporting virtual, hybrid, and traditional trials\n \u2022Metrics and benchmarking applications for trial performance monitoring and optimization\n \u2022Award-winning informatics software suite for risk-based quality management across clinical trials\n \u2022Patient randomization and Clinical Supply Management\n\nHuman Capital\n\nMission and Culture\n\nLabcorp believes in the power of science to change lives.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0075",
+   "run": "v7_8b",
+   "claim": "*   **Drug Development Services:** Services include Early Development Research Laboratories (such as lead optimization and analytical services), Chemistry manufacturing services, and Central Laboratory Services for clinical laboratory services.",
+   "evidence": "Service Key Features\n Early Development Research Laboratories \u2022Lead optimization: connects early discovery activities to regulated preclinical studies\n \u2022Analytical services: bioanalytical testing services offering appropriate dose and frequency of drug administration\n \u2022Safety assessment: general, genetic, and immunotoxicology services; nonclinical pathology; safety pharmacology services; preclinical medical device services; respiratory services; and developmental and reproductive toxicology (DART) studies\n \u2022Chemistry manufacturing services: robust, cost-effective solutions in the areas of safety, identity, strength, quality, and purity assessments for biologics\n \u2022Early phase development solutions: focused, multidisciplinary teams of experts that craft integrated solutions to identify and develop lead drug candidates and reduce development challenges\n \u2022Crop protection and chemical testing: Consulting services for chemical manufacturers and other firms engaged in the development of modern crop protection technology\n Central Laboratory Services \u2022Clinical laboratory services for individuals participating in clinical studies\n \u2022Provided to biopharmaceutical customers through its global network of central laboratories in the U.S., Europe, and Asia\n \u2022Operates world\u2019s largest automated clinical trial sample collection kit production lines that enable kits to be produced with 5.5 sigma precision\n \u20226 ISO 15189-certified laboratories\n Technology Solutions Proprietary digital tools and services providing customers with greater access to key insights and results, enhanced transparency, quality, and speed of clinical trial patient recruitment, resulting in reduced costs and increased market potential for customers:\n \u2022Metrics and benchmarking applications for monitoring patient recrui",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0088",
+   "run": "v7_8b",
+   "claim": "REGENERON PHARMACEUTICALS, INC. manages cybersecurity risks through a risk-based approach integrated into its overall risk management program, which includes regular assessment of threats, monitoring of information systems for vulnerabilities, and testing of systems.",
+   "evidence": "Cybersecurity\n\nRisk Management and Strategy\n\nWe regularly assess risks from cybersecurity threats; monitor our information systems for potential vulnerabilities; and test those systems pursuant to our cybersecurity policies, processes, and practices, which are integrated into our overall risk management program.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0089",
+   "run": "v7_8b",
+   "claim": "The company notes that there is no guarantee that the measures and resources devoted to cybersecurity will provide absolute security or recoverability.",
+   "evidence": "There is no guarantee that the measures AIG takes and the resources AIG devotes to protect against cybersecurity risk will provide absolute security or recoverability of AIG\u2019s systems given the complexity and frequency of the risk which AIG may not always be able to anticipate or adequately address.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0092",
+   "run": "v7_8b",
+   "claim": "The Company also advocates for constructive federal policies that align with its strategic priorities.",
+   "evidence": "Industry Legislation\n\nAmerican Water continues to advocate for constructive policies at the federal level that align with the Company\u2019s strategic priorities and would be beneficial to its customers.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0101",
+   "run": "v7_8b",
+   "claim": "*   **Risk-Based Approach:** The company uses a risk-based approach to identify and assess threats, incorporates industry standards like the NIST Cyber Security Framework (NIST CSF), and conducts third-party assessments to ensure information security control requirements are met.",
+   "evidence": "We have implemented a risk-based approach to identify and assess the cybersecurity threats that could affect our business and information systems, and we evaluate changes and enhancements to our technology environment as well as conduct third party assessments to confirm that they meet our information security control requirements.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0105",
+   "run": "v7_8b",
+   "claim": "*   Centene competes with other MCOs, specialty companies, and non-traditional competitors such as technology companies, financial services firms, and consulting firms to acquire and retain contracts and members.",
+   "evidence": "In addition, competitors could include technology companies, new joint ventures, financial services firms, consulting firms, and other non-traditional competitors.",
+   "real": true,
+   "note": "'competitors could include technology companies, ... financial services firms, consulting firms' stated as 'Centene competes with ... technology companies, financial services firms, and consulting firms'",
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0125",
+   "run": "v7_8b",
+   "claim": "*   Competition is based on factors such as innovation, design, quality, reliability, product performance, features, functionality, pricing, availability, capacity, and technical support.",
+   "evidence": "Competition\n\nWe believe that competitive performance in the marketplace for integrated circuits depends upon multiple factors, including technological innovation, strength of brand, diversity of product portfolio, product performance, technical support, delivery capabilities, customer service quality, reliability and price, with the relative importance of these factors varying among products, markets, and customers.",
+   "real": true,
+   "note": "'We believe that competitive performance ... depends upon multiple factors' stated as 'Competition is based on factors such as ...' (same rule as v3 finder_0125)",
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0132",
+   "run": "v7_8b",
+   "claim": "The excerpts describe the company's cybersecurity risk management program, including risk assessments, detection controls, and employee training, and note that the company self-insures for cybersecurity risks and has not incurred net expenses from a material security breach in the last three years.",
+   "evidence": "Our policies, procedures and practices include, but are not limited to:\n\n\u2022 identifying critical assets and high-risk threats and analyzing identified risks to determine the potential impact on the organization and the likelihood of occurrence;\n\n\u2022 cybersecurity detection, controls and remediation practices, including vulnerability assessments, penetration testing and tabletop exercises;\n\n\u2022 an incident response and recovery plan that includes escalation protocols, procedures for containment of incidents and investigation and remediation procedures;\n\n\u2022 installation of and regular updates to antivirus software on all company managed systems and workstations to detect and prevent malicious code from impacting our systems;\n\n\u2022 conducting regular workforce trainings for employees to identify cybersecurity concerns and educate employees on potential risks and best practices;\n\n\u2022 evaluating the effectiveness of our program by performing internal assessments;\n\n\u2022 periodic external audits by an independent third party to test for the adequacy of, and compliance with, controls and standards; and",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0144",
+   "run": "v7_8b",
+   "claim": "*   Beatriz Perez serves as Executive Vice President and Global Chief Communications, Sustainability and Strategic Partnerships Officer.",
+   "evidence": "Beatriz Perez 54 Executive Vice President since January 2024 and Global Chief Communications, Sustainability and Strategic Partnerships Officer since May 2017.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0155",
+   "run": "v7_8b",
+   "claim": "*   **Investment Oversight:** Reviewing and approving asset allocation targets and investment policies to ensure consistency with goals, strategies, and objectives; reviewing and approving investment guidelines to maintain portfolio liquidity, credit quality, diversification, and volatility; and systematically reviewing portfolio exposures.",
+   "evidence": "Among its responsibilities, the Risk & Finance Committee of the Board:\n\n\u2022 reviews and approves asset allocation targets and investment policy to ensure that it is consistent with our overall goals, strategies, and objectives;\n\n\u2022 reviews and approves investment guidelines to ensure that appropriate levels of portfolio liquidity, credit quality, diversification, and volatility are maintained; and\n\n\u2022 systematically reviews the portfolio's exposures including any potential violations of investment guidelines.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0164",
+   "run": "v7_8b",
+   "claim": "*   The Board of Directors and the Audit Committee receive regular updates from the Chief Information Security Officer regarding the monitoring and mitigation of cybersecurity risks.",
+   "evidence": "Additional information on cybersecurity risks we face is discussed in Part I, Item 1A, \u201cRisk Factors,\u201d under the heading \u201cWe have and may continue to experience security breaches and cyber threats.\u201d\n\nOur Board of Directors maintains ultimate oversight over risks associated with cybersecurity and receives updates at least annually from our Chief Information Security Officer.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0164",
+   "run": "v7_8b",
+   "claim": "*   The company devotes financial and operational resources to systems and technologies to guard against cyber events and protect intellectual property, employee data, and information technology systems.",
+   "evidence": "While we devote financial and operational resources to implement systems, processes and technologies to guard against cyber events and to help protect our intellectual property, employee and consumer data and information technology systems against intrusions or other security breaches, we have experienced such events in the past and expect future events to occur.",
+   "real": false,
+   "borderline": true,
+   "note": "'to help protect' stated as 'to protect'; not counted",
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0167",
+   "run": "v7_8b",
+   "claim": "Sara Kelly adopted a Rule 10b5-1 trading arrangement on August 28, 2024, to sell up to 4,859 shares.",
+   "evidence": "Other Information\n\nInsider Adoption or Termination of Trading Arrangements:\n\nDuring the fiscal quarter ended September 29, 2024, none of our directors or officers informed us of the adoption or termination of a \u201cRule 10b5-1 trading arrangement\u201d or \u201cnon-Rule 10b5-1 trading arrangement,\u201d as those terms are defined in Regulation S-K, Item 408, except as described in the table below:\n\n Name & Title Date Adopted Character of Trading Arrangement (1) Aggregate Number of Shares of Common Stock to be Purchased or Sold Pursuant to Trading Arrangement Duration (5) Other Material Terms Date Terminated\n Sara Kelly, August 28, 2024 Rule 10b5-1 Trading Arrangement Up to 4,859 shares to be sold (2) August 27, 2025 (6) N/A N/A\n executive vice president, chief partner officer Plus\n Up to 6,743 shares to be sold (3)\n Plus\n Up to 7,500 shares to be sold (4)\n \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n(1) Except as indicated by footnote, each trading arrangement marked as a \u201cRule 10b5-1 Trading Arrangement\u201d is intended to satisfy the affirmative defense of Rule 10b5-1(c), as amended (the \u201cRule\u201d).",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0167",
+   "run": "v7_8b",
+   "claim": "This trading plan provides for the sale of up to 4,859 shares issued upon the exercise of a stock option on November 29, 2024, with a limit price of $95 during the period lasting until August 26, 2025.",
+   "evidence": "Kelly upon the exercise of a stock option on November 29, 2024, and sold pursuant to an order entered on November 29, 2024, with such sale subject to a limit price of $95 during the applicable good-until-cancelled period for such order, which lasts until August 26, 2025.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0167",
+   "run": "v7_8b",
+   "claim": "Additionally, a prior Rule 10b5-1 trading arrangement adopted on August 5, 2023, provided for the sale of up to 500 shares on a monthly basis beginning in November 2023.",
+   "evidence": "Kelly\u2019s trading plan provides for the sale of up to 500 shares on a monthly basis beginning in November 2023 with 250 shares subject to a limit price of $110.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0170",
+   "run": "v7_8b",
+   "claim": "*   **Market Dynamics and Competition:** The company faces aggressive competition from competitors targeting key market segments, including competition on technology, innovation, price, and brand.",
+   "evidence": "We encounter aggressive competition from competitors in all areas of our business, and our competitors have targeted and are expected to continue targeting our key market segments.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0187",
+   "run": "v7_8b",
+   "claim": "*   Increased costs to prevent, respond to, or mitigate cybersecurity events, such as deploying additional personnel and protection technologies, training employees, and engaging third-party experts and consultants.",
+   "evidence": "Our information technology systems and network infrastructure may be subject to unauthorized access or attack, including ransomware attacks, which could result in (i) a loss of intellectual property, proprietary\n\ninformation, or employee, customer or vendor data; (ii) public disclosure of sensitive information; (iii) increased costs to prevent, respond to, or mitigate cybersecurity events, such as deploying additional personnel and protection technologies, training employees, and engaging third-party experts and consultants; (iv) systems interruption; (v) disruption of our business operations; (vi) remediation costs for repairs of system damage; (vii) reputational damage that adversely affects customer or investor confidence; and (viii) damage to our competitiveness, the price of our common stock or debt securities, and long-term stockholder value.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0187",
+   "run": "v7_8b",
+   "claim": "*   Legal claims or proceedings against the company by stockholders, employees, customers, vendors, and governmental authorities.",
+   "evidence": "A breach may also result in legal claims or proceedings against us by our stockholders, employees, customers, vendors, and governmental authorities (U.S.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0199",
+   "run": "v7_8b",
+   "claim": "The company identifies the ability to attract and retain key personnel as a factor in evaluating forward-looking statements.",
+   "evidence": "he same; the impact of our strategic initiatives; our ability to attract and retain key personnel; volatility and disruptions in financial markets that may impact our ability to access preferred sources of financing and the terms on which we are able to obtain financing or increase our costs of borrowing; adverse impacts from currency exchange rates or currency controls; changes in corporate tax and interest rates; and other factors identified in this Annual Report on Form 10-K for the year ended December 31, 2023 and in other documents that we file with the Securities and Exchange Commission, which are available at http://www.sec.gov.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0238",
+   "run": "v7_8b",
+   "claim": "The company also faces government-imposed constraints on pricing or reimbursement for products.",
+   "evidence": "Our international businesses are also subject to government-imposed constraints, including laws on pricing or reimbursement for use of products.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0241",
+   "run": "v7_8b",
+   "claim": "*   Loss of revenues due to slowed or halted commodities trading, operational disruptions to communications networks or power grids, or attacks on automated and surveillance systems.",
+   "evidence": "revenues; a cybersecurity attack involving commodities exchanges or financial institutions could slow or halt commodities trading, thus preventing us from marketing our production or engaging in hedging activities, resulting in a loss of revenues; a deliberate corruption of our financial or operating data could result in events of non-compliance which could then lead to regulatory enforcement actions, fines or penalties; a cybersecurity attack on a communications network or power grid, which could cause operational disruptions resulting in a loss of revenues; and a cybersecurity attack on our automated and surveillance systems, which could cause a loss of production and potential environmental hazards.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0241",
+   "run": "v7_8b",
+   "claim": "*   Regulatory enforcement actions, fines, or penalties resulting from the deliberate corruption of financial or operating data.",
+   "evidence": "revenues; a cybersecurity attack involving commodities exchanges or financial institutions could slow or halt commodities trading, thus preventing us from marketing our production or engaging in hedging activities, resulting in a loss of revenues; a deliberate corruption of our financial or operating data could result in events of non-compliance which could then lead to regulatory enforcement actions, fines or penalties; a cybersecurity attack on a communications network or power grid, which could cause operational disruptions resulting in a loss of revenues; and a cybersecurity attack on our automated and surveillance systems, which could cause a loss of production and potential environmental hazards.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0259",
+   "run": "v7_8b",
+   "claim": "The program includes a Cyber Awareness and Engagement Program, annual employee training, and a Third-Party Risk Management Program to assess and monitor risks posed by external suppliers and vendors.",
+   "evidence": "Further, our Third-Party Risk Management Program utilizes a managed service that uses a standard framework to help identify, assess and monitor potential cybersecurity risks posed by third parties.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  },
+  {
+   "id": "finder_0259",
+   "run": "v7_8b",
+   "claim": "The company states that cybersecurity risks and threats have not materially impacted operations to date, but it cannot provide assurance that a material cybersecurity incident will not occur in the future.",
+   "evidence": "However, we cannot provide any assurance that we will not be subject to a material cybersecurity incident in the future.",
+   "real": false,
+   "label_file": "eval/qualifier_labels_v6v7.json"
+  }
+ ]
+}

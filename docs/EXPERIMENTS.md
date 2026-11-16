@@ -1734,7 +1734,8 @@ the 8B model repaired 4 answers against 9. On the 73 hand-labelled v3 claims
 (`tools/qualifier_lab.py`, `out/qualifier_lab_8b.txt`) it finds 5 of the 14 real drops, with
 7 false alarms. `qwen3:14b` found 6 of 14 with 5. The difference is one item on 14 positives,
 so these labels cannot separate the two checkers. The lexical proxy that went from 37 to 45 is
-right about a fifth of the time (§11), so the rise is about 1–2 real drops.
+right about a fifth of the time (§11), so the rise is about 1–2 real drops. (Hand labels for every candidate, §20.13: 0 real in v6, 2 in v7-8b;
+clean answers 233 vs 234.)
 
 **Decision.** v7-8b replaces v6 as the recommended configuration and the demo API default. It
 gives the same quality within run noise for 22% less model time, mostly from the judge
@@ -1767,3 +1768,84 @@ The gold chunk's dense rank explains why tuning the selection is exhausted. On d
 are in the top 8 and another 13 are at 9–30. The 14 below rank 60 are out of reach of any pool
 that MMR uses at this λ, and the 7 below rank 200 need a different query, not a different
 selection. **Decision:** keep pool 60, λ 0.85.
+
+### 20.12 Q3-2: several styled HyDE passages do not help
+
+Production retrieves with the mean cosine of the question and one company-blind HyDE passage.
+FinDER answers sit in different 10-K sections, and one passage commits to one of them.
+`tools/multihyde_lab.py` has `gemma4:12b` write three more company-blind passages per
+question, each in the style of one section family: risk factors, MD&A, and notes to the
+financial statements. That takes about 20 s per question
+(`out/rewrite/multihyde_gemma4_12b_blind.json`). The lab compares four ways to combine them,
+all with the production MMR (pool 60, λ 0.85), paired against production.
+
+| Variant | Dev Hit@8 (122) | ΔHit dev [95% CI] | Test Hit@8 (127) | ΔHit test [95% CI] |
+|---|---|---|---|---|
+| prod: mean(question, HyDE) | 0.795 | – | **0.756** | – |
+| q+hyde+styles: mean of all five | **0.811** | +0.016 [−0.033, +0.066] (6/4) | 0.701 | −0.055 [−0.110, −0.008] (2/9) |
+| max_styles: best of the four (question + passage) pairs | 0.803 | +0.008 [−0.016, +0.033] | 0.724 | −0.031 [−0.079, +0.008] |
+| rrf_styles: RRF of the four pair rankings | 0.795 | 0.000 | 0.748 | −0.008 [−0.024, 0.000] |
+| q+styles: mean of the question and the three styled passages | 0.787 | −0.008 [−0.057, +0.041] | 0.717 | −0.039 [−0.094, +0.016] |
+
+The production row reproduces dev 0.795. The dev leader, the mean over all five, swaps
+questions rather than adding them (6 won, 4 lost). On test it loses 9 and wins 2, with the CI
+below zero. More passages pull the query toward generic 10-K language that matches many
+chunks. Without the production passage (q+styles), the styled passages are worse than it on
+both splits. **Decision:** keep one HyDE passage. It also avoids three more generator calls
+per question.
+
+Q3 has now tried rerankers (§20.7), the MMR selection (§20.11) and the query side (here),
+and none moves dev Hit@8 beyond 0.795 with a confirmation on test. The 14 dev questions whose
+gold chunk ranks below 60 are the remainder. FinDER's terse, abbreviated questions
+give a query model little to work with, and the gold passage is often one of many
+similar ones in the filing.
+
+### 20.13 Issue #3: the qualifier check on held-out labels, and how much the filter misses
+
+The dropped-qualifier check (§11) is two stages: a lexical filter picks candidate claims (the
+quote has a hedge word the claim lacks) and the judge model confirms each one. Its recall of
+0.43 was measured on the 73 v3 labels that prompt v2 was written on. Issue #3 asks for the
+check on labels it was not tuned on, and for the filter's own misses.
+
+**Labels.** I hand-labelled in session, with the same rule as before: real = the hedge
+governs exactly what the claim states as fact. I labelled the 66 v6 and v7-8b candidates
+that are in no earlier label file (`eval/qualifier_labels_v6v7.json`: 2 real, 2 borderline
+not counted). Bullet claims whose list lead-in keeps the hedge ("may result in:") are not
+hardened. Together with the v4, v5 and v5_full labels, the held-out set has 143 distinct
+candidates with 8 real drops (`eval/qualifier_heldout.json`).
+
+**Checker on held-out labels** (`tools/qualifier_lab.py --labels eval/qualifier_heldout.json`,
+`out/qualifier_heldout_{14b,8b}.txt`):
+
+| Detector | Precision | Recall [95% CI] |
+|---|---|---|
+| Lexical filter | 0.06 (8/143) | 1.00 by construction |
+| `qwen3:14b`, prompt v2 | 0.10 (1/10) | **0.12** (1/8) [0.02, 0.47] |
+| `qwen3:8b`, prompt v2 | 0.22 (2/9) | **0.25** (2/8) [0.07, 0.59] |
+
+The tuned-set 0.43 did not hold up. On new claims the checker finds one or two of eight real
+drops, and most of what it flags is wrong. It misses the cases it was written for ("We believe
+… depends upon" stated as "is based on"; "competitors could include" stated as "competes
+with"). Its false alarms are mostly claims that keep the hedge in other words. A false alarm
+costs one re-prompt, kept only if it is no worse, so the check is harmless but does little.
+
+**Filter misses** (`eval/qualifier_unflagged_v7_8b.json`). In a random sample of 100 of
+the 848 supported v7-8b claims the filter does *not* flag, no claim drops a hedge (one
+borderline: "seeks to maintain … with" stated as "focuses on"). The 95% upper bound is 3% of
+the 848, about 25 claims. The point estimate is that the filter misses nothing.
+
+**What this does to the reported numbers.** All v6 and v7-8b candidates now carry a hand
+label, so the per-question label "generation: dropped qualifiers" can be checked directly:
+
+| | v6 | v7-8b |
+|---|---|---|
+| Questions labelled "dropped qualifiers" (lexical) | 24 | 30 |
+| ... with a hand-labelled real drop | **0** | **2** (finder_0105, finder_0125) |
+| Clean answers as reported | 209 | 206 |
+| Clean answers with hand-labelled qualifiers | **233** | **234** |
+
+None of the falsely flagged questions has another failure (no partial claims), so each one
+becomes clean. Dropped qualifiers are now rare, 0–2 real per run of about 1,200 claims. The
+lexical label hid that and made v7-8b look three answers worse than v6. With the hand labels
+the two runs are equal (233 vs 234). The lexical label stays in the report for comparability
+with earlier versions. Comparisons should use the hand-labelled count, as here.

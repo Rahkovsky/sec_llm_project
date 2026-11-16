@@ -83,7 +83,8 @@ question rather than the HyDE passage.
    but no variant beats production. The best (RRF with Qwen@HyDE) is −0.057 on dev. On the
    well-worded synthetic set, Qwen on the question alone gains +0.025 near the ceiling. No
    reranker in the pipeline.
-2. **Several HyDE passages:** generate 2–3 passages in different styles (risk factor, MD&A,
+2. ~~**Several HyDE passages**~~ **Done, negative** (EXPERIMENTS §20.12): the best dev variant
+   (+0.016) loses 0.055 on test, CI below zero. Keep one passage. Original idea: generate 2–3 passages in different styles (risk factor, MD&A,
    notes to the financial statements) and average or fuse their rankings. FinDER answers sit in
    different sections, and one passage commits to one of them.
 3. ~~**Larger candidate pool for MMR** (60 → 120) and a lab sweep of λ~~ **Done, no change**
@@ -99,6 +100,10 @@ every earlier retrieval change. **Cost:** an hour or two of compute per lab.
 - **The dropped-qualifier label overstates.** The 13 questions labelled "dropped qualifier" come
   from a lexical flag; hand labels find only 2 real drops among 22 flags. A held-out label set
   for the judge check (issue #3) would let the report count real drops automatically.
+  *Done (Nov 15, §20.13):* on 143 held-out candidates (8 real) the judge check finds 1–2 of 8
+  (recall 0.12 with `qwen3:14b`, 0.25 with `qwen3:8b`), so it cannot count drops. The lexical
+  filter misses none of 100 sampled unflagged claims. Hand labels put real drops at 0 (v6) and
+  2 (v7-8b) of the 24–30 flagged questions, so clean answers are 233 and 234.
 - **FinDER ticker labels.** Three are wrong (§19). *Done (Nov 15):* `eval/finder_ticker_fixes.json`
   lists them; `eval/gold_plus_placebo_fixed.json` and `eval/finder_semantic_fixed.json` are the
   corrected copies; the originals are kept for comparability.
@@ -178,6 +183,8 @@ claim verdicts. On a 32 GB machine both models also stay loaded, which removes t
 | Q4 judge-agreement sample | Needed before trusting the next small quality differences | ~1 h + hand labels |
 | Q1 quote-first answering | Largest remaining quality gap (26 + part of 32 questions) | ~4 h |
 | ~~Q3-1 rerank against HyDE~~ | Done: no gain (§20.7) | ~2 h |
+| ~~Q3-2 several HyDE passages~~ | Done: no gain on test (§20.12) | ~1.5 h |
 | ~~Q3-3 MMR pool and λ~~ | Done: no change (§20.11) | minutes |
+| ~~Issue #3 held-out qualifier labels~~ | Done: checker recall 0.12–0.25; real drops 0–2 per run (§20.13) | ~1 h + labels |
 | ~~S4 smaller judge~~ | Done: `qwen3:8b` adopted, v7-8b (§20.10) | ~5 h |
 | Full 266 run of the winners | Confirms on the whole set | ~6–7 h with S1 |

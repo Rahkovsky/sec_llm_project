@@ -1,0 +1,610 @@
+{
+ "source": "random sample (seed 3) of 100 of the 848 SUPPORTED/PARTIAL non-meta claims with a quote in out/provenance_16gb_v7_8b that the lexical filter (qualifiers.is_candidate) does NOT flag; hand-labelled in session (Claude), Nov 15 2026, same rule as eval/qualifier_labels.json. Estimates the filter's misses (issue #3 step 2).",
+ "pool": 848,
+ "real": 0,
+ "borderline": 1,
+ "items": [
+  {
+   "id": "finder_0070",
+   "claim": "The company considers changes in selling prices as an internal event when evaluating budget-to-actual variances during the strategic plan, annual operating plan, and quarterly business review processes.",
+   "evidence": "During these processes, the CODM considers budget-to-actual variances to evaluate both internal (e.g., changes in selling prices, strategic growth investments, productivity, business mix, newly acquired/divested businesses, etc.) and external (e.g., inflation, foreign currency, etc.) events and conditions.",
+   "real": false
+  },
+  {
+   "id": "finder_0184",
+   "claim": "The company's liability insurance may not be sufficient in type or amount to cover claims related to security breaches or cyber-attacks.",
+   "evidence": "Our liability insurance may not be sufficient in type or amount to cover us against claims related to security breaches, cyber-attacks and other related breaches.",
+   "real": false
+  },
+  {
+   "id": "finder_0169",
+   "claim": "A material cybersecurity incident or security breach could result in unauthorized access to, loss of, or disclosure of information, and may lead to litigation, indemnity obligations, government investigations, and other possible liabilities.",
+   "evidence": "Material cybersecurity incidents or other security breaches could result in (1) unauthorized access to, or loss or unauthorized use, alteration, or disclosure of, such information; (2) litigation, indemnity obligations, government investigations and proceedings, and other possible liabilities; (3) negative publicity; and (4) disruptions to our internal and external operations.",
+   "real": false
+  },
+  {
+   "id": "finder_0035",
+   "claim": "*   **Technology Innovation:** Developing world-class platforms that utilize artificial intelligence and modern cloud architecture to simplify work and provide data insights.",
+   "evidence": "We design and develop world-class HCM platforms that simplify work and utilize enabling technologies such as artificial intelligence (\u201cAI\u201d) and modern cloud architecture.",
+   "real": false
+  },
+  {
+   "id": "finder_0109",
+   "claim": "The excerpts describe the company's use of trusted third-party auditors and recognized cybersecurity consultants to assess cybersecurity risks, related controls, and alignment to regulatory and legal requirements.",
+   "evidence": "In addition to our internal Information Security teams, we also utilize trusted third-party auditors and recognized cybersecurity consultants and certified assessors, to assess cybersecurity risks, related controls, and alignment to relevant regulatory and legal requirements.",
+   "real": false
+  },
+  {
+   "id": "finder_0188",
+   "claim": "The company maintains a cybersecurity risk management program to assess, identify, manage, and govern material risks from cybersecurity threats as a key component of its overall enterprise risk management program.",
+   "evidence": "CYBERSECURITY\n\nWe maintain a cybersecurity risk management program designed to assess, identify, manage, and govern material risks from cybersecurity threats.",
+   "real": false
+  },
+  {
+   "id": "finder_0143",
+   "claim": "To maintain its foundational strength, Northern Trust focuses on a strong, conservative balance sheet and a globally respected brand.",
+   "evidence": "Northern Trust also seeks to maintain its foundational strength with a strong, conservative balance sheet and a globally respected brand.",
+   "real": false,
+   "borderline": true,
+   "note": "'seeks to maintain its foundational strength with' stated as 'focuses on'; not counted"
+  },
+  {
+   "id": "finder_0197",
+   "claim": "Intellectual property disputes and litigation may be very costly and can be disruptive to business operations by diverting the attention and energies of management and key technical personnel.",
+   "evidence": "Intellectual property disputes and litigation may be very costly and can be disruptive to our business operations by diverting the attention and energies of management and key technical personnel.",
+   "real": false
+  },
+  {
+   "id": "finder_0182",
+   "claim": "The company may incur significant costs related to environmental matters, including those arising from government regulation and private litigation.",
+   "evidence": "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n We could incur significant costs related to environmental matters, including from government regulation, private litigation, and existing conditions at some of our properties.",
+   "real": false
+  },
+  {
+   "id": "finder_0017",
+   "claim": "The company's cybersecurity strategy includes regular security reviews, simulations, and testing, as well as consulting with third-party cybersecurity consultants.",
+   "evidence": "We conduct regular security reviews, simulations and testing, including internal and external penetration testing, vulnerability assessments and regular scans on our hosts and network devices.",
+   "real": false
+  },
+  {
+   "id": "finder_0189",
+   "claim": "To manage operating margins, the company plans to control costs by reducing real estate expenses due to excess capacity created by its FlexBase program.",
+   "evidence": "We plan to continue to control costs, including reducing our real estate expenses due to excess capacity created by our FlexBase program, in an effort to manage our operating margins.",
+   "real": false
+  },
+  {
+   "id": "finder_0003",
+   "claim": "If a loss is reasonably possible but not known or probable, and can be reasonably estimated, the estimated loss or range of loss is disclosed.",
+   "evidence": "If a loss is reasonably possible but not known or probable, and can be reasonably estimated, the estimated loss or range of loss is disclosed.",
+   "real": false
+  },
+  {
+   "id": "finder_0142",
+   "claim": "The company expects to record cumulative restructuring and other charges of approximately $852 million (before tax) in connection with these initiatives.",
+   "evidence": "Once the relevant accounting criteria have been met, the Company expects to record cumulative restructuring and other charges of approximately $ 852 million (before tax) in connection with these initiatives, which other than the non-cash charges, are expected to result in future cash expenditures funded from cash provided by operations.",
+   "real": false
+  },
+  {
+   "id": "finder_0077",
+   "claim": "*   The company's ability to access capital markets is important to its overall funding profile, and a downgrade in credit ratings could increase borrowing costs and negatively impact profitability.",
+   "evidence": "A downgrade to Fifth Third or its subsidiaries\u2019 credit rating could affect its ability to access the capital markets, increase its borrowing costs and negatively impact its profitability.",
+   "real": false
+  },
+  {
+   "id": "finder_0170",
+   "claim": "*   **Growth and Strategy Risks:** The company believes it faces long-term challenges from decreased demand for printing products due to digitization and hybrid work, as well as increasing competition from generic alternatives.",
+   "evidence": "For example, we believe we and others in our industry face long-term challenges related to, among other things, decreased demand for printing products and solutions as a result of increased digitization and hybrid work, and increasing competition from generic alternatives.",
+   "real": false
+  },
+  {
+   "id": "finder_0068",
+   "claim": "The company may continue to build out its development portfolio when justified by anticipated demand and returns.",
+   "evidence": "We may continue to build out our development portfolio when justified by anticipated demand and returns.",
+   "real": false
+  },
+  {
+   "id": "finder_0056",
+   "claim": "The excerpts also provide a summary of cash flows from operating activities, which includes stock-based compensation as an adjustment to reconcile net earnings.",
+   "evidence": "Three Months Ended\n November 2, 2025 October 27, 2024\n \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n Cash flows from operating activities:\n Net earnings $ 194 $ 218\n Adjustments to reconcile net earnings to operating cash flow\n Restructuring charges 3 6\n Stock-based compensation 13 19\n Pension and postretirement benefit expense (income) (1) 2\n Depreciation and amortization 99 109\n Deferred income taxes 27 (3)\n Loss on sale of business \u2014 25\n Other 32 35\n Changes in working capital, net of divestitures\n Accounts receivable (191) (211)\n Inventories (83) (62)\n Other current assets (11) (10)\n Accounts payable and accrued liabilities 145 106\n Other (3) (9)\n Net cash provided by operating activities 224 225\n Cash flows from investing activities:\n Purchases of plant assets (127) (110)\n Purchases of routes (56) (31)\n Sales of routes 41 29\n Sales of businesses 5 70\n Other \u2014 (5)\n Net cash used in investing activities (137) (47)\n Cash flows from financing activities:\n Short-term borrowings, including commercial paper 788 668\n Short-term repayments, including commercial paper (684) (883)\n Long-term borrowings \u2014 1,144\n Long-term repayments \u2014 (200)\n Dividends paid (120) (116)\n Treasury stock purchases (24) (54)\n Payments related to tax withholding for stock-based compensation (11) (27)\n Payments of debt issuance costs \u2014 (9)\n Net cash provided by (used in) financing activities (51) 523\n Effect of exchange rate changes on cash \u2014 (1)\n Net change in cash and cash equivalents 36 700\n Cash and cash equivalents \u2014 beginning of period 132 108\n Cash and cash equivalents \u2014 end of period $ 168 $ 808\n\nSee accompanying Notes to Consolidated Financial Statements.",
+   "real": false
+  },
+  {
+   "id": "finder_0228",
+   "claim": "Sales, services, and marketing professionals are based in locations across the Americas, Europe, the Middle East, and Asia-Pacific.",
+   "evidence": "Our sales, services and marketing professionals are based in locations across the Americas, Europe, the Middle East and Asia-Pacific and focus on direct and channel sales, sales operations, professional services, account management and technical consulting.",
+   "real": false
+  },
+  {
+   "id": "finder_0142",
+   "claim": "The company's \"Beauty Reimagined\" strategic vision includes the expansion of the Profit Recovery and Growth Plan (\"PRGP\") to fuel sustainable growth through bold efficiencies and reimagining the way the company works.",
+   "evidence": "With the transition of leadership in the second and third quarters of fiscal 2025, we have embarked on \"Beauty Reimagined,\" a strategic vision which focuses on accelerating best-in-class consumer coverage, creating transformative innovation, boosting consumer-facing investments, fueling sustainable growth through bold efficiencies and reimagining the way we work, including through the expansion of the Profit Recovery and Growth Plan (\"PRGP\"), as discussed below.",
+   "real": false
+  },
+  {
+   "id": "finder_0166",
+   "claim": "Additionally, the company notes that the public disclosure of insurer- or PBM-negotiated price concessions may result in drug manufacturers lowering discounts or rebates, which could result in higher drug costs for patients and impact the company's ability to negotiate drug prices.",
+   "evidence": "The public disclosure of insurer- or PBM-negotiated price concessions may result in drug manufacturers lowering discounts or rebates, resulting in higher drug costs for patients and impacting the ability of the Company to negotiate drug prices and provide competitive products and services to consumers.",
+   "real": false
+  },
+  {
+   "id": "finder_0170",
+   "claim": "*   **Technological and Innovation Risks:** The industry is subject to rapid innovation and technological change; if the company cannot keep pace with technological advances and customer preferences, its products may be rendered uneconomical or obsolete.",
+   "evidence": "Our industry is subject to rapid and substantial innovation, technological change and customer preferences.",
+   "real": false
+  },
+  {
+   "id": "finder_0143",
+   "claim": "Additionally, the company utilizes a performance management process where strategic corporate priorities are set by the Chairman and Chief Executive Officer and applied to each business, department, team, and individual.",
+   "evidence": "Strategic corporate priorities are set by our Chairman and Chief Executive Officer and are applied to each business, department, team and individual.",
+   "real": false
+  },
+  {
+   "id": "finder_0120",
+   "claim": "The Company's portfolio delivers a broad range of differentiated, science-based products and solutions for customers in high-growth market segments such as packaging, infrastructure, mobility, and consumer applications.",
+   "evidence": "Dow\u2019s portfolio of plastics, industrial intermediates, coatings and silicones businesses delivers a broad range of differentiated, science-based products and solutions for its customers in high-growth market segments, such as packaging, infrastructure, mobility and consumer applications.",
+   "real": false
+  },
+  {
+   "id": "finder_0201",
+   "claim": "The company's profitability can be adversely affected when estimated contract costs increase from initial estimates without comparable increases in revenue.",
+   "evidence": "Our profitability can be adversely affected when estimated contract costs increase from our initial estimates,\n\nespecially without comparable increases in revenue.",
+   "real": false
+  },
+  {
+   "id": "finder_0043",
+   "claim": "Arista Networks' research and development strategy focuses on advancing core products, expanding into new markets, and maintaining high product quality.",
+   "evidence": "Our research and development strategy focuses on advancing our core products and expanding into new markets while maintaining high product quality.",
+   "real": false
+  },
+  {
+   "id": "finder_0068",
+   "claim": "The company targets high-quality, strategically located properties containing the physical and connectivity infrastructure that supports the applications and operations of data center and technology industry customers and properties that may be developed for such use.",
+   "evidence": "We target high-quality, strategically located properties containing the physical and connectivity infrastructure that supports the applications and operations of data center and technology industry customers and properties that may be developed for such use.",
+   "real": false
+  },
+  {
+   "id": "finder_0200",
+   "claim": "The company expects to continue making investments to maintain the security of its data and infrastructure, and it is devoting increasing resources to the security of its IT systems.",
+   "evidence": "We have devoted significant financial and personnel resources to implement and maintain security measures to meet regulatory requirements, customer expectations, business priorities and emerging cybersecurity risks, and we expect to continue to make investments to maintain the security of our data and infrastructure.",
+   "real": false
+  },
+  {
+   "id": "finder_0043",
+   "claim": "*   Adapting EOS for new and existing silicon architectures, particularly for AI workloads.",
+   "evidence": "We are focusing research and development efforts in (1) adapting EOS for new and existing silicon architectures, especially to support the unique requirements of AI workloads; (2) adding or enhancing EOS control plane and management plane functionality; (3) expanding our CloudVision management stack with enhanced automation, provisioning, monitoring, and security capabilities; (4) building related services, such as NDR and Network Access Control (NAC); (5) improving the security and scalability of our software development infrastructure and software supply chain; and (6) maintaining high product quality throughout.",
+   "real": false
+  },
+  {
+   "id": "finder_0162",
+   "claim": "The Company believes that any resulting liability from opioid litigation will not have a material effect on its financial position, results of operations, or cash flows.",
+   "evidence": ", nor their likelihood of success, the Company is of the belief that any resulting liability will not have a material effect on the Company\u2019s financial position, results of operations, or cash flows.",
+   "real": false
+  },
+  {
+   "id": "finder_0118",
+   "claim": "The company's business is subject to considerable potential exposure to litigation and could be materially adversely affected if it incurs legal liability.",
+   "evidence": "Cognizant 18 December 31, 2021 Form 10-K\n \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nOur business subjects us to considerable potential exposure to litigation and legal claims and could be materially adversely affected if we incur legal liability.",
+   "real": false
+  },
+  {
+   "id": "finder_0236",
+   "claim": "The Company from time to time has indemnified and has been indemnified by third parties against certain liabilities that may arise in connection with, among other things, business activities prior to the completion of divestitures and related transactions, which typically pertain to environmental, tax, and product liabilities.",
+   "evidence": "In addition, in connection with divestitures and the related transactions, the Company from time to time has indemnified and has been indemnified by third parties against certain liabilities that may arise in connection with, among other things, business activities prior to the completion of the respective transactions.",
+   "real": false
+  },
+  {
+   "id": "finder_0004",
+   "claim": "The company believes its business segment structure, combined with value-creating functional expertise at its corporate center, presents opportunities to identify and capture operating synergies and further advances the development of executive talent.",
+   "evidence": "We believe our business segment structure, coupled with value-creating functional expertise at our lean corporate center, presents opportunities to identify and capture operating synergies, such as global sourcing and supply chain integration, centralized shared services, cross-pollination of manufacturing best practices, and further advances the development of our executive talent.",
+   "real": false
+  },
+  {
+   "id": "finder_0213",
+   "claim": "The company does not believe that the ultimate resolution of pending or threatened actions of types such as wage and hour, wrongful termination, and personal injury claims will have a material adverse effect on its financial position, results of operations, liquidity, or capital resources.",
+   "evidence": "The outcomes of these actions are not predictable, but we do not believe that the ultimate resolution of these actions will have a material adverse effect on our financial position, results of operations, liquidity, or capital resources.",
+   "real": false
+  },
+  {
+   "id": "finder_0245",
+   "claim": "*   **Ewout L. Steenbergen** was appointed as Executive Vice President and Chief Financial Officer effective March 15, 2024.",
+   "evidence": "Steenbergen as its Executive Vice President and Chief Financial Officer effective as of March 15, 2024.",
+   "real": false
+  },
+  {
+   "id": "finder_0017",
+   "claim": "The company devotes significant resources to addressing security vulnerabilities by engineering more secure products, enhancing security and reliability features, and conducting rigorous penetration tests.",
+   "evidence": "We devote significant resources to address security vulnerabilities through engineering more secure products, enhancing security and reliability features in our products and systems, code hardening, conducting rigorous penetration tests, deploying updates to address security vulnerabilities, regularly reviewing our service providers\u2019 security controls, reviewing and auditing our hosted services against independent security control frameworks (such as ISO 27001, SOC 2 and PCI), providing resources such as mandatory security training for our workforce and improving our incident response time, but security vulnerabilities cannot be totally eliminated.",
+   "real": false
+  },
+  {
+   "id": "finder_0043",
+   "claim": "The company also invests in software development to expand cloud networking platform capabilities and introduce new products and features.",
+   "evidence": "as we continue to invest in software development in order to expand the capabilities of our cloud networking platform, introduce new products and features, and continue to invest in our technology.",
+   "real": false
+  },
+  {
+   "id": "finder_0239",
+   "claim": "The Audit Committee of the Board has oversight of cybersecurity risk.",
+   "evidence": "The Audit Committee of the Board has oversight of cybersecurity risk and receives regular updates on any developments from our Chief Information Security Officer (\u201cCISO\u201d), including biannual updates on strategies and action plans, with periodic reports provided to our full Board.",
+   "real": false
+  },
+  {
+   "id": "finder_0184",
+   "claim": "The company relies on third-party suppliers and manufacturers for many aspects of its manufacturing process, including some single-source providers of raw materials and manufacturing supplies.",
+   "evidence": "We rely on third-party suppliers and manufacturers for many aspects of our manufacturing process for our products and product candidates.",
+   "real": false
+  },
+  {
+   "id": "finder_0011",
+   "claim": "DTE Energy's non-utility businesses are subject to environmental laws and regulations regarding the protection of the environment from various pollutants.",
+   "evidence": "- (Continued)\n\nNon-utility\n\nDTE Energy's non-utility businesses are subject to a number of environmental laws and regulations dealing with the protection of the environment from various pollutants.",
+   "real": false
+  },
+  {
+   "id": "finder_0088",
+   "claim": "Regarding financial impact, cybersecurity threats resulting from any previous known incidents have not materially affected the company's business strategy, results of operations, or financial condition.",
+   "evidence": "Cybersecurity threats, including those resulting from any previous cybersecurity incidents, have not materially affected our Company, including our business strategy, results of operations, or financial condition.",
+   "real": false
+  },
+  {
+   "id": "finder_0246",
+   "claim": "However, the company is unable to predict the outcome or timing of the ultimate resolution of these matters, or the potential fines, penalties, or injunctive or other equitable relief that may result.",
+   "evidence": "However, the company is unable to predict the outcome or the timing of the ultimate resolution of these matters, or the potential fines, penalties or injunctive or other equitable relief, if any, that may result from these matters.",
+   "real": false
+  },
+  {
+   "id": "finder_0008",
+   "claim": "The company believes that legal claims from historic products which may have contained asbestos will not have a material adverse effect on the consolidated financial statements.",
+   "evidence": "Although it is not possible to predict with certainty the outcome or cost of these matters, the Company believes they will not have a material adverse effect on the consolidated financial statements.",
+   "real": false
+  },
+  {
+   "id": "finder_0079",
+   "claim": "*   The company reported a return on net sales of 15.9% in 2024, compared to 18.3% in 2023 and 14.9% in 2022.",
+   "evidence": "2024 2023 2022 2021 2020 2019 2018 2017 2016 2015\n \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n Net sales and revenues $ 51,716 $ 61,251 $ 52,577 $ 44,024 $ 35,540 $ 39,258 $ 37,358 $ 29,738 $ 26,644 $ 28,863\n Net sales 44,759 55,565 47,917 39,737 31,272 34,886 33,351 25,885 23,387 25,775\n Finance and interest income 5,759 4,683 3,365 3,296 3,450 3,493 3,107 2,732 2,511 2,381\n Research and development expenses 2,290 2,177 1,912 1,587 1,644 1,783 1,658 1,373 1,394 1,410\n Selling, administrative and general expenses 4,840 4,595 3,863 3,383 3,477 3,551 3,455 3,098 2,791 2,868\n Interest expense 3,348 2,453 1,062 993 1,247 1,466 1,204 899 764 680\n Net income* 7,100 10,166 7,131 5,963 2,751 3,253 2,368 2,159 1,524 1,940\n Return on net sales 15.9% 18.3% 14.9% 15.0% 8.8% 9.3% 7.1% 8.3% 6.5% 7.5%\n Return on beginning Deere & Company stockholders\u2019 equity 32.6% 50.2% 38.7% 46.1% 24.1% 28.8% 24.8% 33.1% 22.6% 21.4%\n Comprehensive income* 6,508 10,099 6,629 8,963 2,819 2,081 3,222 3,221 627 994\n Net income per share \u2013 basic* $ 25.73 $ 34.80 $ 23.42 $ 19.14 $ 8.77 $ 10.28 $ 7.34 $ 6.76 $ 4.83 $ 5.81\n \u2013 diluted* 25.62 34.63 23.28 18.99 8.69 10.15 7.24 6.68 4.81 5.77\n Dividends declared per share 5.88 5.05 4.36 3.61 3.04 3.04 2.58 2.40 2.40 2.40\n Dividends paid per share 5.76 4.83 4.28 3.32 3.04 2.97 2.49 2.40 2.40 2.40\n Average number of common shares outstanding (in millions) \u2013 basic 276.0 292.2 304.5 311.6 313.5 316.5 322.6 319.5 315.2 333.6\n \u2013 diluted 277.1 293.6 306.3 314.0 316.6 320.6 327.3 323.3 316.6 336.0\n Total assets $ 107,320 $ 1",
+   "real": false
+  },
+  {
+   "id": "finder_0143",
+   "claim": "The company seeks to differentiate itself from competitors through premier, holistic solutions, exceptional experiences tailored to client needs, and the development of recurring and scalable fee-based income.",
+   "evidence": "As part of this strategy, Northern Trust seeks to differentiate itself from its competitors with premier, holistic solutions and exceptional experiences tailored to meet clients\u2019 needs.",
+   "real": false
+  },
+  {
+   "id": "finder_0185",
+   "claim": "The functionality of Entergy\u2019s technology systems depends on its own and its suppliers\u2019 and their contractors\u2019 technology, and any significant failure of such systems could result in loss of data or disruptions of operations.",
+   "evidence": "Any significant failure or malfunction of such information technology systems could result in loss of or inappropriate access to data or disruptions of operations.",
+   "real": false
+  },
+  {
+   "id": "finder_0229",
+   "claim": "The company establishes reserves for legal proceedings in accordance with U.S. GAAP, a process that involves a high degree of judgment.",
+   "evidence": "The process of analyzing, assessing and establishing reserve estimates relative to legal proceedings involves a high degree of judgment.",
+   "real": false
+  },
+  {
+   "id": "finder_0117",
+   "claim": "The company states that failure to protect its information technology infrastructure and products against cybersecurity attacks, network security breaches, service interruptions, or data corruption could materially disrupt operations and adversely affect business and operating results.",
+   "evidence": "Failure to protect our information technology infrastructure and our products against cybersecurity attacks, network security breaches, service interruptions, or data corruption could materially disrupt our operations and adversely affect our business and operating results.",
+   "real": false
+  },
+  {
+   "id": "finder_0228",
+   "claim": "The company also utilizes print and online advertisements, participation in trade shows, and ongoing customer communication programs.",
+   "evidence": "Our marketing strategies include an active public relations campaign, print advertisements, online advertisements, participation at trade shows (virtually or in person), strategic alliances, ongoing customer communication programs, training and sales support.",
+   "real": false
+  },
+  {
+   "id": "finder_0127",
+   "claim": "The company's senior management team and board of directors regularly review a diversity, equity, and inclusion (DE&I) strategy focused on leadership, people, and culture.",
+   "evidence": "Our senior management team and board of directors regularly review our DE&I strategy and goals, which are focused on creating an inclusive environment, ensuring our policies and practices are equitable, and improving representation at all levels of the company.",
+   "real": false
+  },
+  {
+   "id": "finder_0119",
+   "claim": "The company also uses an application to notify analysts of electronic intrusion events and escalates matters to management and the Board based on severity.",
+   "evidence": "We categorize anomalous cyber events into discrete levels in which cybersecurity matters are escalated to certain levels of management, as well as our Board, based on the severity of the incident, as appropriate.",
+   "real": false
+  },
+  {
+   "id": "finder_0231",
+   "claim": "The Company's capital allocation philosophy includes investing in opportunities to grow the business and drive strong returns, prioritizing dividends, and repurchasing shares with remaining free cash flow.",
+   "evidence": "Our Strategy is aligned with the Company's capital allocation philosophy of (i) invest in opportunities to grow the business and drive strong returns, including both capital expenditures as well as investments in technology, digital, and our GBS organization, (ii) prioritize our dividend and (iii) repurchase shares with remaining free cash flow over time.",
+   "real": false
+  },
+  {
+   "id": "finder_0180",
+   "claim": "The CISO is responsible for developing and implementing the information security program and regularly reports on cybersecurity matters to executive management and the Board of Directors.",
+   "evidence": "The Company\u2019s Chief Information Security Officer (CISO) is responsible for developing and implementing our information security program and regularly reports on cybersecurity matters to executive management and the Board of Directors.",
+   "real": false
+  },
+  {
+   "id": "finder_0134",
+   "claim": "Specifically, the company notes that customers may not adopt its cloud-native SaaS solutions (Arena, ServiceMax, and Onshape) or its introduced SaaS solutions (Windchill+, Creo+, and Kepware+) as expected.",
+   "evidence": "While our Arena, ServiceMax, and Onshape solutions are cloud-native SaaS solutions, and we have introduced our Windchill+, Creo+, and Kepware+ SaaS solutions, customers may not adopt them as we expect.",
+   "real": false
+  },
+  {
+   "id": "finder_0037",
+   "claim": "The company does not believe that the ultimate resolution of various claims and litigation arising in the ordinary course of business, such as product liability, personal injury, commercial, contract, and employment matters, will have a material adverse impact on its financial condition, results of operations, or cash flows.",
+   "evidence": "While the outcome of any litigation is inherently unpredictable, based on currently available facts and our current insurance coverages, we do not believe that the ultimate resolution of any of these matters will have a material adverse impact on our financial condition, results of operations or cash flows.",
+   "real": false
+  },
+  {
+   "id": "finder_0108",
+   "claim": "The Technology Committee oversees technology and cybersecurity strategies and plans, and is charged with evaluating the Company\u2019s capability to perform all technology functions necessary for its business plan, including projected growth, technology capacity, planning, operational execution, product development, and management capacity.",
+   "evidence": "\u2022 Our Technology Committee oversees technology and cybersecurity strategies and plans and is charged with evaluating the Company\u2019s capability to properly perform all technology functions necessary for its business plan, including projected growth, technology capacity, planning, operational execution, product development, and management capacity.",
+   "real": false
+  },
+  {
+   "id": "finder_0026",
+   "claim": "Additionally, internal committees that manage risks, including cybersecurity, meet regularly and report at least annually to the Board of Directors.",
+   "evidence": "Risks are reported and managed through various internal committees, which meet regularly and report at least annually to the Board of Directors.",
+   "real": false
+  },
+  {
+   "id": "finder_0009",
+   "claim": "Claims of intellectual property infringement could require the company to enter into costly or restrictive license agreements or redesign certain solutions.",
+   "evidence": "Claims of intellectual property infringement could cause us to enter into a costly or restrictive license agreement (which may not be available under acceptable terms, or at all), require us to redesign certain of our solutions (which would be costly and time-consuming) and/or subject us to significant damages or an injunction against the development, sale and importation of certain solutions or services.",
+   "real": false
+  },
+  {
+   "id": "finder_0038",
+   "claim": "The Company's valuation methodology for its investment in Indicor utilizes the market multiple approach consisting of comparable guideline public companies revenue and earnings multiples.",
+   "evidence": "During 2023, we revised our valuation methodology to utilize the market multiple approach consisting of comparable guideline public companies revenue and earnings multiples to estimate the fair value of the investment, net of the Unit Adjustment discussed below.",
+   "real": false
+  },
+  {
+   "id": "finder_0151",
+   "claim": "The company states that no risks from any known cybersecurity incidents have materially affected or are reasonably likely to materially affect its business strategy, results of operations, or financial condition.",
+   "evidence": "No risks from any known cybersecurity incidents have materially affected or are reasonably likely to materially affect our business strategy, results of operations or financial condition.",
+   "real": false
+  },
+  {
+   "id": "finder_0063",
+   "claim": "The excerpts describe CDW's cybersecurity management program, including its ISO 27001 certification, the use of a dedicated team led by a Chief Information Security Officer, and the use of third-party firms for penetration testing.",
+   "evidence": "Cybersecurity\n\nWe have a dedicated team of information security professionals who leads our enterprise-wide cyber security strategy, risk management, cyber defense, software security, security monitoring and other related functions.",
+   "real": false
+  },
+  {
+   "id": "finder_0077",
+   "claim": "*   The Bancorp maintains a strong liquidity profile driven by core deposit funding and over $100 billion in current available liquidity.",
+   "evidence": "The Bancorp maintains a strong liquidity profile driven by strong core deposit funding and over $100 billion in current available liquidity.",
+   "real": false
+  },
+  {
+   "id": "finder_0213",
+   "claim": "However, if there is a significant increase in the number of these claims or if the company incurs greater liabilities than currently anticipated, it could materially and adversely affect the company's business, financial condition, results of operations, and cash flows.",
+   "evidence": "However, if there is a significant increase in the number of these claims, or if we incur greater liabilities than we currently anticipate under one or more claims, it could materially and adversely affect our business, financial condition, results of operations and cash flows.",
+   "real": false
+  },
+  {
+   "id": "finder_0130",
+   "claim": "The CISO is responsible for setting the strategy and communicating cybersecurity risks.",
+   "evidence": "Management\u2019s Role in Assessing and Managing Cybersecurity Risks\n\nOur CISO is responsible for setting the strategy and communicating cybersecurity risks.",
+   "real": false
+  },
+  {
+   "id": "finder_0197",
+   "claim": "Third-party intellectual property disputes could cause severe disruptions to operations or the markets in which the company competes, and may subject the company to injunctions restricting the sale of products or services.",
+   "evidence": "Third-party intellectual property disputes could subject us to significant liabilities, require us to enter into royalty and licensing arrangements on unfavorable terms, prevent us from licensing certain of our products or offering certain of our services, subject us to injunctions restricting our sale of products or services, cause severe disruptions to our operations or the markets in which we compete, or require us to satisfy indemnification commitments with our customers including contractual provisions under various license arrangements and service agreements.",
+   "real": false
+  },
+  {
+   "id": "finder_0248",
+   "claim": "Despite the extensive approach taken to cybersecurity, the Company may not be successful in preventing or mitigating a cybersecurity incident that could have a material adverse effect on the Company or its stakeholders.",
+   "evidence": "Despite the extensive approach we take to cybersecurity, we may not be successful in preventing or mitigating a cybersecurity incident that could have a material adverse effect on the Company or its stakeholders.",
+   "real": false
+  },
+  {
+   "id": "finder_0126",
+   "claim": "NVR competes with other builders for suitable and desirable lots at acceptable prices, as well as with selling incentives offered by competing builders within and across developments.",
+   "evidence": "We face competition:\n\n\u2022 for suitable and desirable lots at acceptable prices;\n\n\u2022 from selling incentives offered by competing builders within and across developments; and\n\n\u2022 from the existing home resale market.",
+   "real": false
+  },
+  {
+   "id": "finder_0160",
+   "claim": "The CODM uses consolidated financial information to evaluate performance, forecast future results, allocate resources, and set incentive targets.",
+   "evidence": "In making these decisions, our CEO uses consolidated financial information for purposes of evaluating performance, forecasting future period financial results, allocating resources and setting incentive targets.",
+   "real": false
+  },
+  {
+   "id": "finder_0117",
+   "claim": "The company does not believe any risks from cybersecurity threats, including those resulting from previous incidents, have materially affected or are reasonably likely to materially affect its business strategy, results of operations, or financial condition.",
+   "evidence": "Based on information known to us, we do not believe any risks from cybersecurity threats, including as a result of previous cybersecurity incidents, have materially affected or are reasonably likely to materially affect us, including our business strategy, results of operations, or financial condition.",
+   "real": false
+  },
+  {
+   "id": "finder_0179",
+   "claim": "*   The company identifies indemnity and environmental remediation obligations at Bay Harbor as a source of uncertainty.",
+   "evidence": "rket through earnings\n\n\u2022 changes in various environmental laws, regulations, principles, or practices, or in their interpretation\n\n\u2022 indemnity and environmental remediation obligations at Bay Harbor\n\n\u2022 indemnity obligations assumed in connection with the purchase or ownership of an interest in one or more facilities that involve tax equity financing\n\n\u2022 representations, warranties, and indemnities provided by CMS Energy in connection with previous sales of assets\n\nFor additional details regarding the enterprises segment\u2019s uncertainties, see Item 8.",
+   "real": false
+  },
+  {
+   "id": "finder_0104",
+   "claim": "Additionally, the Company's management believes it is possible that the outcome of continued uncertainties regarding asbestos and environmental claims could result in liability in future periods that differs from current insurance reserves by an amount that could be material to the Company\u2019s future operating results.",
+   "evidence": "While the ongoing review of asbestos and environmental claims and associated liabilities considers the inconsistencies of court decisions as to coverage, plaintiffs\u2019 expanded theories of liability and the risks inherent in complex litigation and other uncertainties, in the opinion of the Company\u2019s management, it is possible that the outcome of the continued uncertainties regarding these claims could result in liability in future periods that differs from current insurance reserves by an amount that could be material to the Company\u2019s future operating results.",
+   "real": false
+  },
+  {
+   "id": "finder_0164",
+   "claim": "*   The company implements policies and programs to manage risks from unauthorized occurrences, including tools to detect suspicious activity, two-factor authentication, and penetration testing.",
+   "evidence": "For example, we invest in tools to detect suspicious activity in accounts, give players the ability to use two-factor authentication and work to prevent the creation of mass user accounts.",
+   "real": false
+  },
+  {
+   "id": "finder_0183",
+   "claim": "In the opinion of management, the ultimate resolution of any indemnification obligations owed to or by the Company is not expected to have a material effect on the Company\u2019s financial condition, results of operations, or cash flows.",
+   "evidence": "In the opinion of management, and based upon information currently available, the ultimate resolution of any indemnification obligations owed to the Company or by the Company is not expected to have a material effect on the Company\u2019s financial condition, results of operations or cash flows.",
+   "real": false
+  },
+  {
+   "id": "finder_0123",
+   "claim": "The company intends to be the lowest-cost producer and the most reliable and innovative sustainable packaging solutions provider to its customers.",
+   "evidence": "profitable market share growth by striving to be the lowest-cost producer and the most reliable and innovative sustainable packaging solutions provider to our customers across North America and EMEA.",
+   "real": false
+  },
+  {
+   "id": "finder_0182",
+   "claim": "The company's growth may strain its management, legal, and financial resources due to reporting requirements under the Securities Exchange Act of 1934 and the Sarbanes-Oxley Act of 2002.",
+   "evidence": "In addition, as a reporting company, we are subject to the reporting requirements of the Securities Exchange Act of 1934 and the Sarbanes-Oxley Act of 2002, or the Sarbanes-Oxley Act.",
+   "real": false
+  },
+  {
+   "id": "finder_0254",
+   "claim": "The Company's businesses expose it to potential costs and adverse rulings associated with commercial, intellectual property, employment, toxic tort and other product liability claims and lawsuits.",
+   "evidence": "The Company's businesses expose it to potential costs and adverse rulings associated with commercial, intellectual property, employment, toxic tort and other product liability claims and lawsuits.",
+   "real": false
+  },
+  {
+   "id": "finder_0101",
+   "claim": "*   **Governance and Oversight:** Cybersecurity risk management is led by the CISO and CTO, with oversight from the Board's Audit and Risk & Finance Committees.",
+   "evidence": "Cybersecurity risk management oversight is led by our CISO and CTO.",
+   "real": false
+  },
+  {
+   "id": "finder_0216",
+   "claim": "The company believes that its digital capabilities create ordering and fulfillment efficiencies for both the company and its customers.",
+   "evidence": "We believe the data that is created through our digital capabilities enhances product visibility, traceability, and control that reduces risk in operations and creates ordering and fulfillment efficiencies for both ourselves and our customers.",
+   "real": false
+  },
+  {
+   "id": "finder_0007",
+   "claim": "*   The **Naughton Coal-to-Gas Conversion** project is expected to increase capacity by 98 Mdth/d.",
+   "evidence": "Management\u2019s Discussion and Analysis (Continued)\n\nNaughton Coal-to-Gas Conversion\n\nThe Naughton Coal-to-Gas Conversion project on NWP\u2019s existing natural gas transmission system will provide year-round transportation capacity to a power plant in southwest Wyoming.",
+   "real": false
+  },
+  {
+   "id": "finder_0082",
+   "claim": "The company believes that a culture valuing diversity and inclusion is necessary to achieve the aspirations outlined in its Vision for 2030.",
+   "evidence": "Diversity and Inclusion\n\nWe recognize that the future aspirations outlined in our Vision for 2030, which serves as our long-term roadmap, will only be achievable if we have a culture that values diversity and inclusion.",
+   "real": false
+  },
+  {
+   "id": "finder_0258",
+   "claim": "The company maintains a disciplined approach to capital allocation that focuses on investing in key priorities that support its strategy.",
+   "evidence": "We have a disciplined approach to capital allocation, which focuses on investing in key priorities that support our strategy.",
+   "real": false
+  },
+  {
+   "id": "finder_0252",
+   "claim": "The company does not believe that such risks are reasonably likely to have such an effect over the long term.",
+   "evidence": "To date, risks from cybersecurity threats, including as a result of any previous cybersecurity incidents, have not materially affected us, including our business strategy, results of operations or financial condition, and we do not believe that such risks are reasonably likely to have such an effect over the long term.",
+   "real": false
+  },
+  {
+   "id": "finder_0222",
+   "claim": "Labor disputes may disrupt operations and adversely affect the Company's business, financial condition, or results of operations.",
+   "evidence": "Labor disputes may disrupt our operations and adversely affect the Company\u2019s business, financial condition or results of operations.",
+   "real": false
+  },
+  {
+   "id": "finder_0045",
+   "claim": "The expansion of related regulatory requirements for cyber crime could increase the company's costs and disrupt its operations.",
+   "evidence": "r crime could pose a risk to our systems, networks, data, products, facilities and services, and the expansion of related regulatory requirements could increase our costs and disrupt our operations.",
+   "real": false
+  },
+  {
+   "id": "finder_0224",
+   "claim": "The company states that the occurrence of cyber-related events could result in material disruptions, loss of customers, damage to brand and reputation, additional regulatory scrutiny, litigation, and other potential material liability.",
+   "evidence": "The occurrence of any of the events described above could result in material disruptions in our business, the loss of existing or potential customers, damage to our brand and reputation, additional regulatory scrutiny, litigation and other potential material liability.",
+   "real": false
+  },
+  {
+   "id": "finder_0097",
+   "claim": "The Company intends to increase its quarterly cash dividend on an annual basis, subject to declaration by the Board of Directors.",
+   "evidence": "The Company intends to increase its dividend on an annual basis, subject to declaration by the Board of Directors.",
+   "real": false
+  },
+  {
+   "id": "finder_0168",
+   "claim": "The Chief Information Security Officer (CISO) is primarily responsible for managing the cybersecurity risk management program, cybersecurity incident response plan, and escalation protocols.",
+   "evidence": "Our Chief Information Security Officer (\u201cCISO\u201d), who has more than 20 years of experience in information security management, is primarily responsible for managing our cybersecurity risk management program, cybersecurity incident response plan and escalation protocols, and reports at least quarterly to the Audit Committee and at least annually to the full Board on our cybersecurity, data and intellectual property security programs, policies, risks and controls.",
+   "real": false
+  },
+  {
+   "id": "finder_0179",
+   "claim": "*   CMS Energy recorded a liability of $45 million for remaining environmental remediation obligations as of December 31, 2022, based on discounted projected costs.",
+   "evidence": "At December 31, 2022, CMS Energy had a recorded liability of $ 45 million for its remaining obligations for environmental remediation.",
+   "real": false
+  },
+  {
+   "id": "finder_0178",
+   "claim": "The company states it is not aware of any material risks from cybersecurity threats, including from previous incidents, that have materially affected or are reasonably likely to materially affect its business strategy, financial condition, results of operations, or cash flows.",
+   "evidence": "We are not aware of any material risks from cybersecurity threats, including as a result of any previous cybersecurity incidents, that have materially affected or are reasonably likely to materially affect us, including our business strategy, our financial condition, results of operations or cash flows.",
+   "real": false
+  },
+  {
+   "id": "finder_0028",
+   "claim": "Actual or anticipated attacks may cause the company to incur increasing costs, including costs to deploy additional personnel and protection technologies, train employees, and engage third-party experts and consultants.",
+   "evidence": "Actual or anticipated attacks may cause us to incur increasing costs including costs to deploy additional personnel and protection technologies, train employees and engage third-party experts and consultants.",
+   "real": false
+  },
+  {
+   "id": "finder_0228",
+   "claim": "Akamai conducts comprehensive marketing programs to promote its brand and drive awareness, including public relations, digital programmatic advertising, paid search, SEO, content marketing, social media, and strategic alliances.",
+   "evidence": "To support our sales efforts and promote the Akamai brand, we conduct comprehensive marketing programs.",
+   "real": false
+  },
+  {
+   "id": "finder_0206",
+   "claim": "The company identifies meeting customer needs on a local basis as a key strategic objective.",
+   "evidence": "\u2022 Meet customer needs on a local basis.",
+   "real": false
+  },
+  {
+   "id": "finder_0061",
+   "claim": "*   John L. Soderberg has been with the company since 1993.",
+   "evidence": "Florness has been our chief executive officer since August 2024.",
+   "real": false
+  },
+  {
+   "id": "finder_0199",
+   "claim": "The company is committed to creating a high-performance culture that delivers excellence for clients and long-term value for shareholders.",
+   "evidence": "Development and Retention\n\nWe are committed to creating a high-performance culture that consistently delivers excellence for our clients and long-term value for our shareholders while providing a workplace experience for our employees that values collaboration, innovation and\n\ndiversity.",
+   "real": false
+  },
+  {
+   "id": "finder_0241",
+   "claim": "Risks from cybersecurity threats have not materially affected, and are not currently anticipated to materially affect, the Company's business strategy, results of operations, or financial condition.",
+   "evidence": "Risks from cybersecurity threats have not materially affected, and are not currently anticipated to materially affect, our Company, including our business strategy, results of operations or financial condition.",
+   "real": false
+  },
+  {
+   "id": "finder_0079",
+   "claim": "The company competes on the basis of product performance, innovation and quality, distribution, customer service, and price.",
+   "evidence": "John Deere competes on the basis of product performance, innovation and quality, distribution, customer service, and price.",
+   "real": false
+  },
+  {
+   "id": "finder_0083",
+   "claim": "*   **Insurance Receivables:** The Company estimates and records receivables under applicable insurance policies for known claims and anticipated future construction defect claims when recovery is probable.",
+   "evidence": "AND SUBSIDIARIES\n\nNOTES TO CONSOLIDATED FINANCIAL STATEMENTS (Unaudited) - (Continued)\n\nJune 30, 2023\n\nThe Company estimates and records receivables under its applicable insurance policies related to its estimated contingencies for known claims and anticipated future construction defect claims on previously closed homes and other legal claims and lawsuits incurred in the ordinary course of business when recovery is probable.",
+   "real": false
+  },
+  {
+   "id": "finder_0034",
+   "claim": "Due to the current status of this matter, the company is unable to express a view regarding the ultimate outcome or estimate a range of reasonably possible loss if the outcome is adverse.",
+   "evidence": "Given the current status of this matter, we are unable to express a view regarding the ultimate outcome or, if the outcome is adverse, to estimate an amount or range of reasonably possible loss.",
+   "real": false
+  },
+  {
+   "id": "finder_0016",
+   "claim": "The company uses operational audits, strategic plans, and a culture of open communications to help manage risks on an ongoing basis.",
+   "evidence": "The use of operational audits, strategic plans and departmental business plans, as well as our culture of open communications and fundamental respect for our Code of Conduct, continue to help us manage risks on an ongoing basis.",
+   "real": false
+  },
+  {
+   "id": "finder_0145",
+   "claim": "The company has established disclosure controls and procedures designed to ensure required information is recorded, processed, summarized, and reported within specified time periods.",
+   "evidence": "DISCLOSURE CONTROLS AND PROCEDURES\n\nWe have established disclosure controls and procedures that are designed to ensure that the information we are required to disclose in our reports filed or submitted under the Securities Exchange Act of 1934, as amended (the \u201cExchange Act\u201d), is recorded, processed, summarized and reported within the time periods specified in the rules and forms of the SEC, and such information is accumulated and communicated to our executive management team, including our chief executive officer and our chief financial officer, to allow timely decisions regarding required disclosure.",
+   "real": false
+  },
+  {
+   "id": "finder_0254",
+   "claim": "The Company currently maintains insurance programs consisting of self-insurance up to certain limits and excess insurance coverage for claims over established limits.",
+   "evidence": "The Company currently maintains insurance programs consisting of self-insurance up to certain limits and excess insurance coverage for claims over established limits.",
+   "real": false
+  }
+ ]
+}
