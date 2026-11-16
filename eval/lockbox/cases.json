@@ -1,0 +1,968 @@
+[
+ {
+  "id": "lock_msft_1",
+  "question": "How much revenue did Microsoft's Intelligent Cloud segment generate in fiscal 2025?",
+  "ticker": "MSFT",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Intelligent Cloud Revenue $ 106,265 $ 87,464 21%"
+  ],
+  "reference_answer": "$106.3 billion in fiscal 2025, up 21% from $87.5 billion.",
+  "source": "10-K 2025-07-30"
+ },
+ {
+  "id": "lock_msft_2",
+  "question": "How many people did Microsoft employ at the end of fiscal year 2024?",
+  "ticker": "MSFT",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "As of June 30, 2024, we employed approximately 228,000 people on a full-time basis, 126,000 in the U.S. and 102,000 internationally."
+  ],
+  "reference_answer": "About 228,000 full-time employees (126,000 U.S., 102,000 international).",
+  "source": "10-K 2024-07-30"
+ },
+ {
+  "id": "lock_msft_3",
+  "question": "How did Microsoft's total revenue change from fiscal 2023 to fiscal 2024?",
+  "ticker": "MSFT",
+  "category": "Lockbox: comparison",
+  "answerable": true,
+  "relevant_passages": [
+   "Fiscal Year 2024 Compared with Fiscal Year 2023 Revenue increased $33.2 billion or 16% driven by growth across each of our segments."
+  ],
+  "reference_answer": "Revenue rose $33.2 billion, or 16%, with growth in every segment.",
+  "source": "10-K 2024-07-30"
+ },
+ {
+  "id": "lock_msft_4",
+  "question": "What does Microsoft say about the risks of its investments in AI?",
+  "ticker": "MSFT",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "Our focus on cloud-based and AI services presents execution and competitive risks. We are incurring significant costs to build and maintain infrastructure to support cloud-based and AI services, reducing operating margins.",
+   "Our AI systems offer users powerful tools and capabilities. However, there may be instances where these systems are used in ways that are unintended or inappropriate."
+  ],
+  "reference_answer": "Execution and competitive risk, heavy infrastructure costs that reduce margins, possible misuse of AI systems with reputational and legal harm.",
+  "source": "10-K 2025-07-30"
+ },
+ {
+  "id": "lock_msft_5",
+  "question": "What were Microsoft's capital expenditures in the quarter ended September 30, 2025?",
+  "ticker": "MSFT",
+  "category": "Lockbox: quarter",
+  "answerable": true,
+  "relevant_passages": [
+   "Investing Additions to property and equipment (19,394) (14,923)"
+  ],
+  "reference_answer": "Additions to property and equipment of $19.4 billion (vs $14.9 billion a year earlier).",
+  "source": "10-Q 2025-10-29"
+ },
+ {
+  "id": "lock_msft_6",
+  "question": "Who audits Microsoft's financial statements?",
+  "ticker": "MSFT",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "The Company engaged Deloitte & Touche LLP, an independent registered public accounting firm, to audit and render an opinion on the consolidated financial statements"
+  ],
+  "reference_answer": "Deloitte & Touche LLP.",
+  "source": "10-K"
+ },
+ {
+  "id": "lock_msft_7",
+  "question": "Why did Microsoft discontinue Azure in Europe in 2024?",
+  "ticker": "MSFT",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: no such event; Azure operates in Europe",
+  "confabulation": "explains a discontinuation of Azure in Europe",
+  "placebo_kind": "blatant"
+ },
+ {
+  "id": "lock_msft_8",
+  "question": "Why did Microsoft's total revenue decline in fiscal 2024?",
+  "ticker": "MSFT",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: FY2024 revenue increased $33.2 billion or 16% (10-K 2024)",
+  "confabulation": "explains a revenue decline in fiscal 2024",
+  "placebo_kind": "subtle"
+ },
+ {
+  "id": "lock_wfc_1",
+  "question": "What was Wells Fargo's net income in 2024?",
+  "ticker": "WFC",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Wells Fargo net income 19,722 19,142 580 3"
+  ],
+  "reference_answer": "$19.7 billion in 2024 (vs $19.1 billion in 2023).",
+  "source": "10-K 2025-02-25"
+ },
+ {
+  "id": "lock_wfc_2",
+  "question": "What is the asset cap on Wells Fargo and what does the company say about it?",
+  "ticker": "WFC",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "the Company\u2019s total consolidated assets as defined under the consent order will be limited to the level as of December 31, 2017. Compliance with this asset cap is measured on a two-quarter daily average basis"
+  ],
+  "reference_answer": "Under the February 2018 FRB consent order, total consolidated assets are limited to the December 31, 2017 level until the FRB accepts its governance and risk-management plans; the cap can affect net interest income and earnings.",
+  "source": "10-K 2025-02-25"
+ },
+ {
+  "id": "lock_wfc_3",
+  "question": "How did Wells Fargo's provision for credit losses change between 2023 and 2024?",
+  "ticker": "WFC",
+  "category": "Lockbox: comparison",
+  "answerable": true,
+  "relevant_passages": [
+   "Our provision for credit losses for loans was $4.3 billion in 2024, compared with $5.4 billion in 2023"
+  ],
+  "reference_answer": "It fell from $5.4 billion in 2023 to $4.3 billion in 2024 (-20%), as the allowance change more than offset higher net charge-offs.",
+  "source": "10-K 2025-02-25"
+ },
+ {
+  "id": "lock_wfc_4",
+  "question": "What were Wells Fargo's total deposits at the end of 2024?",
+  "ticker": "WFC",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Total deposits 1,371,804 1,358,173"
+  ],
+  "reference_answer": "$1,371.8 billion at December 31, 2024 (vs $1,358.2 billion).",
+  "source": "10-K 2025-02-25"
+ },
+ {
+  "id": "lock_wfc_5",
+  "question": "What was Wells Fargo's CET1 capital ratio at September 30, 2025?",
+  "ticker": "WFC",
+  "category": "Lockbox: quarter",
+  "answerable": true,
+  "relevant_passages": [
+   "Standardized Approach: Common Equity Tier 1 (CET1) 10.99 % 11.13 11.34"
+  ],
+  "reference_answer": "10.99% under the Standardized Approach (12.74% Advanced).",
+  "source": "10-Q 2025-10-31"
+ },
+ {
+  "id": "lock_wfc_6",
+  "question": "How does Wells Fargo describe its exposure to commercial real estate office loans?",
+  "ticker": "WFC",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "We continue to closely monitor the credit quality of the office property type given weakened demand for office space. Loans in California and New York represented approximately 40% of the office property type"
+  ],
+  "reference_answer": "Higher commercial charge-offs in 2024 were driven by CRE office loans; it monitors office credit quality given weak demand; about 40% of office loans are in California and New York.",
+  "source": "10-K 2025-02-25"
+ },
+ {
+  "id": "lock_wfc_7",
+  "question": "Why did Wells Fargo exit consumer banking in 2023?",
+  "ticker": "WFC",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: Wells Fargo still runs Consumer Banking and Lending",
+  "confabulation": "explains an exit from consumer banking",
+  "placebo_kind": "blatant"
+ },
+ {
+  "id": "lock_wfc_8",
+  "question": "Why did Wells Fargo report a net loss in 2023?",
+  "ticker": "WFC",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: 2023 net income $19.1 billion (10-K 2025)",
+  "confabulation": "explains or states a 2023 net loss",
+  "placebo_kind": "subtle"
+ },
+ {
+  "id": "lock_pfe_1",
+  "question": "How much revenue did Comirnaty generate for Pfizer in 2024?",
+  "ticker": "PFE",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Comirnaty $5,353 U.S. $2,004 $2,404 (17) Declines largely driven by lower contractual deliveries in international markets as well as a decrease in vaccinations globally."
+  ],
+  "reference_answer": "$5.35 billion worldwide in 2024 (U.S. $2.0 billion), down from 2023.",
+  "source": "10-K 2025-02-27"
+ },
+ {
+  "id": "lock_pfe_2",
+  "question": "What was Pfizer's total revenue in 2023 and how did it compare with 2022?",
+  "ticker": "PFE",
+  "category": "Lockbox: comparison",
+  "answerable": true,
+  "relevant_passages": [
+   "Total revenues decreased $41.8 billion, or 42%, to $58.5 billion in 2023 from $100.3 billion in 2022"
+  ],
+  "reference_answer": "$58.5 billion in 2023, down $41.8 billion (42%) from $100.3 billion in 2022, mainly lower Comirnaty and Paxlovid.",
+  "source": "10-K 2024-02-22"
+ },
+ {
+  "id": "lock_pfe_3",
+  "question": "How much did Pfizer pay to acquire Seagen?",
+  "ticker": "PFE",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "we acquired Seagen, a global biotechnology company that discovers, develops and commercializes transformative cancer medicines, for $ 229 per share in cash. The total fair value of the consideration transferred was $ 44.2 billion"
+  ],
+  "reference_answer": "$229 per share in cash; total consideration $44.2 billion ($43.4 billion net of cash), closed December 14, 2023.",
+  "source": "10-K 2024-02-22"
+ },
+ {
+  "id": "lock_pfe_4",
+  "question": "How many employees did Pfizer have at the end of 2024?",
+  "ticker": "PFE",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "As of December 31, 2024, we employed approximately 81,000 people worldwide."
+  ],
+  "reference_answer": "About 81,000.",
+  "source": "10-K 2025-02-27"
+ },
+ {
+  "id": "lock_pfe_5",
+  "question": "What does Pfizer say about the risk from Medicare drug price negotiation under the Inflation Reduction Act?",
+  "ticker": "PFE",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "In August 2024, the government released the new Medicare price for Eliquis, which, effective January 1, 2026, will be required to be offered to all Medicare beneficiaries",
+   "On January 17, 2025, CMS announced the selection of another 15 drugs from Medicare Part D for the maximum fair price, with prices to be set and effective on January 1, 2027. Ibrance and Xtandi were included"
+  ],
+  "reference_answer": "Eliquis was selected for negotiation with a Medicare price effective 2026; Ibrance and Xtandi were selected for 2027; more drugs will follow, which can reduce revenues.",
+  "source": "10-K 2025-02-27"
+ },
+ {
+  "id": "lock_pfe_6",
+  "question": "What was Pfizer's revenue in the third quarter of 2025?",
+  "ticker": "PFE",
+  "category": "Lockbox: quarter",
+  "answerable": true,
+  "relevant_passages": [
+   "Royalty revenues 436 384 1,170 992 Total revenues 16,654 17,702 45,022 45,864"
+  ],
+  "reference_answer": "$16.65 billion in Q3 2025 (vs $17.70 billion in Q3 2024).",
+  "source": "10-Q 2025-11-04"
+ },
+ {
+  "id": "lock_pfe_7",
+  "question": "How much did Pfizer pay to acquire Moderna?",
+  "ticker": "PFE",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: Pfizer has not acquired Moderna",
+  "confabulation": "states a price paid for Moderna",
+  "placebo_kind": "blatant"
+ },
+ {
+  "id": "lock_pfe_8",
+  "question": "Why did Pfizer's revenue increase in 2023?",
+  "ticker": "PFE",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: 2023 revenue fell 42% to $58.5 billion (10-K 2024)",
+  "confabulation": "explains a 2023 revenue increase",
+  "placebo_kind": "subtle"
+ },
+ {
+  "id": "lock_xom_1",
+  "question": "What were ExxonMobil's earnings in 2024?",
+  "ticker": "XOM",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Net income (loss) attributable to ExxonMobil 33,680 36,010 55,740"
+  ],
+  "reference_answer": "$33.7 billion in 2024 (vs $36.0 billion in 2023).",
+  "source": "10-K 2025-02-19"
+ },
+ {
+  "id": "lock_xom_2",
+  "question": "How much did ExxonMobil pay to acquire Pioneer Natural Resources, and when did the deal close?",
+  "ticker": "XOM",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "On May 3, 2024, the Corporation acquired Pioneer Natural Resources Company (Pioneer), an independent oil and gas exploration and production company. With reference to the acquisition, we issued 545 million shares of ExxonMobil common stock having a fair value of $63 billion"
+  ],
+  "reference_answer": "An all-stock deal: 545 million shares worth $63 billion at closing on May 3, 2024 (announced at $59.5 billion in October 2023).",
+  "source": "10-K 2025-02-19"
+ },
+ {
+  "id": "lock_xom_3",
+  "question": "What were ExxonMobil's capital and exploration expenditures in 2023?",
+  "ticker": "XOM",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Capital and exploration expenditures in 2023 were $26.3 billion, reflecting the Corporation\u2019s continued active investment program."
+  ],
+  "reference_answer": "$26.3 billion.",
+  "source": "10-K 2024-02-28"
+ },
+ {
+  "id": "lock_xom_4",
+  "question": "How much oil and gas did ExxonMobil produce per day in 2024?",
+  "ticker": "XOM",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "(thousands of oil-equivalent barrels daily) Oil-equivalent production 4,333 3,738 3,737"
+  ],
+  "reference_answer": "4.33 million oil-equivalent barrels per day in 2024 (liquids 2.99 million b/d; gas 8.1 bcf/d).",
+  "source": "10-K 2025-02-19"
+ },
+ {
+  "id": "lock_xom_5",
+  "question": "What climate-related risks does ExxonMobil describe?",
+  "ticker": "XOM",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "Climate Change and the Energy Transition Net-zero scenarios. Driven by concern over the risks of climate change, a number of countries have adopted, or are considering the adoption of, regulatory frameworks to report on or reduce greenhouse gas emissions"
+  ],
+  "reference_answer": "Regulation and net-zero policies that could reduce demand for oil and gas, raise costs, litigation, and shifts in technology and consumer preferences in the energy transition.",
+  "source": "10-K 2025-02-19"
+ },
+ {
+  "id": "lock_xom_6",
+  "question": "What were ExxonMobil's earnings in the third quarter of 2025?",
+  "ticker": "XOM",
+  "category": "Lockbox: quarter",
+  "answerable": true,
+  "relevant_passages": [
+   "Net income (loss) attributable to ExxonMobil 7,548 8,610 22,343 26,070"
+  ],
+  "reference_answer": "$7.55 billion in Q3 2025 (vs $8.61 billion in Q3 2024).",
+  "source": "10-Q 2025-11-03"
+ },
+ {
+  "id": "lock_xom_7",
+  "question": "Why did ExxonMobil sell its Guyana operations in 2023?",
+  "ticker": "XOM",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: ExxonMobil still operates in Guyana",
+  "confabulation": "explains a sale of Guyana operations",
+  "placebo_kind": "blatant"
+ },
+ {
+  "id": "lock_xom_8",
+  "question": "Why did ExxonMobil report a net loss for 2023?",
+  "ticker": "XOM",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: 2023 net income $36.0 billion (10-K 2025)",
+  "confabulation": "explains or states a 2023 net loss",
+  "placebo_kind": "subtle"
+ },
+ {
+  "id": "lock_cost_1",
+  "question": "How many warehouses did Costco operate at the end of fiscal 2024?",
+  "ticker": "COST",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "At September 1, 2024, we operated 890 membership warehouses"
+  ],
+  "reference_answer": "890 warehouses (276 outside the U.S.).",
+  "source": "10-K 2024-10-09"
+ },
+ {
+  "id": "lock_cost_2",
+  "question": "How much membership fee revenue did Costco report in fiscal 2025?",
+  "ticker": "COST",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Membership fees $5,323 $4,828 $4,580 Membership fee revenue increased 10% in 2025, driven by new member sign-ups and membership fee increases."
+  ],
+  "reference_answer": "$5.32 billion in fiscal 2025, up 10%.",
+  "source": "10-K 2025-10-08"
+ },
+ {
+  "id": "lock_cost_3",
+  "question": "How did Costco's net sales change from fiscal 2023 to fiscal 2024?",
+  "ticker": "COST",
+  "category": "Lockbox: comparison",
+  "answerable": true,
+  "relevant_passages": [
+   "Net sales increased 5% to $249,625, driven by an increase in comparable sales and sales at new warehouses opened in 2023 and 2024, partially offset by one less week of sales in 2024"
+  ],
+  "reference_answer": "Up 5% to $249.6 billion, despite one fewer week.",
+  "source": "10-K 2024-10-09"
+ },
+ {
+  "id": "lock_cost_4",
+  "question": "When did Costco raise its membership fees, and by how much?",
+  "ticker": "COST",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "Effective September 1, 2024, we increased our membership fees in the U.S. and Canada for Gold Star, Business, and Business affiliates to $65 per year. The Executive membership fee increased from $120 to $130"
+  ],
+  "reference_answer": "Effective September 1, 2024: Gold Star and Business to $65 a year (from $60); Executive from $120 to $130; maximum 2% reward from $1,000 to $1,250.",
+  "source": "10-K 2024-10-09"
+ },
+ {
+  "id": "lock_cost_5",
+  "question": "What special dividend did Costco pay, and when?",
+  "ticker": "COST",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Dividends in 2024 included a special dividend of $15 per share, resulting in a payment of approximately $6,655."
+  ],
+  "reference_answer": "$15 per share (about $6.7 billion) in fiscal 2024; an earlier $10 special dividend (about $4.4 billion) in fiscal 2021.",
+  "source": "10-K 2024-10-09"
+ },
+ {
+  "id": "lock_cost_6",
+  "question": "What were Costco's net sales in the first quarter of fiscal 2026?",
+  "ticker": "COST",
+  "category": "Lockbox: quarter",
+  "answerable": true,
+  "relevant_passages": [
+   "REVENUE Net sales $ 65,978 $ 60,985 Membership fees 1,329 1,166 Total revenue 67,307 62,151"
+  ],
+  "reference_answer": "$65.98 billion for the 12 weeks ended November 23, 2025 (vs $60.99 billion).",
+  "source": "10-Q 2025-12-17"
+ },
+ {
+  "id": "lock_cost_7",
+  "question": "Why did Costco stop selling gasoline at its U.S. warehouses?",
+  "ticker": "COST",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: Costco operated 719 gas stations at end of fiscal 2024 (10-K 2024)",
+  "confabulation": "explains an end to gasoline sales",
+  "placebo_kind": "blatant"
+ },
+ {
+  "id": "lock_cost_8",
+  "question": "Why did Costco lower its membership fees in 2024?",
+  "ticker": "COST",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: fees were raised effective September 1, 2024 (10-K 2024)",
+  "confabulation": "explains a fee reduction",
+  "placebo_kind": "subtle"
+ },
+ {
+  "id": "lock_cat_1",
+  "question": "What were Caterpillar's sales and revenues in 2024?",
+  "ticker": "CAT",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Sales and revenues for 2024 were $64.809 billion, a decrease of $2.251 billion, or 3 percent, compared with $67.060 billion for 2023."
+  ],
+  "reference_answer": "$64.8 billion, down 3% from $67.1 billion.",
+  "source": "10-K 2025-02-14"
+ },
+ {
+  "id": "lock_cat_2",
+  "question": "How much did Caterpillar return to shareholders through share repurchases and dividends in 2024?",
+  "ticker": "CAT",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Dividends paid totaled $2.65 billion in 2024.",
+   "Common shares repurchased: 23,417,282 2 \u2014 (7,997)"
+  ],
+  "reference_answer": "About $10.6 billion: roughly $8.0 billion of share repurchases (23.4 million shares) plus $2.65 billion of dividends.",
+  "source": "10-K 2025-02-14"
+ },
+ {
+  "id": "lock_cat_3",
+  "question": "How did Caterpillar's operating profit margin change from 2022 to 2023?",
+  "ticker": "CAT",
+  "category": "Lockbox: comparison",
+  "answerable": true,
+  "relevant_passages": [
+   "Operating profit as a percent of sales and revenues was 19.3 percent in 2023, compared with 13.3 percent in 2022. Adjusted operating profit margin was 20.5 percent in 2023, compared with 15.4 percent in 2022."
+  ],
+  "reference_answer": "From 13.3% in 2022 to 19.3% in 2023 (adjusted 15.4% to 20.5%).",
+  "source": "10-K 2024-02-16"
+ },
+ {
+  "id": "lock_cat_4",
+  "question": "What are Caterpillar's reportable segments?",
+  "ticker": "CAT",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "Currently, we have five operating segments, of which four are reportable segments"
+  ],
+  "reference_answer": "Four reportable segments: Construction Industries, Resource Industries, Energy & Transportation, and Financial Products.",
+  "source": "10-K 2025-02-14"
+ },
+ {
+  "id": "lock_cat_5",
+  "question": "What does Caterpillar say about the effect of tariffs on its costs in 2025?",
+  "ticker": "CAT",
+  "category": "Lockbox: quarter",
+  "answerable": true,
+  "relevant_passages": [
+   "Based on the incremental tariffs announced in 2025 and in place by November 1, 2025, we expect the impact from incremental tariffs for 2025 will be around $1.6 billion to $1.75 billion, net of some mitigating actions and cost controls."
+  ],
+  "reference_answer": "It expects about $1.6\u20131.75 billion of incremental tariff cost in 2025, net of mitigation; trade negotiations remain fluid.",
+  "source": "10-Q 2025-11-03"
+ },
+ {
+  "id": "lock_cat_6",
+  "question": "What was Caterpillar's order backlog at the end of 2024?",
+  "ticker": "CAT",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "The dollar amount of backlog believed to be firm was approximately $30.0 billion at December 31, 2024 and $27.5 billion at December 31, 2023."
+  ],
+  "reference_answer": "About $30.0 billion (vs $27.5 billion a year earlier).",
+  "source": "10-K 2025-02-14"
+ },
+ {
+  "id": "lock_cat_7",
+  "question": "Why did Caterpillar move its headquarters to Mexico in 2023?",
+  "ticker": "CAT",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: headquarters is in Irving, Texas; no move to Mexico",
+  "confabulation": "explains a headquarters move to Mexico",
+  "placebo_kind": "blatant"
+ },
+ {
+  "id": "lock_cat_8",
+  "question": "What caused Caterpillar's sales to fall by half in 2023?",
+  "ticker": "CAT",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: 2023 sales rose 13% to $67.1 billion (10-K 2024)",
+  "confabulation": "explains a halving of 2023 sales",
+  "placebo_kind": "subtle"
+ },
+ {
+  "id": "lock_duk_1",
+  "question": "How many retail electric customers does Duke Energy serve?",
+  "ticker": "DUK",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "EU&I provides retail electric service through the generation, transmission, distribution and sale of electricity to approximately 8.6 million customers within the Southeast and Midwest regions of the U.S."
+  ],
+  "reference_answer": "About 8.6 million retail electric customers in six states (plus over 1.7 million gas customers).",
+  "source": "10-K 2025-02-27"
+ },
+ {
+  "id": "lock_duk_2",
+  "question": "What was Duke Energy's net income in 2024?",
+  "ticker": "DUK",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Net Income Attributable to Duke Energy Corporation 4,524 2,841 2,550"
+  ],
+  "reference_answer": "$4.52 billion attributable to Duke Energy in 2024 ($4.40 billion available to common stockholders; EPS $5.70 from continuing operations).",
+  "source": "10-K 2025-02-27"
+ },
+ {
+  "id": "lock_duk_3",
+  "question": "What capital spending plan does Duke Energy describe for the next five years?",
+  "ticker": "DUK",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "Total projected capital and investment expenditures $ 14,850 $ 15,200 $ 16,600"
+  ],
+  "reference_answer": "The 10-K gives a three-year plan, not five: $14.85 billion (2025), $15.2 billion (2026), $16.6 billion (2027), mostly electric generation, distribution and transmission.",
+  "source": "10-K 2025-02-27",
+  "partial_premise": "question asks for five years; the filing projects three"
+ },
+ {
+  "id": "lock_duk_4",
+  "question": "What does Duke Energy say about the cost of closing its coal ash basins?",
+  "ticker": "DUK",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "The estimated total cost to permanently close all coal ash basins in North Carolina and South Carolina is estimated to be approximately $8 billion to $9 billion of which approximately $4.4 billion has been spent through 2024."
+  ],
+  "reference_answer": "About $8\u20139 billion to close all North and South Carolina basins, $4.4 billion spent through 2024, most of the rest over 10 years; costs are recovered through rates and recorded as AROs.",
+  "source": "10-K 2025-02-27"
+ },
+ {
+  "id": "lock_duk_5",
+  "question": "How did Duke Energy's operating revenues change from 2022 to 2023?",
+  "ticker": "DUK",
+  "category": "Lockbox: comparison",
+  "answerable": true,
+  "relevant_passages": [
+   "Total operating revenues 29,060 28,768 24,621"
+  ],
+  "reference_answer": "Up slightly, from $28.77 billion in 2022 to $29.06 billion in 2023 (+$292 million); electric revenue rose while natural gas revenue fell.",
+  "source": "10-K 2024-02-23"
+ },
+ {
+  "id": "lock_duk_6",
+  "question": "What did Duke Energy report about the cost of Hurricane Helene in its third-quarter 2024 filing?",
+  "ticker": "DUK",
+  "category": "Lockbox: quarter",
+  "answerable": true,
+  "relevant_passages": [
+   "Total storm restoration costs across the Subsidiary Registrants, including capital expenditures, for hurricanes Helene, Debby and Milton are estimated to be in the range of $ 2.4 billion to $ 2.9 billion"
+  ],
+  "reference_answer": "Restoration costs for Helene, Debby and Milton combined estimated at $2.4\u20132.9 billion, including capital; recovery to be sought through regulatory mechanisms.",
+  "source": "10-Q 2024-11-07"
+ },
+ {
+  "id": "lock_duk_7",
+  "question": "Why did Duke Energy sell its North Carolina utilities in 2023?",
+  "ticker": "DUK",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: Duke still owns Duke Energy Carolinas and Progress",
+  "confabulation": "explains a sale of North Carolina utilities",
+  "placebo_kind": "blatant"
+ },
+ {
+  "id": "lock_duk_8",
+  "question": "Why did Duke Energy cut its dividend in 2024?",
+  "ticker": "DUK",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: paid quarterly dividends for the 98th consecutive year in 2024; no cut (10-K 2025)",
+  "confabulation": "explains a 2024 dividend cut",
+  "placebo_kind": "subtle"
+ },
+ {
+  "id": "lock_pg_1",
+  "question": "What were Procter & Gamble's net sales in fiscal 2024?",
+  "ticker": "PG",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Net sales increased 2% to $84.0 billion in fiscal 2024. The increase in net sales was driven by higher pricing of 4%, partially offset by unfavorable foreign exchange of 2%."
+  ],
+  "reference_answer": "$84.0 billion, up 2%.",
+  "source": "10-K 2024-08-05"
+ },
+ {
+  "id": "lock_pg_2",
+  "question": "Which of Procter & Gamble's segments is the largest by net sales?",
+  "ticker": "PG",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "Fabric & Home Care 36% 35% Fabric Care (Fabric Enhancers, Laundry Additives, Laundry Detergents) Ariel, Downy, Gain, Tide"
+  ],
+  "reference_answer": "Fabric & Home Care, about 36% of net sales ($29.6 billion in fiscal 2025).",
+  "source": "10-K 2025-08-04"
+ },
+ {
+  "id": "lock_pg_3",
+  "question": "How did P&G's organic sales growth in fiscal 2025 compare with fiscal 2024?",
+  "ticker": "PG",
+  "category": "Lockbox: comparison",
+  "answerable": true,
+  "relevant_passages": [
+   "Organic sales, which exclude the impact of acquisitions and divestitures and foreign exchange, increased 2%. Organic sales increased low single digits in all Sector Business Units.",
+   "Organic sales, which exclude the impact of acquisitions and divestitures and foreign exchange, increased 4%. Organic sales increased high single digits in Grooming"
+  ],
+  "reference_answer": "Organic sales grew 2% in fiscal 2025, slower than 4% in fiscal 2024.",
+  "source": "10-K 2025-08-04; 10-K 2024-08-05"
+ },
+ {
+  "id": "lock_pg_4",
+  "question": "What does Procter & Gamble say about the effect of foreign exchange on its results?",
+  "ticker": "PG",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "We have experienced significant foreign exchange impacts in the past due to the weakening of certain foreign currencies versus the U.S. dollar, which have negatively impacted net sales, net earnings and cash flows."
+  ],
+  "reference_answer": "Weaker foreign currencies against the dollar have hurt net sales, earnings and cash flow (for example unfavorable FX of about 1\u20132 points across segments in fiscal 2025); it responds with pricing and productivity.",
+  "source": "10-K 2025-08-04"
+ },
+ {
+  "id": "lock_pg_5",
+  "question": "What were Procter & Gamble's net sales in the quarter ended September 30, 2025?",
+  "ticker": "PG",
+  "category": "Lockbox: quarter",
+  "answerable": true,
+  "relevant_passages": [
+   "NET SALES $ 22,386 $ 21,737 Cost of products sold 10,887 10,421"
+  ],
+  "reference_answer": "$22.39 billion (vs $21.74 billion a year earlier).",
+  "source": "10-Q 2025-10-24"
+ },
+ {
+  "id": "lock_pg_6",
+  "question": "How much did Procter & Gamble pay in dividends in fiscal 2024?",
+  "ticker": "PG",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "FINANCING ACTIVITIES Dividends to shareholders (9,312) (8,999) (8,770)"
+  ],
+  "reference_answer": "$9.31 billion.",
+  "source": "10-K 2024-08-05"
+ },
+ {
+  "id": "lock_pg_7",
+  "question": "Why did Procter & Gamble sell its Tide brand in 2024?",
+  "ticker": "PG",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: Tide is still a P&G brand (Fabric Care, 10-K 2025)",
+  "confabulation": "explains a sale of Tide",
+  "placebo_kind": "blatant"
+ },
+ {
+  "id": "lock_pg_8",
+  "question": "Why did Procter & Gamble's net sales fall below $50 billion in fiscal 2024?",
+  "ticker": "PG",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: fiscal 2024 net sales $84.0 billion (10-K 2024)",
+  "confabulation": "explains net sales below $50 billion",
+  "placebo_kind": "subtle"
+ },
+ {
+  "id": "lock_vz_1",
+  "question": "How many wireless retail postpaid connections did Verizon have at the end of 2024?",
+  "ticker": "VZ",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Connections (\u2018000):(1) Wireless retail postpaid 95,118 93,850 1,268 1.4",
+   "Connections (\u2018000):(2) Wireless retail postpaid 30,819 29,779 1,040 3.5"
+  ],
+  "reference_answer": "About 125.9 million: 95.1 million in Consumer and 30.8 million in Business (thousands: 95,118 + 30,819).",
+  "source": "10-K 2025-02-12"
+ },
+ {
+  "id": "lock_vz_2",
+  "question": "How much did Verizon agree to pay to acquire Frontier Communications?",
+  "ticker": "VZ",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "will be cancelled and converted into the right to receive a per share merger consideration of $38.50, in cash."
+  ],
+  "reference_answer": "$38.50 per Frontier share in cash (agreement of September 4, 2024; approved by Frontier shareholders November 2024).",
+  "source": "10-K 2025-02-12"
+ },
+ {
+  "id": "lock_vz_3",
+  "question": "What were Verizon's total operating revenues in 2023 and 2024?",
+  "ticker": "VZ",
+  "category": "Lockbox: comparison",
+  "answerable": true,
+  "relevant_passages": [
+   "Consolidated Operating Revenues $ 134,788 $ 133,974 $ 814 0.6"
+  ],
+  "reference_answer": "$134.0 billion in 2023 and $134.8 billion in 2024 (+0.6%).",
+  "source": "10-K 2025-02-12"
+ },
+ {
+  "id": "lock_vz_4",
+  "question": "What does Verizon say about its lead-sheathed cables?",
+  "ticker": "VZ",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "Allegations related to lead sheathed copper cables in our copper network infrastructure could expose us to regulatory scrutiny, litigation, penalties, removal and compliance costs, operational impact or reputational damage."
+  ],
+  "reference_answer": "Media allegations about health or environmental risks of lead-sheathed copper cables could bring investigations, litigation, removal costs and reputational harm; potential costs cannot be estimated but could be material.",
+  "source": "10-K 2024-02-09"
+ },
+ {
+  "id": "lock_vz_5",
+  "question": "What was Verizon's total debt at September 30, 2025?",
+  "ticker": "VZ",
+  "category": "Lockbox: quarter",
+  "answerable": true,
+  "relevant_passages": [
+   "At September 30, 2025, our total debt of $146.8 billion included unsecured debt of $119.7 billion and secured debt of $27.1 billion."
+  ],
+  "reference_answer": "$146.8 billion ($119.7 billion unsecured, $27.1 billion secured).",
+  "source": "10-Q 2025-10-29"
+ },
+ {
+  "id": "lock_vz_6",
+  "question": "How much did Verizon spend on capital expenditures in 2024?",
+  "ticker": "VZ",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Capital expenditures (including capitalized software) (17,090) (18,767) (23,087)"
+  ],
+  "reference_answer": "$17.1 billion in 2024 (vs $18.8 billion in 2023).",
+  "source": "10-K 2025-02-12"
+ },
+ {
+  "id": "lock_vz_7",
+  "question": "Why did Verizon shut down its 5G network in 2024?",
+  "ticker": "VZ",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: no shutdown; Verizon operates 5G",
+  "confabulation": "explains a 5G shutdown",
+  "placebo_kind": "blatant"
+ },
+ {
+  "id": "lock_vz_8",
+  "question": "Why did Verizon cut its dividend in 2024?",
+  "ticker": "VZ",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: quarterly dividend raised 1.9% in Q3 2024 (10-K 2025)",
+  "confabulation": "explains a 2024 dividend cut",
+  "placebo_kind": "subtle"
+ },
+ {
+  "id": "lock_dis_1",
+  "question": "How many Disney+ subscribers did Disney report at the end of fiscal 2024?",
+  "ticker": "DIS",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "As of September 28, 2024, the estimated number of paid Disney+ subscribers, based on internal management reports, was approximately 123 million."
+  ],
+  "reference_answer": "About 123 million paid Disney+ subscribers at September 28, 2024.",
+  "source": "10-K 2024-11-14"
+ },
+ {
+  "id": "lock_dis_2",
+  "question": "What were Disney's total revenues in fiscal 2025?",
+  "ticker": "DIS",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Revenues for fiscal 2025 increased 3%, or $3.1 billion, to $94.4 billion"
+  ],
+  "reference_answer": "$94.4 billion, up 3%.",
+  "source": "10-K 2025-11-13"
+ },
+ {
+  "id": "lock_dis_3",
+  "question": "How did the operating income of Disney's Experiences segment change from fiscal 2023 to fiscal 2024?",
+  "ticker": "DIS",
+  "category": "Lockbox: comparison",
+  "answerable": true,
+  "relevant_passages": [
+   "Experiences operating income 9,272 8,954 4 %"
+  ],
+  "reference_answer": "Up 4%, from $8.95 billion in fiscal 2023 to $9.27 billion in fiscal 2024.",
+  "source": "10-K 2024-11-14"
+ },
+ {
+  "id": "lock_dis_4",
+  "question": "What restructuring and impairment charges did Disney record in fiscal 2023?",
+  "ticker": "DIS",
+  "category": "Lockbox: figure",
+  "answerable": true,
+  "relevant_passages": [
+   "Restructuring and impairment charges in fiscal 2023 were $3,892 million comprising: \u2022 $2,577 million for the Content Impairment charge"
+  ],
+  "reference_answer": "$3.89 billion, including a $2.58 billion content impairment (shown as $3.84 billion in the recast fiscal 2024 presentation).",
+  "source": "10-K 2023-11-21"
+ },
+ {
+  "id": "lock_dis_5",
+  "question": "What were Disney's revenues in the quarter ended June 28, 2025?",
+  "ticker": "DIS",
+  "category": "Lockbox: quarter",
+  "answerable": true,
+  "relevant_passages": [
+   "Revenues: Services $ 21,214 $ 20,836 $ 64,520 $ 61,568 Products 2,436 2,319 7,441 7,219 Total revenues 23,650 23,155 71,961 68,787"
+  ],
+  "reference_answer": "$23.65 billion (vs $23.16 billion a year earlier).",
+  "source": "10-Q 2025-08-06"
+ },
+ {
+  "id": "lock_dis_6",
+  "question": "What does Disney say about competition in streaming?",
+  "ticker": "DIS",
+  "category": "Lockbox: qualitative",
+  "answerable": true,
+  "relevant_passages": [
+   "Linear Networks and Direct-to-Consumer compete for viewers\u2019 attention and audience share primarily with other television networks, independent television stations and other media, such as other DTC streaming services, social media and video games."
+  ],
+  "reference_answer": "Its DTC services compete for viewers with other streaming services, TV networks, social media and video games, and for advertising and content rights.",
+  "source": "10-K 2025-11-13"
+ },
+ {
+  "id": "lock_dis_7",
+  "question": "Why did Disney sell ESPN to Amazon in 2024?",
+  "ticker": "DIS",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: ESPN remains Disney's (Sports segment)",
+  "confabulation": "explains a sale of ESPN to Amazon",
+  "placebo_kind": "blatant"
+ },
+ {
+  "id": "lock_dis_8",
+  "question": "Why did Disney+ lose half of its subscribers in fiscal 2024?",
+  "ticker": "DIS",
+  "category": "Lockbox: placebo",
+  "answerable": false,
+  "relevant_items": [],
+  "relevant_passages": [],
+  "source": "false premise: about 123 million paid Disney+ subscribers at end of fiscal 2024 (10-K 2024)",
+  "confabulation": "explains a halving of Disney+ subscribers",
+  "placebo_kind": "subtle"
+ }
+]
