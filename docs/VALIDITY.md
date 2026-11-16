@@ -104,7 +104,7 @@ ones mostly rebutted (7 of 10).
    support, and it never went along with a false premise. But two answers in three are fully
    correct. The FinDER headline (claim support 0.99, 234 of 260 clean) measures faithfulness
    to the cited text, not whether the question was answered. The README now says so.
-2. **The main failure is the reporting period, not hallucination.** Five of the eight answers
+2. **The main failure is the reporting period, not hallucination.** Five of the seven answers
    graded wrong or "lacks it" answer an annual question with quarterly figures, or say the
    annual figure is absent: Wells Fargo net income, provision and deposits, Pfizer's
    Comirnaty revenue, P&G's dividends. Wells Fargo puts its annual financial statements in an
