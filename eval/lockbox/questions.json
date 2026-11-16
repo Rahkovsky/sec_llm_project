@@ -1,0 +1,565 @@
+{
+ "note": "Lockbox v1 questions, written by Claude in session (Nov 16 2026) from general knowledge BEFORE opening any filing of these companies; none of the 10 companies is in any earlier eval set. Gold passages, reference answers and answerability are added afterwards (questions_gold.json). Placebos carry a false premise. Scored once on a frozen config; never used to tune.",
+ "items": [
+  {
+   "id": "lock_msft_1",
+   "ticker": "MSFT",
+   "question": "How much revenue did Microsoft's Intelligent Cloud segment generate in fiscal 2025?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_msft_2",
+   "ticker": "MSFT",
+   "question": "How many people did Microsoft employ at the end of fiscal year 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_msft_3",
+   "ticker": "MSFT",
+   "question": "How did Microsoft's total revenue change from fiscal 2023 to fiscal 2024?",
+   "type": "comparison",
+   "answerable": null
+  },
+  {
+   "id": "lock_msft_4",
+   "ticker": "MSFT",
+   "question": "What does Microsoft say about the risks of its investments in AI?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_msft_5",
+   "ticker": "MSFT",
+   "question": "What were Microsoft's capital expenditures in the quarter ended September 30, 2025?",
+   "type": "quarter",
+   "answerable": null
+  },
+  {
+   "id": "lock_msft_6",
+   "ticker": "MSFT",
+   "question": "Who audits Microsoft's financial statements?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_msft_7",
+   "ticker": "MSFT",
+   "question": "Why did Microsoft discontinue Azure in Europe in 2024?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_msft_8",
+   "ticker": "MSFT",
+   "question": "Why did Microsoft's total revenue decline in fiscal 2024?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_wfc_1",
+   "ticker": "WFC",
+   "question": "What was Wells Fargo's net income in 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_wfc_2",
+   "ticker": "WFC",
+   "question": "What is the asset cap on Wells Fargo and what does the company say about it?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_wfc_3",
+   "ticker": "WFC",
+   "question": "How did Wells Fargo's provision for credit losses change between 2023 and 2024?",
+   "type": "comparison",
+   "answerable": null
+  },
+  {
+   "id": "lock_wfc_4",
+   "ticker": "WFC",
+   "question": "What were Wells Fargo's total deposits at the end of 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_wfc_5",
+   "ticker": "WFC",
+   "question": "What was Wells Fargo's CET1 capital ratio at September 30, 2025?",
+   "type": "quarter",
+   "answerable": null
+  },
+  {
+   "id": "lock_wfc_6",
+   "ticker": "WFC",
+   "question": "How does Wells Fargo describe its exposure to commercial real estate office loans?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_wfc_7",
+   "ticker": "WFC",
+   "question": "Why did Wells Fargo exit consumer banking in 2023?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_wfc_8",
+   "ticker": "WFC",
+   "question": "Why did Wells Fargo report a net loss in 2023?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_pfe_1",
+   "ticker": "PFE",
+   "question": "How much revenue did Comirnaty generate for Pfizer in 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_pfe_2",
+   "ticker": "PFE",
+   "question": "What was Pfizer's total revenue in 2023 and how did it compare with 2022?",
+   "type": "comparison",
+   "answerable": null
+  },
+  {
+   "id": "lock_pfe_3",
+   "ticker": "PFE",
+   "question": "How much did Pfizer pay to acquire Seagen?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_pfe_4",
+   "ticker": "PFE",
+   "question": "How many employees did Pfizer have at the end of 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_pfe_5",
+   "ticker": "PFE",
+   "question": "What does Pfizer say about the risk from Medicare drug price negotiation under the Inflation Reduction Act?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_pfe_6",
+   "ticker": "PFE",
+   "question": "What was Pfizer's revenue in the third quarter of 2025?",
+   "type": "quarter",
+   "answerable": null
+  },
+  {
+   "id": "lock_pfe_7",
+   "ticker": "PFE",
+   "question": "How much did Pfizer pay to acquire Moderna?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_pfe_8",
+   "ticker": "PFE",
+   "question": "Why did Pfizer's revenue increase in 2023?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_xom_1",
+   "ticker": "XOM",
+   "question": "What were ExxonMobil's earnings in 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_xom_2",
+   "ticker": "XOM",
+   "question": "How much did ExxonMobil pay to acquire Pioneer Natural Resources, and when did the deal close?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_xom_3",
+   "ticker": "XOM",
+   "question": "What were ExxonMobil's capital and exploration expenditures in 2023?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_xom_4",
+   "ticker": "XOM",
+   "question": "How much oil and gas did ExxonMobil produce per day in 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_xom_5",
+   "ticker": "XOM",
+   "question": "What climate-related risks does ExxonMobil describe?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_xom_6",
+   "ticker": "XOM",
+   "question": "What were ExxonMobil's earnings in the third quarter of 2025?",
+   "type": "quarter",
+   "answerable": null
+  },
+  {
+   "id": "lock_xom_7",
+   "ticker": "XOM",
+   "question": "Why did ExxonMobil sell its Guyana operations in 2023?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_xom_8",
+   "ticker": "XOM",
+   "question": "Why did ExxonMobil report a net loss for 2023?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_cost_1",
+   "ticker": "COST",
+   "question": "How many warehouses did Costco operate at the end of fiscal 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_cost_2",
+   "ticker": "COST",
+   "question": "How much membership fee revenue did Costco report in fiscal 2025?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_cost_3",
+   "ticker": "COST",
+   "question": "How did Costco's net sales change from fiscal 2023 to fiscal 2024?",
+   "type": "comparison",
+   "answerable": null
+  },
+  {
+   "id": "lock_cost_4",
+   "ticker": "COST",
+   "question": "When did Costco raise its membership fees, and by how much?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_cost_5",
+   "ticker": "COST",
+   "question": "What special dividend did Costco pay, and when?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_cost_6",
+   "ticker": "COST",
+   "question": "What were Costco's net sales in the first quarter of fiscal 2026?",
+   "type": "quarter",
+   "answerable": null
+  },
+  {
+   "id": "lock_cost_7",
+   "ticker": "COST",
+   "question": "Why did Costco stop selling gasoline at its U.S. warehouses?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_cost_8",
+   "ticker": "COST",
+   "question": "Why did Costco lower its membership fees in 2024?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_cat_1",
+   "ticker": "CAT",
+   "question": "What were Caterpillar's sales and revenues in 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_cat_2",
+   "ticker": "CAT",
+   "question": "How much did Caterpillar return to shareholders through share repurchases and dividends in 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_cat_3",
+   "ticker": "CAT",
+   "question": "How did Caterpillar's operating profit margin change from 2022 to 2023?",
+   "type": "comparison",
+   "answerable": null
+  },
+  {
+   "id": "lock_cat_4",
+   "ticker": "CAT",
+   "question": "What are Caterpillar's reportable segments?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_cat_5",
+   "ticker": "CAT",
+   "question": "What does Caterpillar say about the effect of tariffs on its costs in 2025?",
+   "type": "quarter",
+   "answerable": null
+  },
+  {
+   "id": "lock_cat_6",
+   "ticker": "CAT",
+   "question": "What was Caterpillar's order backlog at the end of 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_cat_7",
+   "ticker": "CAT",
+   "question": "Why did Caterpillar move its headquarters to Mexico in 2023?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_cat_8",
+   "ticker": "CAT",
+   "question": "What caused Caterpillar's sales to fall by half in 2023?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_duk_1",
+   "ticker": "DUK",
+   "question": "How many retail electric customers does Duke Energy serve?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_duk_2",
+   "ticker": "DUK",
+   "question": "What was Duke Energy's net income in 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_duk_3",
+   "ticker": "DUK",
+   "question": "What capital spending plan does Duke Energy describe for the next five years?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_duk_4",
+   "ticker": "DUK",
+   "question": "What does Duke Energy say about the cost of closing its coal ash basins?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_duk_5",
+   "ticker": "DUK",
+   "question": "How did Duke Energy's operating revenues change from 2022 to 2023?",
+   "type": "comparison",
+   "answerable": null
+  },
+  {
+   "id": "lock_duk_6",
+   "ticker": "DUK",
+   "question": "What did Duke Energy report about the cost of Hurricane Helene in its third-quarter 2024 filing?",
+   "type": "quarter",
+   "answerable": null
+  },
+  {
+   "id": "lock_duk_7",
+   "ticker": "DUK",
+   "question": "Why did Duke Energy sell its North Carolina utilities in 2023?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_duk_8",
+   "ticker": "DUK",
+   "question": "Why did Duke Energy cut its dividend in 2024?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_pg_1",
+   "ticker": "PG",
+   "question": "What were Procter & Gamble's net sales in fiscal 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_pg_2",
+   "ticker": "PG",
+   "question": "Which of Procter & Gamble's segments is the largest by net sales?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_pg_3",
+   "ticker": "PG",
+   "question": "How did P&G's organic sales growth in fiscal 2025 compare with fiscal 2024?",
+   "type": "comparison",
+   "answerable": null
+  },
+  {
+   "id": "lock_pg_4",
+   "ticker": "PG",
+   "question": "What does Procter & Gamble say about the effect of foreign exchange on its results?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_pg_5",
+   "ticker": "PG",
+   "question": "What were Procter & Gamble's net sales in the quarter ended September 30, 2025?",
+   "type": "quarter",
+   "answerable": null
+  },
+  {
+   "id": "lock_pg_6",
+   "ticker": "PG",
+   "question": "How much did Procter & Gamble pay in dividends in fiscal 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_pg_7",
+   "ticker": "PG",
+   "question": "Why did Procter & Gamble sell its Tide brand in 2024?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_pg_8",
+   "ticker": "PG",
+   "question": "Why did Procter & Gamble's net sales fall below $50 billion in fiscal 2024?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_vz_1",
+   "ticker": "VZ",
+   "question": "How many wireless retail postpaid connections did Verizon have at the end of 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_vz_2",
+   "ticker": "VZ",
+   "question": "How much did Verizon agree to pay to acquire Frontier Communications?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_vz_3",
+   "ticker": "VZ",
+   "question": "What were Verizon's total operating revenues in 2023 and 2024?",
+   "type": "comparison",
+   "answerable": null
+  },
+  {
+   "id": "lock_vz_4",
+   "ticker": "VZ",
+   "question": "What does Verizon say about its lead-sheathed cables?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_vz_5",
+   "ticker": "VZ",
+   "question": "What was Verizon's total debt at September 30, 2025?",
+   "type": "quarter",
+   "answerable": null
+  },
+  {
+   "id": "lock_vz_6",
+   "ticker": "VZ",
+   "question": "How much did Verizon spend on capital expenditures in 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_vz_7",
+   "ticker": "VZ",
+   "question": "Why did Verizon shut down its 5G network in 2024?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_vz_8",
+   "ticker": "VZ",
+   "question": "Why did Verizon cut its dividend in 2024?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_dis_1",
+   "ticker": "DIS",
+   "question": "How many Disney+ subscribers did Disney report at the end of fiscal 2024?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_dis_2",
+   "ticker": "DIS",
+   "question": "What were Disney's total revenues in fiscal 2025?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_dis_3",
+   "ticker": "DIS",
+   "question": "How did the operating income of Disney's Experiences segment change from fiscal 2023 to fiscal 2024?",
+   "type": "comparison",
+   "answerable": null
+  },
+  {
+   "id": "lock_dis_4",
+   "ticker": "DIS",
+   "question": "What restructuring and impairment charges did Disney record in fiscal 2023?",
+   "type": "figure",
+   "answerable": null
+  },
+  {
+   "id": "lock_dis_5",
+   "ticker": "DIS",
+   "question": "What were Disney's revenues in the quarter ended June 28, 2025?",
+   "type": "quarter",
+   "answerable": null
+  },
+  {
+   "id": "lock_dis_6",
+   "ticker": "DIS",
+   "question": "What does Disney say about competition in streaming?",
+   "type": "qualitative",
+   "answerable": null
+  },
+  {
+   "id": "lock_dis_7",
+   "ticker": "DIS",
+   "question": "Why did Disney sell ESPN to Amazon in 2024?",
+   "type": "placebo",
+   "answerable": false
+  },
+  {
+   "id": "lock_dis_8",
+   "ticker": "DIS",
+   "question": "Why did Disney+ lose half of its subscribers in fiscal 2024?",
+   "type": "placebo",
+   "answerable": false
+  }
+ ]
+}
