@@ -1849,3 +1849,28 @@ becomes clean. Dropped qualifiers are now rare, 0–2 real per run of about 1,20
 lexical label hid that and made v7-8b look three answers worse than v6. With the hand labels
 the two runs are equal (233 vs 234). The lexical label stays in the report for comparability
 with earlier versions. Comparisons should use the hand-labelled count, as here.
+
+### 20.14 Lockbox v1: faithfulness transfers, correctness is 0.67
+
+To check external validity, 80 new questions about 10 companies never used in any evaluation
+were written before reading their filings (`eval/lockbox/`). The frozen v7-8b ran on them
+once, and every answer was graded by hand against a reference answer
+([VALIDITY.md](VALIDITY.md)).
+
+| | Lockbox (60 answerable + 20 placebos) |
+|---|---|
+| Fully correct | 40 / 60 = 0.67 (95% CI 0.54–0.77) |
+| Correct or partly correct | 52 / 60 = 0.87 |
+| Wrong | 4 / 60 |
+| Says the filings lack the fact / abstained | 3 / 1 |
+| Placebo premise not asserted | 20 / 20 (9 abstained, 11 rebutted with evidence) |
+| Claim support (judge) | 0.982 |
+| Labelled "clean" by the pipeline | 52, of which 34 correct |
+
+The pipeline's faithfulness carries over; its "clean" label does not mean correct. The main
+failure is period: annual questions answered from 10-Q tables (all three Wells Fargo
+annual-figure questions, Pfizer, P&G). Three proxies misbehave on this set: context recall
+(0.95, inflated by short gold passages), strict placebo abstention (9/20, counts rebuttals
+as confabulation) and the year-named wrong-period flag (3 flags, all false). No change is
+made on the basis of this set; fixes (period routing, a question-answered check) need a
+lockbox v2.

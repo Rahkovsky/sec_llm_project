@@ -264,6 +264,17 @@ needs half the time ([§20.9–20.10](docs/EXPERIMENTS.md)). Hand labels show th
 the "dropped qualifier" flags in both runs are false. With them, v6 has 233 clean answers and
 v7-8b 234 ([§20.13](docs/EXPERIMENTS.md)).
 
+**On new companies.** All of the numbers above come from FinDER, which shaped most of the
+design. A **lockbox** set of 80 plain-language questions about 10 companies never used before
+(Microsoft, Wells Fargo, Pfizer, ExxonMobil, Costco, Caterpillar, Duke Energy, P&G, Verizon,
+Disney) was written before reading their filings and scored once, by hand
+([docs/VALIDITY.md](docs/VALIDITY.md)). Claim support stays at 0.98 and none of the 20 false
+premises is asserted; 11 of them are rebutted with the refuting fact. But only 40 of the 60
+answerable questions are answered fully correctly (0.67, 95% CI 0.54–0.77), 12 more partly,
+and 4 wrongly. "Clean" measures faithfulness to the cited excerpts, not whether the question
+was answered. The main failure is the reporting period: annual questions answered with
+quarterly figures.
+
 ![Main outcome per question, by version](docs/figures/error_sources.svg)
 
 The chart shows how the failure mix changed. In v1 most questions (pink) failed at retrieval:
